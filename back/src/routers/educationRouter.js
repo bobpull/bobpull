@@ -48,6 +48,7 @@ userEducationRouter.post(
 
 userEducationRouter.get(
   "/educations/:id",
+  login_required,
   async function (req, res, next) {
     try {
       const _id = req.params.id;
@@ -98,7 +99,7 @@ userEducationRouter.get(
   async function (req, res, next) {
     try {
       const user_id = req.currentUserId;
-      const currentUserEducation = await userEducationService.getUserEducation({ user_id });
+      const currentUserEducation = await userEducationService.getUserInfo({ user_id });
 
       if (currentUserEducation.errorMessage) {
         throw new Error(currentUserEducation.errorMessage);
