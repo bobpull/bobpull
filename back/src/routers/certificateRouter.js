@@ -1,5 +1,6 @@
 import is from "@sindresorhus/is";
 import { Router } from "express";
+import { login_required } from "../middlewares/login_required";
 import { certificateAuthService } from "../services/certificateService";
 
 const certificateAuthRouter = Router();
@@ -36,5 +37,25 @@ certificateAuthRouter.post("/certificate/create", async function (req, res, next
     next(err);
   }
 });
+
+certificateAuthRouter.get(
+  "/certificates/:id",
+  login_required,
+  async function(req, res, next) {
+    try{
+      const certificate_id = req.params.id;
+      const currentCertificateInfo = await certificateAuthService.getCertificateInfo({ certificate_id });
+
+      if (currentCertificateInfo.errorMessage) {
+        throw new Error(currentCertificateInfo.errorMessage);
+      }
+
+      res.status(200).send(currentCertificateInfo);
+    } catch (err) {
+      next(err);
+    }
+  }
+);
+
 
 export { certificateAuthRouter };
