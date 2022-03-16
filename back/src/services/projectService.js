@@ -13,7 +13,7 @@ class userProjectService {
       return { errorMessage };
     }
 
-    const newProject = { user_id, title, description, from_date: to_date };
+    const newProject = { user_id, title, description, from_date, to_date };
 
     // db에 저장
     // 문제 없이 db 저장 완료되었으므로 에러가 없음.
