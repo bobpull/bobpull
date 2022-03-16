@@ -6,7 +6,8 @@ import { userProjectService } from "../services/projectService";
 const userProjectRouter = Router();
 
 userProjectRouter.post(
-  "/project/create", 
+  "/project/create",
+  login_required,
   async function (req, res, next) {
   try {
     if (is.emptyObject(req.body)) {
@@ -15,8 +16,15 @@ userProjectRouter.post(
       );
     }
 
+    // jwt토큰에서 추출된 사용자 id를 가지고 db에서 사용자 정보를 찾음.
+    const user_id = req.currentUserId;
+    const currentUserInfo = await userProjectService.getUserInfo({ user_id });
+
+    if (currentUserInfo.errorMessage) {
+      throw new Error(currentUserInfo.errorMessage);
+    }
+
     // req (request) 에서 데이터 가져오기
-    const user_id = req.body.user_id;
     const title = req.body.title;
     const description = req.body.description;
     const from_date = req.body.from_date;
@@ -44,10 +52,11 @@ userProjectRouter.post(
 
 userProjectRouter.get(
   "/projects/:id",
+  login_required,
   async function (req, res, next) {
     try {
-      const id = req.params.id;
-      const currentUserProject = await userProjectService.getUserProject({ id });
+      const _id = req.params.id;
+      const currentUserProject = await userProjectService.getUserProject({ _id });
   
       if (currentUserProject.errorMessage) {
         throw new Error(currentUserProject.errorMessage);
@@ -62,11 +71,11 @@ userProjectRouter.get(
 
 userProjectRouter.put(
   "/projects/:id",
+  login_required,
   async function (req, res, next) {
     try {
-      // URI로부터 프로젝트 id를 추출함.
-      const id = req.params.id;
       // body data 로부터 업데이트할 프로젝트 정보를 추출함.
+      const _id = req.params.id;
       const title = req.body.title ?? null;
       const description = req.body.description ?? null;
       const from_date = req.body.from_date ?? null;
@@ -75,7 +84,7 @@ userProjectRouter.put(
       const toUpdate = { title, description, from_date, to_date };
   
       // 해당 사용자 아이디로 사용자 정보를 db에서 찾아 업데이트함. 업데이트 요소가 없을 시 생략함
-      const updatedProject = await userProjectService.setProject({ id, toUpdate });
+      const updatedProject = await userProjectService.setProject({ _id, toUpdate });
   
       if (updatedProject.errorMessage) {
         throw new Error(updatedProject.errorMessage);
@@ -90,9 +99,19 @@ userProjectRouter.put(
 
 userProjectRouter.get(
   "/projectlist/:user_id",
+  login_required,
   async function (req, res, next) {
     try {
-      const user_id = req.params.user_id;
+      // jwt토큰에서 추출된 사용자 id를 가지고 db에서 사용자 정보를 찾음.
+      const user_id = req.currentUserId;
+      const currentUserInfo = await userProjectService.getUserInfo({
+        user_id,
+      });
+
+      if (currentUserInfo.errorMessage) {
+        throw new Error(currentUserInfo.errorMessage);
+      }
+
       const currentUserProject = await userProjectService.getUserAllProject({ user_id });
 
       if (currentUserProject.errorMessage) {
