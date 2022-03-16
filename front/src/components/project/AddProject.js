@@ -8,6 +8,9 @@ const AddProject = ({setIsEditing, projects, setProjects}) => {
     startDate: "",
     dueDate: "",
   })
+  const validData = 
+    project.name && project.description && project.startDate && project.dueDate
+  
   const onSubmit = (e) => {
     e.preventDefault();
     setProjects([...projects,project])
@@ -21,6 +24,8 @@ const AddProject = ({setIsEditing, projects, setProjects}) => {
     }
     setProject(newProject)
   }
+
+
 
   return (
     <Form onSubmit={onSubmit}>
@@ -71,6 +76,7 @@ const AddProject = ({setIsEditing, projects, setProjects}) => {
                 variant="primary" 
                 type="submit" 
                 className="me-3"
+                disabled={!validData}
               >
                 확인
               </Button>
