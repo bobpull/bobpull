@@ -70,17 +70,17 @@ class userEducationService {
     return education;
   }
 
-  static async getUserEducation({ user_id }) {
-    const education = await Education.findByUserId({ user_id });
+  static async getUserInfo({ user_id }) {
+    const user = await Education.findByUserId({ user_id });
 
     // db에서 찾지 못한 경우, 에러 메시지 반환
-    if (!education) {
+    if (!user) {
       const errorMessage =
-        "학력 정보가 추가되지 않았습니다.";
+        "유저가 존재하지 않습니다.";
       return { errorMessage };
     }
 
-    return education;
+    return user;
   }
 }
 
