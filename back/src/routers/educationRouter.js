@@ -98,8 +98,8 @@ userEducationRouter.get(
   login_required,
   async function (req, res, next) {
     try {
-      const user_id = req.currentUserId;
-      const currentUserEducation = await userEducationService.getUserInfo({ user_id });
+      const user_id = req.params.user_id;
+      const currentUserEducation = await userEducationService.getCurrentUserEducation({ user_id });
 
       if (currentUserEducation.errorMessage) {
         throw new Error(currentUserEducation.errorMessage);
