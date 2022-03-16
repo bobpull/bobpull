@@ -16,8 +16,8 @@ class Project {
     return project;
   }
 
-  static async findById({ id }) {
-    const project = await ProjectModel.findOne({ _id: id });
+  static async findById({ _id }) {
+    const project = await ProjectModel.findOne({ _id });
     return project;
   }
 
@@ -26,8 +26,8 @@ class Project {
     return project;
   }
 
-  static async update({ id, fieldToUpdate, newValue }) {
-    const filter = { _id: id };
+  static async update({ _id, fieldToUpdate, newValue }) {
+    const filter = { _id };
     const update = { [fieldToUpdate]: newValue };
     const option = { returnOriginal: false };
 

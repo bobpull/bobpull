@@ -51,30 +51,42 @@ class userProjectService {
     if (toUpdate.title) {
       const fieldToUpdate = "title";
       const newValue = toUpdate.title;
-      project = await User.update({ _id, fieldToUpdate, newValue });
+      project = await Project.update({ _id, fieldToUpdate, newValue });
     }
 
     if (toUpdate.description) {
       const fieldToUpdate = "description";
       const newValue = toUpdate.description;
-      project = await User.update({ _id, fieldToUpdate, newValue });
+      project = await Project.update({ _id, fieldToUpdate, newValue });
     }
 
     if (toUpdate.from_date) {
       const fieldToUpdate = "from_date";
       const newValue = toUpdate.from_date;
-      project = await User.update({ _id, fieldToUpdate, newValue });
+      project = await Project.update({ _id, fieldToUpdate, newValue });
     }
 
     if (toUpdate.to_date) {
       const fieldToUpdate = "to_date";
       const newValue = toUpdate.to_date;
-      project = await User.update({ _id, fieldToUpdate, newValue });
+      project = await Project.update({ _id, fieldToUpdate, newValue });
     }
 
     return project;
   }
 
+  static async getUserProject({ _id }) {
+    const project = await Project.findById({ _id });
+
+    // db에서 찾지 못한 경우, 에러 메시지 반환
+    if (!project) {
+      const errorMessage =
+        "해당 프로젝트가 존재하지 않습니다.";
+      return { errorMessage };
+    }
+
+    return project;
+  }
 
 
 }
