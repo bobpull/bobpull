@@ -46,8 +46,26 @@ userProjectRouter.get(
   "/projects/:id",
   async function (req, res, next) {
     try {
-      const user_id = req.params.id;
-      const currentUserProject = await userProjectService.getUserProject({ user_id });
+      const id = req.params.id;
+      const currentUserProject = await userProjectService.getUserProject({ id });
+  
+      if (currentUserProject.errorMessage) {
+        throw new Error(currentUserProject.errorMessage);
+      }
+  
+      res.status(200).send(currentUserProject);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+userProjectRouter.get(
+  "/projectlist/:user_id",
+  async function (req, res, next) {
+    try {
+      const user_id = req.params.user_id;
+      const currentUserProject = await userProjectService.getUserAllProject({ user_id });
 
       if (currentUserProject.errorMessage) {
         throw new Error(currentUserProject.errorMessage);
