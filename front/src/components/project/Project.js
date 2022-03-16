@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from "react";
 import axios from "axios"
 import AddProject from "./AddProject"
+import ProjectList from "./ProjectList"
 
 import styled from "styled-components"
 import {Button} from "react-bootstrap";
@@ -15,46 +16,25 @@ const Title = styled.h2`
   font-weight: normal;
   font-size: 1.25rem;
 `
-const ProjectList = styled.article`
-  text-align: left;
-`
-
-const ProjectTitle = styled.h5`
-  font-weight: normal;
-  font-size: 1.25rem;
-  line-height: 1.2;
-  margin: 0;
-  
-`
-
-const ProjectDes = styled.p`
-  margin: 0;
-  color: #6c757d;
-`
-
-const ProjectDate = styled.p`
-color: #6c757d;
-`
-
-
 const Project = () => {
   const [isEditing, setIsEditing] = useState(false)
   const [projects, setProjects] = useState([])
   return (
     <ProjectContainer>
       <Title>Project</Title>
-      {projects && projects.map(item => (
-        <ProjectList>
-          <ProjectTitle>{item.name}</ProjectTitle>
-          <ProjectDes>{item.description}</ProjectDes>
-          <ProjectDate>{item.startDate} ~ {item.dueDate}</ProjectDate>
-        </ProjectList>
-      ))}
+      {projects && projects.map(item => 
+      <>
+          <ProjectList
+            project={item}
+          />
+        </>
+        )}
       <Button
         onClick={() => setIsEditing(true)}
-        variant="primary" 
+        variant="primary"
         className="mb-3"
       >추가</Button>
+      
       {isEditing &&
        <AddProject
         setIsEditing={setIsEditing}

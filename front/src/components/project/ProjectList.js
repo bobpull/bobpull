@@ -3,7 +3,6 @@ import styled from "styled-components"
 const ProjectList1 = styled.article`
   text-align: left;
 `
-
 const ProjectTitle = styled.h5`
   font-weight: normal;
   font-size: 1.25rem;
@@ -11,12 +10,10 @@ const ProjectTitle = styled.h5`
   margin: 0;
   
 `
-
 const ProjectDes = styled.p`
   margin: 0;
   color: #6c757d;
 `
-
 const ProjectDate = styled.p`
 color: #6c757d;
 `
