@@ -87,9 +87,9 @@ class userEducationService {
     const education = await Education.findByUserId({ user_id });
 
     // db에서 찾지 못한 경우, 에러 메시지 반환
-    if (!education) {
+    if (!education || education.length === 0) {
       const errorMessage =
-        "유저가 존재하지 않습니다.";
+        "학력 정보가 존재하지 않습니다.";
       return { errorMessage };
     }
 
