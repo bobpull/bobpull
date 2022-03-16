@@ -52,8 +52,33 @@ awardAuthRouter.get(
     } catch (err) {
       next(err);
     }
-  }
-);
+  });
+
+  awardAuthRouter.put(
+    "/awards/:id",
+    login_required,
+    async function (req, res, next) {
+      try {
+        // URL로부터 사용자 id를 추출함.
+        const award_id = req.params.id;
+        // body data로부터 업데이트할 수상이력 정보를 추출함.
+        const title = req.body.title ?? null;
+        const description = req.body.description ?? null;
+
+        const toUpdate = { title, description };
+
+        //해당 award_id로 수상이력 정보를 db에서 찾아 업데이트함. 업데이트 요소가 없을 시 생략함
+        const updatedAward = await awardAuthService.setAward({ award_id, toUpdate });
+
+        if (updatedAward.errorMessage) {
+          throw new Error(updatedAward.errorMessage);
+        }
+        res.status(200).json(updatedAward);
+      } catch (err) {
+        next(err);   
+      }
+    }
+  );
 
 
 
