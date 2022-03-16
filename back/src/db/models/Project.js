@@ -16,6 +16,11 @@ class Project {
     return project;
   }
 
+  static async findProjectByUserId({ user_id }) {
+    const project = await ProjectModel.find({ user_id });
+    return project;
+  }
+
   static async findById({ _id }) {
     const project = await ProjectModel.findOne({ _id });
     return project;

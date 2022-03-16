@@ -103,16 +103,8 @@ userProjectRouter.get(
   async function (req, res, next) {
     try {
       // jwt토큰에서 추출된 사용자 id를 가지고 db에서 사용자 정보를 찾음.
-      const user_id = req.currentUserId;
-      const currentUserInfo = await userProjectService.getUserInfo({
-        user_id,
-      });
-
-      if (currentUserInfo.errorMessage) {
-        throw new Error(currentUserInfo.errorMessage);
-      }
-
-      const currentUserProject = await userProjectService.getUserAllProject({ user_id });
+      const user_id = req.params.user_id;
+      const currentUserProject = await userProjectService.getCurrentUserProject({ user_id });
 
       if (currentUserProject.errorMessage) {
         throw new Error(currentUserProject.errorMessage);
