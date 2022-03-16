@@ -12,13 +12,13 @@ class Education {
   }
 
   static async findByUserId({ user_id }) {
-    const user = await EducationModel.find({ user_id });
-    return user;
+    const education = await EducationModel.find({ user_id });
+    return education;
   }
 
   static async findById({ _id }) {
-    const user = await EducationModel.findOne({ _id });
-    return user;
+    const education = await EducationModel.findOne({ _id });
+    return education;
   }
 
   static async update({ _id, fieldToUpdate, newValue }) {
