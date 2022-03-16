@@ -6,7 +6,7 @@ import jwt from "jsonwebtoken";
 class userEducationService {
   static async addEducation({ user_id, school, major, position }) {
     // 학교 이름 중복 확인
-    const schoolMajorPosition = await Education.findBySchool({ school, major, position });
+    const schoolMajorPosition = await Education.findBySchoolMajorPosition({ school, major, position });
     if (schoolMajorPosition) {
       const errorMessage =
         "동일한 학력을 중복 등록할 수 없습니다.";
