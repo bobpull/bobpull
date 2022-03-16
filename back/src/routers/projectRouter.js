@@ -41,18 +41,4 @@ userProjectRouter.post(
   }
 );
 
-// userProjectRouter.get(
-//   "/projectlist/:id",
-//   login_required,
-//   async function (req, res, next) {
-//     try {
-//       // 전체 사용자 목록을 얻음
-//       const users = await userProjectService.getProjects();
-//       res.status(200).send(users);
-//     } catch (error) {
-//       next(error);
-//     }
-//   }
-// );
-
 export { userProjectRouter };
