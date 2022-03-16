@@ -14,6 +14,19 @@ class awardAuthService {
 
     return createdNewAward;
   }
+
+  static async getAwardInfo({ award_id }) {
+    const award = await Award.findById({ award_id })
+
+    // db에서 찾지 못한 경우, 에러 메시지 반환
+    if (!award) {
+      const errorMessage =
+        "수상이력이 없습니다. 다시 한 번 확인해 주세요.";
+        return { errorMessage };
+    }
+
+    return award;
+  }
 }
 
 export { awardAuthService };
