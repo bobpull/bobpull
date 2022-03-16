@@ -1,92 +1,109 @@
-import { Project } from "../db"; 
-import bcrypt from "bcrypt";
-import { v4 as uuidv4 } from "uuid";
-import jwt from "jsonwebtoken";
+import is from "@sindresorhus/is";
+import { Router } from "express";
+import { login_required } from "../middlewares/login_required";
+import { userProjectService } from "../services/projectService";
 
-class userProjectService {
-  static async addProject({ user_id, title, description, from_date, to_date }) {
-    // 프로젝트 중복 확인
-    const project = await Project.findByTitle({ title });
-    if (project) {
-      const errorMessage =
-        "이 프로젝트는 이미 존재합니다.";
-      return { errorMessage };
+const userProjectRouter = Router();
+
+userProjectRouter.post(
+  "/project/create", 
+  async function (req, res, next) {
+  try {
+    if (is.emptyObject(req.body)) {
+      throw new Error(
+        "headers의 Content-Type을 application/json으로 설정해주세요"
+      );
     }
 
-    const newProject = { user_id, title, description, from_date, to_date };
+    // req (request) 에서 데이터 가져오기
+    const user_id = req.body.user_id;
+    const title = req.body.title;
+    const description = req.body.description;
+    const from_date = req.body.from_date;
+    const to_date = req.body.to_date;
+  
+    // 위 데이터를 프로젝트 db에 추가하기
+    const newProject = await userProjectService.addProject({
+      user_id,
+      title,
+      description,
+      from_date,
+      to_date,
+    });
+  
+    if (newProject.errorMessage) {
+      throw new Error(newProject.errorMessage);
+    }
+  
+      res.status(201).json(newProject);
+    } catch (error) {
+      next(error);
+    }
+  } 
+);
 
-    // db에 저장
-    // 문제 없이 db 저장 완료되었으므로 에러가 없음.
-    const createdNewProject = await Project.create({ newProject });
-    createdNewProject.errorMessage = null; 
-
-    return createdNewProject;
+userProjectRouter.get(
+  "/projects/:id",
+  async function (req, res, next) {
+    try {
+      const id = req.params.id;
+      const currentUserProject = await userProjectService.getUserProject({ id });
+  
+      if (currentUserProject.errorMessage) {
+        throw new Error(currentUserProject.errorMessage);
+      }
+  
+      res.status(200).send(currentUserProject);
+    } catch (error) {
+      next(error);
+    }
   }
+);
 
-  static async setProject({ id, toUpdate }) {
-    // 우선 해당 id 의 유저가 db에 존재하는지 여부 확인
-    let project = await Project.findById({ id });
-
-    // db에서 찾지 못한 경우, 에러 메시지 반환
-    if (!project) {
-      const errorMessage =
-        "프로젝트가 없습니다. 다시 한 번 확인해 주세요.";
-      return { errorMessage };
+userProjectRouter.put(
+  "/projects/:id",
+  async function (req, res, next) {
+    try {
+      // URI로부터 프로젝트 id를 추출함.
+      const id = req.params.id;
+      // body data 로부터 업데이트할 프로젝트 정보를 추출함.
+      const title = req.body.title ?? null;
+      const description = req.body.description ?? null;
+      const from_date = req.body.from_date ?? null;
+      const to_date = req.body.to_date ?? null;
+  
+      const toUpdate = { title, description, from_date, to_date };
+  
+      // 해당 사용자 아이디로 사용자 정보를 db에서 찾아 업데이트함. 업데이트 요소가 없을 시 생략함
+      const updatedProject = await userProjectService.setProject({ id, toUpdate });
+  
+      if (updatedProject.errorMessage) {
+        throw new Error(updatedProject.errorMessage);
+      }
+  
+      res.status(200).json(updatedProject);
+    } catch (error) {
+      next(error);
     }
-
-    // 업데이트 대상에 name이 있다면, 즉 name 값이 null 이 아니라면 업데이트 진행
-    if (toUpdate.title) {
-      const fieldToUpdate = "title";
-      const newValue = toUpdate.title;
-      project = await Project.update({ id, fieldToUpdate, newValue });
-    }
-
-    if (toUpdate.description) {
-      const fieldToUpdate = "description";
-      const newValue = toUpdate.description;
-      project = await Project.update({ id, fieldToUpdate, newValue });
-    }
-
-    if (toUpdate.from_date) {
-      const fieldToUpdate = "from_date";
-      const newValue = toUpdate.from_date;
-      project = await Project.update({ id, fieldToUpdate, newValue });
-    }
-
-    if (toUpdate.to_date) {
-      const fieldToUpdate = "to_date";
-      const newValue = toUpdate.to_date;
-      project = await Project.update({ id, fieldToUpdate, newValue });
-    }
-
-    return project;
   }
+);
 
-  static async getUserAllProject({ user_id }) {
-    const project = await Project.findAll({ user_id });
+userProjectRouter.get(
+  "/projectlist/:user_id",
+  async function (req, res, next) {
+    try {
+      const user_id = req.params.user_id;
+      const currentUserProject = await userProjectService.getUserAllProject({ user_id });
 
-    // db에서 찾지 못한 경우, 에러 메시지 반환
-    if (!project) {
-      const errorMessage =
-        "프로젝트를 생성하지 않았습니다.";
-      return { errorMessage };
+      if (currentUserProject.errorMessage) {
+        throw new Error(currentUserProject.errorMessage);
+      }
+
+      res.status(200).send(currentUserProject);
+    } catch (error) {
+      next(error);
     }
-
-    return project;
   }
+);
 
-  static async getUserProject({ id }) {
-    const project = await Project.findById({ id });
-
-    // db에서 찾지 못한 경우, 에러 메시지 반환
-    if (!project) {
-      const errorMessage =
-        "해당 프로젝트는 존재하지 않습니다.";
-      return { errorMessage };
-    }
-
-    return project;
-  }
-}
-
-export { userProjectService };
+export { userProjectRouter };
