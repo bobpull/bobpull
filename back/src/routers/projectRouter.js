@@ -1,5 +1,6 @@
 import is from "@sindresorhus/is";
 import { Router } from "express";
+import { login_required } from "../middlewares/login_required";
 import { userProjectService } from "../services/projectService";
 
 const userProjectRouter = Router();
@@ -35,6 +36,24 @@ userProjectRouter.post(
     }
   
       res.status(201).json(newProject);
+    } catch (error) {
+      next(error);
+    }
+  } 
+);
+
+userProjectRouter.get(
+  "/projects/:id",
+  async function (req, res, next) {
+    try {
+      const user_id = req.params.id;
+      const currentUserProject = await userProjectService.getUserProject({ user_id });
+
+      if (currentUserProject.errorMessage) {
+        throw new Error(currentUserProject.errorMessage);
+      }
+
+      res.status(200).send(currentUserProject);
     } catch (error) {
       next(error);
     }
