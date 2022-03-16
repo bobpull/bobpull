@@ -6,10 +6,20 @@ import AwardAddForm from "./AwardAddForm";
 import AwardCard from "./AwardCard";
 import AwardAddButton from "./AwardAddButton";
 import * as Api from "../../api";
+import axios from "axios";
 
 function Award({ isEditable }) {
-  const [isEditing, setIsEditing] = useState(false);
   const [isAdding, setIsAdding] = useState(false);
+  const [awards, setAwards] = useState([]);
+
+  useEffect(() => {
+    const fetchFunc = async () => {
+      const response = await axios.get("http://localhost:3000/post.json");
+      console.log(response.data);
+      setAwards(response.data);
+    };
+    fetchFunc();
+  }, []);
 
   return (
     <>
@@ -19,19 +29,18 @@ function Award({ isEditable }) {
             <Card.Body>
               <Card.Title>수상이력</Card.Title>
 
-              {isEditing ? (
-                <AwardEditForm setIsEditing={setIsEditing} />
-              ) : (
+              {awards.map((award) => (
                 <AwardCard
+                  key={award.id}
+                  title={award.title}
+                  body={award.body}
                   isEditable={isEditable}
-                  setIsEditing={setIsEditing}
                   setIsAdding={setIsAdding}
                 />
-              )}
+              ))}
 
               <AwardAddButton setIsAdding={setIsAdding} />
               {isAdding && <AwardAddForm setIsAdding={setIsAdding} />}
-
             </Card.Body>
           </Card>
         </Col>
