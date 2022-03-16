@@ -11,6 +11,11 @@ class Education {
     return schoolMajorPosition;
   }
 
+  static async findByUserId({ user_id }) {
+    const user = await EducationModel.find({ user_id });
+    return user;
+  }
+
   static async findById({ _id }) {
     const user = await EducationModel.findOne({ _id });
     return user;
