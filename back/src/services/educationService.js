@@ -25,16 +25,16 @@ class userEducationService {
   }
 
   static async getUserEducation({ _id }) {
-    const user = await Education.findById({ _id });
+    const education = await Education.findById({ _id });
 
     // db에서 찾지 못한 경우, 에러 메시지 반환
-    if (!user) {
+    if (!education) {
       const errorMessage =
         "학력 정보를 추가하지 않았습니다.";
       return { errorMessage };
     }
 
-    return user;
+    return education;
   }
 
   static async setEducation({ _id, toUpdate }) {
@@ -81,19 +81,6 @@ class userEducationService {
     }
 
     return education;
-  }
-
-  static async getUserInfo({ user_id }) {
-    const user = await Education.findByUserId({ user_id });
-
-    // db에서 찾지 못한 경우, 에러 메시지 반환
-    if (!user) {
-      const errorMessage =
-        "해당 유저의 가입 내역이 없습니다. 다시 한 번 확인해 주세요.";
-      return { errorMessage };
-    }
-
-    return user;
   }
 }
 
