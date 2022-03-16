@@ -23,6 +23,11 @@ class Award {
     );
     return updatedAward;
   }
+
+  static async findByUserId({ user_id }) {
+    const awardlist = await AwardModel.find({ user_id: user_id });
+    return awardlist;
+  }
 }
 
 export { Award };
