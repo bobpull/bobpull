@@ -84,4 +84,22 @@ userEducationRouter.put(
   }
 );
 
+userEducationRouter.get(
+  "/educationlist/:user_id",
+  async function (req, res, next) {
+    try {
+      const user_id = req.params.user_id;
+      const currentUserEducation = await userEducationService.getUserEducation({ user_id });
+
+      if (currentUserEducation.errorMessage) {
+        throw new Error(currentUserEducation.errorMessage);
+      }
+
+      res.status(200).send(currentUserEducation);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
 export { userEducationRouter };
