@@ -1,5 +1,6 @@
 import is from "@sindresorhus/is";
 import { Router } from "express";
+import {login_required} from "../middlewares/login_required";
 import { awardAuthService } from "../services/awardService";
 
 const awardAuthRouter = Router();
@@ -34,5 +35,28 @@ awardAuthRouter.post("/award/create", async function (req, res, next) {
     next(err);
   }  
 });
+
+awardAuthRouter.get(
+  "/awards/:id",
+  login_required,
+  async function(req, res, next) {
+    try {
+      const award_id = req.params.id;
+      const currentAwardInfo = await awardAuthService.getAwardInfo({ award_id })
+
+      if (currentAwardInfo.errorMessage) {
+        throw new Error(currentAwardInfo.errorMessage);
+      }
+
+      res.status(200).send(currentAwardInfo);
+    } catch (err) {
+      next(err);
+    }
+  }
+);
+
+
+
+
 
 export { awardAuthRouter };
