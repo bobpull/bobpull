@@ -10,6 +10,24 @@ class Education {
     const schoolMajorPosition = await EducationModel.findOne({ school, major, position });
     return schoolMajorPosition;
   }
+
+  static async findById({ _id }) {
+    const user = await EducationModel.findOne({ _id });
+    return user;
+  }
+
+  static async update({ _id, fieldToUpdate, newValue }) {
+    const filter = { _id };
+    const update = { [fieldToUpdate]: newValue };
+    const option = { returnOriginal: false };
+
+    const updatedEducation = await EducationModel.findOneAndUpdate(
+      filter,
+      update,
+      option
+    );
+    return updatedEducation;
+  }
 }
 
 export { Education };

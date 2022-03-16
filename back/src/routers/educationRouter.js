@@ -5,7 +5,9 @@ import { userEducationService } from "../services/educationService";
 
 const userEducationRouter = Router();
 
-userEducationRouter.post("/education/create", async function (req, res, next) {
+userEducationRouter.post(
+  "/education/create", 
+  async function (req, res, next) {
   try {
     if (is.emptyObject(req.body)) {
       throw new Error(
@@ -36,5 +38,50 @@ userEducationRouter.post("/education/create", async function (req, res, next) {
     next(error);
   }
 });
+
+userEducationRouter.get(
+  "/educations/:id",
+  async function (req, res, next) {
+    try {
+      const _id = req.params.id;
+      const currentUserEducation = await userEducationService.getUserEducation({ _id });
+
+      if (currentUserEducation.errorMessage) {
+        throw new Error(currentUserEducation.errorMessage);
+      }
+
+      res.status(200).send(currentUserEducation);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+userEducationRouter.put(
+  "/educations/:id",
+  async function (req, res, next) {
+    try {
+      // URI로부터 사용자 id를 추출함.
+      const _id = req.params.id;
+      // body data 로부터 업데이트할 사용자 정보를 추출함.
+      const school = req.body.school ?? null;
+      const major = req.body.major ?? null;
+      const position = req.body.position ?? null;
+
+      const toUpdate = { school, major, position };
+
+      // 해당 사용자 아이디로 사용자 정보를 db에서 찾아 업데이트함. 업데이트 요소가 없을 시 생략함
+      const updatedEducation = await userEducationService.setEducation({ _id, toUpdate });
+
+      if (updatedEducation.errorMessage) {
+        throw new Error(updatedEducation.errorMessage);
+      }
+
+      res.status(200).json(updatedEducation);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
 
 export { userEducationRouter };
