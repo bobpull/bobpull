@@ -1,20 +1,22 @@
 import React, {useState} from "react";
+import axios from "axios";
 import { Form, Row, Col, Button } from 'react-bootstrap';
 
 const AddProject = ({setIsEditing, projects, setProjects}) => {
   const [project, setProject] = useState({
-    name: "",
+    title: "",
     description: "",
-    startDate: "",
-    dueDate: "",
+    from_date: "",
+    to_date: "",
   })
   const validData = 
     project.name && project.description && project.startDate && project.dueDate
   
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
-    setProjects([...projects,project])
-    console.log(project)
+    const res = await axios.post('/project/create', project)
+    setProjects(res.data)
+    // setProjects([...projects,project])
     setIsEditing(false)
   }
   const onChange = (e) => {
@@ -24,16 +26,13 @@ const AddProject = ({setIsEditing, projects, setProjects}) => {
     }
     setProject(newProject)
   }
-
-
-
   return (
     <Form onSubmit={onSubmit}>
       <Form.Group className="mb-3" controlId="projectId">
         <Form.Control 
           type="text" 
           placeholder="프로젝트명"
-          name="name"
+          name="title"
           value={project.name}
           onChange={onChange} 
         />
@@ -54,7 +53,7 @@ const AddProject = ({setIsEditing, projects, setProjects}) => {
           <Form.Control 
             type="date" 
             placeholder="시작일"
-            name="startDate" 
+            name="from_date" 
             value={project.startDate}
             onChange={onChange}
           />
@@ -63,7 +62,7 @@ const AddProject = ({setIsEditing, projects, setProjects}) => {
           <Form.Control 
             type="date" 
             placeholder="끝"
-            name="dueDate" 
+            name="to_date" 
             value={project.dueDate}
             onChange={onChange}
           />
@@ -73,7 +72,7 @@ const AddProject = ({setIsEditing, projects, setProjects}) => {
       <Form.Group as={Row} className="mt-3 text-center">
             <Col sm>
               <Button
-                variant="primary" 
+                variant="primary"  
                 type="submit" 
                 className="me-3"
                 disabled={!validData}
