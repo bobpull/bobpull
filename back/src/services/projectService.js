@@ -92,9 +92,9 @@ class userProjectService {
     const project = await Project.findProjectByUserId({ user_id });
 
     // db에서 찾지 못한 경우, 에러 메시지 반환
-    if (!project) {
+    if (!project || project.length === 0) {
       const errorMessage =
-        "해당 프로젝트가 존재하지 않습니다.";
+        "프로젝트가 존재하지 않습니다.";
       return { errorMessage };
     }
 
