@@ -3,7 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Button, Row, Col, Card } from "react-bootstrap";
 import * as Api from "../../api";
 
-function AwardCard({ isEditable, setIsEditing }) {
+function AwardCard({ isEditable, setIsEditing, setIsAdding }) {
   return (
     <Card.Text>
       <Row>

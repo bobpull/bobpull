@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Form, Button, Row, Col, Card } from "react-bootstrap";
-import AwardEditForm from "./AwardEditForm";
-import AwardCard from "./AwardCard";
+import { Form, Button, Row, Col } from "react-bootstrap";
 import * as Api from "../../api";
 
 function AwardAddForm({ setIsAdding }) {

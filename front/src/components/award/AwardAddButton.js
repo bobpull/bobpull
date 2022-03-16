@@ -1,20 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Button, Row, Col, Card } from "react-bootstrap";
-import * as Api from "../../api";
+import { Button, Row, Col } from "react-bootstrap";
 
-function AwardAddButton({ isEditable, setIsAdding }) {
+function AwardAddButton({ setIsAdding }) {
   return (
     <>
-      {isEditable && (
-        <Row className="mt-3 mb-3 text-center">
-          <Col>
-            <Button variant="primary" onClick={() => setIsAdding(true)}>
-              +
-            </Button>
-          </Col>
-        </Row>
-      )}
+      <Row className="mt-3 mb-3 text-center">
+        <Col>
+          <Button variant="primary" onClick={() => setIsAdding(true)}>
+            +
+          </Button>
+        </Col>
+      </Row>
     </>
   );
 }

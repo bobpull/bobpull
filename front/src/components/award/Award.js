@@ -3,8 +3,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Row, Col, Card } from "react-bootstrap";
 import AwardEditForm from "./AwardEditForm";
 import AwardAddForm from "./AwardAddForm";
-import AwardAddButton from "./AwardAddButton";
 import AwardCard from "./AwardCard";
+import AwardAddButton from "./AwardAddButton";
 import * as Api from "../../api";
 
 function Award({ isEditable }) {
@@ -25,17 +25,13 @@ function Award({ isEditable }) {
                 <AwardCard
                   isEditable={isEditable}
                   setIsEditing={setIsEditing}
-                />
-              )}
-
-              {isAdding ? (
-                <AwardAddForm setIsAdding={setIsAdding} />
-              ) : (
-                <AwardAddButton
-                  isEditable={isEditable}
                   setIsAdding={setIsAdding}
                 />
               )}
+
+              <AwardAddButton setIsAdding={setIsAdding} />
+              {isAdding && <AwardAddForm setIsAdding={setIsAdding} />}
+
             </Card.Body>
           </Card>
         </Col>
