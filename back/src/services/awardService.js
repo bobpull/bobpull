@@ -54,6 +54,18 @@ class awardAuthService {
 
     return award;
   }
+
+  static async getAwardlistInfo({ user_id }) {
+    const awardlist = await Award.findByUserId({ user_id });
+
+    // db에서 찾지 못한 경우, 에러 메시지 반환
+    if (!awardlist) {
+      const errorMessage =
+        "수상 이력이 없습니다. 다시 한 번 확인해 주세요."
+        return { errorMessage }
+    }
+    return awardlist;
+  }
 }
 
 export { awardAuthService };
