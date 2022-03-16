@@ -22,6 +22,19 @@ class userProjectService {
 
     return createdNewProject;
   }
+
+  static async getUserProject({ user_id }) {
+    const project = await Project.findAll({ user_id });
+
+    // db에서 찾지 못한 경우, 에러 메시지 반환
+    if (!project) {
+      const errorMessage =
+        "프로젝트를 생성하지 않았습니다.";
+      return { errorMessage };
+    }
+
+    return project;
+  }
 }
 
 export { userProjectService };
