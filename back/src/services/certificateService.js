@@ -59,6 +59,19 @@ class certificateAuthService {
 
     return certificate;
   }
+
+  static async getCertificatelistInfo({ user_id }) {
+    const certificatelist = await Certificate.findByUserId({ user_id });
+
+    // db에서 찾지 못한 경우, 에러 메시지 반환
+    if (!certificatelist) {
+      const errorMessage =
+        "자격증이 없습니다. 다시 한 번 확인해 주세요."
+        return { errorMessage }
+    }
+    
+    return certificatelist;
+  }
 }
 
 export { certificateAuthService };
