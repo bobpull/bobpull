@@ -1,7 +1,9 @@
+import React from "react";
 import styled from "styled-components"
 
 const ProjectList1 = styled.article`
   text-align: left;
+  margin-bottom: 0.5rem;
 `
 const ProjectTitle = styled.h5`
   font-weight: normal;
@@ -15,15 +17,15 @@ const ProjectDes = styled.p`
   color: #6c757d;
 `
 const ProjectDate = styled.p`
-color: #6c757d;
+  color: #6c757d;
+  margin-bottom: 0;
 `
-
 const ProjectList = ({project}) => {
   return (
     <ProjectList1>
-      <ProjectTitle>{project.name}</ProjectTitle>
+      <ProjectTitle>{project.title}</ProjectTitle>
       <ProjectDes>{project.description}</ProjectDes>
-      <ProjectDate>{project.startDate} ~ {project.dueDate}</ProjectDate>
+      <ProjectDate>{project.from_date} ~ {project.to_date}</ProjectDate>
     </ProjectList1>   
   )
 }
