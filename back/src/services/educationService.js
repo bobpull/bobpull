@@ -9,7 +9,7 @@ class userEducationService {
     const schoolMajorPosition = await Education.findBySchoolMajorPosition({ school, major, position });
     if (schoolMajorPosition) {
       const errorMessage =
-        "동일한 학력을 중복 등록할 수 없습니다.";
+        "동일한 학력을 중복으로 등록할 수 없습니다.";
       return { errorMessage };
     }
 
@@ -81,6 +81,19 @@ class userEducationService {
     }
 
     return education;
+  }
+
+  static async getUserInfo({ user_id }) {
+    const user = await Education.findByUserId({ user_id });
+
+    // db에서 찾지 못한 경우, 에러 메시지 반환
+    if (!user) {
+      const errorMessage =
+        "해당 유저의 가입 내역이 없습니다. 다시 한 번 확인해 주세요.";
+      return { errorMessage };
+    }
+
+    return user;
   }
 }
 

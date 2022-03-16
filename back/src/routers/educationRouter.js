@@ -7,6 +7,7 @@ const userEducationRouter = Router();
 
 userEducationRouter.post(
   "/education/create", 
+  login_required,
   async function (req, res, next) {
   try {
     if (is.emptyObject(req.body)) {
@@ -15,8 +16,14 @@ userEducationRouter.post(
       );
     }
 
+    const user_id = req.currentUserId;
+    const currentUserInfo = await userEducationService.getUserInfo({ user_id });
+
+    if (currentUserInfo.errorMessage) {
+      throw new Error(currentUserInfo.errorMessage);
+    }
+
     // req (request) 에서 데이터 가져오기
-    const user_id = req.body.user_id;
     const school = req.body.school;
     const major = req.body.major;
     const position = req.body.position;
@@ -41,6 +48,7 @@ userEducationRouter.post(
 
 userEducationRouter.get(
   "/educations/:id",
+  login_required,
   async function (req, res, next) {
     try {
       const _id = req.params.id;
@@ -59,6 +67,7 @@ userEducationRouter.get(
 
 userEducationRouter.put(
   "/educations/:id",
+  login_required,
   async function (req, res, next) {
     try {
       // URI로부터 사용자 id를 추출함.
@@ -86,16 +95,17 @@ userEducationRouter.put(
 
 userEducationRouter.get(
   "/educationlist/:user_id",
+  login_required,
   async function (req, res, next) {
     try {
-      const user_id = req.params.user_id;
-      const currentUserEducation = await userEducationService.getUserEducation({ user_id });
+      const user_id = req.currentUserId;
+      const currentUserInfo = await userEducationService.getUserInfo({ user_id });
 
-      if (currentUserEducation.errorMessage) {
-        throw new Error(currentUserEducation.errorMessage);
+      if (currentUserInfo.errorMessage) {
+        throw new Error(currentUserInfo.errorMessage);
       }
 
-      res.status(200).send(currentUserEducation);
+      res.status(200).send(currentUserInfo);
     } catch (error) {
       next(error);
     }
