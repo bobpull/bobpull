@@ -1,7 +1,7 @@
 import { Award } from "../db";
 import { v4 as uuidv4 } from "uuid";
 
-class awardAuthService {
+class userAwardService {
   static async addAward({ user_id, title, description }) {
 
     // id 는 유니크 값 부여
@@ -59,7 +59,7 @@ class awardAuthService {
     const awardlist = await Award.findByUserId({ user_id });
 
     // db에서 찾지 못한 경우, 에러 메시지 반환
-    if (!awardlist) {
+    if (!awardlist || awardlist.length === 0) {
       const errorMessage =
         "수상 이력이 없습니다. 다시 한 번 확인해 주세요."
         return { errorMessage }
@@ -68,4 +68,4 @@ class awardAuthService {
   }
 }
 
-export { awardAuthService };
+export { userAwardService };

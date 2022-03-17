@@ -1,7 +1,7 @@
 import { Certificate } from "../db";
 import { v4 as uuidv4 } from "uuid";
 
-class certificateAuthService {
+class userCertificateService {
   static async addCertificate({ user_id, title, description, when_date }) {
 
     // id는 유니크 값 부여
@@ -64,7 +64,7 @@ class certificateAuthService {
     const certificatelist = await Certificate.findByUserId({ user_id });
 
     // db에서 찾지 못한 경우, 에러 메시지 반환
-    if (!certificatelist) {
+    if (!certificatelist || certificatelist.length === 0) {
       const errorMessage =
         "자격증이 없습니다. 다시 한 번 확인해 주세요."
         return { errorMessage }
@@ -74,4 +74,4 @@ class certificateAuthService {
   }
 }
 
-export { certificateAuthService };
+export { userCertificateService };
