@@ -7,7 +7,7 @@ class Project {
   }
 
   static async findByTitle({ title }) {
-    const project = await ProjectModel.findOne({ title });
+    const project = await ProjectModel.findOne({ user_id, title });
     return project;
   }
 
