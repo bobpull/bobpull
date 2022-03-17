@@ -1,21 +1,27 @@
-import { Card, Button } from "react-bootstrap";
+import { Card, Row, Col, Button } from "react-bootstrap";
 
 function CertificateCard({ certificate, setIsEditing }) {
   return (
     <Card.Text>
-      {certificate.title}
-      <br />
-      {certificate.description}
-      <br />
-      {certificate.when_date}
-      <Button
-        className="mr-3"
-        variant="outline-info"
-        size="sm"
-        onClick={() => setIsEditing(true)}
-      >
-        편집
-      </Button>
+      <Row className="align-itmes-center">
+        <Col>
+          {certificate.title}
+          <br />
+          <span className="text-muted">{certificate.description}</span>
+          <br />
+          <span className="text-muted">{certificate.when_date}</span>
+        </Col>
+        <Col lg="1">
+          <Button
+            className="mr-3"
+            variant="outline-info"
+            size="sm"
+            onClick={() => setIsEditing(true)}
+          >
+            편집
+          </Button>
+        </Col>
+      </Row>
     </Card.Text>
   );
 }
