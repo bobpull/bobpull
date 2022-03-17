@@ -6,7 +6,7 @@ import { userEducationService } from "../services/educationService";
 const userEducationRouter = Router();
 
 userEducationRouter.post(
-  "/education/create", 
+  "/education/create",
   login_required,
   async function (req, res, next) {
   try {
@@ -28,7 +28,7 @@ userEducationRouter.post(
     const major = req.body.major;
     const position = req.body.position;
 
-    // 위 데이터를 유저 db에 추가하기
+    // 위 데이터를 Education db에 추가하기
     const newEducation = await userEducationService.addEducation({
       user_id,
       school,
@@ -70,16 +70,16 @@ userEducationRouter.put(
   login_required,
   async function (req, res, next) {
     try {
-      // URI로부터 사용자 id를 추출함.
+      // URI로부터 education id를 추출함.
       const _id = req.params.id;
-      // body data 로부터 업데이트할 사용자 정보를 추출함.
+      // body data 로부터 업데이트할 education 정보를 추출함.
       const school = req.body.school ?? null;
       const major = req.body.major ?? null;
       const position = req.body.position ?? null;
 
       const toUpdate = { school, major, position };
 
-      // 해당 사용자 아이디로 사용자 정보를 db에서 찾아 업데이트함. 업데이트 요소가 없을 시 생략함
+      // 해당 education 아이디로 education 정보를 db에서 찾아 업데이트함. 업데이트 요소가 없을 시 생략함
       const updatedEducation = await userEducationService.setEducation({ _id, toUpdate });
 
       if (updatedEducation.errorMessage) {
