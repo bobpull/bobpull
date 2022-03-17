@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from "uuid";
 class userCertificateService {
   static async addCertificate({ user_id, title, description, when_date }) {
     // 자격증 중복 확인
-  const titleWithDescription = await Certificate.findByTitleWithDescription({ user_id, title, description, when_date });
+  const titleWithDescription = await Certificate.findByTitleWithDescription({ user_id, title, description });
   if (titleWithDescription) {
     const errorMessage
       = "동일한 자격증과 내용을 중복으로 등록할 수 없습니다.";
