@@ -9,7 +9,7 @@ function CertificateEditForm({ certificate, setIsEditing }) {
   const _id = certificate._id;
   const [title, setTitle] = useState(certificate.title);
   const [description, setDescription] = useState(certificate.description);
-  const [date, setDate] = useState(certificate.date);
+  const [date, setDate] = useState(certificate.when_date);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
