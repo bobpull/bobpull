@@ -64,7 +64,7 @@ class awardAuthService {
     const awardlist = await Award.findByUserId({ user_id });
 
     // db에서 찾지 못한 경우, 에러 메시지 반환
-    if (!awardlist || project.length === 0) {
+    if (!awardlist || awardlist.length === 0) {
       const errorMessage =
         "수상 이력이 없습니다. 다시 한 번 확인해 주세요."
         return { errorMessage }

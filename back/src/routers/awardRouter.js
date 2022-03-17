@@ -93,7 +93,7 @@ awardAuthRouter.get(
       const currentAwardlistInfo = await awardAuthService.getAwardlistInfo({ user_id });
 
       if (currentAwardlistInfo.errorMessage) {
-        throw new Error(currentAwardInfo.errorMessage);
+        throw new Error(currentAwardlistInfo.errorMessage);
       }
 
       res.status(200).send(currentAwardlistInfo);
