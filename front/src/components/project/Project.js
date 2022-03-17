@@ -2,81 +2,65 @@ import React, {useState, useEffect} from "react";
 import * as Api from "../../api";
 
 import AddProject from "./AddProject"
-import ProjectList from "./ProjectList"
-import ProjectEditForm from "./ProjectEditForm"
+import ProjectCard from "./ProjectCard"
 
-import styled from "styled-components"
-import {Button} from "react-bootstrap";
+import {Button, Row, Col, Card} from "react-bootstrap";
 
-const ProjectContainer = styled.div`
-  border: 1px solid rgba(0,0,0,.125);
-  border-radius: 0.25rem;
-  padding: 20px;
-`
-const Title = styled.h2`
-  text-align: left;
-  font-weight: normal;
-  font-size: 1.25rem;
-`
-const ListContainer = styled.div`  
-`
-const ListFlex = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`
+
+
 
 const Project = ({portfolioOwnerId, isEditable}) => {
   const [isEditing, setIsEditing] = useState(false)
-  const [isEditForm, setIsEditForm] = useState(false)
   const [projects, setProjects] = useState([])
 
+  // projects가 다른 파일에서 props로 전달되어 업데이트 됐을 때 호출하면 컴포넌트 렌더링 가능
+  const fetchAPI = async () => {
+    const res = await Api.get("projectlist", portfolioOwnerId)
+    setProjects(res.data)
+  }
   // get projects data
   useEffect(() => {
-      Api.get("projectlist", portfolioOwnerId)
-        .then((res) => console.log(res))
+      fetchAPI()
   },[portfolioOwnerId])
 
   return (
-    <ProjectContainer>
-      <Title>Project</Title>
-      {projects && projects.map(item => 
-        <ListContainer>
-          {isEditForm ? 
-          <ProjectEditForm
-            project={item}
-            setIsEditForm={setIsEditForm}
-          />
-           :
-           <ListFlex>
-           <ProjectList
-            project={item}
-          />
-          <Button 
-            variant="outline-info" 
-            size="sm"
-            onClick={() => setIsEditForm(true)}
-          >편집</Button>
-          </ListFlex>
-          
-        }
-          
-        </ListContainer>
-        )}
-      {isEditable && <Button
-        onClick={() => setIsEditing(true)}
-        variant="primary"
-        className="mb-3"
-      >추가</Button>}
-      
-      
-       {isEditing && <AddProject
-        setIsEditing={setIsEditing}
-        projects={projects}
-        setProjects={setProjects}
-      />}
-       
-    </ProjectContainer>
+<>
+  <Row>
+    <Col>
+      <Card className="mb-3">
+        <Card.Body>
+          <Card.Title style={{textAlign: "left"}}>Project</Card.Title>
+
+          {/* 프로젝트가 추가 되었을 때, 편집 화면과 추가 내용 */}
+            {projects && projects.map((item, index) => 
+              <ProjectCard
+                item={item}
+                projects={projects}
+                setProjects={setProjects}
+                isEditable={isEditable}
+                fetchAPI={fetchAPI}
+              />
+            )}
+            {/* 포트폴리오 주인이 아니면 수정이 불가 */}
+            {isEditable &&
+             <Button
+                onClick={() => setIsEditing(true)}
+                variant="primary"
+                className="mb-3"
+             >추가</Button>
+            }
+            {isEditing &&
+              <AddProject
+                setIsEditing={setIsEditing}
+                projects={projects}
+                setProjects={setProjects}
+              />
+          }
+        </Card.Body>
+      </Card>
+    </Col>
+  </Row>
+</>
   );
 }
 
