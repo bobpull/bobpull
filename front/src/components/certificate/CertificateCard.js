@@ -1,7 +1,11 @@
+import { useEffect, useState } from "react";
 import { Card, Row, Col, Button } from "react-bootstrap";
+import CertificateEditForm from "./CertificateEditForm";
 
 function CertificateCard({ certificate, isEditable }) {
-  return (
+  const [isEditing, setIsEditing] = useState(false);
+
+  return !isEditing ? (
     <Card.Text>
       <Row className="align-itmes-center">
         <Col>
@@ -17,7 +21,9 @@ function CertificateCard({ certificate, isEditable }) {
               className="mr-3"
               variant="outline-info"
               size="sm"
-              onClick={() => {}}
+              onClick={() => {
+                setIsEditing(true);
+              }}
             >
               편집
             </Button>
@@ -25,6 +31,11 @@ function CertificateCard({ certificate, isEditable }) {
         )}
       </Row>
     </Card.Text>
+  ) : (
+    <CertificateEditForm
+      certificate={certificate}
+      setIsEditing={setIsEditing}
+    />
   );
 }
 
