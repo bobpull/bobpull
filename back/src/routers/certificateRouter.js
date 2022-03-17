@@ -16,8 +16,13 @@ userCertificateRouter.post(
         );
       }
   
-      // req (request)에서 데이터 가져오기
-      const user_id = req.body.user_id;
+      const user_id = req.currentUserId;
+      const currentUserInfo = await userCertificateService.getUserInfo({ user_id });
+
+      if (currentUserInfo.errorMessage) {
+        throw new Error(currentUserInfo.errorMessage);
+      }
+
       const title = req.body.title;
       const description = req.body.description;
       const when_date = req.body.when_date;
