@@ -18,20 +18,23 @@ const Title = styled.h2`
   font-weight: normal;
   font-size: 1.25rem;
 `
-const ListContainer = styled.div`
+const ListContainer = styled.div`  
+`
+const ListFlex = styled.div`
   display: flex;
   justify-content: space-between;
-  align-items:center;
+  align-items: center;
 `
 
 const Project = () => {
   const [isEditing, setIsEditing] = useState(false)
+  const [isEditForm, setIsEditForm] = useState(false)
   const [projects, setProjects] = useState([])
 
   // get projects data
   useEffect(() => {
     const fetchAPI = async () => {
-      const res = await axios.get('')
+      const res = await axios.get('http://localhost:5001/projectlist/:user_id')
       setProjects(res.data.data)
     }
     fetchAPI()
@@ -42,14 +45,26 @@ const Project = () => {
       <Title>Project</Title>
       {projects && projects.map(item => 
         <ListContainer>
-          <ProjectList
+          {isEditForm ? 
+         
+          <ProjectEditForm
+            project={item}
+            setIsEditForm={setIsEditForm}
+          />
+           :
+           <ListFlex>
+           <ProjectList
             project={item}
           />
           <Button 
             variant="outline-info" 
             size="sm"
-            onClick={() => {}}
+            onClick={() => setIsEditForm(true)}
           >편집</Button>
+          </ListFlex>
+          
+        }
+          
         </ListContainer>
         )}
       
