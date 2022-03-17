@@ -6,18 +6,18 @@ class Certificate {
     return createdNewCertificate;
   }
 
-  static async findByTitleWithDescription({ title, description }) {
-    const titleWithDescription = await CertificateModel.findOne({ title, description });
+  static async findByTitleWithDescription({ user_id, title, description }) {
+    const titleWithDescription = await CertificateModel.findOne({ user_id, title, description });
     return titleWithDescription;
   }
 
-  static async findById({ certificate_id }) {
-    const certificate = await CertificateModel.findOne({ _id: certificate_id });
+  static async findById({ _id }) {
+    const certificate = await CertificateModel.findOne({ _id });
     return certificate;
   }
 
-  static async update({ certificate_id, fieldToUpdate, newValue }) {
-    const filter = { _id: certificate_id };
+  static async update({ _id, fieldToUpdate, newValue }) {
+    const filter = { _id };
     const update = { [fieldToUpdate]: newValue };
     const option = { returnOriginal: false };
 
@@ -30,7 +30,7 @@ class Certificate {
   }
 
   static async findByUserId({ user_id }) {
-    const certificatelist = await CertificateModel.find({ user_id: user_id });
+    const certificatelist = await CertificateModel.find({ user_id });
     return certificatelist;
   }
 }
