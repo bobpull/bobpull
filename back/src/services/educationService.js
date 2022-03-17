@@ -83,16 +83,16 @@ class userEducationService {
   }
 
   static async getCurrentUserEducation({ user_id }) {
-    const education = await Education.findByUserId({ user_id });
+    const educationList = await Education.findByUserId({ user_id });
 
     // db에서 찾지 못한 경우, 에러 메시지 반환
-    if (!education || education.length === 0) {
+    if (!educationList || educationList.length === 0) {
       const errorMessage =
         "학력 정보가 존재하지 않습니다.";
       return { errorMessage };
     }
 
-    return education;
+    return educationList;
   }
 }
 
