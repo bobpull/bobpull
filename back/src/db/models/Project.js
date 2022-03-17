@@ -12,17 +12,12 @@ class Project {
   }
 
   static async findByUserId({ user_id }) {
-    const projectlist = await ProjectModel.find({ user_id });
-    return projectlist;
+    const projectList = await ProjectModel.find({ user_id });
+    return projectList;
   }
 
   static async findById({ _id }) {
     const project = await ProjectModel.findOne({ _id });
-    return project;
-  }
-
-  static async findAll() {
-    const project = await ProjectModel.find({});
     return project;
   }
 
