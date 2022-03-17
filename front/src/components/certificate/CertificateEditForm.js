@@ -1,24 +1,33 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { Container, Col, Row, Form, Button } from "react-bootstrap";
+import { CertificatesContext } from "./Certificate";
 import * as Api from "../../api";
 
-function CertificateEditForm({ user, setIsEditing }) {
+function CertificateEditForm({ certificate, setIsEditing }) {
+  const { certificates, setCertificates } = useContext(CertificatesContext);
   // useState로 title 상태를 생성함.
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [date, setDate] = useState("");
+  const _id = certificate._id;
+  const [title, setTitle] = useState(certificate.title);
+  const [description, setDescription] = useState(certificate.description);
+  const [date, setDate] = useState(certificate.date);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      // "certificate/create" 엔드포인트로 POST 요청함.
-      const res = await Api.put("certificate/create", {
-        user_id: user.id,
+      // "certificate/:_id" 엔드포인트로 POST 요청함.
+      const res = await Api.put("certificates/" + _id, {
         title: title,
         description: description,
         when_date: date,
       });
+
+      const newCertificates = [...certificates].map((v) => {
+        if (v._id === _id) return res.data;
+        else return v;
+      });
+
+      setCertificates(newCertificates);
     } catch (err) {
       console.log(err);
     }
