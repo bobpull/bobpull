@@ -12,12 +12,12 @@ class Award {
   }
 
   static async findById({ award_id }) {
-    const award = await AwardModel.findOne({ id: award_id });
+    const award = await AwardModel.findOne({ _id: award_id });
     return award;
   }
 
   static async update({ award_id, fieldToUpdate, newValue }) {
-    const filter = { id: award_id };
+    const filter = { _id: award_id };
     const update = { [fieldToUpdate]: newValue };
     const option = { returnOriginal: false };
 

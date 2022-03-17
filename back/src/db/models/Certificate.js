@@ -12,12 +12,12 @@ class Certificate {
   }
 
   static async findById({ certificate_id }) {
-    const certificate = await CertificateModel.findOne({ id: certificate_id });
+    const certificate = await CertificateModel.findOne({ _id: certificate_id });
     return certificate;
   }
 
   static async update({ certificate_id, fieldToUpdate, newValue }) {
-    const filter = { id: certificate_id };
+    const filter = { _id: certificate_id };
     const update = { [fieldToUpdate]: newValue };
     const option = { returnOriginal: false };
 
