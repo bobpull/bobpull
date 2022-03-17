@@ -58,7 +58,6 @@ function CertificateAddForm({ setAddCertificate }) {
               <Form.Control
                 type="date"
                 className="mt-3"
-                formatter="yyyy/MM/dd"
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
               ></Form.Control>
