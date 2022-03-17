@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import axios from "axios"
+import * as Api from "../../api";
 
 import AddProject from "./AddProject"
 import ProjectList from "./ProjectList"
@@ -26,19 +26,16 @@ const ListFlex = styled.div`
   align-items: center;
 `
 
-const Project = () => {
+const Project = ({portfolioOwnerId, isEditable}) => {
   const [isEditing, setIsEditing] = useState(false)
   const [isEditForm, setIsEditForm] = useState(false)
   const [projects, setProjects] = useState([])
 
   // get projects data
   useEffect(() => {
-    const fetchAPI = async () => {
-      const res = await axios.get('http://localhost:5001/projectlist/:user_id')
-      setProjects(res.data.data)
-    }
-    fetchAPI()
-  }, [])
+      Api.get("projectlist", portfolioOwnerId)
+        .then((res) => console.log(res))
+  },[portfolioOwnerId])
 
   return (
     <ProjectContainer>
@@ -46,7 +43,6 @@ const Project = () => {
       {projects && projects.map(item => 
         <ListContainer>
           {isEditForm ? 
-         
           <ProjectEditForm
             project={item}
             setIsEditForm={setIsEditForm}
@@ -67,12 +63,12 @@ const Project = () => {
           
         </ListContainer>
         )}
-      
-      <Button
+      {isEditable && <Button
         onClick={() => setIsEditing(true)}
         variant="primary"
         className="mb-3"
-      >추가</Button>
+      >추가</Button>}
+      
       
        {isEditing && <AddProject
         setIsEditing={setIsEditing}
