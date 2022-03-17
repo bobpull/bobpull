@@ -1,7 +1,7 @@
 import is from "@sindresorhus/is";
 import { Router } from "express";
 import {login_required} from "../middlewares/login_required";
-import { awardAuthService } from "../services/awardService";
+import { userAwardService } from "../services/awardService";
 
 const userAwardRouter = Router();
 
@@ -17,7 +17,7 @@ userAwardRouter.post(
       }
 
       const user_id = req.currentUserId;
-      const currentUserInfo = await userAwardService.getAwardInfo({ user_id });
+      const currentUserInfo = await userAwardService.getUserInfo({ user_id });
 
       if (currentUserInfo.errorMessage) {
         throw new Error(currentUserInfo.errorMessage);
@@ -28,7 +28,7 @@ userAwardRouter.post(
       const description = req.body.description;
 
       // 위 데이터를 유저 db에 추가하기
-      const newAward = await awardAuthService.addAward({
+      const newAward = await userAwardService.addAward({
         user_id,
         title,
         description,
@@ -51,7 +51,7 @@ userAwardRouter.get(
   async function(req, res, next) {
     try {
       const award_id = req.params.id;
-      const currentAwardInfo = await awardAuthService.getAwardInfo({ award_id })
+      const currentAwardInfo = await userAwardService.getAwardInfo({ award_id })
 
       if (currentAwardInfo.errorMessage) {
         throw new Error(currentAwardInfo.errorMessage);
@@ -69,16 +69,14 @@ userAwardRouter.put(
   login_required,
   async function (req, res, next) {
     try {
-      // URL로부터 사용자 id를 추출함.
       const award_id = req.params.id;
-      // body data로부터 업데이트할 수상이력 정보를 추출함.
       const title = req.body.title ?? null;
       const description = req.body.description ?? null;
 
       const toUpdate = { title, description };
 
       //해당 award_id로 수상이력 정보를 db에서 찾아 업데이트함. 업데이트 요소가 없을 시 생략함
-      const updatedAward = await awardAuthService.setAward({ award_id, toUpdate });
+      const updatedAward = await userAwardService.setAward({ award_id, toUpdate });
 
       if (updatedAward.errorMessage) {
         throw new Error(updatedAward.errorMessage);
@@ -96,7 +94,7 @@ userAwardRouter.get(
   async function (req, res, next) {
     try {
       const user_id = req.params.user_id;
-      const currentAwardlistInfo = await awardAuthService.getAwardlistInfo({ user_id });
+      const currentAwardlistInfo = await userAwardService.getAwardlistInfo({ user_id });
 
       if (currentAwardlistInfo.errorMessage) {
         throw new Error(currentAwardlistInfo.errorMessage);
