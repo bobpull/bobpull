@@ -1,5 +1,5 @@
 import { useState, useEffect, createContext } from "react";
-import { Card, Row, Button } from "react-bootstrap";
+import { Card, Row, Col, Button } from "react-bootstrap";
 import CertificateAddForm from "./CertificateAddForm";
 import CertificateCard from "./CertificateCard";
 import * as Api from "../../api";
@@ -32,15 +32,16 @@ function Certificate({ portfolioOwnerId, isEditable }) {
 
         {isEditable && (
           <Row className="mt-3 mb-4 text-center">
-            <Button
-              className="btn-primary"
-              size="sm"
-              onClick={() => {
-                setAddCertificate(true);
-              }}
-            >
-              +
-            </Button>
+            <Col className="col-sm-20">
+              <Button
+                className="btn-primary"
+                onClick={() => {
+                  setAddCertificate(true);
+                }}
+              >
+                +
+              </Button>
+            </Col>
           </Row>
         )}
 
