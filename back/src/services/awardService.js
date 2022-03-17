@@ -4,8 +4,8 @@ import { v4 as uuidv4 } from "uuid";
 class awardAuthService {
   static async addAward({ user_id, title, description }) {
     // 수상 이력 중복 확인
-    const titleWithDiscription = await Award.findByTitleWithDiscription({ title, description });
-    if (titleWithDiscription) {
+    const titleWithDescription = await Award.findByTitleWithDescription({ title, description });
+    if (titleWithDescription) {
       const errorMessage =
         "동일한 수상 이력을 중복으로 등록할 수 없습니다.";
       return { errorMessage }
