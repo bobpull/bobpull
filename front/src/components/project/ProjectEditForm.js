@@ -1,19 +1,24 @@
 import React, {useState} from "react"
-import axios from "axios";
+import * as Api from "../../api";
 import { Form, Row, Col, Button } from 'react-bootstrap';
 
-const ProjectEditForm = ({project, setIsEditForm}) => {
-
+const ProjectEditForm = ({item, projects, setIsEditForm, setProjects, fetchAPI}) => {
+    console.log(item)
     const [newProject, setNewProject] = useState({
-      title: project.title,
-      description: project.description,
-      from_date: project.from_date,
-      to_date: project.to_date,
+      ...item
     })
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    await axios.put('http://localhost:5000/projects/:id', newProject)
+    try{
+      const res = await Api.put(`projects/${item._id}`, newProject)
+      // Project.js의 get api 호출 
+      fetchAPI()
+      setIsEditForm(false)
+    } catch(e){
+      console.log(e)
+    }
+
   }
   const onChange = (e) => {
     setNewProject({
