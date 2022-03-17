@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Container, Col, Row, Form, Button } from "react-bootstrap";
 import * as Api from "../../api";
 
-function CertificateEditForm({ user, setIsEditing }) {
+function CertificateAddForm({ user, setIsEditing }) {
   // useState로 title 상태를 생성함.
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -13,7 +13,7 @@ function CertificateEditForm({ user, setIsEditing }) {
 
     try {
       // "certificate/create" 엔드포인트로 POST 요청함.
-      const res = await Api.put("certificate/create", {
+      const res = await Api.post("certificate/create", {
         user_id: user.id,
         title: title,
         description: description,
@@ -78,4 +78,4 @@ function CertificateEditForm({ user, setIsEditing }) {
   );
 }
 
-export default CertificateEditForm;
+export default CertificateAddForm;
