@@ -2,7 +2,12 @@ import { useState } from "react";
 import { Container, Col, Row, Form, Button } from "react-bootstrap";
 import * as Api from "../../api";
 
-function CertificateAddForm({ user, setAddCertificate }) {
+function CertificateAddForm({
+  user,
+  certificates,
+  setCertificates,
+  setAddCertificate,
+}) {
   // useState로 title 상태를 생성함.
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -19,6 +24,7 @@ function CertificateAddForm({ user, setAddCertificate }) {
         description: description,
         when_date: date,
       });
+      setCertificates([...certificates, res.data]);
     } catch (err) {
       console.log(err);
     }

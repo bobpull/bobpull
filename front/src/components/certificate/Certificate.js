@@ -6,7 +6,6 @@ import CertificateCard from "./CertificateCard";
 import * as Api from "../../api";
 
 function Certificate({ portfolioOwnerId, isEditable }) {
-  const [isEditing, setIsEditing] = useState(false);
   const [addCertificate, setAddCertificate] = useState(false);
   const [certificates, setCertificates] = useState([]);
 
@@ -26,7 +25,7 @@ function Certificate({ portfolioOwnerId, isEditable }) {
         <Card.Title>자격증</Card.Title>
 
         {certificates.map((v) => (
-          <CertificateCard certificate={v} setIsEditing={setIsEditing} />
+          <CertificateCard certificate={v} isEditable={isEditable} />
         ))}
 
         {isEditable && (
@@ -46,6 +45,8 @@ function Certificate({ portfolioOwnerId, isEditable }) {
         {addCertificate && (
           <CertificateAddForm
             user={user}
+            certificates={certificates}
+            setCertificates={setCertificates}
             setAddCertificate={setAddCertificate}
           />
         )}
