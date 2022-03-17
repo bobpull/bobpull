@@ -3,8 +3,8 @@ import express from "express";
 import { userAuthRouter } from "./routers/userRouter";
 
 
+import { awardAuthRouter } from "./routers/awardRouter";
 
-import { userCertificateRouter } from "./routers/certificateRouter";
 import { errorMiddleware } from "./middlewares/errorMiddleware";
 
 const app = express();
@@ -27,8 +27,10 @@ app.get("/", (req, res) => {
 app.use(userAuthRouter);
 
 
+app.use(awardAuthRouter);
 
-app.use(userCertificateRouter);
+
+
 
 // 순서 중요 (router 에서 next() 시 아래의 에러 핸들링  middleware로 전달됨)
 app.use(errorMiddleware);
