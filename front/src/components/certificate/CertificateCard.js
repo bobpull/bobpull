@@ -1,6 +1,6 @@
 import { Card, Row, Col, Button } from "react-bootstrap";
 
-function CertificateCard({ certificate, setIsEditing }) {
+function CertificateCard({ certificate, isEditable }) {
   return (
     <Card.Text>
       <Row className="align-itmes-center">
@@ -11,16 +11,18 @@ function CertificateCard({ certificate, setIsEditing }) {
           <br />
           <span className="text-muted">{certificate.when_date}</span>
         </Col>
-        <Col lg="1">
-          <Button
-            className="mr-3"
-            variant="outline-info"
-            size="sm"
-            onClick={() => setIsEditing(true)}
-          >
-            편집
-          </Button>
-        </Col>
+        {isEditable && (
+          <Col lg="1">
+            <Button
+              className="mr-3"
+              variant="outline-info"
+              size="sm"
+              onClick={() => {}}
+            >
+              편집
+            </Button>
+          </Col>
+        )}
       </Row>
     </Card.Text>
   );
