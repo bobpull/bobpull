@@ -3,7 +3,7 @@ import { Project } from "../db"; // from을 폴더(db) 로 설정 시, 디폴트
 class userProjectService {
   static async addProject({ user_id, title, description, from_date, to_date }) {
     // title 중복 확인
-    const isTitle = await Project.findByTitle({ title });
+    const isTitle = await Project.findByTitle({ user_id, title });
     if (isTitle) {
       const errorMessage =
         "이 프로젝트는 이미 존재합니다.";
