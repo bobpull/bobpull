@@ -34,7 +34,7 @@ function Award({ portfolioOwnerId, isEditable }) {
                 />
               ))}
 
-              <AwardAddButton setIsAdding={setIsAdding} />
+              {isEditable && <AwardAddButton setIsAdding={setIsAdding} />}
 
               {isAdding && (
                 <AwardAddForm

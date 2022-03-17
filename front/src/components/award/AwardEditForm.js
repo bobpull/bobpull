@@ -24,18 +24,14 @@ function AwardEditForm({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
       Api.put(`awards/${id}`, {
         id,
         title,
         description,
       });
-      console.log(awards);
-      setAwards(
-        awards.map((award) =>
-          award._id === id ? { ...award, title, description } : award
-        )
-      );
+      setAwards(awards.map((award) => award._id === id ? { ...award, title, description } : award ));
       setIsEditing(false);
     } catch (err) {
       console.error(err);
