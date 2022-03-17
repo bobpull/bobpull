@@ -21,16 +21,16 @@ class userProjectService {
   }
 
   static async getUserInfo({ user_id }) {
-    const user = await Project.findByUserId({ user_id });
-
+    const project = await Project.findByUserId({ user_id });
+    console.log(project);
     // db에서 찾지 못한 경우, 에러 메시지 반환
-    if (!user) {
+    if (!project) {
       const errorMessage =
         "유저가 존재하지 않습니다.";
       return { errorMessage };
     }
 
-    return user;
+    return project;
   }
 
   static async setProject({ _id, toUpdate }) {
