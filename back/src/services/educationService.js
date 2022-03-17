@@ -13,7 +13,6 @@ class userEducationService {
       return { errorMessage };
     }
 
-    // id 는 유니크 값 부여
     const newEducation = { user_id, school, major, position };
 
     // db에 저장
@@ -97,4 +96,4 @@ class userEducationService {
   }
 }
 
-export { userEducationService };
+export { userEducationService };s
