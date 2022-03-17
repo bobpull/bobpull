@@ -86,18 +86,17 @@ class userProjectService {
   }
 
   static async getCurrentUserProject({ user_id }) {
-    const project = await Project.findProjectByUserId({ user_id });
+    const projectlist = await Project.findProjectByUserId({ user_id });
 
     // db에서 찾지 못한 경우, 에러 메시지 반환
-    if (!project || project.length === 0) {
+    if (!projectlist || projectlist.length === 0) {
       const errorMessage =
         "프로젝트가 존재하지 않습니다.";
       return { errorMessage };
     }
 
-    return project;
+    return projectlist;
   }
-
 }
 
 export { userProjectService };
