@@ -74,7 +74,7 @@ userProjectRouter.put(
   login_required,
   async function (req, res, next) {
     try {
-      // body data 로부터 업데이트할 프로젝트 정보를 추출함.
+      // URI, body data 로부터 업데이트할 프로젝트 정보를 추출함.
       const _id = req.params.id;
       const title = req.body.title ?? null;
       const description = req.body.description ?? null;
