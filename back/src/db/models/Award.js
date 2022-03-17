@@ -6,9 +6,9 @@ class Award {
     return createdNewAward;
   }
 
-  static async findByTitleWithDiscription({ title, description }) {
-    const titleWithDiscription = await AwardModel.findOne({ title, description });
-    return titleWithDiscription;
+  static async findByTitleWithDescription({ title, description }) {
+    const titleWithDescription = await AwardModel.findOne({ title, description });
+    return titleWithDescription;
   }
 
   static async findById({ award_id }) {
