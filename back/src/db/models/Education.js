@@ -11,8 +11,8 @@ class Education {
     return schoolMajorPosition;
   }
 
-  static async findByUserId({ user_id }) {
-    const education = await EducationModel.find({ user_id });
+  static async findByUserId({ _id }) {
+    const education = await EducationModel.find({ _id });
     return education;
   }
 
