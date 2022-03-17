@@ -1,39 +1,64 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Button, Row, Col, Form } from "react-bootstrap";
 import * as Api from "../../api";
-import axios from 'axios';
 
-function AwardEditForm({ isEditing, setIsEditing, _title, _body }) {
+function AwardEditForm({
+  id,
+  setIsEditing,
+  _title,
+  _description,
+  awards,
+  setAwards,
+}) {
   const [title, setTitle] = useState(_title);
-  const [body, setBody] = useState(_body);
+  const [description, setDescription] = useState(_description);
 
   const handleTitleChange = (e) => {
     setTitle(e.target.value);
-  }
+  };
 
   const handleBodyChange = (e) => {
-    setBody(e.target.value);
-  }
+    setDescription(e.target.value);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await axios.put('https://jsonplaceholder.typicode.com/posts/1', {
-      title,
-      body
-    });
-    console.log(response.data);
-  }
+    try {
+      Api.put(`awards/${id}`, {
+        id,
+        title,
+        description,
+      });
+      console.log(awards);
+      setAwards(
+        awards.map((award) =>
+          award._id === id ? { ...award, title, description } : award
+        )
+      );
+      setIsEditing(false);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   return (
     <>
       <Form className="mb-3" onSubmit={handleSubmit}>
         <Form.Group controlId="useEditTitle" className="mb-3">
-          <Form.Control type="text" value={title} onChange={handleTitleChange} />
+          <Form.Control
+            type="text"
+            value={title}
+            onChange={handleTitleChange}
+          />
         </Form.Group>
 
         <Form.Group controlId="userEditContent" className="mb-3">
-          <Form.Control type="text" value={body} onChange={handleBodyChange} />
+          <Form.Control
+            type="text"
+            value={description}
+            onChange={handleBodyChange}
+          />
         </Form.Group>
 
         <Form.Group as={Row} className="mt-3 text-center">

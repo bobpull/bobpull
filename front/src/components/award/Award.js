@@ -1,25 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, createContext, useContext } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Row, Col, Card } from "react-bootstrap";
-import AwardEditForm from "./AwardEditForm";
 import AwardAddForm from "./AwardAddForm";
 import AwardCard from "./AwardCard";
 import AwardAddButton from "./AwardAddButton";
 import * as Api from "../../api";
-import axios from "axios";
 
-function Award({ isEditable }) {
+function Award({ portfolioOwnerId, isEditable }) {
   const [isAdding, setIsAdding] = useState(false);
   const [awards, setAwards] = useState([]);
 
   useEffect(() => {
-    const fetchFunc = async () => {
-      const response = await axios.get("http://localhost:3000/post.json");
-      console.log(response.data);
-      setAwards(response.data);
-    };
-    fetchFunc();
-  }, []);
+    Api.get("awardlist", portfolioOwnerId).then((res) => setAwards(res.data));
+  }, [portfolioOwnerId]);
 
   return (
     <>
@@ -31,16 +24,25 @@ function Award({ isEditable }) {
 
               {awards.map((award) => (
                 <AwardCard
-                  key={award.id}
+                  id={award._id}
+                  key={award._id}
                   title={award.title}
-                  body={award.body}
+                  description={award.description}
                   isEditable={isEditable}
-                  setIsAdding={setIsAdding}
+                  awards={awards}
+                  setAwards={setAwards}
                 />
               ))}
 
               <AwardAddButton setIsAdding={setIsAdding} />
-              {isAdding && <AwardAddForm setIsAdding={setIsAdding} />}
+
+              {isAdding && (
+                <AwardAddForm
+                  setIsAdding={setIsAdding}
+                  awards={awards}
+                  setAwards={setAwards}
+                />
+              )}
             </Card.Body>
           </Card>
         </Col>

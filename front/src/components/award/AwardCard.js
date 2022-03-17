@@ -1,23 +1,29 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Button, Row, Col, Card } from "react-bootstrap";
 import AwardEditForm from "./AwardEditForm";
-import * as Api from "../../api";
 
-function AwardCard({ isEditable, setIsAdding, title, body }) {
+function AwardCard({ id, isEditable, title, description, awards, setAwards }) {
   const [isEditing, setIsEditing] = useState(false);
 
   return (
     <Card.Text>
       <Row>
         {isEditing ? (
-          <AwardEditForm isEditing={isEditing} setIsEditing={setIsEditing} _title={title} _body={body} />
+          <AwardEditForm
+            id={id}
+            setIsEditing={setIsEditing}
+            _title={title}
+            _description={description}
+            awards={awards}
+            setAwards={setAwards}
+          />
         ) : (
           <>
             <Col>
               <span>{title}</span>
               <br />
-              <span className="text-muted">{body}</span>
+              <span className="text-muted">{description}</span>
             </Col>
             {isEditable && (
               <Col lg="1">

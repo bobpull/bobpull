@@ -1,38 +1,53 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Form, Button, Row, Col } from "react-bootstrap";
 import * as Api from "../../api";
-import axios from 'axios';
 
-function AwardAddForm({ setIsAdding }) {
+function AwardAddForm({ setIsAdding, awards, setAwards }) {
   const [title, setTitle] = useState("");
-  const [body, setBody] = useState("");
+  const [description, setDescription] = useState("");
 
   const handleTitleChange = (e) => {
     setTitle(e.target.value);
-  }
+  };
 
   const handleBodyChange = (e) => {
-    setBody(e.target.value);
-  }
+    setDescription(e.target.value);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await axios.post('https://jsonplaceholder.typicode.com/posts', {
-      title,
-      body
-    });
-    console.log(response.data);
-  }
+
+    try {
+      const response = await Api.post("award/create", {
+        title,
+        description,
+      });
+      setAwards([...awards, response.data]);
+      setIsAdding(false);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   return (
     <Form onSubmit={handleSubmit}>
       <Form.Group controlId="useAddTitle" className="mb-3">
-        <Form.Control type="text" placeholder="수상내역" value={title} onChange={handleTitleChange} />
+        <Form.Control
+          type="text"
+          placeholder="수상내역"
+          value={title}
+          onChange={handleTitleChange}
+        />
       </Form.Group>
 
       <Form.Group controlId="userAddContent" className="mb-3">
-        <Form.Control type="text" placeholder="상세내역" value={body} onChange={handleBodyChange} />
+        <Form.Control
+          type="text"
+          placeholder="상세내역"
+          value={description}
+          onChange={handleBodyChange}
+        />
       </Form.Group>
 
       <Form.Group as={Row} className="mt-3 text-center">
