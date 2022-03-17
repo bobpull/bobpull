@@ -6,10 +6,17 @@ import * as Api from "../../api";
 function CertificateAddForm({ setAddCertificate }) {
   const { certificates, setCertificates } = useContext(CertificatesContext);
 
+  // 자격증 추가 시 오늘 날짜를 defaultDate로 설정합니다.
+  const today = new Date();
+  const yyyy = today.getFullYear();
+  const mm = today.getMonth() + 1;
+  const dd = today.getDate();
+  const defaultDate = `${yyyy}-${mm < 10 ? "0" : ""}${mm}-${dd}`;
+
   // useState로 title 상태를 생성함.
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [date, setDate] = useState("");
+  const [date, setDate] = useState(defaultDate);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
