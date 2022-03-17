@@ -19,15 +19,14 @@ class userProjectService {
 
     return createdNewProject;
   }
+  
+  static async getProjectInfo({ _id }) {
+    const project = await Project.findById({ _id });
 
-  static async getUserInfo({ user_id }) {
-    const project = await Project.findByUserId({ user_id });
-    console.log(project);
-    
     // db에서 찾지 못한 경우, 에러 메시지 반환
     if (!project) {
       const errorMessage =
-        "유저가 존재하지 않습니다.";
+        "해당 프로젝트가 존재하지 않습니다.";
       return { errorMessage };
     }
 
@@ -73,30 +72,31 @@ class userProjectService {
     return project;
   }
 
-  static async getUserProject({ _id }) {
-    const project = await Project.findById({ _id });
-
-    // db에서 찾지 못한 경우, 에러 메시지 반환
-    if (!project) {
-      const errorMessage =
-        "해당 프로젝트가 존재하지 않습니다.";
-      return { errorMessage };
-    }
-
-    return project;
-  }
-
   static async getCurrentUserProject({ user_id }) {
     const projectList = await Project.findByUserId({ user_id });
-
+    
     // db에서 찾지 못한 경우, 에러 메시지 반환
     if (!projectList || projectList.length === 0) {
       const errorMessage =
-        "프로젝트가 존재하지 않습니다.";
+      "프로젝트가 존재하지 않습니다.";
       return { errorMessage };
     }
 
     return projectList;
+  }
+
+  static async getUserInfo({ user_id }) {
+    const project = await Project.findByUserId({ user_id });
+    console.log(project);
+    
+    // db에서 찾지 못한 경우, 에러 메시지 반환
+    if (!project) {
+      const errorMessage =
+      "유저가 존재하지 않습니다.";
+      return { errorMessage };
+    }
+    
+    return project;
   }
 }
 

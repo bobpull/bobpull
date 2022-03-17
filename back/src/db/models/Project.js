@@ -11,28 +11,29 @@ class Project {
     return project;
   }
 
-  static async findByUserId({ user_id }) {
-    const projectList = await ProjectModel.find({ user_id });
-    return projectList;
-  }
-
   static async findById({ _id }) {
     const project = await ProjectModel.findOne({ _id });
     return project;
   }
 
+  
   static async update({ _id, fieldToUpdate, newValue }) {
     const filter = { _id };
     const update = { [fieldToUpdate]: newValue };
     const option = { returnOriginal: false };
-
+    
     const updatedProject = await ProjectModel.findOneAndUpdate(
       filter,
       update,
       option
-    );
-    return updatedProject;
-  }
+      );
+      return updatedProject;
+    }
+    
+    static async findByUserId({ user_id }) {
+      const projectList = await ProjectModel.find({ user_id });
+      return projectList;
+    }
 }
 
 export { Project };
