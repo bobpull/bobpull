@@ -86,7 +86,7 @@ class userProjectService {
   }
 
   static async getCurrentUserProject({ user_id }) {
-    const projectList = await Project.findProjectByUserId({ user_id });
+    const projectList = await Project.findByUserId({ user_id });
 
     // db에서 찾지 못한 경우, 에러 메시지 반환
     if (!projectList || projectList.length === 0) {
