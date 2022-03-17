@@ -16,8 +16,14 @@ userAwardRouter.post(
         );
       }
 
+      const user_id = req.currentUserId;
+      const currentUserInfo = await userAwardService.getAwardInfo({ user_id });
+
+      if (currentUserInfo.errorMessage) {
+        throw new Error(currentUserInfo.errorMessage);
+      }
+
       // req (request)에서 데이터 가져오기
-      const user_id = req.body.user_id;
       const title = req.body.title;
       const description = req.body.description;
 
