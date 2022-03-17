@@ -4,14 +4,14 @@ import { v4 as uuidv4 } from "uuid";
 class userCertificateService {
   static async addCertificate({ user_id, title, description, when_date }) {
     // 자격증 중복 확인
-  const titleWithDiscription = await Certificate.findByTitleWithDescription({ title, description });
-  if (titleWithDiscription) {
+  const titleWithDescription = await Certificate.findByTitleWithDescription({ title, description, when_date });
+  if (titleWithDescription) {
     const errorMessage
       = "동일한 자격증을 중복으로 등록할 수 없습니다.";
-    return { errorMessage }
+    return { errorMessage };
   }
 
-    const newCertificate = { user_id, title, description };
+    const newCertificate = { user_id, title, description, when_date };
 
     // db에 저장
     const createdNewCertificate = await Certificate.create({ newCertificate });
