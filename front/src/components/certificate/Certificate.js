@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Card, Button } from "react-bootstrap";
 import CertificateEditForm from "./CertificateEditForm";
+import CertificateAddForm from "./CertificateAddForm";
 import CertificateCard from "./CertificateCard";
 import * as Api from "../../api";
 
@@ -37,7 +38,7 @@ function Certificate({ portfolioOwnerId }) {
         </Button>
 
         {addCertificate && (
-          <CertificateEditForm
+          <CertificateAddForm
             user={user}
             setAddCertificate={setAddCertificate}
             setIsEditing={setIsEditing}
