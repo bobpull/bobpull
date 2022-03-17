@@ -1,11 +1,11 @@
 import is from "@sindresorhus/is";
 import { Router } from "express";
 import { login_required } from "../middlewares/login_required";
-import { certificateAuthService } from "../services/certificateService";
+import { userCertificateService } from "../services/certificateService";
 
-const certificateAuthRouter = Router();
+const userCertificateRouter = Router();
 
-certificateAuthRouter.post(
+userCertificateRouter.post(
   "/certificate/create",
   login_required,
   async function (req, res, next) {
@@ -23,7 +23,7 @@ certificateAuthRouter.post(
       const when_date = req.body.when_date;
 
       // 위 데이터를 자격증 db에 추가하기
-      const newCertificate = await certificateAuthService.addCertificate({
+      const newCertificate = await userCertificateService.addCertificate({
         user_id,
         title,
         description,
@@ -41,13 +41,13 @@ certificateAuthRouter.post(
   }
 );
 
-certificateAuthRouter.get(
+userCertificateRouter.get(
   "/certificates/:id",
   login_required,
   async function(req, res, next) {
     try{
       const certificate_id = req.params.id;
-      const currentCertificateInfo = await certificateAuthService.getCertificateInfo({ certificate_id });
+      const currentCertificateInfo = await userCertificateService.getCertificateInfo({ certificate_id });
 
       if (currentCertificateInfo.errorMessage) {
         throw new Error(currentCertificateInfo.errorMessage);
@@ -60,7 +60,7 @@ certificateAuthRouter.get(
   }
 );
 
-certificateAuthRouter.put(
+userCertificateRouter.put(
   "/certificates/:id",
   login_required,
   async function(req, res, next) {
@@ -75,7 +75,7 @@ certificateAuthRouter.put(
       const toUpdate = {title, description, when_date};
 
       // 해당 certificate_di로 자격증 정보를 db에서 찾아 업데이트함. 업데이트 요소가 없을 시 생략함
-      const updatedCertificate = await certificateAuthService.setCertificate({ certificate_id, toUpdate });
+      const updatedCertificate = await userCertificateService.setCertificate({ certificate_id, toUpdate });
 
       if (updatedCertificate.errorMessage) {
         throw new Error(updatedCertificate.errorMessage);
@@ -87,13 +87,13 @@ certificateAuthRouter.put(
   }
 );
 
-certificateAuthRouter.get(
+userCertificateRouter.get(
   "/certificatelist/:user_id",
   login_required,
   async function (req, res, next) {
     try {
       const user_id = req.params.user_id;
-      const currentCertificatelistInfo = await certificateAuthService.getCertificatelistInfo({ user_id });
+      const currentCertificatelistInfo = await userCertificateService.getCertificatelistInfo({ user_id });
 
       if (currentCertificatelistInfo.errorMessage) {
         throw new Error(currentCertificatelistInfo.errorMessage);
@@ -106,4 +106,4 @@ certificateAuthRouter.get(
   }
 );
 
-export { certificateAuthRouter };
+export { userCertificateRouter };
