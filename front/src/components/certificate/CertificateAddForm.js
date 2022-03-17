@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Container, Col, Row, Form, Button } from "react-bootstrap";
 import * as Api from "../../api";
 
-function CertificateAddForm({ user, setIsEditing }) {
+function CertificateAddForm({ user, setAddCertificate }) {
   // useState로 title 상태를 생성함.
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -23,7 +23,7 @@ function CertificateAddForm({ user, setIsEditing }) {
       console.log(err);
     }
 
-    setIsEditing(false);
+    setAddCertificate(false);
   };
 
   return (
@@ -66,7 +66,10 @@ function CertificateAddForm({ user, setIsEditing }) {
                 <Button variant="primary" type="submit" className="me-3">
                   확인
                 </Button>
-                <Button variant="secondary" onClick={() => setIsEditing(false)}>
+                <Button
+                  variant="secondary"
+                  onClick={() => setAddCertificate(false)}
+                >
                   취소
                 </Button>
               </Col>
