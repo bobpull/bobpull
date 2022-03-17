@@ -10,11 +10,11 @@ const AddProject = ({setIsEditing, projects, setProjects}) => {
     to_date: "",
   })
   const validData = 
-    project.name && project.description && project.startDate && project.dueDate
+    project.title && project.description && project.from_date && project.to_date
   
   const onSubmit = async (e) => {
     e.preventDefault();
-    const res = await axios.post('/project/create', project)
+    const res = await axios.post('http://localhost:5001/project/create', project)
     setProjects(res.data)
     // setProjects([...projects,project])
     setIsEditing(false)
