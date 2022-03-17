@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import axios from "axios";
+import * as Api from "../../api";
 import { Form, Row, Col, Button } from 'react-bootstrap';
 
 const AddProject = ({setIsEditing, projects, setProjects}) => {
@@ -12,11 +12,11 @@ const AddProject = ({setIsEditing, projects, setProjects}) => {
   const validData = 
     project.title && project.description && project.from_date && project.to_date
   
-  const onSubmit = async (e) => {
+  const onSubmit = (e) => {
     e.preventDefault();
-    const res = await axios.post('http://localhost:5001/project/create', project)
-    setProjects(res.data)
-    // setProjects([...projects,project])
+    console.log(project)
+    Api.post("project/create", project)
+    setProjects([...projects, project])
     setIsEditing(false)
   }
   const onChange = (e) => {
@@ -54,7 +54,7 @@ const AddProject = ({setIsEditing, projects, setProjects}) => {
             type="date" 
             placeholder="시작일"
             name="from_date" 
-            value={project.startDate}
+            value={project.from_date}
             onChange={onChange}
           />
         </Col>
@@ -63,7 +63,7 @@ const AddProject = ({setIsEditing, projects, setProjects}) => {
             type="date" 
             placeholder="끝"
             name="to_date" 
-            value={project.dueDate}
+            value={project.to_date}
             onChange={onChange}
           />
         </Col>
