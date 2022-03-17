@@ -96,4 +96,4 @@ class userEducationService {
   }
 }
 
-export { userEducationService };s
+export { userEducationService };
