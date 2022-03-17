@@ -16,7 +16,7 @@ function CertificateCard({ certificate, isEditable }) {
           <span className="text-muted">{certificate.when_date}</span>
         </Col>
         {isEditable && (
-          <Col lg="1">
+          <Col className="col-lg-1">
             <Button
               className="mr-3"
               variant="outline-info"
