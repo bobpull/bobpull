@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
-import { Card, Button } from "react-bootstrap";
+import { Card, Row, Button } from "react-bootstrap";
 import CertificateEditForm from "./CertificateEditForm";
 import CertificateAddForm from "./CertificateAddForm";
 import CertificateCard from "./CertificateCard";
 import * as Api from "../../api";
 
-function Certificate({ portfolioOwnerId }) {
+function Certificate({ portfolioOwnerId, isEditable }) {
   const [isEditing, setIsEditing] = useState(false);
   const [addCertificate, setAddCertificate] = useState(false);
   const [certificates, setCertificates] = useState([]);
@@ -29,19 +29,24 @@ function Certificate({ portfolioOwnerId }) {
           <CertificateCard certificate={v} setIsEditing={setIsEditing} />
         ))}
 
-        <Button
-          onClick={() => {
-            setAddCertificate(true);
-          }}
-        >
-          +
-        </Button>
+        {isEditable && (
+          <Row className="mt-3 mb-4 text-center">
+            <Button
+              className="btn-primary"
+              size="sm"
+              onClick={() => {
+                setAddCertificate(true);
+              }}
+            >
+              +
+            </Button>
+          </Row>
+        )}
 
         {addCertificate && (
           <CertificateAddForm
             user={user}
             setAddCertificate={setAddCertificate}
-            setIsEditing={setIsEditing}
           />
         )}
       </Card.Body>
