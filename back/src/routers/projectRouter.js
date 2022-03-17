@@ -56,7 +56,7 @@ userProjectRouter.get(
   async function (req, res, next) {
     try {
       const _id = req.params.id;
-      const currentUserProject = await userProjectService.getUserProject({ _id });
+      const currentUserProject = await userProjectService.getProjectInfo({ _id });
   
       if (currentUserProject.errorMessage) {
         throw new Error(currentUserProject.errorMessage);
