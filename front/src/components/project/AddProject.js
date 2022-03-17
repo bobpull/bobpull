@@ -9,15 +9,19 @@ const AddProject = ({setIsEditing, projects, setProjects}) => {
     from_date: "",
     to_date: "",
   })
+
   const validData = 
     project.title && project.description && project.from_date && project.to_date
   
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
-    console.log(project)
-    Api.post("project/create", project)
-    setProjects([...projects, project])
-    setIsEditing(false)
+    try{
+      const res = await Api.post("project/create", project);
+      setProjects([...projects, res.data])
+      setIsEditing(false)
+    } catch(e) {
+      console.log(e)
+    }
   }
   const onChange = (e) => {
     const newProject = {
