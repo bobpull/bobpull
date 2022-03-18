@@ -22,12 +22,12 @@ function CertificateEditForm({ certificate, setIsEditing }) {
         when_date: date,
       });
 
-      const newCertificates = [...certificates].map((v) => {
-        if (v._id === _id) return res.data;
-        else return v;
+      setCertificates((cur) => {
+        cur.map((v) => {
+          if (v._id === _id) return res.data;
+          else return v;
+        });
       });
-
-      setCertificates(newCertificates);
     } catch (err) {
       console.log(err);
     }

@@ -28,7 +28,7 @@ function CertificateAddForm({ setAddCertificate }) {
         description: description,
         when_date: date,
       });
-      setCertificates([...certificates, res.data]);
+      setCertificates((cur) => [...cur, res.data]);
     } catch (err) {
       console.log(err);
     }

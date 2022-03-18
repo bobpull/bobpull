@@ -10,7 +10,7 @@ function CheckModal({ show, setShow, _id }) {
   async function handleDelete() {
     try {
       await Api.delete("certificates/" + _id);
-      setCertificates([...certificates].filter((v) => v._id !== _id));
+      setCertificates((cur) => cur.filter((v) => v._id !== _id));
     } catch (err) {
       console.log(err);
     }
