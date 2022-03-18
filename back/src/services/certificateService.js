@@ -67,7 +67,7 @@ class userCertificateService {
 
   static async getCertificatelistInfo({ user_id }) {
     const certificatelist = await Certificate.findByUserId({ user_id });
-
+    
     // db에서 찾지 못한 경우, 에러 메시지 반환
     if (!certificatelist || certificatelist.length === 0) {
       const errorMessage =
