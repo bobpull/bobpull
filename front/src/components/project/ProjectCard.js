@@ -6,13 +6,14 @@ import {Button, Card, Col, Row} from "react-bootstrap";
 import ProjectEditForm from "./ProjectEditForm";
 
 
-const ProjectCard = ({item, projects, setProjects, isEditable, fetchAPI }) => {
+const ProjectCard = ({item, dispatch, isEditable }) => {
   const [isEditForm, setIsEditForm] = useState(false)
 
-  const deleteHandler =  async () => {
+  const deleteHandler = async () => {
+    console.log(item._id)
     try{
-      const res = await Api.delete("projects", item._id)
-      fetchAPI()
+      await Api.delete("projects", item._id)
+      dispatch({type: 'delete-project', payload: `${item._id}` })
     } catch(e){
       console.error(e)
     }
@@ -23,10 +24,8 @@ const ProjectCard = ({item, projects, setProjects, isEditable, fetchAPI }) => {
         {isEditForm ? 
           <ProjectEditForm
             item={item}
-            projects={projects}
             setIsEditForm={setIsEditForm}
-            setProjects={setProjects}
-            fetchAPI={fetchAPI}
+            dispatch={dispatch}
           /> : 
           <>
             <Col sm="11">
@@ -40,6 +39,7 @@ const ProjectCard = ({item, projects, setProjects, isEditable, fetchAPI }) => {
                 {item.from_date} ~ {item.to_date}
               </Card.Text>
             </Col>
+
             <Col className="p-0 text-center">
             { isEditable && 
               <Col>
