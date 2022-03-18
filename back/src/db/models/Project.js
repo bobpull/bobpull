@@ -6,7 +6,7 @@ class Project {
     return createdNewProject;
   }
 
-  static async findByTitle({ title }) {
+  static async findByTitle({ user_id, title }) {
     const project = await ProjectModel.findOne({ user_id, title });
     return project;
   }
@@ -16,7 +16,16 @@ class Project {
     return project;
   }
 
-  
+  static async deleteById({ _id }) {
+    const project = await ProjectModel.deleteOne({ _id });
+    return project;
+  }
+
+  static async findAll() {
+    const project = await ProjectModel.find({});
+    return project;
+  }
+
   static async update({ _id, fieldToUpdate, newValue }) {
     const filter = { _id };
     const update = { [fieldToUpdate]: newValue };
