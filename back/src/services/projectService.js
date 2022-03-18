@@ -93,7 +93,7 @@ class userProjectService {
     return project;
   }
 
-  static async deleteUserProject({ _id }) {
+  static async deleteUserProject({ user_id, _id }) {
     const project = await Project.findById({ _id });
 
     // db에서 찾지 못한 경우, 에러 메시지 반환
@@ -105,11 +105,12 @@ class userProjectService {
     
     await Project.deleteById({ _id });
 
-    return ;
+    const projectList = await Project.findProjectByUserId({ user_id });
+    return projectList;
   }
 
   static async getCurrentUserProject({ user_id }) {
-    const projectList = await (await Project.findProjectByUserId({ user_id }));
+    const projectList = await Project.findProjectByUserId({ user_id });
 
     // db에서 찾지 못한 경우, 에러 메시지 반환
     if (!projectList || projectList.length === 0) {
