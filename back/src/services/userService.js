@@ -85,6 +85,15 @@ class userAuthService {
       return { errorMessage };
     }
 
+    
+    const email = toUpdate.email;
+    const alreadyExistEmail = await User.findByEmail({ email });
+    if (alreadyExistEmail) {
+      const errorMessage =
+        "이미 가입된 이메일입니다.";
+      return { errorMessage };
+    } 
+
     // 업데이트 대상에 name이 있다면, 즉 name 값이 null 이 아니라면 업데이트 진행
     if (toUpdate.name) {
       const fieldToUpdate = "name";
