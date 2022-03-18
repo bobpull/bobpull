@@ -15,8 +15,13 @@ const Project = ({portfolioOwnerId, isEditable}) => {
 
   // projects가 다른 파일에서 props로 전달되어 업데이트 됐을 때 호출하면 컴포넌트 렌더링 가능
   const fetchAPI = async () => {
-    const res = await Api.get("projectlist", portfolioOwnerId)
-    setProjects(res.data)
+    try{
+      const res = await Api.get("projectlist", portfolioOwnerId)
+      setProjects(res.data)
+    } catch(e){
+      // setProjects([])
+    }
+    
   }
   // get projects data
   useEffect(() => {
