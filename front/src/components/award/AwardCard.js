@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Button, Row, Col, Card } from "react-bootstrap";
 import AwardEditForm from "./AwardEditForm";
+import AwardDeleteModal from "./AwardDeleteModal";
 
 function AwardCard({ id, isEditable, title, description, awards, setAwards }) {
   const [isEditing, setIsEditing] = useState(false);
+  const [show, setShow] = useState(false);
 
   return (
     <Card.Text>
@@ -25,6 +27,7 @@ function AwardCard({ id, isEditable, title, description, awards, setAwards }) {
               <br />
               <span className="text-muted">{description}</span>
             </Col>
+
             {isEditable && (
               <Col lg="1">
                 <Button
@@ -34,6 +37,25 @@ function AwardCard({ id, isEditable, title, description, awards, setAwards }) {
                 >
                   편집
                 </Button>
+              </Col>
+            )}
+
+            {isEditable && (
+              <Col lg="1">
+                <Button
+                  variant="outline-danger"
+                  size="sm"
+                  onClick={() => setShow(true)}
+                >
+                  삭제
+                </Button>
+                <AwardDeleteModal
+                  show={show}
+                  onHide={() => setShow(false)}
+                  id={id}
+                  awards={awards}
+                  setAwards={setAwards}
+                />
               </Col>
             )}
           </>
