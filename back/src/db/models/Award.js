@@ -33,6 +33,11 @@ class Award {
     const awardlist = await AwardModel.find({ user_id });
     return awardlist;
   }
+
+  static async deleteById({ _id }) {
+    const award = await AwardModel.deleteOne({ _id });
+    return award;
+  }
 }
 
 export { Award };

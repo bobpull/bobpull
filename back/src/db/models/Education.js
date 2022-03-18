@@ -6,15 +6,14 @@ class Education {
     return createdNewEducation;
   }
 
-  static async findBySchoolMajorPosition({ school, major, position }) {
+  static async findBySchoolMajorPosition({ user_id, school, major, position }) {
     const schoolMajorPosition = await EducationModel.findOne({ user_id, school, major, position });
     return schoolMajorPosition;
   }
 
-  static async findByUserId({ _id }) {
-    const education = await EducationModel.find({ _id });
+  static async findByUserId({ user_id }) {
+    const education = await EducationModel.find({ user_id });
     return education;
-
   }
 
   static async findById({ _id }) {
@@ -33,6 +32,11 @@ class Education {
       option
     );
     return updatedEducation;
+  }
+
+  static async deleteById({ _id }) {
+    const education = await EducationModel.deleteOne({ _id });
+    return education;
   }
 }
 

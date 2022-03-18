@@ -32,7 +32,7 @@ class userAwardService {
     return award;
   }
 
-  static async setAward({ _id, toUpdate }) {
+  static async setAward({ user_id, _id, toUpdate }) {
     // 우선 해당 id의 award가 db에 존재하는지 여부 확인
     let award = await Award.findById({ _id });
 
@@ -43,16 +43,25 @@ class userAwardService {
       return { errorMessage };
     }
 
+    const title = toUpdate.title;
+    const description = toUpdate.description;
+    const titleWithDescription = await Award.findByTitleWithDescription({ user_id, title, description });
+    if (titleWithDescription) {
+      const errorMessage =
+        "동일한 수상 이력을 중복으로 등록할 수 없습니다.";
+      return { errorMessage }
+    }
+
     // 업데이트 대상에 title이 있다면, 즉 title 값이 null 이 아니라면 업데이트 진행
-    if (toUpdate.title) {
+    if (title) {
       const fieldToUpdate = "title";
-      const newValue = toUpdate.title;
+      const newValue = title;
       award = await Award.update({ _id, fieldToUpdate, newValue });
     }
 
-    if (toUpdate.description) {
+    if (description) {
       const fieldToUpdate = "description";
-      const newValue = toUpdate.description;
+      const newValue = description;
       award = await Award.update({ _id, fieldToUpdate, newValue });
     }
 
@@ -82,6 +91,19 @@ class userAwardService {
     }
 
     return user;
+  }
+
+  static async deleteUserAward({ _id }) {
+    const award = await Award.deleteById({ _id });
+
+    // db에서 찾지 못한 경우, 에러 메시지 반환
+    if (!award || award === null) {
+      const errorMessage =
+        "수상 이력이 없습니다. 다시 한 번 확인해 주세요.";
+      return { errorMessage };
+    }
+
+    return award;
   }
 }
 
