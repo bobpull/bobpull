@@ -69,6 +69,7 @@ userAwardRouter.put(
   login_required,
   async function (req, res, next) {
     try {
+      const user_id = req.currentUserId;
       const _id = req.params.id;
       const title = req.body.title ?? null;
       const description = req.body.description ?? null;
@@ -76,7 +77,7 @@ userAwardRouter.put(
       const toUpdate = { title, description };
 
       //해당 award_id로 수상이력 정보를 db에서 찾아 업데이트함. 업데이트 요소가 없을 시 생략함
-      const updatedAward = await userAwardService.setAward({ _id, toUpdate });
+      const updatedAward = await userAwardService.setAward({ user_id, _id, toUpdate });
 
       if (updatedAward.errorMessage) {
         throw new Error(updatedAward.errorMessage);

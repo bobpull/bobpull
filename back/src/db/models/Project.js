@@ -6,7 +6,7 @@ class Project {
     return createdNewProject;
   }
 
-  static async findByTitle({ title }) {
+  static async findByTitle({ user_id, title }) {
     const project = await ProjectModel.findOne({ user_id, title });
     return project;
   }

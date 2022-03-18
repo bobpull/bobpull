@@ -33,7 +33,7 @@ class userEducationService {
     return education;
   }
 
-  static async setEducation({ _id, toUpdate }) {
+  static async setEducation({ user_id, _id, toUpdate }) {
     // 우선 해당 id의 학력이 db에 존재하는지 여부 확인
     let education = await Education.findById({ _id });
 
@@ -47,7 +47,7 @@ class userEducationService {
     const school = toUpdate.school;
     const major = toUpdate.major;
     const position = toUpdate.position;
-    const schoolMajorPosition = await Education.findBySchoolMajorPosition({ school, major, position });
+    const schoolMajorPosition = await Education.findBySchoolMajorPosition({ user_id, school, major, position });
     if (schoolMajorPosition) {
       const errorMessage =
         "동일한 학력을 중복으로 등록할 수 없습니다.";
@@ -75,7 +75,7 @@ class userEducationService {
 
     return education;
   }
-  
+
   static async getUserInfo({ user_id }) {
     const user = await Education.findByUserId({ user_id });
 
@@ -88,9 +88,8 @@ class userEducationService {
 
     return user;
   }
-
   
-  static async setEducation({ _id, toUpdate }) {
+  static async setEducation({ user_id, _id, toUpdate }) {
     // 우선 해당 id의 학력이 db에 존재하는지 여부 확인
     let education = await Education.findById({ _id });
     
@@ -101,22 +100,32 @@ class userEducationService {
         return { errorMessage };
     }
     
+    const school = toUpdate.school;
+    const major = toUpdate.major;
+    const position = toUpdate.position;
+    const schoolMajorPosition = await Education.findBySchoolMajorPosition({ user_id, school, major, position });
+    if (schoolMajorPosition) {
+      const errorMessage =
+        "동일한 학력을 중복으로 등록할 수 없습니다.";
+      return { errorMessage };
+    }
+    
     // 업데이트 대상에 school 있다면, 즉 school 값이 null 이 아니라면 업데이트 진행
-    if (toUpdate.school) {
+    if (school) {
       const fieldToUpdate = "school";
-      const newValue = toUpdate.school;
+      const newValue = school;
       education = await Education.update({ _id, fieldToUpdate, newValue });
     }
     
-    if (toUpdate.major) {
+    if (major) {
       const fieldToUpdate = "major";
-      const newValue = toUpdate.major;
+      const newValue = major;
       education = await Education.update({ _id, fieldToUpdate, newValue });
     }
     
-    if (toUpdate.position) {
+    if (position) {
       const fieldToUpdate = "position";
-      const newValue = toUpdate.position;
+      const newValue = position;
       education = await Education.update({ _id, fieldToUpdate, newValue });
     }
     
