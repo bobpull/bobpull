@@ -36,24 +36,22 @@ function Certificate({ portfolioOwnerId, isEditable }) {
               isEditable={isEditable}
             />
           ))}
-        </CertificatesContext.Provider>
 
-        {isEditable && (
-          <Row className="mt-3 mb-4 text-center">
-            <Col className="col-sm-20">
-              <Button
-                className="btn-primary"
-                onClick={() => {
-                  setAddCertificate(true);
-                }}
-              >
-                +
-              </Button>
-            </Col>
-          </Row>
-        )}
+          {isEditable && (
+            <Row className="mt-3 mb-4 text-center">
+              <Col className="col-sm-20">
+                <Button
+                  className="btn-primary"
+                  onClick={() => {
+                    setAddCertificate(true);
+                  }}
+                >
+                  +
+                </Button>
+              </Col>
+            </Row>
+          )}
 
-        <CertificatesContext.Provider value={Certificates}>
           {addCertificate && (
             <CertificateAddForm setAddCertificate={setAddCertificate} />
           )}
