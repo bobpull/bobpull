@@ -19,8 +19,8 @@ class userCertificateService {
     return createdNewCertificate;
   }
 
-  static async getCertificateInfo({ certificate_id }) {
-    const certificate = await Certificate.findById({ certificate_id });
+  static async getCertificateInfo({ _id }) {
+    const certificate = await Certificate.findById({ _id });
 
     // db에서 찾지 못한 경우, 에러 메시지 반환
     if (!certificate) {
@@ -31,9 +31,9 @@ class userCertificateService {
     return certificate;
   }
 
-  static async setCertificate({ certificate_id, toUpdate }) {
+  static async setCertificate({ _id, toUpdate }) {
     // 우선 해당 id의 award가 db에 존재하는지 여부 확인
-    let certificate = await Certificate.findById({ certificate_id });
+    let certificate = await Certificate.findById({ _id });
 
     // db에서 찾지 못한 경우, 에러 메시지 반환
     if (!certificate) {
@@ -46,19 +46,19 @@ class userCertificateService {
     if (toUpdate.title) {
       const fieldToUpdate = "title";
       const newValue = toUpdate.title;
-      certificate = await Certificate.update({ certificate_id, fieldToUpdate, newValue });
+      certificate = await Certificate.update({ _id, fieldToUpdate, newValue });
     }
 
     if (toUpdate.description) {
       const fieldToUpdate = "description";
       const newValue = toUpdate.description;
-      certificate = await Certificate.update({ certificate_id, fieldToUpdate, newValue });
+      certificate = await Certificate.update({ _id, fieldToUpdate, newValue });
     }
 
     if (toUpdate.when_date) {
       const fieldToUpdate = "when_date";
       const newValue = toUpdate.when_date;
-      certificate = await Certificate.update({ certificate_id, fieldToUpdate, newValue });
+      certificate = await Certificate.update({ _id, fieldToUpdate, newValue });
     }
 
     return certificate;
