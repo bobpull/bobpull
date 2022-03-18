@@ -116,8 +116,5 @@ class userEducationService {
   }
 }
 
-<<<<<<< HEAD
 export { userEducationService };
-=======
-export { userEducationService };
->>>>>>> education-mvp-back
+
