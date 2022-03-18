@@ -76,8 +76,6 @@ function CertificateCard({ certificate, isEditable }) {
                     >
                       편집
                     </Button>
-                  </Col>
-                  <Col className="col-lg-1">
                     <Button
                       className="mr-3"
                       variant="outline-danger"
