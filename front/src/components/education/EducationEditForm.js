@@ -27,11 +27,23 @@ function EducationEditForm({
 
   const handlePositionChange = (e) => {
     setPosition(e.target.value);
-    console.log(e.target.value);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    try {
+      Api.put(`educations/${id}`, {
+        id,
+        school,
+        major,
+        position
+      });
+      setEducations(educations.map((education) => education._id === id ? { ...education, school, major, position } : education ));
+      setIsEditing(false);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (

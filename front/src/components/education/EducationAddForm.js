@@ -19,11 +19,22 @@ function EducationAddForm({ setIsAdding, educations, setEducations }) {
 
   const handlePositionChange = (e) => {
     setPosition(e.target.value);
-    console.log(e.target.value);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    try {
+      const response = await Api.post("education/create", {
+        school,
+        major,
+        position,
+      });
+      setEducations([...educations, response.data]);
+      setIsAdding(false);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (

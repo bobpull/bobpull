@@ -30,9 +30,9 @@ function EducationCard({
         ) : (
           <>
             <Col>
-              <span>서울대</span>
+              <span>{school}</span>
               <br />
-              <span className="text-muted">기계공학과 (학사졸업)</span>
+              <span className="text-muted">{major} ({position})</span>
             </Col>
             {isEditable && (
               <Col lg="1">

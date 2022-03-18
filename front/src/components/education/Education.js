@@ -9,6 +9,10 @@ function Education({ portfolioOwnerId, isEditable }) {
   const [isAdding, setIsAdding] = useState(false);
   const [educations, setEducations] = useState([]);
 
+  useEffect(() => {
+    Api.get("educationlist", portfolioOwnerId).then((res) => setEducations(res.data));
+  }, [portfolioOwnerId]);
+
   return (
     <>
       <Row>
@@ -17,7 +21,18 @@ function Education({ portfolioOwnerId, isEditable }) {
             <Card.Body>
               <Card.Title>학력</Card.Title>
 
-              <EducationCard isEditable={isEditable} />
+              {educations.map((education) => (
+                <EducationCard
+                  id={education._id}
+                  key={education._id}
+                  school={education.school}
+                  major={education.major}
+                  position={education.position}
+                  isEditable={isEditable}
+                  educations={educations}
+                  setEducations={setEducations}
+                />
+              ))}
 
               {isEditable && (
                 <Row className="mt-3 mb-3 text-center">
