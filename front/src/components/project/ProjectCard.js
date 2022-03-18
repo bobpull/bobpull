@@ -1,4 +1,5 @@
 import React, {useState} from "react"
+import * as Api from "../../api";
 import {Button, Card, Col, Row} from "react-bootstrap";
 
 
@@ -7,7 +8,15 @@ import ProjectEditForm from "./ProjectEditForm";
 
 const ProjectCard = ({item, projects, setProjects, isEditable, fetchAPI }) => {
   const [isEditForm, setIsEditForm] = useState(false)
-  
+
+  const deleteHandler =  async () => {
+    try{
+      const res = await Api.delete("projects", item._id)
+      fetchAPI()
+    } catch(e){
+      console.error(e)
+    }
+  }
   return (
     <Card className="mb-3" style={{textAlign: "left", border: "none"}} >
       <Row>
@@ -28,15 +37,24 @@ const ProjectCard = ({item, projects, setProjects, isEditable, fetchAPI }) => {
                 {item.description}
               </Card.Text>
               <Card.Text className="text-muted mb-2">
-                {item.from_date.toString().substr(0,10)} ~ {item.to_date.toString().substr(0,10)}
+                {item.from_date} ~ {item.to_date}
               </Card.Text>
             </Col>
             <Col className="p-0 text-center">
-            { isEditable && <Button
-              variant="outline-info"
-              size="sm"
-              onClick={() => setIsEditForm(true)}
-            >편집</Button>}
+            { isEditable && 
+              <Col>
+                <Button
+                  variant="outline-info"
+                  size="sm"
+                  onClick={() => setIsEditForm(true)}
+                >편집</Button>
+                <Button
+                  variant="outline-danger"
+                  size="sm"
+                  onClick={deleteHandler}
+                >삭제</Button>
+              </Col>
+            }
             </Col>
           </>
         }
