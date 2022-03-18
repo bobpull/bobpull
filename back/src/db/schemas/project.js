@@ -16,11 +16,11 @@ const ProjectSchema = new Schema(
     },
     from_date: {
         type: Date,
-        required: false,
+        required: true,
     },
     to_date: {
         type: Date,
-        required: false,
+        required: true,
     },
   },
   {
