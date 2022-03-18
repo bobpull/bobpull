@@ -97,8 +97,8 @@ userCertificateRouter.get(
   login_required,
   async function (req, res, next) {
     try {
-      const _id = req.params.user_id;
-      const currentCertificatelistInfo = await userCertificateService.getCertificatelistInfo({ _id });
+      const user_id = req.params.user_id;
+      const currentCertificatelistInfo = await userCertificateService.getCertificatelistInfo({ user_id });
 
       if (currentCertificatelistInfo.errorMessage) {
         throw new Error(currentCertificatelistInfo.errorMessage);
