@@ -1,7 +1,4 @@
 import { Education } from "../db"; // from을 폴더(db) 로 설정 시, 디폴트로 index.js 로부터 import함.
-import bcrypt from "bcrypt";
-import { v4 as uuidv4 } from "uuid";
-import jwt from "jsonwebtoken";
 
 class userEducationService {
   static async addEducation({ user_id, school, major, position }) {
@@ -46,23 +43,33 @@ class userEducationService {
         "존재하지 않는 학력 정보입니다.";
       return { errorMessage };
     }
+    
+    const school = toUpdate.school;
+    const major = toUpdate.major;
+    const position = toUpdate.position;
+    const schoolMajorPosition = await Education.findBySchoolMajorPosition({ school, major, position });
+    if (schoolMajorPosition) {
+      const errorMessage =
+        "동일한 학력을 중복으로 등록할 수 없습니다.";
+      return { errorMessage };
+    }
 
     // 업데이트 대상에 school 있다면, 즉 school 값이 null 이 아니라면 업데이트 진행
-    if (toUpdate.school) {
+    if (school) {
       const fieldToUpdate = "school";
-      const newValue = toUpdate.school;
+      const newValue = school;
       education = await Education.update({ _id, fieldToUpdate, newValue });
     }
 
-    if (toUpdate.major) {
+    if (major) {
       const fieldToUpdate = "major";
-      const newValue = toUpdate.major;
+      const newValue = major;
       education = await Education.update({ _id, fieldToUpdate, newValue });
     }
 
-    if (toUpdate.position) {
+    if (position) {
       const fieldToUpdate = "position";
-      const newValue = toUpdate.position;
+      const newValue = position;
       education = await Education.update({ _id, fieldToUpdate, newValue });
     }
 
@@ -94,6 +101,23 @@ class userEducationService {
 
     return educationList;
   }
+
+  static async deleteUserEducation({ _id }) {
+    const education = await Education.deleteById({ _id });
+
+    // db에서 찾지 못한 경우, 에러 메시지 반환
+    if (!education || education === null) {
+      const errorMessage =
+        "학력 정보가 존재하지 않습니다.";
+      return { errorMessage };
+    }
+
+    return education;
+  }
 }
 
+<<<<<<< HEAD
 export { userEducationService };
+=======
+export { userEducationService };
+>>>>>>> education-mvp-back
