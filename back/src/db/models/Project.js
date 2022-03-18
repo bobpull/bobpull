@@ -26,6 +26,11 @@ class Project {
     return project;
   }
 
+  static async deleteById({ _id }) {
+    const project = await ProjectModel.deleteOne({ _id });
+    return project;
+  }
+
   static async findAll() {
     const project = await ProjectModel.find({});
     return project;
