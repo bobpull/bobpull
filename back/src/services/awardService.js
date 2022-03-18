@@ -1,10 +1,9 @@
 import { Award } from "../db";
-import { v4 as uuidv4 } from "uuid";
 
 class userAwardService {
   static async addAward({ user_id, title, description }) {
     // 수상 이력 중복 확인
-    const titleWithDescription = await Award.findByTitleWithDescription({ title, description });
+    const titleWithDescription = await Award.findByTitleWithDescription({ user_id, title, description });
     if (titleWithDescription) {
       const errorMessage =
         "동일한 수상 이력을 중복으로 등록할 수 없습니다.";
@@ -20,8 +19,8 @@ class userAwardService {
     return createdNewAward;
   }
 
-  static async getAwardInfo({ award_id }) {
-    const award = await Award.findById({ award_id })
+  static async getAwardInfo({ _id }) {
+    const award = await Award.findById({ _id })
 
     // db에서 찾지 못한 경우, 에러 메시지 반환
     if (!award) {
@@ -33,9 +32,9 @@ class userAwardService {
     return award;
   }
 
-  static async setAward({ award_id, toUpdate }) {
+  static async setAward({ _id, toUpdate }) {
     // 우선 해당 id의 award가 db에 존재하는지 여부 확인
-    let award = await Award.findById({ award_id });
+    let award = await Award.findById({ _id });
 
     // db에서 찾지 못한 경우, 에러 메시지 반환
     if (!award) {
@@ -48,13 +47,13 @@ class userAwardService {
     if (toUpdate.title) {
       const fieldToUpdate = "title";
       const newValue = toUpdate.title;
-      award = await Award.update({ award_id, fieldToUpdate, newValue });
+      award = await Award.update({ _id, fieldToUpdate, newValue });
     }
 
     if (toUpdate.description) {
       const fieldToUpdate = "description";
       const newValue = toUpdate.description;
-      award = await Award.update({ award_id, fieldToUpdate, newValue });
+      award = await Award.update({ _id, fieldToUpdate, newValue });
     }
 
     return award;

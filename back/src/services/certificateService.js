@@ -4,10 +4,10 @@ import { v4 as uuidv4 } from "uuid";
 class userCertificateService {
   static async addCertificate({ user_id, title, description, when_date }) {
     // 자격증 중복 확인
-  const titleWithDescription = await Certificate.findByTitleWithDescription({ title, description, when_date });
+  const titleWithDescription = await Certificate.findByTitleWithDescription({ user_id, title, description });
   if (titleWithDescription) {
     const errorMessage
-      = "동일한 자격증을 중복으로 등록할 수 없습니다.";
+      = "동일한 자격증과 내용을 중복으로 등록할 수 없습니다.";
     return { errorMessage };
   }
 
@@ -20,8 +20,8 @@ class userCertificateService {
     return createdNewCertificate;
   }
 
-  static async getCertificateInfo({ certificate_id }) {
-    const certificate = await Certificate.findById({ certificate_id });
+  static async getCertificateInfo({ _id }) {
+    const certificate = await Certificate.findById({ _id });
 
     // db에서 찾지 못한 경우, 에러 메시지 반환
     if (!certificate) {
@@ -32,9 +32,9 @@ class userCertificateService {
     return certificate;
   }
 
-  static async setCertificate({ certificate_id, toUpdate }) {
+  static async setCertificate({ _id, toUpdate }) {
     // 우선 해당 id의 award가 db에 존재하는지 여부 확인
-    let certificate = await Certificate.findById({ certificate_id });
+    let certificate = await Certificate.findById({ _id });
 
     // db에서 찾지 못한 경우, 에러 메시지 반환
     if (!certificate) {
@@ -47,19 +47,19 @@ class userCertificateService {
     if (toUpdate.title) {
       const fieldToUpdate = "title";
       const newValue = toUpdate.title;
-      certificate = await Certificate.update({ certificate_id, fieldToUpdate, newValue });
+      certificate = await Certificate.update({ _id, fieldToUpdate, newValue });
     }
 
     if (toUpdate.description) {
       const fieldToUpdate = "description";
       const newValue = toUpdate.description;
-      certificate = await Certificate.update({ certificate_id, fieldToUpdate, newValue });
+      certificate = await Certificate.update({ _id, fieldToUpdate, newValue });
     }
 
     if (toUpdate.when_date) {
       const fieldToUpdate = "when_date";
       const newValue = toUpdate.when_date;
-      certificate = await Certificate.update({ certificate_id, fieldToUpdate, newValue });
+      certificate = await Certificate.update({ _id, fieldToUpdate, newValue });
     }
 
     return certificate;
