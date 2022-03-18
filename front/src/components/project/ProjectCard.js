@@ -10,7 +10,6 @@ const ProjectCard = ({item, dispatch, isEditable }) => {
   const [isEditForm, setIsEditForm] = useState(false)
 
   const deleteHandler = async () => {
-    console.log(item._id)
     try{
       await Api.delete("projects", item._id)
       dispatch({type: 'delete-project', payload: `${item._id}` })
