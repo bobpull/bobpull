@@ -20,7 +20,6 @@ function Certificate({ portfolioOwnerId, isEditable }) {
       })
       .catch((err) => {
         setCertificates([]);
-        console.log(err);
       });
   }, [portfolioOwnerId]);
 
@@ -31,7 +30,11 @@ function Certificate({ portfolioOwnerId, isEditable }) {
 
         <CertificatesContext.Provider value={Certificates}>
           {certificates.map((v) => (
-            <CertificateCard certificate={v} isEditable={isEditable} />
+            <CertificateCard
+              key={v._id}
+              certificate={v}
+              isEditable={isEditable}
+            />
           ))}
         </CertificatesContext.Provider>
 
