@@ -11,6 +11,11 @@ class User {
     return user;
   }
 
+  static async deleteById({ _id }) {
+    const user = await UserModel.deleteOne({ _id });
+    return user;
+  }
+
   static async findById({ user_id }) {
     const user = await UserModel.findOne({ id: user_id });
     return user;
