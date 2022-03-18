@@ -6,23 +6,18 @@ class Project {
     return createdNewProject;
   }
 
-  static async findByTitle({ title }) {
-    const project = await ProjectModel.findOne({ title });
-    return project;
-  }
-
-  static async findByUserId({ user_id }) {
-    const project = await ProjectModel.findOne({ user_id });
-    return project;
-  }
-
-  static async findProjectByUserId({ user_id }) {
-    const project = await ProjectModel.find({ user_id });
+  static async findByTitle({ user_id, title }) {
+    const project = await ProjectModel.findOne({ user_id, title });
     return project;
   }
 
   static async findById({ _id }) {
     const project = await ProjectModel.findOne({ _id });
+    return project;
+  }
+
+  static async deleteById({ _id }) {
+    const project = await ProjectModel.deleteOne({ _id });
     return project;
   }
 
@@ -35,14 +30,19 @@ class Project {
     const filter = { _id };
     const update = { [fieldToUpdate]: newValue };
     const option = { returnOriginal: false };
-
+    
     const updatedProject = await ProjectModel.findOneAndUpdate(
       filter,
       update,
       option
-    );
-    return updatedProject;
-  }
+      );
+      return updatedProject;
+    }
+    
+    static async findByUserId({ user_id }) {
+      const projectList = await ProjectModel.find({ user_id });
+      return projectList;
+    }
 }
 
 export { Project };

@@ -71,6 +71,7 @@ userEducationRouter.put(
   async function (req, res, next) {
     try {
       // URI로부터 education id를 추출함.
+      const user_id = req.currentUserId;
       const _id = req.params.id;
       // body data 로부터 업데이트할 education 정보를 추출함.
       const school = req.body.school ?? null;
@@ -80,7 +81,7 @@ userEducationRouter.put(
       const toUpdate = { school, major, position };
 
       // 해당 education 아이디로 education 정보를 db에서 찾아 업데이트함. 업데이트 요소가 없을 시 생략함
-      const updatedEducation = await userEducationService.setEducation({ _id, toUpdate });
+      const updatedEducation = await userEducationService.setEducation({ user_id, _id, toUpdate });
 
       if (updatedEducation.errorMessage) {
         throw new Error(updatedEducation.errorMessage);
@@ -106,6 +107,25 @@ userEducationRouter.get(
       }
 
       res.status(200).send(currentUserEducation);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+userEducationRouter.delete(
+  "/educations/:id",
+  login_required,
+  async function (req, res, next) {
+    try {
+      const _id = req.params.id;
+      const deletedEducation = await userEducationService.deleteUserEducation({ _id });
+  
+      if (deletedEducation.errorMessage) {
+        throw new Error(deletedEducation.errorMessage);
+      }
+  
+      res.status(204).send();
     } catch (error) {
       next(error);
     }
