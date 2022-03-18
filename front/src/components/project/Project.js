@@ -19,7 +19,7 @@ const Project = ({portfolioOwnerId, isEditable}) => {
       const res = await Api.get("projectlist", portfolioOwnerId)
       setProjects(res.data)
     } catch(e){
-      // setProjects([])
+      setProjects([])
     }
     
   }
