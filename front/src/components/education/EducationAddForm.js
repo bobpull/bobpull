@@ -30,7 +30,11 @@ function EducationAddForm({ setIsAdding, educations, setEducations }) {
         major,
         position,
       });
-      setEducations([...educations, response.data]);
+      setEducations((current) => {
+        const newEducations = [...current];
+        newEducations.push(response.data);
+        return newEducations;
+      });
       setIsAdding(false);
     } catch (err) {
       console.error(err);
@@ -45,6 +49,7 @@ function EducationAddForm({ setIsAdding, educations, setEducations }) {
           placeholder="학교 이름"
           value={school}
           onChange={handleSchoolChange}
+          required
         />
       </Form.Group>
 
@@ -54,10 +59,11 @@ function EducationAddForm({ setIsAdding, educations, setEducations }) {
           placeholder="전공"
           value={major}
           onChange={handleMajorChange}
+          required
         />
       </Form.Group>
 
-      <Form.Group controlId="userAddPosition" className="mb-3">
+      <Form.Group controlId="userAddPosition">
         {posName.map((pos) => (
           <Form.Check
             inline
@@ -70,6 +76,7 @@ function EducationAddForm({ setIsAdding, educations, setEducations }) {
           />
         ))}
       </Form.Group>
+      {position === "" ? <span style={{color: "red", fontSize: "12px"}}>학위를 선택해주세요</span> : ""}
 
       <Form.Group as={Row} className="mt-3 text-center">
         <Col sm={{ span: 20 }}>

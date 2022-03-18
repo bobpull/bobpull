@@ -54,6 +54,7 @@ function EducationEditForm({
             type="text"
             value={school}
             onChange={handleSchoolChange}
+            required
           />
         </Form.Group>
 
@@ -62,6 +63,7 @@ function EducationEditForm({
             type="text"
             value={major}
             onChange={handleMajorChange}
+            required
           />
         </Form.Group>
 
