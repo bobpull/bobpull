@@ -121,15 +121,15 @@ userProjectRouter.delete(
   login_required,
   async function (req, res, next) {
     try {
-      const user_id = req.currentUserId;
       const _id = req.params.id;
-      const deletedProject = await userProjectService.deleteUserProject({ user_id ,_id });
+      const { title } = await userProjectService.getUserProject({ _id });
+      const deletedProject = await userProjectService.deleteUserProject({ _id });
   
       if (deletedProject.errorMessage) {
         throw new Error(deletedProject.errorMessage);
       }
   
-      res.status(204);
+      res.status(204).send();
     } catch (error) {
       next(error);
     }
