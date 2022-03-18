@@ -1,9 +1,8 @@
 import React, { useState, useEffect, createContext, useContext } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Row, Col, Card } from "react-bootstrap";
+import { Row, Col, Card, Button } from "react-bootstrap";
 import AwardAddForm from "./AwardAddForm";
 import AwardCard from "./AwardCard";
-import AwardAddButton from "./AwardAddButton";
 import * as Api from "../../api";
 
 function Award({ portfolioOwnerId, isEditable }) {
@@ -34,7 +33,15 @@ function Award({ portfolioOwnerId, isEditable }) {
                 />
               ))}
 
-              {isEditable && <AwardAddButton setIsAdding={setIsAdding} />}
+              {isEditable && (
+                <Row className="mt-3 mb-3 text-center">
+                  <Col>
+                    <Button variant="primary" onClick={() => setIsAdding(true)}>
+                      +
+                    </Button>
+                  </Col>
+                </Row>
+              )}
 
               {isAdding && (
                 <AwardAddForm

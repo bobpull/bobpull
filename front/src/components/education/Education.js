@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Row, Col, Card } from "react-bootstrap";
+import { Row, Col, Card, Button } from "react-bootstrap";
 import EducationCard from "./EducationCard";
-import EducationAddButton from './EducationAddButton';
-import EducationAddForm from './EducationAddForm';
+import EducationAddForm from "./EducationAddForm";
 import * as Api from "../../api";
 
 function Education({ portfolioOwnerId, isEditable }) {
@@ -20,14 +19,17 @@ function Education({ portfolioOwnerId, isEditable }) {
 
               <EducationCard isEditable={isEditable} />
 
-              {isEditable && <EducationAddButton setIsAdding={setIsAdding} />}
-
-              {isAdding && (
-                <EducationAddForm
-                  setIsAdding={setIsAdding}
-                />
+              {isEditable && (
+                <Row className="mt-3 mb-3 text-center">
+                  <Col>
+                    <Button variant="primary" onClick={() => setIsAdding(true)}>
+                      +
+                    </Button>
+                  </Col>
+                </Row>
               )}
 
+              {isAdding && <EducationAddForm setIsAdding={setIsAdding} />}
             </Card.Body>
           </Card>
         </Col>
