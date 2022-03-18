@@ -124,7 +124,7 @@ userEducationRouter.delete(
         throw new Error(deletedEducation.errorMessage);
       }
   
-      res.status(204);
+      res.status(204).send();
     } catch (error) {
       next(error);
     }

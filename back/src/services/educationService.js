@@ -93,18 +93,16 @@ class userEducationService {
   }
 
   static async deleteUserEducation({ _id }) {
-    const education = await Education.findById({ _id });
+    const education = await Education.deleteById({ _id });
 
     // db에서 찾지 못한 경우, 에러 메시지 반환
-    if (!education) {
+    if (!education || education === null) {
       const errorMessage =
-        "해당 학력이 존재하지 않습니다.";
+        "학력 정보가 존재하지 않습니다.";
       return { errorMessage };
     }
-    
-    await Education.deleteById({ _id });
 
-    return ;
+    return education;
   }
 }
 
