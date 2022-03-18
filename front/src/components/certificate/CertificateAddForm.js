@@ -48,6 +48,7 @@ function CertificateAddForm({ setAddCertificate }) {
                 className="mt-3"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
+                required
               ></Form.Control>
             </Form.Group>
 
@@ -58,6 +59,7 @@ function CertificateAddForm({ setAddCertificate }) {
                 className="mt-3"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
+                required
               ></Form.Control>
             </Form.Group>
 
@@ -67,6 +69,7 @@ function CertificateAddForm({ setAddCertificate }) {
                 className="mt-3"
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
+                required
               ></Form.Control>
             </Form.Group>
 
