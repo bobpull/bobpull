@@ -37,7 +37,7 @@ function CertificateEditForm({ certificate, setIsEditing }) {
 
   return (
     <Container>
-      <Row className="justify-content-md-center">
+      <Row className="justify-content-md-center mb-3">
         <Col>
           <Form onSubmit={handleSubmit}>
             <Form.Group controlId="certificateEditTitle">
