@@ -7,13 +7,14 @@ class Education {
   }
 
   static async findBySchoolMajorPosition({ school, major, position }) {
-    const schoolMajorPosition = await EducationModel.findOne({ school, major, position });
+    const schoolMajorPosition = await EducationModel.findOne({ user_id, school, major, position });
     return schoolMajorPosition;
   }
 
-  static async findByUserId({ user_id }) {
-    const education = await EducationModel.find({ user_id });
+  static async findByUserId({ _id }) {
+    const education = await EducationModel.find({ _id });
     return education;
+
   }
 
   static async findById({ _id }) {

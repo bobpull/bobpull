@@ -3,7 +3,7 @@ import { Project } from "../db"; // from을 폴더(db) 로 설정 시, 디폴트
 class userProjectService {
   static async addProject({ user_id, title, description, from_date, to_date }) {
     // title 중복 확인
-    const isTitle = await Project.findByTitle({ title });
+    const isTitle = await Project.findByTitle({ user_id, title });
     if (isTitle) {
       const errorMessage =
         "이 프로젝트는 이미 존재합니다.";
@@ -19,18 +19,18 @@ class userProjectService {
 
     return createdNewProject;
   }
-
-  static async getUserInfo({ user_id }) {
-    const user = await Project.findByUserId({ user_id });
+  
+  static async getProjectInfo({ _id }) {
+    const project = await Project.findById({ _id });
 
     // db에서 찾지 못한 경우, 에러 메시지 반환
-    if (!user) {
+    if (!project) {
       const errorMessage =
-        "유저가 존재하지 않습니다.";
+        "해당 프로젝트가 존재하지 않습니다.";
       return { errorMessage };
     }
 
-    return user;
+    return project;
   }
 
   static async setProject({ _id, toUpdate }) {
@@ -72,30 +72,31 @@ class userProjectService {
     return project;
   }
 
-  static async getUserProject({ _id }) {
-    const project = await Project.findById({ _id });
-
-    // db에서 찾지 못한 경우, 에러 메시지 반환
-    if (!project) {
-      const errorMessage =
-        "해당 프로젝트가 존재하지 않습니다.";
-      return { errorMessage };
-    }
-
-    return project;
-  }
-
   static async getCurrentUserProject({ user_id }) {
     const projectList = await Project.findByUserId({ user_id });
-
+    
     // db에서 찾지 못한 경우, 에러 메시지 반환
     if (!projectList || projectList.length === 0) {
       const errorMessage =
-        "프로젝트가 존재하지 않습니다.";
+      "프로젝트가 존재하지 않습니다.";
       return { errorMessage };
     }
 
     return projectList;
+  }
+
+  static async getUserInfo({ user_id }) {
+    const project = await Project.findByUserId({ user_id });
+    console.log(project);
+    
+    // db에서 찾지 못한 경우, 에러 메시지 반환
+    if (!project) {
+      const errorMessage =
+      "유저가 존재하지 않습니다.";
+      return { errorMessage };
+    }
+    
+    return project;
   }
 }
 
