@@ -122,14 +122,13 @@ userProjectRouter.delete(
   async function (req, res, next) {
     try {
       const _id = req.params.id;
-      const { title } = await userProjectService.getUserProject({ _id });
       const deletedProject = await userProjectService.deleteUserProject({ _id });
   
       if (deletedProject.errorMessage) {
         throw new Error(deletedProject.errorMessage);
       }
   
-      res.status(200).send(`${title}이/가 삭제되었습니다.`);
+      res.status(204);
     } catch (error) {
       next(error);
     }
