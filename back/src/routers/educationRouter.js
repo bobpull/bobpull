@@ -112,4 +112,23 @@ userEducationRouter.get(
   }
 );
 
+userEducationRouter.delete(
+  "/educations/:id",
+  login_required,
+  async function (req, res, next) {
+    try {
+      const _id = req.params.id;
+      const deletedEducation = await userEducationService.deleteUserEducation({ _id });
+  
+      if (deletedEducation.errorMessage) {
+        throw new Error(deletedEducation.errorMessage);
+      }
+  
+      res.status(204);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
 export { userEducationRouter };

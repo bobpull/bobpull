@@ -1,7 +1,4 @@
 import { Education } from "../db"; // from을 폴더(db) 로 설정 시, 디폴트로 index.js 로부터 import함.
-import bcrypt from "bcrypt";
-import { v4 as uuidv4 } from "uuid";
-import jwt from "jsonwebtoken";
 
 class userEducationService {
   static async addEducation({ user_id, school, major, position }) {
@@ -94,6 +91,21 @@ class userEducationService {
 
     return educationList;
   }
+
+  static async deleteUserEducation({ _id }) {
+    const education = await Education.findById({ _id });
+
+    // db에서 찾지 못한 경우, 에러 메시지 반환
+    if (!education) {
+      const errorMessage =
+        "해당 학력이 존재하지 않습니다.";
+      return { errorMessage };
+    }
+    
+    await Education.deleteById({ _id });
+
+    return ;
+  }
 }
 
-export { userEducationService };s
+export { userEducationService };
