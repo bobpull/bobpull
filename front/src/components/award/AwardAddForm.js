@@ -42,6 +42,7 @@ function AwardAddForm({ setIsAdding, awards, setAwards }) {
           placeholder="수상내역"
           value={title}
           onChange={handleTitleChange}
+          required
         />
       </Form.Group>
 
@@ -51,6 +52,7 @@ function AwardAddForm({ setIsAdding, awards, setAwards }) {
           placeholder="상세내역"
           value={description}
           onChange={handleDescriptionChange}
+          required
         />
       </Form.Group>
 

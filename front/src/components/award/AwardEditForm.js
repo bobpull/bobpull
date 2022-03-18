@@ -46,6 +46,7 @@ function AwardEditForm({
             type="text"
             value={title}
             onChange={handleTitleChange}
+            required
           />
         </Form.Group>
 
@@ -54,6 +55,7 @@ function AwardEditForm({
             type="text"
             value={description}
             onChange={handleDescriptionChange}
+            required
           />
         </Form.Group>
 
