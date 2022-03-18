@@ -11,7 +11,7 @@ function AwardAddForm({ setIsAdding, awards, setAwards }) {
     setTitle(e.target.value);
   };
 
-  const handleBodyChange = (e) => {
+  const handleDescriptionChange = (e) => {
     setDescription(e.target.value);
   };
 
@@ -41,12 +41,12 @@ function AwardAddForm({ setIsAdding, awards, setAwards }) {
         />
       </Form.Group>
 
-      <Form.Group controlId="userAddContent" className="mb-3">
+      <Form.Group controlId="userAddDescription" className="mb-3">
         <Form.Control
           type="text"
           placeholder="상세내역"
           value={description}
-          onChange={handleBodyChange}
+          onChange={handleDescriptionChange}
         />
       </Form.Group>
 

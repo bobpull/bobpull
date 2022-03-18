@@ -29,7 +29,13 @@ function Education({ portfolioOwnerId, isEditable }) {
                 </Row>
               )}
 
-              {isAdding && <EducationAddForm setIsAdding={setIsAdding} />}
+              {isAdding && (
+                <EducationAddForm
+                  setIsAdding={setIsAdding}
+                  educations={educations}
+                  setEducations={setEducations}
+                />
+              )}
             </Card.Body>
           </Card>
         </Col>

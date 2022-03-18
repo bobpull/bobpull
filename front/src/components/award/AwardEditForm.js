@@ -18,7 +18,7 @@ function AwardEditForm({
     setTitle(e.target.value);
   };
 
-  const handleBodyChange = (e) => {
+  const handleDescriptionChange = (e) => {
     setDescription(e.target.value);
   };
 
@@ -49,11 +49,11 @@ function AwardEditForm({
           />
         </Form.Group>
 
-        <Form.Group controlId="userEditContent" className="mb-3">
+        <Form.Group controlId="userEditDescription" className="mb-3">
           <Form.Control
             type="text"
             value={description}
-            onChange={handleBodyChange}
+            onChange={handleDescriptionChange}
           />
         </Form.Group>
 

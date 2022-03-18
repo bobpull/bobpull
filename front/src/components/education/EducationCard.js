@@ -6,10 +6,11 @@ import EducationEditForm from "./EducationEditForm";
 function EducationCard({
   id,
   isEditable,
-  title,
-  description,
-  awards,
-  setAwards,
+  school,
+  major,
+  position,
+  educations,
+  setEducations,
 }) {
   const [isEditing, setIsEditing] = useState(false);
 
@@ -20,10 +21,11 @@ function EducationCard({
           <EducationEditForm
             id={id}
             setIsEditing={setIsEditing}
-            _title={title}
-            _description={description}
-            awards={awards}
-            setAwards={setAwards}
+            _school={school}
+            _major={major}
+            _position={position}
+            educations={educations}
+            setEducations={setEducations}
           />
         ) : (
           <>
