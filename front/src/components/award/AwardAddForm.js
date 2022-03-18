@@ -23,7 +23,11 @@ function AwardAddForm({ setIsAdding, awards, setAwards }) {
         title,
         description,
       });
-      setAwards([...awards, response.data]);
+      setAwards((current) => {
+        const newAwards = [...current];
+        newAwards.push(response.data);
+        return newAwards;
+      });
       setIsAdding(false);
     } catch (err) {
       console.error(err);
