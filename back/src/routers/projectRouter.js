@@ -56,7 +56,7 @@ userProjectRouter.get(
   async function (req, res, next) {
     try {
       const _id = req.params.id;
-      const currentUserProject = await userProjectService.getUserProject({ _id });
+      const currentUserProject = await userProjectService.getProjectInfo({ _id });
   
       if (currentUserProject.errorMessage) {
         throw new Error(currentUserProject.errorMessage);
@@ -74,7 +74,8 @@ userProjectRouter.put(
   login_required,
   async function (req, res, next) {
     try {
-      // body data 로부터 업데이트할 프로젝트 정보를 추출함.
+      // URI, body data 로부터 업데이트할 프로젝트 정보를 추출함.
+      const user_id = req.currentUserId;
       const _id = req.params.id;
       const title = req.body.title ?? null;
       const description = req.body.description ?? null;
@@ -84,7 +85,7 @@ userProjectRouter.put(
       const toUpdate = { title, description, from_date, to_date };
   
       // 해당 프로젝트 아이디로 프로젝트 정보를 db에서 찾아 업데이트함. 업데이트 요소가 없을 시 생략함
-      const updatedProject = await userProjectService.setProject({ _id, toUpdate });
+      const updatedProject = await userProjectService.setProject({ user_id, _id, toUpdate });
   
       if (updatedProject.errorMessage) {
         throw new Error(updatedProject.errorMessage);
@@ -110,6 +111,26 @@ userProjectRouter.get(
       }
 
       res.status(200).send(currentUserProject);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+userProjectRouter.delete(
+  "/projects/:id",
+  login_required,
+  async function (req, res, next) {
+    try {
+      const _id = req.params.id;
+      const { title } = await userProjectService.getUserProject({ _id });
+      const deletedProject = await userProjectService.deleteUserProject({ _id });
+  
+      if (deletedProject.errorMessage) {
+        throw new Error(deletedProject.errorMessage);
+      }
+  
+      res.status(204).send();
     } catch (error) {
       next(error);
     }

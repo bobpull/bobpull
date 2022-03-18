@@ -50,8 +50,8 @@ userAwardRouter.get(
   login_required,
   async function(req, res, next) {
     try {
-      const award_id = req.params.id;
-      const currentAwardInfo = await userAwardService.getAwardInfo({ award_id })
+      const _id = req.params.id;
+      const currentAwardInfo = await userAwardService.getAwardInfo({ _id })
 
       if (currentAwardInfo.errorMessage) {
         throw new Error(currentAwardInfo.errorMessage);
@@ -69,14 +69,15 @@ userAwardRouter.put(
   login_required,
   async function (req, res, next) {
     try {
-      const award_id = req.params.id;
+      const user_id = req.currentUserId;
+      const _id = req.params.id;
       const title = req.body.title ?? null;
       const description = req.body.description ?? null;
 
       const toUpdate = { title, description };
 
       //해당 award_id로 수상이력 정보를 db에서 찾아 업데이트함. 업데이트 요소가 없을 시 생략함
-      const updatedAward = await userAwardService.setAward({ award_id, toUpdate });
+      const updatedAward = await userAwardService.setAward({ user_id, _id, toUpdate });
 
       if (updatedAward.errorMessage) {
         throw new Error(updatedAward.errorMessage);
@@ -103,6 +104,25 @@ userAwardRouter.get(
       res.status(200).send(currentAwardlistInfo);
     } catch (err) {
       next(err);
+    }
+  }
+);
+
+userAwardRouter.delete(
+  "/awards/:id",
+  login_required,
+  async function (req, res, next) {
+    try {
+      const _id = req.params.id;
+      const deletedAward = await userAwardService.deleteUserAward({ _id });
+  
+      if (deletedAward.errorMessage) {
+        throw new Error(deletedAward.errorMessage);
+      }
+  
+      res.status(204).send();
+    } catch (error) {
+      next(error);
     }
   }
 );
