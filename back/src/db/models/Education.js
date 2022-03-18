@@ -14,7 +14,6 @@ class Education {
   static async findByUserId({ _id }) {
     const education = await EducationModel.find({ _id });
     return education;
-
   }
 
   static async findById({ _id }) {

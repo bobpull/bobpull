@@ -107,4 +107,23 @@ userAwardRouter.get(
   }
 );
 
+userAwardRouter.delete(
+  "/awards/:id",
+  login_required,
+  async function (req, res, next) {
+    try {
+      const _id = req.params.id;
+      const deletedAward = await userAwardService.deleteUserAward({ _id });
+  
+      if (deletedAward.errorMessage) {
+        throw new Error(deletedAward.errorMessage);
+      }
+  
+      res.status(204).send();
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
 export { userAwardRouter };
