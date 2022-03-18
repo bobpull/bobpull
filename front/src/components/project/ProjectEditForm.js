@@ -3,7 +3,6 @@ import * as Api from "../../api";
 import { Form, Row, Col, Button } from 'react-bootstrap';
 
 const ProjectEditForm = ({item, projects, setIsEditForm, setProjects, fetchAPI}) => {
-    console.log(item)
     const [newProject, setNewProject] = useState({
       ...item
     })
@@ -25,7 +24,7 @@ const ProjectEditForm = ({item, projects, setIsEditForm, setProjects, fetchAPI})
       ...newProject,
       [e.target.name]: e.target.value
     })
-  }
+  }  
 
   return (
     <Form onSubmit={onSubmit} className="mb-3">
@@ -55,7 +54,7 @@ const ProjectEditForm = ({item, projects, setIsEditForm, setProjects, fetchAPI})
             type="date" 
             placeholder="시작일"
             name="from_date" 
-            value={newProject.from_date}
+            value={item.from_date.toString().substr(0,10)}
             onChange={onChange}
           />
         </Col>
@@ -64,7 +63,7 @@ const ProjectEditForm = ({item, projects, setIsEditForm, setProjects, fetchAPI})
             type="date" 
             placeholder="끝"
             name="to_date" 
-            value={newProject.to_date}
+            value={item.to_date.toString().substr(0,10)}
             onChange={onChange}
           />
         </Col>

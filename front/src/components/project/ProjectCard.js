@@ -28,7 +28,7 @@ const ProjectCard = ({item, projects, setProjects, isEditable, fetchAPI }) => {
                 {item.description}
               </Card.Text>
               <Card.Text className="text-muted mb-2">
-                {item.from_date} ~ {item.to_date}
+                {item.from_date.toString().substr(0,10)} ~ {item.to_date.toString().substr(0,10)}
               </Card.Text>
             </Col>
             <Col className="p-0 text-center">

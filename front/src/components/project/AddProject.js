@@ -3,11 +3,15 @@ import * as Api from "../../api";
 import { Form, Row, Col, Button } from 'react-bootstrap';
 
 const AddProject = ({setIsEditing, projects, setProjects}) => {
+  const today = new Date();
+  const date = today.setDate(today.getDate()+1); 
+  const defaultValue = new Date(date).toISOString().split('T')[0]
+
   const [project, setProject] = useState({
     title: "",
     description: "",
-    from_date: "",
-    to_date: "",
+    from_date: `${defaultValue}`,
+    to_date: `${defaultValue}`,
   })
 
   const validData = 
