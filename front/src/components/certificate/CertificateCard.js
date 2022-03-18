@@ -1,12 +1,16 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { Card, Row, Col, Button, Modal } from "react-bootstrap";
 import CertificateEditForm from "./CertificateEditForm";
+import { CertificatesContext } from "./Certificate";
 import * as Api from "../../api";
 
 function CheckModal({ show, setShow, _id }) {
+  const { certificates, setCertificates } = useContext(CertificatesContext);
+
   async function handleDelete() {
     try {
       await Api.delete("certificates/" + _id);
+      setCertificates([...certificates].filter((v) => v._id !== _id));
     } catch (err) {
       console.log(err);
     }
@@ -14,30 +18,28 @@ function CheckModal({ show, setShow, _id }) {
 
   return (
     <Modal show={show} onHide={() => setShow(false)}>
-      <Modal.Dialog>
-        <Modal.Header closeButton>
-          <Modal.Title>삭제하시겠습니까?</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <p>
-            해당 자격증을 삭제하시겠습니까? 삭제 후의 동작은 되돌릴 수 없습니다.
-          </p>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShow(false)}>
-            취소
-          </Button>
-          <Button
-            variant="primary"
-            onClick={() => {
-              setShow(false);
-              handleDelete();
-            }}
-          >
-            삭제
-          </Button>
-        </Modal.Footer>
-      </Modal.Dialog>
+      <Modal.Header closeButton>
+        <Modal.Title>삭제하시겠습니까?</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <p>
+          해당 자격증을 삭제하시겠습니까? 삭제 후의 동작은 되돌릴 수 없습니다.
+        </p>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button variant="secondary" onClick={() => setShow(false)}>
+          취소
+        </Button>
+        <Button
+          variant="primary"
+          onClick={() => {
+            setShow(false);
+            handleDelete();
+          }}
+        >
+          삭제
+        </Button>
+      </Modal.Footer>
     </Modal>
   );
 }
