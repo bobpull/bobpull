@@ -2,7 +2,7 @@ import React, {useState} from "react"
 import * as Api from "../../api";
 import { Form, Row, Col, Button } from 'react-bootstrap';
 
-const ProjectEditForm = ({item, projects, setIsEditForm, setProjects, fetchAPI}) => {
+const ProjectEditForm = ({item, setIsEditForm, dispatch}) => {
     const [newProject, setNewProject] = useState({
       ...item
     })
@@ -10,19 +10,19 @@ const ProjectEditForm = ({item, projects, setIsEditForm, setProjects, fetchAPI})
   const onSubmit = async (e) => {
     e.preventDefault();
     try{
-      const res = await Api.put(`projects/${item._id}`, newProject)
-      // Project.js의 get api 호출 
-      fetchAPI()
+      await Api.put(`projects/${item._id}`, newProject)
+      dispatch({type: "put-project", payload: newProject})
       setIsEditForm(false)
     } catch(e){
       console.log(e)
     }
-
   }
   const onChange = (e) => {
-    setNewProject({
-      ...newProject,
-      [e.target.name]: e.target.value
+    setNewProject(cur => {
+      return {
+        ...cur,
+        [e.target.name]: e.target.value
+      }
     })
   }  
 
@@ -34,7 +34,8 @@ const ProjectEditForm = ({item, projects, setIsEditForm, setProjects, fetchAPI})
           placeholder="프로젝트명"
           name="title"
           value={newProject.title}
-          onChange={onChange} 
+          onChange={onChange}
+          required
         />
       </Form.Group>
 
@@ -45,6 +46,7 @@ const ProjectEditForm = ({item, projects, setIsEditForm, setProjects, fetchAPI})
           name="description" 
           value={newProject.description}
           onChange={onChange}
+          required
         />
       </Form.Group>
 
@@ -56,6 +58,7 @@ const ProjectEditForm = ({item, projects, setIsEditForm, setProjects, fetchAPI})
             name="from_date" 
             value={item.from_date.toString().substr(0,10)}
             onChange={onChange}
+            required
           />
         </Col>
         <Col sm>
@@ -65,6 +68,7 @@ const ProjectEditForm = ({item, projects, setIsEditForm, setProjects, fetchAPI})
             name="to_date" 
             value={item.to_date.toString().substr(0,10)}
             onChange={onChange}
+            required
           />
         </Col>
       </Form.Group>
