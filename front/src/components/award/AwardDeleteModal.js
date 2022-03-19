@@ -1,8 +1,12 @@
+import React, { useContext } from "react";
+import { AwardsContext } from "./Award";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Button, Modal } from "react-bootstrap";
 import * as Api from "../../api";
 
-function AwardDeleteModal({ show, onHide, id, awards, setAwards }) {
+function AwardDeleteModal({ show, onHide, id }) {
+  const { awards, setAwards } = useContext(AwardsContext);
+
   const handleDelete = (e) => {
     e.preventDefault();
 

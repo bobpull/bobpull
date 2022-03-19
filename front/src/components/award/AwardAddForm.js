@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { AwardsContext } from "./Award";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Form, Button, Row, Col } from "react-bootstrap";
 import * as Api from "../../api";
 
-function AwardAddForm({ setIsAdding, awards, setAwards }) {
+function AwardAddForm({ setIsAdding }) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const { setAwards } = useContext(AwardsContext);
 
   const handleTitleChange = (e) => {
     setTitle(e.target.value);
