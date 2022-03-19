@@ -3,15 +3,17 @@ import * as Api from "../../api";
 import { Form, Row, Col, Button } from 'react-bootstrap';
 
 const today = new Date();
-const date = today.setDate(today.getDate()+1); 
-const defaultValue = new Date(date).toISOString().split('T')[0]
+const year = today.getFullYear();
+const month = today.getMonth() + 1;
+const day = today.getDate();
+const todayDate = `${year}-${month < 10 ? "0" : ""}${month}-${day}`;
 
 const AddProject = ({setIsEditing, dispatch}) => {
   const [project, setProject] = useState({
     title: "",
     description: "",
-    from_date: `${defaultValue}`,
-    to_date: `${defaultValue}`,
+    from_date: `${todayDate}`,
+    to_date: `${todayDate}`,
   })
 
   
@@ -76,6 +78,8 @@ const AddProject = ({setIsEditing, dispatch}) => {
             name="to_date" 
             value={project.to_date}
             onChange={onChange}
+            min={project.from_date}
+            max={todayDate}
             required
           />
         </Col>
