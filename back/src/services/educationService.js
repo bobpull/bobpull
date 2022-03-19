@@ -1,4 +1,5 @@
 import { Education } from "../db"; // from을 폴더(db) 로 설정 시, 디폴트로 index.js 로부터 import함.
+import { v4 as uuidv4 } from "uuid";
 
 class userEducationService {
   static async addEducation({ user_id, school, major, position }) {
@@ -10,7 +11,8 @@ class userEducationService {
       return { errorMessage };
     }
 
-    const newEducation = { user_id, school, major, position };
+    const id = uuidv4();
+    const newEducation = { id, user_id, school, major, position };
 
     // db에 저장
     // 문제 없이 db 저장 완료되었으므로 에러가 없음.
@@ -20,8 +22,8 @@ class userEducationService {
     return createdNewEducation;
   }
 
-  static async getUserEducation({ _id }) {
-    const education = await Education.findById({ _id });
+  static async getUserEducation({ id }) {
+    const education = await Education.findById({ id });
 
     // db에서 찾지 못한 경우, 에러 메시지 반환
     if (!education) {
@@ -33,9 +35,9 @@ class userEducationService {
     return education;
   }
 
-  static async setEducation({ user_id, _id, toUpdate }) {
+  static async setEducation({ user_id, id, toUpdate }) {
     // 우선 해당 id의 학력이 db에 존재하는지 여부 확인
-    let education = await Education.findById({ _id });
+    let education = await Education.findById({ id });
 
     // db에서 찾지 못한 경우, 에러 메시지 반환
     if (!education) {
@@ -58,19 +60,19 @@ class userEducationService {
     if (school) {
       const fieldToUpdate = "school";
       const newValue = school;
-      education = await Education.update({ _id, fieldToUpdate, newValue });
+      education = await Education.update({ id, fieldToUpdate, newValue });
     }
 
     if (major) {
       const fieldToUpdate = "major";
       const newValue = major;
-      education = await Education.update({ _id, fieldToUpdate, newValue });
+      education = await Education.update({ id, fieldToUpdate, newValue });
     }
 
     if (position) {
       const fieldToUpdate = "position";
       const newValue = position;
-      education = await Education.update({ _id, fieldToUpdate, newValue });
+      education = await Education.update({ id, fieldToUpdate, newValue });
     }
 
     return education;
@@ -89,9 +91,9 @@ class userEducationService {
     return user;
   }
   
-  static async setEducation({ user_id, _id, toUpdate }) {
+  static async setEducation({ user_id, id, toUpdate }) {
     // 우선 해당 id의 학력이 db에 존재하는지 여부 확인
-    let education = await Education.findById({ _id });
+    let education = await Education.findById({ id });
     
     // db에서 찾지 못한 경우, 에러 메시지 반환
     if (!education) {
@@ -114,26 +116,26 @@ class userEducationService {
     if (school) {
       const fieldToUpdate = "school";
       const newValue = school;
-      education = await Education.update({ _id, fieldToUpdate, newValue });
+      education = await Education.update({ id, fieldToUpdate, newValue });
     }
     
     if (major) {
       const fieldToUpdate = "major";
       const newValue = major;
-      education = await Education.update({ _id, fieldToUpdate, newValue });
+      education = await Education.update({ id, fieldToUpdate, newValue });
     }
     
     if (position) {
       const fieldToUpdate = "position";
       const newValue = position;
-      education = await Education.update({ _id, fieldToUpdate, newValue });
+      education = await Education.update({ id, fieldToUpdate, newValue });
     }
     
     return education;
   }
   
-  static async getUserEducation({ _id }) {
-    const education = await Education.findById({ _id });
+  static async getUserEducation({ id }) {
+    const education = await Education.findById({ id });
 
     // db에서 찾지 못한 경우, 에러 메시지 반환
     if (!education) {
@@ -158,8 +160,8 @@ class userEducationService {
     return educationList;
   }
 
-  static async deleteUserEducation({ _id }) {
-    const education = await Education.deleteById({ _id });
+  static async deleteUserEducation({ id }) {
+    const education = await Education.deleteById({ id });
 
     // db에서 찾지 못한 경우, 에러 메시지 반환
     if (!education || education === null) {
