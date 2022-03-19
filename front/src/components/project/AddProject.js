@@ -68,6 +68,7 @@ const AddProject = ({setIsEditing, dispatch}) => {
             name="from_date" 
             value={project.from_date}
             onChange={onChange}
+            min={todayDate}
             required
           />
         </Col>
