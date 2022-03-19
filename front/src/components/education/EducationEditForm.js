@@ -1,17 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { EducationsContext } from "./Education";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Button, Row, Col, Form } from "react-bootstrap";
 import * as Api from "../../api";
 
-function EducationEditForm({
-  id,
-  setIsEditing,
-  _school,
-  _major,
-  _position,
-  educations,
-  setEducations,
-}) {
+function EducationEditForm({ id, setIsEditing, _school, _major, _position }) {
+  const { educations, setEducations } = useContext(EducationsContext);
   const [school, setSchool] = useState(_school);
   const [major, setMajor] = useState(_major);
   const [position, setPosition] = useState(_position);
@@ -37,9 +31,15 @@ function EducationEditForm({
         id,
         school,
         major,
-        position
+        position,
       });
-      setEducations(educations.map((education) => education._id === id ? { ...education, school, major, position } : education ));
+      setEducations(
+        educations.map((education) =>
+          education._id === id
+            ? { ...education, school, major, position }
+            : education
+        )
+      );
       setIsEditing(false);
     } catch (err) {
       console.error(err);

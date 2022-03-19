@@ -1,8 +1,12 @@
+import React, { useContext } from "react";
+import { EducationsContext } from "./Education";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Button, Modal } from "react-bootstrap";
 import * as Api from "../../api";
 
-function EducationDeleteModal({ show, onHide, id, educations, setEducations }) {
+function EducationDeleteModal({ show, onHide, id }) {
+  const { educations, setEducations } = useContext(EducationsContext);
+
   const handleDelete = (e) => {
     e.preventDefault();
 

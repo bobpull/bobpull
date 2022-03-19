@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { EducationsContext } from "./Education";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Form, Button, Row, Col } from "react-bootstrap";
 import * as Api from "../../api";
 
-function EducationAddForm({ setIsAdding, educations, setEducations }) {
+function EducationAddForm({ setIsAdding }) {
+  const { setEducations } = useContext(EducationsContext);
   const [school, setSchool] = useState("");
   const [major, setMajor] = useState("");
   const [position, setPosition] = useState("");
@@ -76,7 +78,13 @@ function EducationAddForm({ setIsAdding, educations, setEducations }) {
           />
         ))}
       </Form.Group>
-      {position === "" ? <span style={{color: "red", fontSize: "12px"}}>학위를 선택해주세요</span> : ""}
+      {position === "" ? (
+        <span style={{ color: "red", fontSize: "12px" }}>
+          학위를 선택해주세요
+        </span>
+      ) : (
+        ""
+      )}
 
       <Form.Group as={Row} className="mt-3 text-center">
         <Col sm={{ span: 20 }}>
