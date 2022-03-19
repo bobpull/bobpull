@@ -50,8 +50,8 @@ userAwardRouter.get(
   login_required,
   async function(req, res, next) {
     try {
-      const _id = req.params.id;
-      const currentAwardInfo = await userAwardService.getAwardInfo({ _id })
+      const id = req.params.id;
+      const currentAwardInfo = await userAwardService.getAwardInfo({ id })
 
       if (currentAwardInfo.errorMessage) {
         throw new Error(currentAwardInfo.errorMessage);
@@ -70,14 +70,14 @@ userAwardRouter.put(
   async function (req, res, next) {
     try {
       const user_id = req.currentUserId;
-      const _id = req.params.id;
+      const id = req.params.id;
       const title = req.body.title ?? null;
       const description = req.body.description ?? null;
 
       const toUpdate = { title, description };
 
       //해당 award_id로 수상이력 정보를 db에서 찾아 업데이트함. 업데이트 요소가 없을 시 생략함
-      const updatedAward = await userAwardService.setAward({ user_id, _id, toUpdate });
+      const updatedAward = await userAwardService.setAward({ user_id, id, toUpdate });
 
       if (updatedAward.errorMessage) {
         throw new Error(updatedAward.errorMessage);
@@ -113,8 +113,8 @@ userAwardRouter.delete(
   login_required,
   async function (req, res, next) {
     try {
-      const _id = req.params.id;
-      const deletedAward = await userAwardService.deleteUserAward({ _id });
+      const id = req.params.id;
+      const deletedAward = await userAwardService.deleteUserAward({ id });
   
       if (deletedAward.errorMessage) {
         throw new Error(deletedAward.errorMessage);

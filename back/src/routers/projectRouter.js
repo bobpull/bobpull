@@ -55,8 +55,8 @@ userProjectRouter.get(
   login_required,
   async function (req, res, next) {
     try {
-      const _id = req.params.id;
-      const currentUserProject = await userProjectService.getProjectInfo({ _id });
+      const id = req.params.id;
+      const currentUserProject = await userProjectService.getProjectInfo({ id });
   
       if (currentUserProject.errorMessage) {
         throw new Error(currentUserProject.errorMessage);
@@ -76,7 +76,7 @@ userProjectRouter.put(
     try {
       // URI, body data 로부터 업데이트할 프로젝트 정보를 추출함.
       const user_id = req.currentUserId;
-      const _id = req.params.id;
+      const id = req.params.id;
       const title = req.body.title ?? null;
       const description = req.body.description ?? null;
       const from_date = req.body.from_date ?? null;
@@ -85,7 +85,7 @@ userProjectRouter.put(
       const toUpdate = { title, description, from_date, to_date };
   
       // 해당 프로젝트 아이디로 프로젝트 정보를 db에서 찾아 업데이트함. 업데이트 요소가 없을 시 생략함
-      const updatedProject = await userProjectService.setProject({ user_id, _id, toUpdate });
+      const updatedProject = await userProjectService.setProject({ user_id, id, toUpdate });
   
       if (updatedProject.errorMessage) {
         throw new Error(updatedProject.errorMessage);

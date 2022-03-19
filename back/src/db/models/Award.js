@@ -11,13 +11,13 @@ class Award {
     return titleWithDescription;
   }
 
-  static async findById({ _id }) {
-    const award = await AwardModel.findOne({ _id });
+  static async findById({ id }) {
+    const award = await AwardModel.findOne({ id });
     return award;
   }
 
-  static async update({ _id, fieldToUpdate, newValue }) {
-    const filter = { _id };
+  static async update({ id, fieldToUpdate, newValue }) {
+    const filter = { id };
     const update = { [fieldToUpdate]: newValue };
     const option = { returnOriginal: false };
 
@@ -34,8 +34,8 @@ class Award {
     return awardlist;
   }
 
-  static async deleteById({ _id }) {
-    const award = await AwardModel.deleteOne({ _id });
+  static async deleteById({ id }) {
+    const award = await AwardModel.deleteOne({ id });
     return award;
   }
 }
