@@ -11,13 +11,13 @@ class Project {
     return project;
   }
 
-  static async findById({ _id }) {
-    const project = await ProjectModel.findOne({ _id });
+  static async findById({ id }) {
+    const project = await ProjectModel.findOne({ id });
     return project;
   }
 
-  static async deleteById({ _id }) {
-    const project = await ProjectModel.deleteOne({ _id });
+  static async deleteById({ id }) {
+    const project = await ProjectModel.deleteOne({ id });
     return project;
   }
 
@@ -26,8 +26,8 @@ class Project {
     return project;
   }
 
-  static async update({ _id, fieldToUpdate, newValue }) {
-    const filter = { _id };
+  static async update({ id, fieldToUpdate, newValue }) {
+    const filter = { id };
     const update = { [fieldToUpdate]: newValue };
     const option = { returnOriginal: false };
     
