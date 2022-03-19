@@ -4,7 +4,7 @@ import { CertificatesContext } from "./Certificate";
 import * as Api from "../../api";
 
 function CertificateEditForm({ certificate, setIsEditing }) {
-  const { certificates, setCertificates } = useContext(CertificatesContext);
+  const { setCertificates } = useContext(CertificatesContext);
   // useState로 title 상태를 생성함.
   const _id = certificate._id;
   const [title, setTitle] = useState(certificate.title);

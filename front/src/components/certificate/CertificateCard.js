@@ -5,7 +5,7 @@ import { CertificatesContext } from "./Certificate";
 import * as Api from "../../api";
 
 function CheckModal({ show, setShow, _id }) {
-  const { certificates, setCertificates } = useContext(CertificatesContext);
+  const { setCertificates } = useContext(CertificatesContext);
 
   async function handleDelete() {
     try {

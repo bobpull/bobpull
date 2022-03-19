@@ -11,7 +11,7 @@ const dd = today.getDate();
 const defaultDate = `${yyyy}-${mm < 10 ? "0" : ""}${mm}-${dd}`;
 
 function CertificateAddForm({ setAddCertificate }) {
-  const { certificates, setCertificates } = useContext(CertificatesContext);
+  const { setCertificates } = useContext(CertificatesContext);
 
   // useState로 title 상태를 생성함.
   const [title, setTitle] = useState("");
