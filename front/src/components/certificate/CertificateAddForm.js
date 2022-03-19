@@ -31,6 +31,7 @@ function CertificateAddForm({ setAddCertificate }) {
       setCertificates((cur) => [...cur, res.data]);
     } catch (err) {
       console.log(err);
+      alert("이미 존재하는 내용입니다. 다른 자격증을 추가해주세요.");
     }
 
     setAddCertificate(false);

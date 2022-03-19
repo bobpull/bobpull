@@ -30,6 +30,7 @@ function CertificateEditForm({ certificate, setIsEditing }) {
       });
     } catch (err) {
       console.log(err);
+      alert("해당 변경사항을 적용할 수 없습니다.");
     }
 
     setIsEditing(false);
