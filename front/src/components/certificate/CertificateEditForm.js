@@ -3,6 +3,13 @@ import { Container, Col, Row, Form, Button } from "react-bootstrap";
 import { CertificatesContext } from "./Certificate";
 import * as Api from "../../api";
 
+// 자격증 편집 시 오늘 날짜인 todayDate를 최댓값으로 설정
+const today = new Date();
+const yyyy = today.getFullYear();
+const mm = today.getMonth() + 1;
+const dd = today.getDate();
+const todayDate = `${yyyy}-${mm < 10 ? "0" : ""}${mm}-${dd}`;
+
 function CertificateEditForm({ certificate, setIsEditing }) {
   const { setCertificates } = useContext(CertificatesContext);
   // useState로 title 상태를 생성함.
@@ -15,7 +22,7 @@ function CertificateEditForm({ certificate, setIsEditing }) {
     e.preventDefault();
 
     try {
-      // "certificate/:_id" 엔드포인트로 POST 요청함.
+      // "certificate/:_id" 엔드포인트로 PUT 요청함.
       const res = await Api.put("certificates/" + _id, {
         title: title,
         description: description,
@@ -69,6 +76,8 @@ function CertificateEditForm({ certificate, setIsEditing }) {
                 className="mt-3"
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
+                min="1900-01-01"
+                max={todayDate}
                 required
               ></Form.Control>
             </Form.Group>
