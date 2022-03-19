@@ -4,7 +4,7 @@ import { Button, Row, Col, Card } from "react-bootstrap";
 import AwardEditForm from "./AwardEditForm";
 import AwardDeleteModal from "./AwardDeleteModal";
 
-function AwardCard({ id, isEditable, title, description, awards, setAwards }) {
+function AwardCard({ id, isEditable, title, description }) {
   const [isEditing, setIsEditing] = useState(false);
   const [show, setShow] = useState(false);
 
@@ -17,8 +17,6 @@ function AwardCard({ id, isEditable, title, description, awards, setAwards }) {
             setIsEditing={setIsEditing}
             _title={title}
             _description={description}
-            awards={awards}
-            setAwards={setAwards}
           />
         ) : (
           <>
@@ -53,8 +51,6 @@ function AwardCard({ id, isEditable, title, description, awards, setAwards }) {
                   show={show}
                   onHide={() => setShow(false)}
                   id={id}
-                  awards={awards}
-                  setAwards={setAwards}
                 />
               </Col>
             )}

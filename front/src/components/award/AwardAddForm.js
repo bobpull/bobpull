@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { AwardsContext } from "./Award";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Form, Button, Row, Col } from "react-bootstrap";
 import * as Api from "../../api";
 
-function AwardAddForm({ setIsAdding, awards, setAwards }) {
+function AwardAddForm({ setIsAdding }) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const { setAwards } = useContext(AwardsContext);
 
   const handleTitleChange = (e) => {
     setTitle(e.target.value);
@@ -23,7 +25,11 @@ function AwardAddForm({ setIsAdding, awards, setAwards }) {
         title,
         description,
       });
-      setAwards([...awards, response.data]);
+      setAwards((current) => {
+        const newAwards = [...current];
+        newAwards.push(response.data);
+        return newAwards;
+      });
       setIsAdding(false);
     } catch (err) {
       console.error(err);
@@ -38,6 +44,7 @@ function AwardAddForm({ setIsAdding, awards, setAwards }) {
           placeholder="수상내역"
           value={title}
           onChange={handleTitleChange}
+          required
         />
       </Form.Group>
 
@@ -47,6 +54,7 @@ function AwardAddForm({ setIsAdding, awards, setAwards }) {
           placeholder="상세내역"
           value={description}
           onChange={handleDescriptionChange}
+          required
         />
       </Form.Group>
 
