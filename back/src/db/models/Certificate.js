@@ -11,13 +11,13 @@ class Certificate {
     return titleWithDescription;
   }
 
-  static async findById({ _id }) {
-    const certificate = await CertificateModel.findOne({ _id });
+  static async findById({ id }) {
+    const certificate = await CertificateModel.findOne({ id });
     return certificate;
   }
 
-  static async update({ _id, fieldToUpdate, newValue }) {
-    const filter = { _id };
+  static async update({ id, fieldToUpdate, newValue }) {
+    const filter = { id };
     const update = { [fieldToUpdate]: newValue };
     const option = { returnOriginal: false };
 
@@ -34,8 +34,8 @@ class Certificate {
     return certificatelist;
   }
 
-  static async deleteById({ _id }) {
-    const certificate = await CertificateModel.deleteOne({ _id });
+  static async deleteById({ id }) {
+    const certificate = await CertificateModel.deleteOne({ id });
     return certificate;
   }
 }

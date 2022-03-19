@@ -51,8 +51,8 @@ userCertificateRouter.get(
   login_required,
   async function(req, res, next) {
     try{
-      const _id = req.params.id;
-      const currentCertificateInfo = await userCertificateService.getCertificateInfo({ _id });
+      const id = req.params.id;
+      const currentCertificateInfo = await userCertificateService.getCertificateInfo({ id });
 
       if (currentCertificateInfo.errorMessage) {
         throw new Error(currentCertificateInfo.errorMessage);
@@ -72,7 +72,7 @@ userCertificateRouter.put(
     try{
       const user_id = req.currentUserId;
       // url로부터 사용자 id를 추출함.
-      const _id = req.params.id;
+      const id = req.params.id;
       // body data로부터 업데이트할 자격증 정보를 추출함.
       const title = req.body.title ?? null;
       const description = req.body.description ?? null;
@@ -81,7 +81,7 @@ userCertificateRouter.put(
       const toUpdate = {title, description, when_date};
 
       // 해당 certificate_di로 자격증 정보를 db에서 찾아 업데이트함. 업데이트 요소가 없을 시 생략함
-      const updatedCertificate = await userCertificateService.setCertificate({ user_id, _id, toUpdate });
+      const updatedCertificate = await userCertificateService.setCertificate({ user_id, id, toUpdate });
 
       if (updatedCertificate.errorMessage) {
         throw new Error(updatedCertificate.errorMessage);
@@ -117,8 +117,8 @@ userCertificateRouter.delete(
   login_required,
   async function (req, res, next) {
     try {
-      const _id = req.params.id;
-      const deletedCertificate = await userCertificateService.deleteUserCertificate({ _id });
+      const id = req.params.id;
+      const deletedCertificate = await userCertificateService.deleteUserCertificate({ id });
   
       if (deletedCertificate.errorMessage) {
         throw new Error(deletedCertificate.errorMessage);
