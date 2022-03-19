@@ -29,12 +29,8 @@ function CertificateEditForm({ certificate, setIsEditing }) {
         when_date: date,
       });
 
-      setCertificates((cur) => {
-        cur.map((v) => {
-          if (v._id === _id) return res.data;
-          else return v;
-        });
-      });
+      setCertificates((cur) => cur.map((v) => (v._id === _id ? res.data : v)));
+      setIsEditing(false);
     } catch (err) {
       console.log(err);
       alert("해당 변경사항을 적용할 수 없습니다.");
