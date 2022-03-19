@@ -138,6 +138,25 @@ userAuthRouter.get(
   }
 );
 
+userAuthRouter.delete(
+  "/users/:id",
+  login_required,
+  async function (req, res, next) {
+    try {
+      const _id = req.params.id;
+      const deletedUser = await userAuthService.deleteUser({ _id });
+  
+      if (deletedUser.errorMessage) {
+        throw new Error(deletedUser.errorMessage);
+      }
+  
+      res.status(204).send();
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
 // jwt 토큰 기능 확인용, 삭제해도 되는 라우터임.
 userAuthRouter.get("/afterlogin", login_required, function (req, res, next) {
   res

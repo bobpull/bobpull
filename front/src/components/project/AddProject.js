@@ -2,11 +2,11 @@ import React, {useState} from "react";
 import * as Api from "../../api";
 import { Form, Row, Col, Button } from 'react-bootstrap';
 
-const AddProject = ({setIsEditing, projects, setProjects}) => {
-  const today = new Date();
-  const date = today.setDate(today.getDate()+1); 
-  const defaultValue = new Date(date).toISOString().split('T')[0]
+const today = new Date();
+const date = today.setDate(today.getDate()+1); 
+const defaultValue = new Date(date).toISOString().split('T')[0]
 
+const AddProject = ({setIsEditing, dispatch}) => {
   const [project, setProject] = useState({
     title: "",
     description: "",
@@ -14,25 +14,25 @@ const AddProject = ({setIsEditing, projects, setProjects}) => {
     to_date: `${defaultValue}`,
   })
 
-  const validData = 
-    project.title && project.description && project.from_date && project.to_date
   
   const onSubmit = async (e) => {
     e.preventDefault();
     try{
+      // project id값을 받기 위해 res 변수 선언.
       const res = await Api.post("project/create", project);
-      setProjects([...projects, res.data])
+      dispatch({type: "add-project", payload: res.data})
       setIsEditing(false)
     } catch(e) {
       console.log(e)
     }
   }
   const onChange = (e) => {
-    const newProject = {
-      ...project,
-      [e.target.name]: e.target.value
-    }
-    setProject(newProject)
+    setProject(cur => {
+      return {
+        ...cur,
+        [e.target.name]: e.target.value
+      }
+    })
   }
   return (
     <Form onSubmit={onSubmit}>
@@ -43,6 +43,7 @@ const AddProject = ({setIsEditing, projects, setProjects}) => {
           name="title"
           value={project.name}
           onChange={onChange} 
+          required
         />
       </Form.Group>
 
@@ -53,6 +54,7 @@ const AddProject = ({setIsEditing, projects, setProjects}) => {
           name="description" 
           value={project.description}
           onChange={onChange}
+          required
         />
       </Form.Group>
 
@@ -64,6 +66,7 @@ const AddProject = ({setIsEditing, projects, setProjects}) => {
             name="from_date" 
             value={project.from_date}
             onChange={onChange}
+            required
           />
         </Col>
         <Col sm>
@@ -73,6 +76,7 @@ const AddProject = ({setIsEditing, projects, setProjects}) => {
             name="to_date" 
             value={project.to_date}
             onChange={onChange}
+            required
           />
         </Col>
       </Form.Group>
@@ -83,7 +87,6 @@ const AddProject = ({setIsEditing, projects, setProjects}) => {
                 variant="primary"  
                 type="submit" 
                 className="me-3"
-                disabled={!validData}
               >
                 확인
               </Button>
