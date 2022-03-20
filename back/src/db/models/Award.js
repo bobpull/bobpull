@@ -6,11 +6,6 @@ class Award {
     return createdNewAward;
   }
 
-  static async findByTitleWithDescription({ user_id, title, description }) {
-    const titleWithDescription = await AwardModel.findOne({ user_id, title, description });
-    return titleWithDescription;
-  }
-
   static async findById({ id }) {
     const award = await AwardModel.findOne({ id });
     return award;

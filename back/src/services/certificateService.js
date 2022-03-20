@@ -3,13 +3,6 @@ import { v4 as uuidv4 } from "uuid";
 
 class CertificateService {
   static async addCertificate({ user_id, title, description, issued_at }) {
-    // 자격증 중복 확인
-    const titleWithDescription = await Certificate.findByTitleWithDescription({ user_id, title, description });
-    if (titleWithDescription) {
-      const errorMessage
-        = "동일한 자격증과 내용을 중복으로 등록할 수 없습니다.";
-      return { errorMessage };
-    }
 
     const id = uuidv4();
     const newCertificate = { id, user_id, title, description, issued_at };
@@ -46,12 +39,6 @@ class CertificateService {
 
     const title = toUpdate.title;
     const description = toUpdate.description;
-    const titleWithDescription = await Certificate.findByTitleWithDescription({ user_id, title, description });
-    if (titleWithDescription) {
-      const errorMessage
-        = "동일한 자격증과 내용을 중복으로 등록할 수 없습니다.";
-      return { errorMessage };
-    }
 
     // 업데이트 대상에 title이 있다면, 즉 title 값이 null이 아니라면 업데이트 진행
     if (title) {
