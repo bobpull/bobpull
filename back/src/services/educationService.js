@@ -7,9 +7,7 @@ class EducationService {
     const newEducation = { id, user_id, school, major, degree };
 
     // db에 저장
-    // 문제 없이 db 저장 완료되었으므로 에러가 없음.
     const createdNewEducation = await Education.create({ newEducation });
-    createdNewEducation.errorMessage = null;
 
     return createdNewEducation;
   }
@@ -37,27 +35,23 @@ class EducationService {
         "존재하지 않는 학력 정보입니다.";
       return { errorMessage };
     }
-    
-    const school = toUpdate.school;
-    const major = toUpdate.major;
-    const degree = toUpdate.degree;
 
     // 업데이트 대상에 school 있다면, 즉 school 값이 null 이 아니라면 업데이트 진행
-    if (school) {
+    if (toUpdate.school) {
       const fieldToUpdate = "school";
-      const newValue = school;
+      const newValue = toUpdate.school;
       education = await Education.update({ id, fieldToUpdate, newValue });
     }
 
-    if (major) {
+    if (toUpdate.major) {
       const fieldToUpdate = "major";
-      const newValue = major;
+      const newValue = toUpdate.major;
       education = await Education.update({ id, fieldToUpdate, newValue });
     }
 
-    if (degree) {
+    if (toUpdate.degree) {
       const fieldToUpdate = "degree";
-      const newValue = degree;
+      const newValue = toUpdate.degree;
       education = await Education.update({ id, fieldToUpdate, newValue });
     }
 
@@ -77,7 +71,7 @@ class EducationService {
     return user;
   }
   
-  static async setEducation({ user_id, id, toUpdate }) {
+  static async setEducation({ id, toUpdate }) {
     // 우선 해당 id의 학력이 db에 존재하는지 여부 확인
     let education = await Education.findById({ id });
     
@@ -88,27 +82,22 @@ class EducationService {
         return { errorMessage };
     }
 
-    
-    const school = toUpdate.school;
-    const major = toUpdate.major;
-    const degree = toUpdate.degree;
-    
     // 업데이트 대상에 school 있다면, 즉 school 값이 null 이 아니라면 업데이트 진행
-    if (school) {
+    if (toUpdate.school) {
       const fieldToUpdate = "school";
-      const newValue = school;
+      const newValue = toUpdate.school;
       education = await Education.update({ id, fieldToUpdate, newValue });
     }
     
-    if (major) {
+    if (toUpdate.major) {
       const fieldToUpdate = "major";
-      const newValue = major;
+      const newValue = toUpdate.major;
       education = await Education.update({ id, fieldToUpdate, newValue });
     }
     
-    if (degree) {
+    if (toUpdate.degree) {
       const fieldToUpdate = "degree";
-      const newValue = degree;
+      const newValue = toUpdate.degree;
       education = await Education.update({ id, fieldToUpdate, newValue });
     }
     
