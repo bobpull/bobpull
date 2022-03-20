@@ -3,9 +3,9 @@ import { Router } from "express";
 import { login_required } from "../middlewares/login_required";
 import { ProjectService } from "../services/projectService";
 
-const userProjectRouter = Router();
+const ProjectRouter = Router();
 
-userProjectRouter.post(
+ProjectRouter.post(
   "/project/create",
   login_required,
   async function (req, res, next) {
@@ -50,7 +50,7 @@ userProjectRouter.post(
   } 
 );
 
-userProjectRouter.get(
+ProjectRouter.get(
   "/projects/:id",
   login_required,
   async function (req, res, next) {
@@ -69,7 +69,7 @@ userProjectRouter.get(
   }
 );
 
-userProjectRouter.put(
+ProjectRouter.put(
   "/projects/:id",
   login_required,
   async function (req, res, next) {
@@ -98,7 +98,7 @@ userProjectRouter.put(
   }
 );
 
-userProjectRouter.get(
+ProjectRouter.get(
   "/projectlist/:user_id",
   login_required,
   async function (req, res, next) {
@@ -117,7 +117,7 @@ userProjectRouter.get(
   }
 );
 
-userProjectRouter.delete(
+ProjectRouter.delete(
   "/projects/:id",
   login_required,
   async function (req, res, next) {
@@ -136,4 +136,4 @@ userProjectRouter.delete(
   }
 );
 
-export { userProjectRouter };
+export { ProjectRouter };
