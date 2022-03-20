@@ -3,14 +3,6 @@ import { v4 as uuidv4 } from "uuid";
 
 class EducationService {
   static async addEducation({ user_id, school, major, degree }) {
-    // 학교 이름 중복 확인
-    const schoolMajorDegree = await Education.findBySchoolMajorDegree({ user_id, school, major, degree });
-    if (schoolMajorDegree) {
-      const errorMessage =
-        "동일한 학력을 중복으로 등록할 수 없습니다.";
-      return { errorMessage };
-    }
-
     const id = uuidv4();
     const newEducation = { id, user_id, school, major, degree };
 
@@ -49,12 +41,6 @@ class EducationService {
     const school = toUpdate.school;
     const major = toUpdate.major;
     const degree = toUpdate.degree;
-    const schoolMajorDegree = await Education.findBySchoolMajorDegree({ user_id, school, major, degree });
-    if (schoolMajorDegree) {
-      const errorMessage =
-        "동일한 학력을 중복으로 등록할 수 없습니다.";
-      return { errorMessage };
-    }
 
     // 업데이트 대상에 school 있다면, 즉 school 값이 null 이 아니라면 업데이트 진행
     if (school) {
@@ -106,12 +92,6 @@ class EducationService {
     const school = toUpdate.school;
     const major = toUpdate.major;
     const degree = toUpdate.degree;
-    const schoolMajorDegree = await Education.findBySchoolMajorDegree({ user_id, school, major, degree });
-    if (schoolMajorDegree) {
-      const errorMessage =
-        "동일한 학력을 중복으로 등록할 수 없습니다.";
-      return { errorMessage };
-    }
     
     // 업데이트 대상에 school 있다면, 즉 school 값이 null 이 아니라면 업데이트 진행
     if (school) {

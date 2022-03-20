@@ -6,11 +6,6 @@ class Education {
     return createdNewEducation;
   }
 
-  static async findBySchoolMajorDegree({ user_id, school, major, degree }) {
-    const schoolMajorDegree = await EducationModel.findOne({ user_id, school, major, degree });
-    return schoolMajorDegree;
-  }
-
   static async findByUserId({ user_id }) {
     const education = await EducationModel.find({ user_id });
     return education;
