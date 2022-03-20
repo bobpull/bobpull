@@ -2,17 +2,17 @@ import { Education } from "../db"; // from을 폴더(db) 로 설정 시, 디폴�
 import { v4 as uuidv4 } from "uuid";
 
 class userEducationService {
-  static async addEducation({ user_id, school, major, position }) {
+  static async addEducation({ user_id, school, major, degree }) {
     // 학교 이름 중복 확인
-    const schoolMajorPosition = await Education.findBySchoolMajorPosition({ user_id, school, major, position });
-    if (schoolMajorPosition) {
+    const schoolMajorDegree = await Education.findBySchoolMajorDegree({ user_id, school, major, degree });
+    if (schoolMajorDegree) {
       const errorMessage =
         "동일한 학력을 중복으로 등록할 수 없습니다.";
       return { errorMessage };
     }
 
     const id = uuidv4();
-    const newEducation = { id, user_id, school, major, position };
+    const newEducation = { id, user_id, school, major, degree };
 
     // db에 저장
     // 문제 없이 db 저장 완료되었으므로 에러가 없음.
@@ -48,9 +48,9 @@ class userEducationService {
     
     const school = toUpdate.school;
     const major = toUpdate.major;
-    const position = toUpdate.position;
-    const schoolMajorPosition = await Education.findBySchoolMajorPosition({ user_id, school, major, position });
-    if (schoolMajorPosition) {
+    const degree = toUpdate.degree;
+    const schoolMajorDegree = await Education.findBySchoolMajorDegree({ user_id, school, major, degree });
+    if (schoolMajorDegree) {
       const errorMessage =
         "동일한 학력을 중복으로 등록할 수 없습니다.";
       return { errorMessage };
@@ -69,9 +69,9 @@ class userEducationService {
       education = await Education.update({ id, fieldToUpdate, newValue });
     }
 
-    if (position) {
-      const fieldToUpdate = "position";
-      const newValue = position;
+    if (degree) {
+      const fieldToUpdate = "degree";
+      const newValue = degree;
       education = await Education.update({ id, fieldToUpdate, newValue });
     }
 
@@ -101,12 +101,13 @@ class userEducationService {
         "존재하지 않는 학력 정보입니다.";
         return { errorMessage };
     }
+
     
     const school = toUpdate.school;
     const major = toUpdate.major;
-    const position = toUpdate.position;
-    const schoolMajorPosition = await Education.findBySchoolMajorPosition({ user_id, school, major, position });
-    if (schoolMajorPosition) {
+    const degree = toUpdate.degree;
+    const schoolMajorDegree = await Education.findBySchoolMajorDegree({ user_id, school, major, degree });
+    if (schoolMajorDegree) {
       const errorMessage =
         "동일한 학력을 중복으로 등록할 수 없습니다.";
       return { errorMessage };
@@ -125,9 +126,9 @@ class userEducationService {
       education = await Education.update({ id, fieldToUpdate, newValue });
     }
     
-    if (position) {
-      const fieldToUpdate = "position";
-      const newValue = position;
+    if (degree) {
+      const fieldToUpdate = "degree";
+      const newValue = degree;
       education = await Education.update({ id, fieldToUpdate, newValue });
     }
     
