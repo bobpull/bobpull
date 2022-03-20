@@ -52,13 +52,13 @@ EducationRouter.get(
   async function (req, res, next) {
     try {
       const id = req.params.id;
-      const currentUserEducation = await EducationService.getUserEducation({ id });
+      const currentEducationlistInfo = await EducationService.getEducationInfo({ id });
 
-      if (currentUserEducation.errorMessage) {
-        throw new Error(currentUserEducation.errorMessage);
+      if (currentEducationlistInfo.errorMessage) {
+        throw new Error(currentEducationlistInfo.errorMessage);
       }
 
-      res.status(200).send(currentUserEducation);
+      res.status(200).send(currentEducationlistInfo);
     } catch (err) {
       next(err);
     }
@@ -100,13 +100,13 @@ EducationRouter.get(
   async function (req, res, next) {
     try {
       const user_id = req.params.user_id;
-      const currentUserEducation = await EducationService.getCurrentUserEducation({ user_id });
+      const currentEducationlistInfo = await EducationService.getEducationlistInfo({ user_id });
 
-      if (currentUserEducation.errorMessage) {
-        throw new Error(currentUserEducation.errorMessage);
+      if (currentEducationlistInfo.errorMessage) {
+        throw new Error(currentEducationlistInfo.errorMessage);
       }
 
-      res.status(200).send(currentUserEducation);
+      res.status(200).send(currentEducationlistInfo);
     } catch (err) {
       next(err);
     }
