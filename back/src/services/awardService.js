@@ -9,7 +9,6 @@ class AwardService {
 
     // db에 저장
     const createdNewAward = await Award.create({ newAward });
-    createdNewAward.errorMessage = null;
 
     return createdNewAward;
   }
