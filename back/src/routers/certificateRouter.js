@@ -3,9 +3,9 @@ import { Router } from "express";
 import { login_required } from "../middlewares/login_required";
 import { userCertificateService } from "../services/certificateService";
 
-const userCertificateRouter = Router();
+const CertificateRouter = Router();
 
-userCertificateRouter.post(
+CertificateRouter.post(
   "/certificate/create",
   login_required,
   async function (req, res, next) {
@@ -46,7 +46,7 @@ userCertificateRouter.post(
   }
 );
 
-userCertificateRouter.get(
+CertificateRouter.get(
   "/certificates/:id",
   login_required,
   async function(req, res, next) {
@@ -65,7 +65,7 @@ userCertificateRouter.get(
   }
 );
 
-userCertificateRouter.put(
+CertificateRouter.put(
   "/certificates/:id",
   login_required,
   async function(req, res, next) {
@@ -93,7 +93,7 @@ userCertificateRouter.put(
   }
 );
 
-userCertificateRouter.get(
+CertificateRouter.get(
   "/certificatelist/:user_id",
   login_required,
   async function (req, res, next) {
@@ -112,7 +112,7 @@ userCertificateRouter.get(
   }
 );
 
-userCertificateRouter.delete(
+CertificateRouter.delete(
   "/certificates/:id",
   login_required,
   async function (req, res, next) {
@@ -131,4 +131,4 @@ userCertificateRouter.delete(
   }
 );
 
-export { userCertificateRouter };
+export { CertificateRouter };

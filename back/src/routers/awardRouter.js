@@ -3,9 +3,9 @@ import { Router } from "express";
 import {login_required} from "../middlewares/login_required";
 import { AwardService } from "../services/awardService";
 
-const userAwardRouter = Router();
+const AwardRouter = Router();
 
-userAwardRouter.post(
+AwardRouter.post(
   "/award/create",
   login_required,
   async function (req, res, next) {
@@ -45,7 +45,7 @@ userAwardRouter.post(
   }
 );
 
-userAwardRouter.get(
+AwardRouter.get(
   "/awards/:id",
   login_required,
   async function(req, res, next) {
@@ -64,7 +64,7 @@ userAwardRouter.get(
   }
 );
 
-userAwardRouter.put(
+AwardRouter.put(
   "/awards/:id",
   login_required,
   async function (req, res, next) {
@@ -89,7 +89,7 @@ userAwardRouter.put(
   }
 );
 
-userAwardRouter.get(
+AwardRouter.get(
   "/awardlist/:user_id",
   login_required,
   async function (req, res, next) {
@@ -108,7 +108,7 @@ userAwardRouter.get(
   }
 );
 
-userAwardRouter.delete(
+AwardRouter.delete(
   "/awards/:id",
   login_required,
   async function (req, res, next) {
@@ -127,4 +127,4 @@ userAwardRouter.delete(
   }
 );
 
-export { userAwardRouter };
+export { AwardRouter };
