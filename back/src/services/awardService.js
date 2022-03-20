@@ -1,7 +1,7 @@
 import { Award } from "../db";
 import { v4 as uuidv4 } from "uuid";
 
-class userAwardService {
+class AwardService {
   static async addAward({ user_id, title, description }) {
     // 수상 이력 중복 확인
     const titleWithDescription = await Award.findByTitleWithDescription({ user_id, title, description });
@@ -109,4 +109,4 @@ class userAwardService {
   }
 }
 
-export { userAwardService };
+export { AwardService };
