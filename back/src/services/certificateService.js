@@ -1,7 +1,7 @@
 import { Certificate } from "../db";
 import { v4 as uuidv4 } from "uuid";
 
-class userCertificateService {
+class CertificateService {
   static async addCertificate({ user_id, title, description, issued_at }) {
     // 자격증 중복 확인
     const titleWithDescription = await Certificate.findByTitleWithDescription({ user_id, title, description });
@@ -115,4 +115,4 @@ class userCertificateService {
   }
 }
 
-export { userCertificateService };
+export { CertificateService };
