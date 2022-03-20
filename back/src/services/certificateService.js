@@ -2,7 +2,7 @@ import { Certificate } from "../db";
 import { v4 as uuidv4 } from "uuid";
 
 class userCertificateService {
-  static async addCertificate({ user_id, title, description, when_date }) {
+  static async addCertificate({ user_id, title, description, issued_at }) {
     // 자격증 중복 확인
     const titleWithDescription = await Certificate.findByTitleWithDescription({ user_id, title, description });
     if (titleWithDescription) {
@@ -12,7 +12,7 @@ class userCertificateService {
     }
 
     const id = uuidv4();
-    const newCertificate = { id, user_id, title, description, when_date };
+    const newCertificate = { id, user_id, title, description, issued_at };
 
     // db에 저장
     const createdNewCertificate = await Certificate.create({ newCertificate });
@@ -66,9 +66,9 @@ class userCertificateService {
       certificate = await Certificate.update({ id, fieldToUpdate, newValue });
     }
 
-    if (toUpdate.when_date) {
-      const fieldToUpdate = "when_date";
-      const newValue = toUpdate.when_date;
+    if (toUpdate.issued_at) {
+      const fieldToUpdate = "issued_at";
+      const newValue = toUpdate.issued_at;
       certificate = await Certificate.update({ id, fieldToUpdate, newValue });
     }
 

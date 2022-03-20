@@ -18,7 +18,7 @@ const CertificateSchema = new Schema(
       type: String,
       required: true,
     },
-    when_date: {
+    issued_at: {
       type: String,
       required: true,
     },
