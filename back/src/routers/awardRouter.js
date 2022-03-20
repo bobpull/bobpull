@@ -12,7 +12,7 @@ userAwardRouter.post(
     try {
       if (is.emptyObject(req.body)) {
         throw new Error(
-          "headers의 Content-Type을 application/json으로 설정해주세요"
+          "필수 파라미터가 존재하지 않습니다."
         );
       }
 
