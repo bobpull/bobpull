@@ -1,11 +1,11 @@
 import is from "@sindresorhus/is";
 import { Router } from "express";
 import { login_required } from "../middlewares/login_required";
-import { ProjectService } from "../services/projectService";
+import { userProjectService } from "../services/projectService";
 
-const ProjectRouter = Router();
+const userProjectRouter = Router();
 
-ProjectRouter.post(
+userProjectRouter.post(
   "/project/create",
   login_required,
   async function (req, res, next) {
@@ -18,7 +18,7 @@ ProjectRouter.post(
 
     // jwt토큰에서 추출된 사용자 id를 가지고 db에서 사용자 정보를 찾음.
     const user_id = req.currentUserId;
-    const currentUserInfo = await ProjectService.getUserInfo({ user_id });
+    const currentUserInfo = await userProjectService.getUserInfo({ user_id });
 
     if (currentUserInfo.errorMessage) {
       throw new Error(currentUserInfo.errorMessage);
@@ -31,7 +31,7 @@ ProjectRouter.post(
     const to_date = req.body.to_date;
   
     // 위 데이터를 프로젝트 db에 추가하기
-    const newProject = await ProjectService.addProject({
+    const newProject = await userProjectService.addProject({
       user_id,
       title,
       description,
@@ -50,13 +50,13 @@ ProjectRouter.post(
   } 
 );
 
-ProjectRouter.get(
+userProjectRouter.get(
   "/projects/:id",
   login_required,
   async function (req, res, next) {
     try {
       const id = req.params.id;
-      const currentUserProject = await ProjectService.getProjectInfo({ id });
+      const currentUserProject = await userProjectService.getProjectInfo({ id });
   
       if (currentUserProject.errorMessage) {
         throw new Error(currentUserProject.errorMessage);
@@ -69,7 +69,7 @@ ProjectRouter.get(
   }
 );
 
-ProjectRouter.put(
+userProjectRouter.put(
   "/projects/:id",
   login_required,
   async function (req, res, next) {
@@ -85,7 +85,7 @@ ProjectRouter.put(
       const toUpdate = { title, description, from_date, to_date };
   
       // 해당 프로젝트 아이디로 프로젝트 정보를 db에서 찾아 업데이트함. 업데이트 요소가 없을 시 생략함
-      const updatedProject = await ProjectService.setProject({ user_id, id, toUpdate });
+      const updatedProject = await userProjectService.setProject({ user_id, id, toUpdate });
   
       if (updatedProject.errorMessage) {
         throw new Error(updatedProject.errorMessage);
@@ -98,13 +98,13 @@ ProjectRouter.put(
   }
 );
 
-ProjectRouter.get(
+userProjectRouter.get(
   "/projectlist/:user_id",
   login_required,
   async function (req, res, next) {
     try {
       const user_id = req.params.user_id;
-      const currentUserProject = await ProjectService.getCurrentUserProject({ user_id });
+      const currentUserProject = await userProjectService.getCurrentUserProject({ user_id });
 
       if (currentUserProject.errorMessage) {
         throw new Error(currentUserProject.errorMessage);
@@ -117,13 +117,13 @@ ProjectRouter.get(
   }
 );
 
-ProjectRouter.delete(
+userProjectRouter.delete(
   "/projects/:id",
   login_required,
   async function (req, res, next) {
     try {
       const id = req.params.id;
-      const deletedProject = await ProjectService.deleteUserProject({ id });
+      const deletedProject = await userProjectService.deleteUserProject({ id });
   
       if (deletedProject.errorMessage) {
         throw new Error(deletedProject.errorMessage);
@@ -136,4 +136,4 @@ ProjectRouter.delete(
   }
 );
 
-export { ProjectRouter };
+export { userProjectRouter };

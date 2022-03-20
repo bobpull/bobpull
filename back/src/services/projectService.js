@@ -3,6 +3,15 @@ import { v4 as uuidv4 } from "uuid";
 
 class userProjectService {
   static async addProject({ user_id, title, description, from_date, to_date }) {
+    // title 중복 확인
+    const isProject = await Project.findByTitle({ user_id, title });
+
+    if (isProject) {
+      const errorMessage =
+        "이 프로젝트는 이미 존재합니다.";
+      return { errorMessage };
+    }
+
     const id = uuidv4();
     const newProject = { id, user_id, title, description, from_date, to_date };
 
@@ -38,8 +47,16 @@ class userProjectService {
       return { errorMessage };
     }
 
+    const title = toUpdate.title;
+    const isProjcet = await Project.findByTitle({ user_id, title });
+    if (isProjcet) {
+      const errorMessage =
+        "같은 프로젝트명이 존재합니다.";
+      return { errorMessage };
+    }
+
     // 업데이트 대상에 title이 있다면, 즉 title 값이 null 이 아니라면 업데이트 진행
-    if (toUpdate.title) {
+    if (title) {
       const fieldToUpdate = "title";
       const newValue = toUpdate.title;
       project = await Project.update({ id, fieldToUpdate, newValue });
