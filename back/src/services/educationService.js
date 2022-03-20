@@ -43,12 +43,16 @@ class EducationService {
     // 업데이트 대상에 school 있다면, 즉 school 값이 null 이 아니라면 업데이트 진행
     if (school && major && degree) {
       const fieldToUpdateSchool = "school";
-      const newSchool = school;
       const fieldToUpdateMajor = "major";
-      const newMajor = major;
-      const fieldToUpdateDegree = degree;
-      const newDegree = degree;
-      education = await Education.update(id, {[fieldToUpdateSchool]: newSchool, [fieldToUpdateMajor]: newMajor, [fieldToUpdateDegree]: newDegree});
+      const fieldToUpdateDegree = "degree";
+      education = await Education.update(
+        id, 
+        {
+          [fieldToUpdateSchool]: school, 
+          [fieldToUpdateMajor]: major, 
+          [fieldToUpdateDegree]: degree
+        }
+      );
     }
 
     return education;

@@ -36,22 +36,26 @@ class ProjectService {
       return { errorMessage };
     }
 
+    const title = toUpdate.title;
+    const description = toUpdate.description;
+    const from_date = toUpdate.from_date;
+    const to_date = toUpdate.to_date;
+
     // 업데이트 대상에 title이 있다면, 즉 title 값이 null 이 아니라면 업데이트 진행
-    if (title) {
+    if (title && description && from_date && to_date) {
       const fieldToUpdateTitle = "title";
-      const newTitle = toUpdate.title;
-      const fieldToUpdateDescription = description;
-      const newDescription = toUpdate.description;
+      const fieldToUpdateDescription = "description";
       const fieldToUpdateFromDate = "from_date";
-      const from_date = toUpdate.from_date;
       const fieldToUpdateToDate = "to_date";
-      const to_date = toUpdate.to_date;
-      project = await Project.update(id, {
-        [fieldToUpdateTitle]: newTitle, 
-        [fieldToUpdateDescription]: newDescription, 
-        [fieldToUpdateFromDate]: from_date, 
-        [fieldToUpdateToDate]: to_date
-      });
+      project = await Project.update( 
+        id, 
+        {
+          [fieldToUpdateTitle]: title, 
+          [fieldToUpdateDescription]: description, 
+          [fieldToUpdateFromDate]: from_date, 
+          [fieldToUpdateToDate]: to_date
+        }
+      );
     }
 
     return project;
@@ -72,7 +76,7 @@ class ProjectService {
   }
 
   static async getUserInfo({ user_id }) {
-    const user = await Award.findByUserId({ user_id });
+    const user = await Project.findByUserId({ user_id });
 
     // db에서 찾지 못한 경우, 에러 메시지 반환
     if (!user) {
@@ -81,7 +85,7 @@ class ProjectService {
       return { errorMessage };
     }
 
-    return projectList;
+    return user;
   }
 
   static async deleteUserProject({ id }) {
