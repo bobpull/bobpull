@@ -26,7 +26,7 @@ class AwardService {
     return award;
   }
 
-  static async setAward({ user_id, id, toUpdate }) {
+  static async setAward({ id, toUpdate }) {
     // 우선 해당 id의 award가 db에 존재하는지 여부 확인
     let award = await Award.findById({ id });
 
@@ -41,17 +41,19 @@ class AwardService {
     const description = toUpdate.description;
 
     // 업데이트 대상에 title이 있다면, 즉 title 값이 null 이 아니라면 업데이트 진행
-    if (title) {
-      const fieldToUpdate = "title";
-      const newValue = title;
-      award = await Award.update({ id, fieldToUpdate, newValue });
+    if (title && description) {
+      const fieldToUpdate1 = "title";
+      const newTitle = title;
+      const fieldToUpdate2 = "description";
+      const newDescription = description;
+      award = await Award.update( id, {[fieldToUpdate1]:newTitle, [fieldToUpdate2]:newDescription});
     }
-
-    if (description) {
-      const fieldToUpdate = "description";
-      const newValue = description;
-      award = await Award.update({ id, fieldToUpdate, newValue });
-    }
+    
+    // if (description) {
+    //   const fieldToUpdate = "description";
+    //   const newValue = description;
+    //   award = await Award.update({ id, fieldToUpdate, newValue });
+    // }
 
     return award;
   }
