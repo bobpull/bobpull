@@ -9,7 +9,6 @@ class CertificateService {
 
     // db에 저장
     const createdNewCertificate = await Certificate.create({ newCertificate });
-    createdNewCertificate.errorMessage = null;
 
     return createdNewCertificate;
   }
