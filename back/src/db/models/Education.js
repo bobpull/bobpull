@@ -16,13 +16,13 @@ class Education {
     return education;
   }
 
-  static async findById({ _id }) {
-    const education = await EducationModel.findOne({ _id });
+  static async findById({ id }) {
+    const education = await EducationModel.findOne({ id });
     return education;
   }
 
-  static async update({ _id, fieldToUpdate, newValue }) {
-    const filter = { _id };
+  static async update({ id, fieldToUpdate, newValue }) {
+    const filter = { id };
     const update = { [fieldToUpdate]: newValue };
     const option = { returnOriginal: false };
 
@@ -34,8 +34,8 @@ class Education {
     return updatedEducation;
   }
 
-  static async deleteById({ _id }) {
-    const education = await EducationModel.deleteOne({ _id });
+  static async deleteById({ id }) {
+    const education = await EducationModel.deleteOne({ id });
     return education;
   }
 }

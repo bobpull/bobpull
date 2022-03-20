@@ -41,8 +41,8 @@ userEducationRouter.post(
     }
 
     res.status(201).json(newEducation);
-  } catch (error) {
-    next(error);
+  } catch (err) {
+    next(err);
   }
 });
 
@@ -51,16 +51,16 @@ userEducationRouter.get(
   login_required,
   async function (req, res, next) {
     try {
-      const _id = req.params.id;
-      const currentUserEducation = await userEducationService.getUserEducation({ _id });
+      const id = req.params.id;
+      const currentUserEducation = await userEducationService.getUserEducation({ id });
 
       if (currentUserEducation.errorMessage) {
         throw new Error(currentUserEducation.errorMessage);
       }
 
       res.status(200).send(currentUserEducation);
-    } catch (error) {
-      next(error);
+    } catch (err) {
+      next(err);
     }
   }
 );
@@ -72,7 +72,7 @@ userEducationRouter.put(
     try {
       // URI로부터 education id를 추출함.
       const user_id = req.currentUserId;
-      const _id = req.params.id;
+      const id = req.params.id;
       // body data 로부터 업데이트할 education 정보를 추출함.
       const school = req.body.school ?? null;
       const major = req.body.major ?? null;
@@ -81,15 +81,15 @@ userEducationRouter.put(
       const toUpdate = { school, major, position };
 
       // 해당 education 아이디로 education 정보를 db에서 찾아 업데이트함. 업데이트 요소가 없을 시 생략함
-      const updatedEducation = await userEducationService.setEducation({ user_id, _id, toUpdate });
+      const updatedEducation = await userEducationService.setEducation({ user_id, id, toUpdate });
 
       if (updatedEducation.errorMessage) {
         throw new Error(updatedEducation.errorMessage);
       }
 
       res.status(200).json(updatedEducation);
-    } catch (error) {
-      next(error);
+    } catch (err) {
+      next(err);
     }
   }
 );
@@ -107,8 +107,8 @@ userEducationRouter.get(
       }
 
       res.status(200).send(currentUserEducation);
-    } catch (error) {
-      next(error);
+    } catch (err) {
+      next(err);
     }
   }
 );
@@ -118,16 +118,16 @@ userEducationRouter.delete(
   login_required,
   async function (req, res, next) {
     try {
-      const _id = req.params.id;
-      const deletedEducation = await userEducationService.deleteUserEducation({ _id });
+      const id = req.params.id;
+      const deletedEducation = await userEducationService.deleteUserEducation({ id });
   
       if (deletedEducation.errorMessage) {
         throw new Error(deletedEducation.errorMessage);
       }
   
       res.status(204).send();
-    } catch (error) {
-      next(error);
+    } catch (err) {
+      next(err);
     }
   }
 );

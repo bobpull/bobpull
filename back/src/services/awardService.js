@@ -1,4 +1,5 @@
 import { Award } from "../db";
+import { v4 as uuidv4 } from "uuid";
 
 class userAwardService {
   static async addAward({ user_id, title, description }) {
@@ -10,7 +11,8 @@ class userAwardService {
       return { errorMessage }
     }
     
-    const newAward = { user_id, title, description };
+    const id = uuidv4();
+    const newAward = { id, user_id, title, description };
 
     // db에 저장
     const createdNewAward = await Award.create({ newAward });
@@ -19,8 +21,8 @@ class userAwardService {
     return createdNewAward;
   }
 
-  static async getAwardInfo({ _id }) {
-    const award = await Award.findById({ _id })
+  static async getAwardInfo({ id }) {
+    const award = await Award.findById({ id })
 
     // db에서 찾지 못한 경우, 에러 메시지 반환
     if (!award) {
@@ -32,9 +34,9 @@ class userAwardService {
     return award;
   }
 
-  static async setAward({ user_id, _id, toUpdate }) {
+  static async setAward({ user_id, id, toUpdate }) {
     // 우선 해당 id의 award가 db에 존재하는지 여부 확인
-    let award = await Award.findById({ _id });
+    let award = await Award.findById({ id });
 
     // db에서 찾지 못한 경우, 에러 메시지 반환
     if (!award) {
@@ -56,13 +58,13 @@ class userAwardService {
     if (title) {
       const fieldToUpdate = "title";
       const newValue = title;
-      award = await Award.update({ _id, fieldToUpdate, newValue });
+      award = await Award.update({ id, fieldToUpdate, newValue });
     }
 
     if (description) {
       const fieldToUpdate = "description";
       const newValue = description;
-      award = await Award.update({ _id, fieldToUpdate, newValue });
+      award = await Award.update({ id, fieldToUpdate, newValue });
     }
 
     return award;
@@ -93,8 +95,8 @@ class userAwardService {
     return user;
   }
 
-  static async deleteUserAward({ _id }) {
-    const award = await Award.deleteById({ _id });
+  static async deleteUserAward({ id }) {
+    const award = await Award.deleteById({ id });
 
     // db에서 찾지 못한 경우, 에러 메시지 반환
     if (!award || award === null) {
