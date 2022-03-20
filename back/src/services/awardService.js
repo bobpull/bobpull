@@ -48,12 +48,6 @@ class AwardService {
       const newDescription = description;
       award = await Award.update( id, {[fieldToUpdate1]:newTitle, [fieldToUpdate2]:newDescription});
     }
-    
-    // if (description) {
-    //   const fieldToUpdate = "description";
-    //   const newValue = description;
-    //   award = await Award.update({ id, fieldToUpdate, newValue });
-    // }
 
     return award;
   }

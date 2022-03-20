@@ -15,7 +15,7 @@ class Award {
     const filter = { id };
     const update = fieldToUpdate
     const option = { returnOriginal: false };
-    console.log(filter, update);
+
     const updatedAward = await AwardModel.findOneAndUpdate(
       filter,
       update,
