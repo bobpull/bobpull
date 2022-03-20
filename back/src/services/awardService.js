@@ -3,14 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 
 class AwardService {
   static async addAward({ user_id, title, description }) {
-    // 수상 이력 중복 확인
-    const titleWithDescription = await Award.findByTitleWithDescription({ user_id, title, description });
-    if (titleWithDescription) {
-      const errorMessage =
-        "동일한 수상 이력을 중복으로 등록할 수 없습니다.";
-      return { errorMessage }
-    }
-    
+
     const id = uuidv4();
     const newAward = { id, user_id, title, description };
 
@@ -47,12 +40,6 @@ class AwardService {
 
     const title = toUpdate.title;
     const description = toUpdate.description;
-    const titleWithDescription = await Award.findByTitleWithDescription({ user_id, title, description });
-    if (titleWithDescription) {
-      const errorMessage =
-        "동일한 수상 이력을 중복으로 등록할 수 없습니다.";
-      return { errorMessage }
-    }
 
     // 업데이트 대상에 title이 있다면, 즉 title 값이 null 이 아니라면 업데이트 진행
     if (title) {
