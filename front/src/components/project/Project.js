@@ -37,10 +37,6 @@ const Project = ({portfolioOwnerId, isEditable}) => {
               <ProjectCard
                 key={item.id}
                 index={index}
-                title={item.title}
-                description={item.description}
-                from_date={item.from_date}
-                to_date={item.to_date}
                 isEditable={isEditable}
                 
               />
