@@ -1,4 +1,5 @@
 import { ProjectModel } from "../schemas/project";
+import { UserModel } from "../schemas/user";
 
 class Project {
   static async create({ newProject }) {
@@ -25,8 +26,8 @@ class Project {
     }
 
   static async findByUserId({ user_id }) {
-    const projectlist = await ProjectModel.find({ user_id });
-    return projectlist;
+    const user = await UserModel.find({ user_id });
+    return user;
   }
 
   static async deleteById({ id }) {

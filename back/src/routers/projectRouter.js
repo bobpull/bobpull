@@ -16,15 +16,7 @@ ProjectRouter.post(
       );
     }
 
-    // jwt토큰에서 추출된 사용자 id를 가지고 db에서 사용자 정보를 찾음.
     const user_id = req.currentUserId;
-    const currentUserInfo = await ProjectService.getUserInfo({ user_id });
-
-    if (currentUserInfo.errorMessage) {
-      throw new Error(currentUserInfo.errorMessage);
-    }
-
-    // req (request) 에서 데이터 가져오기
     const title = req.body.title;
     const description = req.body.description;
     const from_date = req.body.from_date;
