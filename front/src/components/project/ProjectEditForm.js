@@ -1,8 +1,10 @@
 import React, {useState} from "react"
 import * as Api from "../../api";
 import { Form, Row, Col, Button } from 'react-bootstrap';
+import TodayDate from "./TodayDate"
 
 const ProjectEditForm = ({item, setIsEditForm, dispatch}) => {
+    console.log("item: ", item)
     const [newProject, setNewProject] = useState({
       ...item
     })
@@ -10,7 +12,7 @@ const ProjectEditForm = ({item, setIsEditForm, dispatch}) => {
   const onSubmit = async (e) => {
     e.preventDefault();
     try{
-      await Api.put(`projects/${item._id}`, newProject)
+      await Api.put(`projects/${item.id}`, newProject)
       dispatch({type: "put-project", payload: newProject})
       setIsEditForm(false)
     } catch(e){
@@ -58,6 +60,7 @@ const ProjectEditForm = ({item, setIsEditForm, dispatch}) => {
             name="from_date" 
             value={item.from_date.toString().substr(0,10)}
             onChange={onChange}
+            max={TodayDate}
             required
           />
         </Col>
@@ -68,6 +71,8 @@ const ProjectEditForm = ({item, setIsEditForm, dispatch}) => {
             name="to_date" 
             value={item.to_date.toString().substr(0,10)}
             onChange={onChange}
+            min={item.from_date}
+            max={TodayDate}
             required
           />
         </Col>

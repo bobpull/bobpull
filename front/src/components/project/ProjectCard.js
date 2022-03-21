@@ -11,8 +11,8 @@ const ProjectCard = ({item, dispatch, isEditable }) => {
 
   const deleteHandler = async () => {
     try{
-      await Api.delete("projects", item._id)
-      dispatch({type: 'delete-project', payload: `${item._id}` })
+      await Api.delete("projects", item.id)
+      dispatch({type: 'delete-project', payload: `${item.id}` })
     } catch(e){
       console.error(e)
     }

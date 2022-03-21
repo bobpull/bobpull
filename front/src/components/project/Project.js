@@ -14,10 +14,11 @@ const reducer = (state, action) => {
     case 'add-project':
       return [...state, action.payload]
     case 'delete-project':
-      return state.filter((project) => project._id !== action.payload)
+      return state.filter((project) => project.id !== action.payload)
     case 'put-project': {
-      const id = action.payload._id
-      const index = state.findIndex(x => x._id === id)
+      console.log(action.payload)
+      const id = action.payload.id
+      const index = state.findIndex(x => x.id === id)
       state[index] = action.payload
       return [...state]
     }
@@ -43,6 +44,7 @@ const Project = ({portfolioOwnerId, isEditable}) => {
       try{
         const res = await Api.get("projectlist", portfolioOwnerId)
         dispatch({type: "update-project", payload: res.data})
+        console.log(projects)
         
       } catch(e){
         console.log(e)
@@ -62,7 +64,7 @@ const Project = ({portfolioOwnerId, isEditable}) => {
           {/* 프로젝트가 추가 되었을 때, 편집 화면과 추가 내용 */}
             {projects && projects.map((item, index) => 
               <ProjectCard
-                key={item._id}
+                key={item.id}
                 item={item}
                 dispatch={dispatch}
                 isEditable={isEditable}
@@ -71,11 +73,14 @@ const Project = ({portfolioOwnerId, isEditable}) => {
             )}
             {/* 포트폴리오 주인이 아니면 수정이 불가 */}
             {isEditable &&
-             <Button
-                onClick={() => setIsEditing(true)}
-                variant="primary"
-                className="mb-3"
-             >추가</Button>
+            <Row className="mt-3 mb-3 text-center">
+              <Col>
+                <Button
+                    onClick={() => setIsEditing(true)}
+                    variant="primary"  
+                >+</Button>
+              </Col>
+             </Row>
             }
             {isEditing &&
               <AddProject

@@ -1,12 +1,9 @@
 import React, {useState} from "react";
 import * as Api from "../../api";
 import { Form, Row, Col, Button } from 'react-bootstrap';
+import TodayDate from "./TodayDate"
 
-const today = new Date();
-const year = today.getFullYear();
-const month = today.getMonth() + 1;
-const day = today.getDate();
-const todayDate = `${year}-${month < 10 ? "0" : ""}${month}-${day}`;
+const todayDate = TodayDate();
 
 const AddProject = ({setIsEditing, dispatch}) => {
   const [project, setProject] = useState({
@@ -68,7 +65,7 @@ const AddProject = ({setIsEditing, dispatch}) => {
             name="from_date" 
             value={project.from_date}
             onChange={onChange}
-            min={todayDate}
+            max={todayDate}
             required
           />
         </Col>
