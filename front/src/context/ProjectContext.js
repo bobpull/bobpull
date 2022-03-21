@@ -29,7 +29,7 @@ const ProjectProvider = ({children}) => {
     projects,
     dispatch
   }
-  return <ProjectContext value={store}>{children}</ProjectContext>
+  return <ProjectContext.Provider value={store}>{children}</ProjectContext.Provider>
 }
 
 export {ProjectProvider, ProjectContext}

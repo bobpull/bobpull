@@ -1,51 +1,22 @@
-import React, {useState, useEffect, useReducer} from "react";
+import React, {useState, useEffect, useContext} from "react";
 import * as Api from "../../api";
 
 import AddProject from "./AddProject"
 import ProjectCard from "./ProjectCard"
 
+import {ProjectContext} from "../../context/ProjectContext"
+
 import {Button, Row, Col, Card} from "react-bootstrap";
-
-
-const reducer = (state, action) => {
-  switch(action.type){
-    case 'update-project':
-      return [...action.payload]
-    case 'add-project':
-      return [...state, action.payload]
-    case 'delete-project':
-      return state.filter((project) => project.id !== action.payload)
-    case 'put-project': {
-      console.log(action.payload)
-      const id = action.payload.id
-      const index = state.findIndex(x => x.id === id)
-      state[index] = action.payload
-      return [...state]
-    }
-      
-    default:
-      return state
-  }
-
-}
-
-const initialState = []
-
 
 const Project = ({portfolioOwnerId, isEditable}) => {
   const [isEditing, setIsEditing] = useState(false)
-  const [projects, dispatch] = useReducer(reducer,initialState)
+  const {projects, dispatch} = useContext(ProjectContext)
 
-  
- 
-  
   useEffect(() => {
     const fetchAPI = async () => {
       try{
         const res = await Api.get("projectlist", portfolioOwnerId)
         dispatch({type: "update-project", payload: res.data})
-        console.log(projects)
-        
       } catch(e){
         console.log(e)
       }
@@ -65,8 +36,11 @@ const Project = ({portfolioOwnerId, isEditable}) => {
             {projects && projects.map((item, index) => 
               <ProjectCard
                 key={item.id}
-                item={item}
-                dispatch={dispatch}
+                index={index}
+                title={item.title}
+                description={item.description}
+                from_date={item.from_date}
+                to_date={item.to_date}
                 isEditable={isEditable}
                 
               />
@@ -85,7 +59,6 @@ const Project = ({portfolioOwnerId, isEditable}) => {
             {isEditing &&
               <AddProject
                 setIsEditing={setIsEditing}
-                dispatch={dispatch}
               />
           }
         </Card.Body>

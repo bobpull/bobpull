@@ -10,6 +10,8 @@ import Certificate from "./certificate/Certificate";
 import Education from "./education/Education";
 import Project from "./project/Project";
 
+import {ProjectProvider} from "../context/ProjectContext"
+
 function Portfolio() {
   const navigate = useNavigate();
   const params = useParams();
@@ -74,10 +76,12 @@ function Portfolio() {
               portfolioOwnerId={portfolioOwner.id}
               isEditable={portfolioOwner.id === userState.user?.id}
             />
-            <Project
-              portfolioOwnerId={portfolioOwner.id}
-              isEditable={portfolioOwner.id === userState.user?.id}
-            />
+            <ProjectProvider>
+              <Project
+                portfolioOwnerId={portfolioOwner.id}
+                isEditable={portfolioOwner.id === userState.user?.id}
+              />
+            </ProjectProvider>
             <Certificate
               portfolioOwnerId={portfolioOwner.id}
               isEditable={portfolioOwner.id === userState.user?.id}
