@@ -134,8 +134,8 @@ class userAuthService {
     return user;
   }
 
-  static async deleteUser({ id }) {
-    const user = await User.deleteById({ id });
+  static async deleteUser({ user_id }) {
+    const user = await User.deleteById({ user_id });
 
     // db에서 찾지 못한 경우, 에러 메시지 반환
     if (!user || user === null) {
