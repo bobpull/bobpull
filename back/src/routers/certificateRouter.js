@@ -1,7 +1,7 @@
 import is from "@sindresorhus/is";
 import { Router } from "express";
 import { login_required } from "../middlewares/login_required";
-import { userCertificateService } from "../services/certificateService";
+import { CertificateService } from "../services/certificateService";
 
 const CertificateRouter = Router();
 
@@ -17,7 +17,7 @@ CertificateRouter.post(
       }
   
       const user_id = req.currentUserId;
-      const currentUserInfo = await userCertificateService.getUserInfo({ user_id });
+      const currentUserInfo = await CertificateService.getUserInfo({ user_id });
 
       if (currentUserInfo.errorMessage) {
         throw new Error(currentUserInfo.errorMessage);
@@ -28,7 +28,7 @@ CertificateRouter.post(
       const issued_at = req.body.issued_at;
 
       // 위 데이터를 자격증 db에 추가하기
-      const newCertificate = await userCertificateService.addCertificate({
+      const newCertificate = await CertificateService.addCertificate({
         user_id,
         title,
         description,
@@ -52,7 +52,7 @@ CertificateRouter.get(
   async function(req, res, next) {
     try{
       const id = req.params.id;
-      const currentCertificateInfo = await userCertificateService.getCertificateInfo({ id });
+      const currentCertificateInfo = await CertificateService.getCertificateInfo({ id });
 
       if (currentCertificateInfo.errorMessage) {
         throw new Error(currentCertificateInfo.errorMessage);
@@ -81,7 +81,7 @@ CertificateRouter.put(
       const toUpdate = {title, description, issued_at};
 
       // 해당 certificate_di로 자격증 정보를 db에서 찾아 업데이트함. 업데이트 요소가 없을 시 생략함
-      const updatedCertificate = await userCertificateService.setCertificate({ user_id, id, toUpdate });
+      const updatedCertificate = await CertificateService.setCertificate({ user_id, id, toUpdate });
 
       if (updatedCertificate.errorMessage) {
         throw new Error(updatedCertificate.errorMessage);
@@ -99,7 +99,7 @@ CertificateRouter.get(
   async function (req, res, next) {
     try {
       const user_id = req.params.user_id;
-      const currentCertificatelistInfo = await userCertificateService.getCertificatelistInfo({ user_id });
+      const currentCertificatelistInfo = await CertificateService.getCertificatelistInfo({ user_id });
 
       if (currentCertificatelistInfo.errorMessage) {
         throw new Error(currentCertificatelistInfo.errorMessage);
@@ -118,7 +118,7 @@ CertificateRouter.delete(
   async function (req, res, next) {
     try {
       const id = req.params.id;
-      const deletedCertificate = await userCertificateService.deleteUserCertificate({ id });
+      const deletedCertificate = await CertificateService.deleteUserCertificate({ id });
   
       if (deletedCertificate.errorMessage) {
         throw new Error(deletedCertificate.errorMessage);
