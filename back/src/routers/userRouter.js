@@ -143,8 +143,8 @@ userAuthRouter.delete(
   login_required,
   async function (req, res, next) {
     try {
-      const _id = req.params.id;
-      const deletedUser = await userAuthService.deleteUser({ _id });
+      const user_id = req.params.id;
+      const deletedUser = await userAuthService.deleteUser({ user_id });
   
       if (deletedUser.errorMessage) {
         throw new Error(deletedUser.errorMessage);
