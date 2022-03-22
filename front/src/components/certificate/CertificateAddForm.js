@@ -26,7 +26,7 @@ function CertificateAddForm({ setAddCertificate }) {
       const res = await Api.post("certificate/create", {
         title: title,
         description: description,
-        when_date: date,
+        issued_at: date,
       });
       setCertificates((cur) => [...cur, res.data]);
     } catch (err) {

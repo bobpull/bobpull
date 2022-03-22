@@ -8,7 +8,7 @@ function EducationAddForm({ setIsAdding }) {
   const { setEducations } = useContext(EducationsContext);
   const [school, setSchool] = useState("");
   const [major, setMajor] = useState("");
-  const [position, setPosition] = useState("");
+  const [degree, setDegree] = useState("");
   const posName = ["재학중", "학사졸업", "석사졸업", "박사졸업"];
 
   const handleSchoolChange = (e) => {
@@ -19,8 +19,8 @@ function EducationAddForm({ setIsAdding }) {
     setMajor(e.target.value);
   };
 
-  const handlePositionChange = (e) => {
-    setPosition(e.target.value);
+  const handleDegreeChange = (e) => {
+    setDegree(e.target.value);
   };
 
   const handleSubmit = async (e) => {
@@ -30,7 +30,7 @@ function EducationAddForm({ setIsAdding }) {
       const response = await Api.post("education/create", {
         school,
         major,
-        position,
+        degree,
       });
       setEducations((current) => {
         const newEducations = [...current];
@@ -66,7 +66,7 @@ function EducationAddForm({ setIsAdding }) {
         />
       </Form.Group>
 
-      <Form.Group controlId="userAddPosition">
+      <Form.Group controlId="userAddDegree">
         {posName.map((pos) => (
           <Form.Check
             inline
@@ -74,12 +74,12 @@ function EducationAddForm({ setIsAdding }) {
             type="radio"
             label={pos}
             value={pos}
-            checked={position === pos}
-            onChange={handlePositionChange}
+            checked={degree === pos}
+            onChange={handleDegreeChange}
           />
         ))}
       </Form.Group>
-      {position === "" ? (
+      {degree === "" ? (
         <span style={{ color: "red", fontSize: "12px" }}>
           학위를 선택해주세요
         </span>

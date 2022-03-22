@@ -16,7 +16,7 @@ function CertificateEditForm({ certificate, setIsEditing }) {
   const id = certificate.id;
   const [title, setTitle] = useState(certificate.title);
   const [description, setDescription] = useState(certificate.description);
-  const [date, setDate] = useState(certificate.when_date);
+  const [date, setDate] = useState(certificate.issued_at);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -26,7 +26,7 @@ function CertificateEditForm({ certificate, setIsEditing }) {
       const res = await Api.put("certificates/" + id, {
         title: title,
         description: description,
-        when_date: date,
+        issued_at: date,
       });
 
       setCertificates((cur) => cur.map((v) => (v.id === id ? res.data : v)));

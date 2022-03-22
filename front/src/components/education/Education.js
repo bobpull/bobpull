@@ -21,7 +21,7 @@ function Education({ portfolioOwnerId, isEditable }) {
     <>
       <Row>
         <Col>
-          <Card className="mb-2">
+          <Card className="mb-3">
             <Card.Body>
               <Card.Title>학력</Card.Title>
               <EducationsContext.Provider value={{ educations, setEducations }}>
@@ -31,7 +31,7 @@ function Education({ portfolioOwnerId, isEditable }) {
                     key={education.id}
                     school={education.school}
                     major={education.major}
-                    position={education.position}
+                    degree={education.degree}
                     isEditable={isEditable}
                   />
                 ))}

@@ -38,7 +38,6 @@ const Project = ({portfolioOwnerId, isEditable}) => {
                 key={item.id}
                 index={index}
                 isEditable={isEditable}
-                
               />
             )}
             {/* 포트폴리오 주인이 아니면 수정이 불가 */}

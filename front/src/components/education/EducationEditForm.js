@@ -4,11 +4,11 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Button, Row, Col, Form } from "react-bootstrap";
 import * as Api from "../../api";
 
-function EducationEditForm({ id, setIsEditing, _school, _major, _position }) {
+function EducationEditForm({ id, setIsEditing, _school, _major, _degree }) {
   const { setEducations } = useContext(EducationsContext);
   const [school, setSchool] = useState(_school);
   const [major, setMajor] = useState(_major);
-  const [position, setPosition] = useState(_position);
+  const [degree, setDegree] = useState(_degree);
   const posName = ["재학중", "학사졸업", "석사졸업", "박사졸업"];
 
   const handleSchoolChange = (e) => {
@@ -19,8 +19,8 @@ function EducationEditForm({ id, setIsEditing, _school, _major, _position }) {
     setMajor(e.target.value);
   };
 
-  const handlePositionChange = (e) => {
-    setPosition(e.target.value);
+  const handleDegreeChange = (e) => {
+    setDegree(e.target.value);
   };
 
   const handleSubmit = async (e) => {
@@ -31,10 +31,10 @@ function EducationEditForm({ id, setIsEditing, _school, _major, _position }) {
         id,
         school,
         major,
-        position,
+        degree,
       });
       setEducations((cur) =>
-        cur.map((education) => education.id === id ? { ...education, school, major, position } : education)
+        cur.map((education) => education.id === id ? { ...education, school, major, degree } : education)
       );
       setIsEditing(false);
     } catch (err) {
@@ -72,8 +72,8 @@ function EducationEditForm({ id, setIsEditing, _school, _major, _position }) {
               type="radio"
               label={pos}
               value={pos}
-              checked={position === pos}
-              onChange={handlePositionChange}
+              checked={degree === pos}
+              onChange={handleDegreeChange}
             />
           ))}
         </Form.Group>

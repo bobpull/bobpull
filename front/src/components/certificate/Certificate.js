@@ -24,7 +24,7 @@ function Certificate({ portfolioOwnerId, isEditable }) {
   }, [portfolioOwnerId]);
 
   return (
-    <Card className="ml-2">
+    <Card className="mb-3">
       <Card.Body>
         <Card.Title>자격증</Card.Title>
 
@@ -38,8 +38,8 @@ function Certificate({ portfolioOwnerId, isEditable }) {
           ))}
 
           {isEditable && (
-            <Row className="mt-3 mb-4 text-center">
-              <Col className="col-sm-20">
+            <Row className="mt-3 mb-3 text-center">
+              <Col>
                 <Button
                   className="btn-primary"
                   onClick={() => {

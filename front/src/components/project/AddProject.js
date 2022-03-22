@@ -1,11 +1,14 @@
-import React, {useState} from "react";
+import React, {useState, useContext} from "react";
 import * as Api from "../../api";
 import { Form, Row, Col, Button } from 'react-bootstrap';
 import TodayDate from "./TodayDate"
+import {ProjectContext} from "../../context/ProjectContext"
+
 
 const todayDate = TodayDate();
 
-const AddProject = ({setIsEditing, dispatch}) => {
+const AddProject = ({setIsEditing}) => {
+  const {dispatch} = useContext(ProjectContext)
   const [project, setProject] = useState({
     title: "",
     description: "",
