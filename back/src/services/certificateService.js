@@ -75,7 +75,7 @@ class CertificateService {
   }
 
   static async deleteUserCertificate({ id }) {
-    const certificate = await Certificate.deleteById({ id });
+    const certificate = await Certificate.findById({ id });
 
     // db에서 찾지 못한 경우, 에러 메시지 반환
     if (!certificate || certificate === null) {
@@ -83,6 +83,7 @@ class CertificateService {
         "자격증이 없습니다. 다시 한 번 확인해 주세요.";
       return { errorMessage };
     }
+    await Certificate.deleteById({ id });
 
     return certificate;
   }

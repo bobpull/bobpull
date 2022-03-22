@@ -65,12 +65,14 @@ class AwardService {
   }
 
   static async deleteUserAward({ id }) {
-    const award = await Award.deleteById({ id });
-
+    const award = await Award.findById({ id });
+    
     // db에서 찾지 못한 경우, 에러 메시지 반환
     if (!award || award === null) {
       const errorMessage =
-        "수상 이력이 없습니다. 다시 한 번 확인해 주세요.";
+      "수상 이력이 없습니다. 다시 한 번 확인해 주세요.";
+
+      await Award.deleteById({ id });
       return { errorMessage };
     }
 
