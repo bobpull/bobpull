@@ -72,10 +72,10 @@ class AwardService {
       const errorMessage =
       "수상 이력이 없습니다. 다시 한 번 확인해 주세요.";
 
-      await Award.deleteById({ id });
       return { errorMessage };
     }
-
+    await Award.deleteById({ id });
+    
     return award;
   }
 }
