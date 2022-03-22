@@ -2,6 +2,10 @@ import is from "@sindresorhus/is";
 import { Router } from "express";
 import { login_required } from "../middlewares/login_required";
 import { userAuthService } from "../services/userService";
+const hashPassword = require("../utils/hash-password");
+const sendMail = require("../utils/send-mail");
+const generateRandomPassword = require("../utils/generate-random-password");
+const User = require("../db/models/User.js");
 
 const userAuthRouter = Router();
 
@@ -32,6 +36,46 @@ userAuthRouter.post("/user/register", async function (req, res, next) {
     res.status(201).json(newUser);
   } catch (error) {
     next(error);
+  }
+});
+
+userAuthRouter.get("/reset-password", (req, res, next) => {
+  res.render("user/reset-password");
+});
+
+userAuthRouter.post("/reset-password", async function ( req, res, next) {
+  try {
+    const email = req.body.email;
+    const user = await User.findByEmail({ email });
+    if (!user) {
+      throw new Error("해당 메일로 가입된 사용자가 없습니다.");
+    }
+  
+    const password = generateRandomPassword();
+  
+    await User.updateOne({ email }, {
+      password: hashPassword(password),
+      passwordReset: true,
+    });
+  
+    await sendMail(email, "비밀번호가 변경되었습니다.", `변경된 비밀번호는: ${password} 입니다.`);
+  
+    res.render('user/reset-password-confirmed');
+
+  } catch (err) {
+    next(err);
+  }  
+});
+
+userAuthRouter.post("/user/send-message", async function (req, res, next) {
+  try {
+    const email = req.body.email;
+    const secretMessage = "테스트를 위한 문장입니다."
+    await sendMail(email, "You've received a message", secretMessage);
+
+    res.status(200).send(user);
+  } catch (err) {
+    next(err);
   }
 });
 
