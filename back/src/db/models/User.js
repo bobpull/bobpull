@@ -17,10 +17,6 @@ class User {
 
   static async deleteById({ user_id }) {
     const user = await UserModel.deleteOne({ id: user_id });
-    await EducationModel.deleteMany({ user_id });
-    await AwardModel.deleteMany({ user_id });
-    await ProjectModel.deleteMany({ user_id });
-    await CertificateModel.deleteMany({ user_id });
     
     return user;
   }
