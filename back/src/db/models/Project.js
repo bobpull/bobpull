@@ -1,5 +1,4 @@
 import { ProjectModel } from "../schemas/project";
-import { UserModel } from "../schemas/user";
 
 class Project {
   static async create({ newProject }) {
