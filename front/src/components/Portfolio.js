@@ -10,6 +10,8 @@ import Certificate from "./certificate/Certificate";
 import Education from "./education/Education";
 import Project from "./project/Project";
 
+import Skill from "./skill/Skill";
+
 import {ProjectProvider} from "../context/ProjectContext"
 
 function Portfolio() {
@@ -58,13 +60,16 @@ function Portfolio() {
   }
 
   return (
-    <Container fluid>
+    <Container fluid style={{
+      maxWidth: "82.5rem",
+    }}>
       <Row>
         <Col lg="3">
           <User
             portfolioOwnerId={portfolioOwner.id}
             isEditable={portfolioOwner.id === userState.user?.id}
           />
+          <Skill/>
         </Col>
         <Col>
           <div>
