@@ -27,8 +27,8 @@ function Education({ portfolioOwnerId, isEditable }) {
               <EducationsContext.Provider value={{ educations, setEducations }}>
                 {educations.map((education) => (
                   <EducationCard
-                    id={education._id}
-                    key={education._id}
+                    id={education.id}
+                    key={education.id}
                     school={education.school}
                     major={education.major}
                     position={education.position}

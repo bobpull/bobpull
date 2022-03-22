@@ -5,7 +5,7 @@ import { Button, Row, Col, Form } from "react-bootstrap";
 import * as Api from "../../api";
 
 function EducationEditForm({ id, setIsEditing, _school, _major, _position }) {
-  const { educations, setEducations } = useContext(EducationsContext);
+  const { setEducations } = useContext(EducationsContext);
   const [school, setSchool] = useState(_school);
   const [major, setMajor] = useState(_major);
   const [position, setPosition] = useState(_position);
@@ -27,21 +27,18 @@ function EducationEditForm({ id, setIsEditing, _school, _major, _position }) {
     e.preventDefault();
 
     try {
-      Api.put(`educations/${id}`, {
+      await Api.put(`educations/${id}`, {
         id,
         school,
         major,
         position,
       });
-      setEducations(
-        educations.map((education) =>
-          education._id === id
-            ? { ...education, school, major, position }
-            : education
-        )
+      setEducations((cur) =>
+        cur.map((education) => education.id === id ? { ...education, school, major, position } : education)
       );
       setIsEditing(false);
     } catch (err) {
+      alert('동일한 학력을 중복으로 등록할 수 없습니다.');
       console.error(err);
     }
   };
