@@ -24,22 +24,22 @@ function Certificate({ portfolioOwnerId, isEditable }) {
   }, [portfolioOwnerId]);
 
   return (
-    <Card className="ml-2">
+    <Card className="mb-3">
       <Card.Body>
         <Card.Title>자격증</Card.Title>
 
         <CertificatesContext.Provider value={Certificates}>
           {certificates.map((v) => (
             <CertificateCard
-              key={v._id}
+              key={v.id}
               certificate={v}
               isEditable={isEditable}
             />
           ))}
 
           {isEditable && (
-            <Row className="mt-3 mb-4 text-center">
-              <Col className="col-sm-20">
+            <Row className="mt-3 mb-3 text-center">
+              <Col>
                 <Button
                   className="btn-primary"
                   onClick={() => {

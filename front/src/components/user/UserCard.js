@@ -3,16 +3,16 @@ import { Card, Row, Button, Col } from "react-bootstrap";
 
 function UserCard({ user, setIsEditing, isEditable, isNetwork }) {
   const navigate = useNavigate();
-  
+
   return (
-    <Card className="mb-2 ms-3 mr-5" style={{ width: 240, margin: "0 auto" }}>
+    <Card className="mb-2 ms-0" style={{ width: "100%", margin: "0 auto" }}>
       <Card.Body>
-        <Row className="justify-content-md-center">
+        <Row >
           <Card.Img
-            style={{ width: "10rem", height: "8rem" }}
+            style={{ width: "10rem", height: "8rem", borderRadius: "50%" }}
             className="mb-3"
             src="http://placekitten.com/200/200"
-            alt="랜덤 고양이 사진 (http://placekitten.com API 사용)"
+            alt="고양이 사진"
           />
         </Row>
         <Card.Title>{user?.name}</Card.Title>

@@ -3,20 +3,20 @@ import { Container, Col, Row, Form, Button } from "react-bootstrap";
 import { CertificatesContext } from "./Certificate";
 import * as Api from "../../api";
 
-// 자격증 추가 시 오늘 날짜를 defaultDate로 설정합니다.
+// 자격증 추가 시 오늘 날짜인 todayDate를 default value로 설정합니다.
 const today = new Date();
 const yyyy = today.getFullYear();
 const mm = today.getMonth() + 1;
 const dd = today.getDate();
-const defaultDate = `${yyyy}-${mm < 10 ? "0" : ""}${mm}-${dd}`;
+const todayDate = `${yyyy}-${mm < 10 ? "0" : ""}${mm}-${dd}`;
 
 function CertificateAddForm({ setAddCertificate }) {
-  const { certificates, setCertificates } = useContext(CertificatesContext);
+  const { setCertificates } = useContext(CertificatesContext);
 
   // useState로 title 상태를 생성함.
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [date, setDate] = useState(defaultDate);
+  const [date, setDate] = useState(todayDate);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -26,11 +26,12 @@ function CertificateAddForm({ setAddCertificate }) {
       const res = await Api.post("certificate/create", {
         title: title,
         description: description,
-        when_date: date,
+        issued_at: date,
       });
       setCertificates((cur) => [...cur, res.data]);
     } catch (err) {
       console.log(err);
+      alert("이미 존재하는 내용입니다. 다른 자격증을 추가해주세요.");
     }
 
     setAddCertificate(false);
@@ -69,6 +70,8 @@ function CertificateAddForm({ setAddCertificate }) {
                 className="mt-3"
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
+                min="1900-01-01"
+                max={todayDate}
                 required
               ></Form.Control>
             </Form.Group>

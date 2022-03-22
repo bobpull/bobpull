@@ -10,6 +10,10 @@ import Certificate from "./certificate/Certificate";
 import Education from "./education/Education";
 import Project from "./project/Project";
 
+import Skill from "./skill/Skill";
+
+import {ProjectProvider} from "../context/ProjectContext"
+
 function Portfolio() {
   const navigate = useNavigate();
   const params = useParams();
@@ -56,13 +60,16 @@ function Portfolio() {
   }
 
   return (
-    <Container fluid>
+    <Container fluid style={{
+      maxWidth: "82.5rem",
+    }}>
       <Row>
         <Col lg="3">
           <User
             portfolioOwnerId={portfolioOwner.id}
             isEditable={portfolioOwner.id === userState.user?.id}
           />
+          <Skill/>
         </Col>
         <Col>
           <div>
@@ -74,10 +81,12 @@ function Portfolio() {
               portfolioOwnerId={portfolioOwner.id}
               isEditable={portfolioOwner.id === userState.user?.id}
             />
-            <Project
-              portfolioOwnerId={portfolioOwner.id}
-              isEditable={portfolioOwner.id === userState.user?.id}
-            />
+            <ProjectProvider>
+              <Project
+                portfolioOwnerId={portfolioOwner.id}
+                isEditable={portfolioOwner.id === userState.user?.id}
+              />
+            </ProjectProvider>
             <Certificate
               portfolioOwnerId={portfolioOwner.id}
               isEditable={portfolioOwner.id === userState.user?.id}

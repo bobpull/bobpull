@@ -1,18 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { AwardsContext } from "./Award";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Button, Row, Col, Form } from "react-bootstrap";
 import * as Api from "../../api";
 
-function AwardEditForm({
-  id,
-  setIsEditing,
-  _title,
-  _description,
-  awards,
-  setAwards,
-}) {
+function AwardEditForm({ id, setIsEditing, _title, _description }) {
   const [title, setTitle] = useState(_title);
   const [description, setDescription] = useState(_description);
+  const { setAwards } = useContext(AwardsContext);
 
   const handleTitleChange = (e) => {
     setTitle(e.target.value);
@@ -26,14 +21,17 @@ function AwardEditForm({
     e.preventDefault();
 
     try {
-      Api.put(`awards/${id}`, {
+      await Api.put(`awards/${id}`, {
         id,
         title,
         description,
       });
-      setAwards(awards.map((award) => award._id === id ? { ...award, title, description } : award ));
+      setAwards((cur) =>
+        cur.map((award) => award.id === id ? { ...award, title, description } : award)
+      );
       setIsEditing(false);
     } catch (err) {
+      alert('동일한 수상 이력을 중복으로 등록할 수 없습니다.');
       console.error(err);
     }
   };
@@ -46,6 +44,7 @@ function AwardEditForm({
             type="text"
             value={title}
             onChange={handleTitleChange}
+            required
           />
         </Form.Group>
 
@@ -54,6 +53,7 @@ function AwardEditForm({
             type="text"
             value={description}
             onChange={handleDescriptionChange}
+            required
           />
         </Form.Group>
 

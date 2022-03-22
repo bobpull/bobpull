@@ -1,17 +1,19 @@
-import React, {useState} from "react";
+import React, {useState, useContext} from "react";
 import * as Api from "../../api";
 import { Form, Row, Col, Button } from 'react-bootstrap';
+import TodayDate from "./TodayDate"
+import {ProjectContext} from "../../context/ProjectContext"
 
-const today = new Date();
-const date = today.setDate(today.getDate()+1); 
-const defaultValue = new Date(date).toISOString().split('T')[0]
 
-const AddProject = ({setIsEditing, dispatch}) => {
+const todayDate = TodayDate();
+
+const AddProject = ({setIsEditing}) => {
+  const {dispatch} = useContext(ProjectContext)
   const [project, setProject] = useState({
     title: "",
     description: "",
-    from_date: `${defaultValue}`,
-    to_date: `${defaultValue}`,
+    from_date: `${todayDate}`,
+    to_date: `${todayDate}`,
   })
 
   
@@ -66,6 +68,7 @@ const AddProject = ({setIsEditing, dispatch}) => {
             name="from_date" 
             value={project.from_date}
             onChange={onChange}
+            max={todayDate}
             required
           />
         </Col>
@@ -76,6 +79,8 @@ const AddProject = ({setIsEditing, dispatch}) => {
             name="to_date" 
             value={project.to_date}
             onChange={onChange}
+            min={project.from_date}
+            max={todayDate}
             required
           />
         </Col>

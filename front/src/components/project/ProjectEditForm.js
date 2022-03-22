@@ -1,16 +1,19 @@
-import React, {useState} from "react"
+import React, {useState, useContext} from "react"
 import * as Api from "../../api";
 import { Form, Row, Col, Button } from 'react-bootstrap';
+import TodayDate from "./TodayDate"
+import {ProjectContext} from "../../context/ProjectContext"
 
-const ProjectEditForm = ({item, setIsEditForm, dispatch}) => {
+const ProjectEditForm = ({index, setIsEditForm}) => {
+    const {projects,dispatch} = useContext(ProjectContext)
     const [newProject, setNewProject] = useState({
-      ...item
+      ...projects[index]
     })
 
   const onSubmit = async (e) => {
     e.preventDefault();
     try{
-      await Api.put(`projects/${item._id}`, newProject)
+      await Api.put(`projects/${projects[index].id}`, newProject)
       dispatch({type: "put-project", payload: newProject})
       setIsEditForm(false)
     } catch(e){
@@ -56,8 +59,9 @@ const ProjectEditForm = ({item, setIsEditForm, dispatch}) => {
             type="date" 
             placeholder="시작일"
             name="from_date" 
-            value={item.from_date.toString().substr(0,10)}
+            value={projects[index].from_date.toString().substr(0,10)}
             onChange={onChange}
+            max={TodayDate}
             required
           />
         </Col>
@@ -66,8 +70,10 @@ const ProjectEditForm = ({item, setIsEditForm, dispatch}) => {
             type="date" 
             placeholder="끝"
             name="to_date" 
-            value={item.to_date.toString().substr(0,10)}
+            value={projects[index].to_date.toString().substr(0,10)}
             onChange={onChange}
+            min={projects[index].from_date}
+            max={TodayDate}
             required
           />
         </Col>
