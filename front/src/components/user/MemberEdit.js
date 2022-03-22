@@ -4,8 +4,17 @@ import { Container, Row, Button } from "react-bootstrap";
 function MemberEdit() {
   const navigate = useNavigate();
   return (
-    <Container>
-      <Row className="justify-content-md-center mt-5">
+    <Container style={{ maxWidth: "700px" }}>
+      <Row
+        className="m-3 mt-5"
+        style={{ fontSize: "30px", fontWeight: "bold" }}
+      >
+        회원 정보
+        <Row style={{ fontSize: "20px", fontWeight: "normal" }}>
+          밥풀에서의 회원 정보를 수정할 수 있습니다.
+        </Row>
+      </Row>
+      <Row className="justify-content-md-center m-5">
         <Button
           variant="primary"
           className="mb-3"

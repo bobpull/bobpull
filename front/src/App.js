@@ -10,6 +10,7 @@ import Network from "./components/user/Network";
 import RegisterForm from "./components/user/RegisterForm";
 import Portfolio from "./components/Portfolio";
 import MemberEdit from "./components/user/MemberEdit";
+import PasswordEdit from "./components/user/PasswordEdit";
 
 export const UserStateContext = createContext(null);
 export const DispatchContext = createContext(null);
@@ -65,7 +66,7 @@ function App() {
             <Route path="/users/:userId" element={<Portfolio />} />
             <Route path="/network" element={<Network />} />
             <Route path="/edit" element={<MemberEdit />} />
-            <Route path="/edit/password" element={<MemberEdit />} />
+            <Route path="/edit/password" element={<PasswordEdit />} />
             <Route path="*" element={<Portfolio />} />
           </Routes>
         </Router>
