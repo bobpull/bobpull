@@ -1,8 +1,4 @@
 import { UserModel } from "../schemas/user";
-import { EducationModel } from "../schemas/education";
-import { AwardModel } from "../schemas/award";
-import { ProjectModel } from "../schemas/project";
-import { CertificateModel } from "../schemas/certificate";
 
 class User {
   static async create({ newUser }) {
