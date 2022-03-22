@@ -30,11 +30,6 @@ class Project {
       return updatedProject;
     }
 
-  static async findByUserId({ user_id }) {
-    const user = await UserModel.find({ user_id });
-    return user;
-  }
-
   static async deleteById({ id }) {
     const project = await ProjectModel.deleteOne({ id });
     return project;
