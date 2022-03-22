@@ -1,7 +1,8 @@
-import { User } from "../db"; // from을 폴더(db) 로 설정 시, 디폴트로 index.js 로부터 import함.
+import { User, Education, Award, Project, Certificate } from "../db"; // from을 폴더(db) 로 설정 시, 디폴트로 index.js 로부터 import함.
 import bcrypt from "bcrypt";
 import { v4 as uuidv4 } from "uuid";
 import jwt from "jsonwebtoken";
+
 
 class userAuthService {
   static async addUser({ name, email, password }) {
@@ -122,7 +123,7 @@ class userAuthService {
   }
 
   static async deleteUser({ user_id }) {
-    const user = await User.deleteById({ user_id });
+    const user = await User.findById({ user_id });
 
     // db에서 찾지 못한 경우, 에러 메시지 반환
     if (!user || user === null) {
@@ -130,6 +131,7 @@ class userAuthService {
         "해당 유저가 존재하지 않습니다.";
       return { errorMessage };
     }
+    await User.deleteById({ user_id });
 
     return user;
   }
