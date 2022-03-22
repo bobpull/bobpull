@@ -1,34 +1,27 @@
 import is from "@sindresorhus/is";
 import { Router } from "express";
 import {login_required} from "../middlewares/login_required";
-import { userAwardService } from "../services/awardService";
+import { AwardService } from "../services/awardService";
 
-const userAwardRouter = Router();
+const AwardRouter = Router();
 
-userAwardRouter.post(
+AwardRouter.post(
   "/award/create",
   login_required,
   async function (req, res, next) {
     try {
       if (is.emptyObject(req.body)) {
         throw new Error(
-          "headers의 Content-Type을 application/json으로 설정해주세요"
+          "필수 파라미터가 존재하지 않습니다."
         );
       }
 
       const user_id = req.currentUserId;
-      const currentUserInfo = await userAwardService.getUserInfo({ user_id });
-
-      if (currentUserInfo.errorMessage) {
-        throw new Error(currentUserInfo.errorMessage);
-      }
-
-      // req (request)에서 데이터 가져오기
       const title = req.body.title;
       const description = req.body.description;
 
       // 위 데이터를 유저 db에 추가하기
-      const newAward = await userAwardService.addAward({
+      const newAward = await AwardService.addAward({
         user_id,
         title,
         description,
@@ -45,13 +38,13 @@ userAwardRouter.post(
   }
 );
 
-userAwardRouter.get(
+AwardRouter.get(
   "/awards/:id",
   login_required,
   async function(req, res, next) {
     try {
       const id = req.params.id;
-      const currentAwardInfo = await userAwardService.getAwardInfo({ id })
+      const currentAwardInfo = await AwardService.getAwardInfo({ id })
 
       if (currentAwardInfo.errorMessage) {
         throw new Error(currentAwardInfo.errorMessage);
@@ -64,12 +57,11 @@ userAwardRouter.get(
   }
 );
 
-userAwardRouter.put(
+AwardRouter.put(
   "/awards/:id",
   login_required,
   async function (req, res, next) {
     try {
-      const user_id = req.currentUserId;
       const id = req.params.id;
       const title = req.body.title ?? null;
       const description = req.body.description ?? null;
@@ -77,7 +69,7 @@ userAwardRouter.put(
       const toUpdate = { title, description };
 
       //해당 award_id로 수상이력 정보를 db에서 찾아 업데이트함. 업데이트 요소가 없을 시 생략함
-      const updatedAward = await userAwardService.setAward({ user_id, id, toUpdate });
+      const updatedAward = await AwardService.setAward({ id, toUpdate });
 
       if (updatedAward.errorMessage) {
         throw new Error(updatedAward.errorMessage);
@@ -89,13 +81,13 @@ userAwardRouter.put(
   }
 );
 
-userAwardRouter.get(
+AwardRouter.get(
   "/awardlist/:user_id",
   login_required,
   async function (req, res, next) {
     try {
       const user_id = req.params.user_id;
-      const currentAwardlistInfo = await userAwardService.getAwardlistInfo({ user_id });
+      const currentAwardlistInfo = await AwardService.getAwardlistInfo({ user_id });
 
       if (currentAwardlistInfo.errorMessage) {
         throw new Error(currentAwardlistInfo.errorMessage);
@@ -108,13 +100,13 @@ userAwardRouter.get(
   }
 );
 
-userAwardRouter.delete(
+AwardRouter.delete(
   "/awards/:id",
   login_required,
   async function (req, res, next) {
     try {
       const id = req.params.id;
-      const deletedAward = await userAwardService.deleteUserAward({ id });
+      const deletedAward = await AwardService.deleteUserAward({ id });
   
       if (deletedAward.errorMessage) {
         throw new Error(deletedAward.errorMessage);
@@ -127,4 +119,4 @@ userAwardRouter.delete(
   }
 );
 
-export { userAwardRouter };
+export { AwardRouter };

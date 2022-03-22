@@ -11,8 +11,9 @@ class User {
     return user;
   }
 
-  static async deleteById({ _id }) {
-    const user = await UserModel.deleteOne({ _id });
+  static async deleteById({ user_id }) {
+    const user = await UserModel.deleteOne({ id: user_id });
+    
     return user;
   }
 

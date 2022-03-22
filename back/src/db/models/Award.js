@@ -6,19 +6,14 @@ class Award {
     return createdNewAward;
   }
 
-  static async findByTitleWithDescription({ user_id, title, description }) {
-    const titleWithDescription = await AwardModel.findOne({ user_id, title, description });
-    return titleWithDescription;
-  }
-
   static async findById({ id }) {
     const award = await AwardModel.findOne({ id });
     return award;
   }
 
-  static async update({ id, fieldToUpdate, newValue }) {
+  static async update( id, fieldToUpdate ) {
     const filter = { id };
-    const update = { [fieldToUpdate]: newValue };
+    const update = fieldToUpdate
     const option = { returnOriginal: false };
 
     const updatedAward = await AwardModel.findOneAndUpdate(
@@ -37,6 +32,12 @@ class Award {
   static async deleteById({ id }) {
     const award = await AwardModel.deleteOne({ id });
     return award;
+  }
+
+  
+  static async deleteByUserId({ user_id }) {
+    const awards = await AwardModel.deleteMany({ user_id });
+    return awards;
   }
 }
 

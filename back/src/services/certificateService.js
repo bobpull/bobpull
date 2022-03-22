@@ -1,22 +1,14 @@
 import { Certificate } from "../db";
 import { v4 as uuidv4 } from "uuid";
 
-class userCertificateService {
-  static async addCertificate({ user_id, title, description, when_date }) {
-    // 자격증 중복 확인
-    const titleWithDescription = await Certificate.findByTitleWithDescription({ user_id, title, description });
-    if (titleWithDescription) {
-      const errorMessage
-        = "동일한 자격증과 내용을 중복으로 등록할 수 없습니다.";
-      return { errorMessage };
-    }
+class CertificateService {
+  static async addCertificate({ user_id, title, description, issued_at }) {
 
     const id = uuidv4();
-    const newCertificate = { id, user_id, title, description, when_date };
+    const newCertificate = { id, user_id, title, description, issued_at };
 
     // db에 저장
     const createdNewCertificate = await Certificate.create({ newCertificate });
-    createdNewCertificate.errorMessage = null;
 
     return createdNewCertificate;
   }
@@ -46,12 +38,6 @@ class userCertificateService {
 
     const title = toUpdate.title;
     const description = toUpdate.description;
-    const titleWithDescription = await Certificate.findByTitleWithDescription({ user_id, title, description });
-    if (titleWithDescription) {
-      const errorMessage
-        = "동일한 자격증과 내용을 중복으로 등록할 수 없습니다.";
-      return { errorMessage };
-    }
 
     // 업데이트 대상에 title이 있다면, 즉 title 값이 null이 아니라면 업데이트 진행
     if (title) {
@@ -66,9 +52,9 @@ class userCertificateService {
       certificate = await Certificate.update({ id, fieldToUpdate, newValue });
     }
 
-    if (toUpdate.when_date) {
-      const fieldToUpdate = "when_date";
-      const newValue = toUpdate.when_date;
+    if (toUpdate.issued_at) {
+      const fieldToUpdate = "issued_at";
+      const newValue = toUpdate.issued_at;
       certificate = await Certificate.update({ id, fieldToUpdate, newValue });
     }
 
@@ -87,22 +73,9 @@ class userCertificateService {
     
     return certificatelist;
   }
-  
-  static async getUserInfo({ user_id }) {
-    const user = await Certificate.findByUserId({ user_id });
-
-    // db에서 찾지 못한 경우, 에러 메시지 반환
-    if (!user) {
-      const errorMessage =
-        "해당 이메일은 가입 내역이 없습니다. 다시 한 번 확인해 주세요.";
-      return { errorMessage };
-    }
-
-    return user;
-  }
 
   static async deleteUserCertificate({ id }) {
-    const certificate = await Certificate.deleteById({ id });
+    const certificate = await Certificate.findById({ id });
 
     // db에서 찾지 못한 경우, 에러 메시지 반환
     if (!certificate || certificate === null) {
@@ -110,9 +83,10 @@ class userCertificateService {
         "자격증이 없습니다. 다시 한 번 확인해 주세요.";
       return { errorMessage };
     }
+    await Certificate.deleteById({ id });
 
     return certificate;
   }
 }
 
-export { userCertificateService };
+export { CertificateService };
