@@ -33,6 +33,11 @@ class Education {
     const education = await EducationModel.deleteOne({ id });
     return education;
   }
+
+  static async deleteByUserId({ user_id }) {
+    const education = await EducationModel.deleteOne({ user_id });
+    return education;
+  }
 }
 
 export { Education };

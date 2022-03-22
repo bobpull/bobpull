@@ -34,6 +34,11 @@ class Project {
     const project = await ProjectModel.deleteOne({ id });
     return project;
   }
+
+  static async deleteByUserId({ user_id }) {
+    const project = await ProjectModel.delete({ user_id });
+    return project;
+  }
 }
 
 export { Project };
