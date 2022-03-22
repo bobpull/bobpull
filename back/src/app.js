@@ -27,6 +27,8 @@ app.get("/", (req, res) => {
 
 // router, service 구현 (userAuthRouter는 맨 위에 있어야 함.)
 app.use(userAuthRouter);
+app.set('view engine', 'ejs');
+app.engine('html', require('ejs').renderFile);
 app.use(EducationRouter);
 app.use(AwardRouter);
 app.use(ProjectRouter);
