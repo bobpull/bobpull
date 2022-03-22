@@ -27,7 +27,7 @@ const ProjectProvider = ({children}) => {
   const [projects, dispatch] = useReducer(ProjectReducer,[])
   const store = {
     projects,
-    dispatch
+    dispatch,
   }
   return <ProjectContext.Provider value={store}>{children}</ProjectContext.Provider>
 }

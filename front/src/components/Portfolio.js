@@ -12,7 +12,7 @@ import Project from "./project/Project";
 
 import Skill from "./skill/Skill";
 
-import {ProjectProvider} from "../context/ProjectContext"
+
 
 function Portfolio() {
   const navigate = useNavigate();
@@ -81,12 +81,10 @@ function Portfolio() {
               portfolioOwnerId={portfolioOwner.id}
               isEditable={portfolioOwner.id === userState.user?.id}
             />
-            <ProjectProvider>
               <Project
                 portfolioOwnerId={portfolioOwner.id}
                 isEditable={portfolioOwner.id === userState.user?.id}
               />
-            </ProjectProvider>
             <Certificate
               portfolioOwnerId={portfolioOwner.id}
               isEditable={portfolioOwner.id === userState.user?.id}

@@ -1,7 +1,7 @@
 import React, {useState, useContext} from "react"
 import * as Api from "../../api";
 import { Form, Row, Col, Button } from 'react-bootstrap';
-import TodayDate from "./TodayDate"
+import TodayDate from "../../today/TodayDate"
 import {ProjectContext} from "../../context/ProjectContext"
 
 const ProjectEditForm = ({index, setIsEditForm}) => {
