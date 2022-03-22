@@ -1,6 +1,6 @@
 import { Schema, model } from "mongoose";
 
-const LikeSchema = new Schema(
+const FriendSchema = new Schema(
   {
     id: {
       type: String,
@@ -10,11 +10,7 @@ const LikeSchema = new Schema(
       type: String,
       required: true,
     },
-    lover_id: {
-      type: String,
-      required: true,
-    },
-    post_id: {
+    friend_id: {
       type: String,
       required: true,
     },
@@ -24,6 +20,6 @@ const LikeSchema = new Schema(
   }
 );
 
-const LikeModel = model("Like", LikeSchema);
+const FriendModel = model("Friend", FriendSchema);
 
-export { LikeModel };
+export { FriendModel };
