@@ -12,6 +12,11 @@ class Project {
     return project;
   }
 
+  static async findByUserId({ user_id }) {
+    const project = await ProjectModel.find({ user_id });
+    return project;
+  }
+
   static async update(id, fieldToUpdate) {
     const filter = { id };
     const update = fieldToUpdate;

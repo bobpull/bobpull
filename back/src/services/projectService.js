@@ -61,8 +61,8 @@ class ProjectService {
     return project;
   }
 
-  static async getProjectlistInfo({ id }) {
-    const projectlist = await Project.findById({ id });
+  static async getProjectlistInfo({ user_id }) {
+    const projectlist = await Project.findByUserId({ user_id });
 
     // db에서 찾지 못한 경우, 에러 메시지 반환
     if (!projectlist || projectlist.length === 0) {
