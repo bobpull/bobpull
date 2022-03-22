@@ -85,7 +85,7 @@ class EducationService {
   }
 
   static async deleteUserEducation({ id }) {
-    const education = await Education.deleteById({ id });
+    const education = await Education.findById({ id });
 
     // db에서 찾지 못한 경우, 에러 메시지 반환
     if (!education || education === null) {
@@ -93,6 +93,8 @@ class EducationService {
         "학력 정보가 존재하지 않습니다. 다시 한 번 확인해 주세요.";
       return { errorMessage };
     }
+
+    await Education.deleteById({ id });
 
     return education;
   }

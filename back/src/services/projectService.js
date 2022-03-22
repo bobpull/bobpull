@@ -75,7 +75,7 @@ class ProjectService {
   }
 
   static async deleteUserProject({ id }) {
-    const project = await Project.deleteById({ id });
+    const project = await Project.findById({ id });
 
     // db에서 찾지 못한 경우, 에러 메시지 반환
     if (!project || project === null) {
@@ -83,6 +83,8 @@ class ProjectService {
         "해당 프로젝트가 존재하지 않습니다.";
       return { errorMessage };
     }
+    
+    await Project.deleteById({ id });
 
     return project;
   }
