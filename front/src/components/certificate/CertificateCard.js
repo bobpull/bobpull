@@ -13,6 +13,7 @@ function CheckModal({ show, setShow, id }) {
       setCertificates((cur) => cur.filter((v) => v.id !== id));
     } catch (err) {
       console.log(err);
+      alert("자격증 삭제를 실패하였습니다.");
     }
   }
 
