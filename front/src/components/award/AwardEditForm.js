@@ -58,7 +58,7 @@ function AwardEditForm({ id, setIsEditing, _title, _description }) {
         </Form.Group>
 
         <Form.Group as={Row} className="mt-3 text-center">
-          <Col sm={{ span: 20 }}>
+          <Col sm>
             <Button variant="primary" type="submit" className="me-3">
               확인
             </Button>

@@ -1,7 +1,7 @@
 import React, {useState, useContext} from "react";
 import * as Api from "../../api";
 import { Form, Row, Col, Button } from 'react-bootstrap';
-import TodayDate from "./TodayDate"
+import TodayDate from "../../today/TodayDate"
 import {ProjectContext} from "../../context/ProjectContext"
 
 
@@ -23,6 +23,7 @@ const AddProject = ({setIsEditing}) => {
       // project id값을 받기 위해 res 변수 선언.
       const res = await Api.post("project/create", project);
       dispatch({type: "add-project", payload: res.data})
+      console.log(res.data)
       setIsEditing(false)
     } catch(e) {
       console.log(e)
