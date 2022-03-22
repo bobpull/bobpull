@@ -1,4 +1,5 @@
 import { ProjectModel } from "../schemas/project";
+import { UserModel } from "../schemas/user";
 
 class Project {
   static async create({ newProject }) {
@@ -6,29 +7,14 @@ class Project {
     return createdNewProject;
   }
 
-  static async findByTitle({ user_id, title }) {
-    const project = await ProjectModel.findOne({ user_id, title });
-    return project;
-  }
-
   static async findById({ id }) {
     const project = await ProjectModel.findOne({ id });
     return project;
   }
 
-  static async deleteById({ id }) {
-    const project = await ProjectModel.deleteOne({ id });
-    return project;
-  }
-
-  static async findAll() {
-    const project = await ProjectModel.find({});
-    return project;
-  }
-
-  static async update({ id, fieldToUpdate, newValue }) {
+  static async update(id, fieldToUpdate) {
     const filter = { id };
-    const update = { [fieldToUpdate]: newValue };
+    const update = fieldToUpdate;
     const option = { returnOriginal: false };
     
     const updatedProject = await ProjectModel.findOneAndUpdate(
@@ -38,11 +24,21 @@ class Project {
       );
       return updatedProject;
     }
-    
-    static async findByUserId({ user_id }) {
-      const projectList = await ProjectModel.find({ user_id });
-      return projectList;
-    }
+
+  static async findByUserId({ user_id }) {
+    const user = await UserModel.find({ user_id });
+    return user;
+  }
+
+  static async deleteById({ id }) {
+    const project = await ProjectModel.deleteOne({ id });
+    return project;
+  }
+
+  static async deleteByUserId({ user_id }) {
+    const project = await ProjectModel.deleteMany({ user_id });
+    return project;
+  }
 }
 
 export { Project };

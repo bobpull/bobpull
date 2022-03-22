@@ -1,7 +1,8 @@
-import { User } from "../db"; // from을 폴더(db) 로 설정 시, 디폴트로 index.js 로부터 import함.
+import { User, Education, Award, Project, Certificate } from "../db"; // from을 폴더(db) 로 설정 시, 디폴트로 index.js 로부터 import함.
 import bcrypt from "bcrypt";
 import { v4 as uuidv4 } from "uuid";
 import jwt from "jsonwebtoken";
+
 
 class userAuthService {
   static async addUser({ name, email, password }) {
@@ -22,7 +23,6 @@ class userAuthService {
 
     // db에 저장
     const createdNewUser = await User.create({ newUser });
-    createdNewUser.errorMessage = null; // 문제 없이 db 저장 완료되었으므로 에러가 없음.
 
     return createdNewUser;
   }
@@ -85,15 +85,6 @@ class userAuthService {
       return { errorMessage };
     }
 
-    
-    const email = toUpdate.email;
-    const alreadyExistEmail = await User.findByEmail({ email });
-    if (alreadyExistEmail) {
-      const errorMessage =
-        "이미 가입된 이메일입니다.";
-      return { errorMessage };
-    } 
-
     // 업데이트 대상에 name이 있다면, 즉 name 값이 null 이 아니라면 업데이트 진행
     if (toUpdate.name) {
       const fieldToUpdate = "name";
@@ -101,15 +92,11 @@ class userAuthService {
       user = await User.update({ user_id, fieldToUpdate, newValue });
     }
 
-    if (toUpdate.email) {
-      const fieldToUpdate = "email";
-      const newValue = toUpdate.email;
-      user = await User.update({ user_id, fieldToUpdate, newValue });
-    }
-
     if (toUpdate.password) {
       const fieldToUpdate = "password";
-      const newValue = toUpdate.password;
+      // 비밀번호 해쉬화
+      const hashedPassword = await bcrypt.hash(toUpdate.password, 10);
+      const newValue = hashedPassword;
       user = await User.update({ user_id, fieldToUpdate, newValue });
     }
 
@@ -135,8 +122,8 @@ class userAuthService {
     return user;
   }
 
-  static async deleteUser({ id }) {
-    const user = await User.deleteById({ id });
+  static async deleteUser({ user_id }) {
+    const user = await User.findById({ user_id });
 
     // db에서 찾지 못한 경우, 에러 메시지 반환
     if (!user || user === null) {
@@ -144,6 +131,12 @@ class userAuthService {
         "해당 유저가 존재하지 않습니다.";
       return { errorMessage };
     }
+    
+    await User.deleteById({ user_id });
+    await Education.deleteByUserId({ user_id });
+    await Award.deleteByUserId({ user_id });
+    await Project.deleteByUserId({ user_id });
+    await Certificate.deleteByUserId({ user_id });
 
     return user;
   }

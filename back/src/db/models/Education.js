@@ -6,14 +6,9 @@ class Education {
     return createdNewEducation;
   }
 
-  static async findBySchoolMajorPosition({ user_id, school, major, position }) {
-    const schoolMajorPosition = await EducationModel.findOne({ user_id, school, major, position });
-    return schoolMajorPosition;
-  }
-
   static async findByUserId({ user_id }) {
-    const education = await EducationModel.find({ user_id });
-    return education;
+    const educationlist = await EducationModel.find({ user_id });
+    return educationlist;
   }
 
   static async findById({ id }) {
@@ -21,9 +16,9 @@ class Education {
     return education;
   }
 
-  static async update({ id, fieldToUpdate, newValue }) {
+  static async update(id, fieldToUpdate) {
     const filter = { id };
-    const update = { [fieldToUpdate]: newValue };
+    const update = fieldToUpdate;
     const option = { returnOriginal: false };
 
     const updatedEducation = await EducationModel.findOneAndUpdate(
@@ -36,6 +31,11 @@ class Education {
 
   static async deleteById({ id }) {
     const education = await EducationModel.deleteOne({ id });
+    return education;
+  }
+
+  static async deleteByUserId({ user_id }) {
+    const education = await EducationModel.deleteMany({ user_id });
     return education;
   }
 }
