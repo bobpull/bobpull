@@ -25,8 +25,8 @@ function Award({ portfolioOwnerId, isEditable }) {
               <AwardsContext.Provider value={{ awards, setAwards }}>
                 {awards.map((award) => (
                   <AwardCard
-                    id={award._id}
-                    key={award._id}
+                    id={award.id}
+                    key={award.id}
                     title={award.title}
                     description={award.description}
                     isEditable={isEditable}

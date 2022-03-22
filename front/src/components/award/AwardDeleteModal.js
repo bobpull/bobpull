@@ -5,15 +5,16 @@ import { Button, Modal } from "react-bootstrap";
 import * as Api from "../../api";
 
 function AwardDeleteModal({ show, onHide, id }) {
-  const { awards, setAwards } = useContext(AwardsContext);
+  const { setAwards } = useContext(AwardsContext);
 
-  const handleDelete = (e) => {
+  const handleDelete = async (e) => {
     e.preventDefault();
 
     try {
-      Api.delete(`awards/${id}`);
-      setAwards(awards.filter((award) => award._id !== id));
+      await Api.delete(`awards/${id}`);
+      setAwards((cur) => cur.filter((award) => award.id !== id));
     } catch (err) {
+      alert('삭제 실패');
       console.error(err);
     }
   };
