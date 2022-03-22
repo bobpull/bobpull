@@ -31,7 +31,7 @@ function Certificate({ portfolioOwnerId, isEditable }) {
         <CertificatesContext.Provider value={Certificates}>
           {certificates.map((v) => (
             <CertificateCard
-              key={v._id}
+              key={v.id}
               certificate={v}
               isEditable={isEditable}
             />

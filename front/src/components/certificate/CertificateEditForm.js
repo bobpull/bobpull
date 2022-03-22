@@ -13,7 +13,7 @@ const todayDate = `${yyyy}-${mm < 10 ? "0" : ""}${mm}-${dd}`;
 function CertificateEditForm({ certificate, setIsEditing }) {
   const { setCertificates } = useContext(CertificatesContext);
   // useState로 title 상태를 생성함.
-  const _id = certificate._id;
+  const id = certificate.id;
   const [title, setTitle] = useState(certificate.title);
   const [description, setDescription] = useState(certificate.description);
   const [date, setDate] = useState(certificate.when_date);
@@ -22,14 +22,14 @@ function CertificateEditForm({ certificate, setIsEditing }) {
     e.preventDefault();
 
     try {
-      // "certificate/:_id" 엔드포인트로 PUT 요청함.
-      const res = await Api.put("certificates/" + _id, {
+      // "certificate/:id" 엔드포인트로 PUT 요청함.
+      const res = await Api.put("certificates/" + id, {
         title: title,
         description: description,
         when_date: date,
       });
 
-      setCertificates((cur) => cur.map((v) => (v._id === _id ? res.data : v)));
+      setCertificates((cur) => cur.map((v) => (v.id === id ? res.data : v)));
     } catch (err) {
       console.log(err);
       alert("해당 변경사항을 적용할 수 없습니다.");

@@ -4,15 +4,16 @@ import CertificateEditForm from "./CertificateEditForm";
 import { CertificatesContext } from "./Certificate";
 import * as Api from "../../api";
 
-function CheckModal({ show, setShow, _id }) {
+function CheckModal({ show, setShow, id }) {
   const { setCertificates } = useContext(CertificatesContext);
 
   async function handleDelete() {
     try {
-      await Api.delete("certificates/" + _id);
-      setCertificates((cur) => cur.filter((v) => v._id !== _id));
+      await Api.delete("certificates/" + id);
+      setCertificates((cur) => cur.filter((v) => v.id !== id));
     } catch (err) {
       console.log(err);
+      alert("자격증 삭제를 실패하였습니다.");
     }
   }
 
@@ -91,7 +92,7 @@ function CertificateCard({ certificate, isEditable }) {
               )}
             </Row>
           </Card.Text>
-          <CheckModal show={show} setShow={setShow} _id={certificate._id} />
+          <CheckModal show={show} setShow={setShow} id={certificate.id} />
         </>
       ) : (
         <CertificateEditForm
