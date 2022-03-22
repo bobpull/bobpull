@@ -131,9 +131,12 @@ class userAuthService {
         "해당 유저가 존재하지 않습니다.";
       return { errorMessage };
     }
+    
     await User.deleteById({ user_id });
-
-    await User.deleteById({ id });
+    await Education.deleteByUserId({ user_id });
+    await Award.deleteByUserId({ user_id });
+    await Project.deleteByUserId({ user_id });
+    await Certificate.deleteByUserId({ user_id });
 
     return user;
   }
