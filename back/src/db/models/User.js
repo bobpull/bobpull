@@ -1,8 +1,4 @@
 import { UserModel } from "../schemas/user";
-import { EducationModel } from "../schemas/education";
-import { AwardModel } from "../schemas/award";
-import { ProjectModel } from "../schemas/project";
-import { CertificateModel } from "../schemas/certificate";
 
 class User {
   static async create({ newUser }) {
@@ -17,10 +13,6 @@ class User {
 
   static async deleteById({ user_id }) {
     const user = await UserModel.deleteOne({ id: user_id });
-    await EducationModel.deleteMany({ user_id });
-    await AwardModel.deleteMany({ user_id });
-    await ProjectModel.deleteMany({ user_id });
-    await CertificateModel.deleteMany({ user_id });
     
     return user;
   }
