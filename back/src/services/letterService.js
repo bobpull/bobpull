@@ -18,7 +18,7 @@ class LetterService {
     // db에서 찾지 못한 경우, 에러 메시지 반환
     if (!letterlist || letterlist.length === 0) {
       const errorMessage =
-        "아직 친구 추가를 하지 않았습니다.";
+        "이야기를 나눠본 적이 없습니다.";
       return { errorMessage };
     }
 
@@ -31,7 +31,7 @@ class LetterService {
     // db에서 찾지 못한 경우, 에러 메시지 반환
     if (!letter || letter === null) {
       const errorMessage =
-        "해당 친구가 존재하지 않습니다.";
+        "해당 쪽지가 존재하지 않습니다.";
       return { errorMessage };
     }
     

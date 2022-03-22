@@ -37,7 +37,7 @@ LetterRouter.get(
     try {
       const user_id = req.params.user_id;
       const currentLetter = await LetterService.getLetterlist({ user_id });
-
+      
       if (currentLetter.errorMessage) {
         throw new Error(currentLetter.errorMessage);
       }
