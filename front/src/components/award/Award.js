@@ -19,7 +19,7 @@ function Award({ portfolioOwnerId, isEditable }) {
     <>
       <Row>
         <Col>
-          <Card className="mb-2">
+          <Card className="mb-3">
             <Card.Body>
               <Card.Title>수상이력</Card.Title>
               <AwardsContext.Provider value={{ awards, setAwards }}>
