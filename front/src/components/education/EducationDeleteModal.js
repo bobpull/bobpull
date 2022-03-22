@@ -5,18 +5,20 @@ import { Button, Modal } from "react-bootstrap";
 import * as Api from "../../api";
 
 function EducationDeleteModal({ show, onHide, id }) {
-  const { educations, setEducations } = useContext(EducationsContext);
+  const { setEducations } = useContext(EducationsContext);
 
-  const handleDelete = (e) => {
+  const handleDelete = async (e) => {
     e.preventDefault();
 
     try {
-      Api.delete(`educations/${id}`);
-      setEducations(educations.filter((education) => education._id !== id));
+      await Api.delete(`educations/${id}`);
+      setEducations((cur) => cur.filter((education) => education.id !== id));
     } catch (err) {
+      alert('삭제 실패');
       console.error(err);
     }
   };
+
   return (
     <Modal show={show} onHide={onHide}>
       <Modal.Header closeButton>
