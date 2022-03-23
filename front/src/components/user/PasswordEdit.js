@@ -7,7 +7,7 @@ function PasswordEdit() {
   const [confirmNewPW, setConfirmNewPW] = useState("");
 
   return (
-    <Container style={{ maxWidth: "700px" }}>
+    <Container style={{ maxWidth: "700px", border: "1px solid gray" }}>
       <Row className="m-5" style={{ fontSize: "25px", fontWeight: "bold" }}>
         비밀번호 변경
         <Row
