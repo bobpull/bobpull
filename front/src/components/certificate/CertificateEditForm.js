@@ -28,7 +28,6 @@ function CertificateEditForm({ certificate, setIsEditing }) {
       setCertificates((cur) => cur.map((v) => (v.id === id ? res.data : v)));
     } catch (err) {
       console.log(err);
-      alert("해당 변경사항을 적용할 수 없습니다.");
     }
 
     setIsEditing(false);
