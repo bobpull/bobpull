@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { Container, Form, Row, Button } from "react-bootstrap";
+import { UserStateContext, DispatchContext } from "../../App";
 import * as Api from "../../api";
 
 const targetSentence = "저는 밥풀(pull)에서 탈퇴하고 싶습니다.";
@@ -8,13 +9,22 @@ const targetSentence = "저는 밥풀(pull)에서 탈퇴하고 싶습니다.";
 function WithdrawMember() {
   const navigate = useNavigate();
 
+  const userState = useContext(UserStateContext);
+  const dispatch = useContext(DispatchContext);
+  const id = userState.user.id;
+
   const [sentence, setSentence] = useState("");
   const isCorrect = targetSentence === sentence;
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
 
     try {
+      await Api.delete("users/" + id);
+      alert("탈퇴하셨습니다.");
+      navigate("/login");
+      dispatch({ type: "LOGOUT" });
+      sessionStorage.removeItem("userToken");
     } catch (err) {
       console.log(err);
     }
