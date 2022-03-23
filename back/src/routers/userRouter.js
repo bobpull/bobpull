@@ -53,7 +53,8 @@ userAuthRouter.post("/user/reset-password", async function (req, res, next) {
   
     let numPassword = generateRandomPassword();
 
-    await userAuthService.setPassword({ email, numPassword });
+    const hashedPassword = await bcrypt.hash(numPassword, 10);
+    await userAuthService.setPassword({ email, hashedPassword });
     await sendMail(email, "비밀번호가 변경되었습니다.", `변경된 비밀번호는: ${numPassword} 입니다.`);
 
 

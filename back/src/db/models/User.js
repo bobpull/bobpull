@@ -44,8 +44,6 @@ class User {
     const filter = { email };
     const update = { [password]: password };
     const option = { returnOriginal: false };
-    
-    console.log(password);
 
     const updatedPassword = await UserModel.findOneAndUpdate(
       filter,
