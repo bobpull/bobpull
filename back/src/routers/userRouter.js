@@ -76,7 +76,7 @@ userAuthRouter.post("/user/verification-number", async function (req, res, next)
 
     const verificationNumber = generateRandomPassword();
 
-    await sendMail(email, `${verificationNumber}`)
+    await sendMail(email, "밥풀(pull) 회원가입 인증번호입니다!", `안녕하세요! 인증번호는 ${verificationNumber} 입니다.`);
     res.status(200).send('인증번호가 전송되었습니다.');
   } catch (err) {
     next(err);
