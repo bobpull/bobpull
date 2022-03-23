@@ -55,6 +55,12 @@ TallRouter.put(
       // URI, body data 로부터 업데이트할 프로젝트 정보를 추출함.
       const user_id = req.currentUserId;
       let condition = req.params.case;
+
+      switch(condition) {
+          case "add":
+              
+          case "minus":
+      }
   
       const toUpdate = { toUpdate };
   
