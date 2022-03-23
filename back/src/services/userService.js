@@ -118,12 +118,7 @@ class userAuthService {
 
     return user;
   }
-
-  static async setPassword({ email, password }) {
-    const _password = await User.updatePassword({ email, password });
-    return _password;
-  }
-
+  
   static async getUserInfo({ user_id }) {
     const user = await User.findById({ user_id });
 

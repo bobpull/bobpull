@@ -2,9 +2,8 @@ import is from "@sindresorhus/is";
 import { Router } from "express";
 import { login_required } from "../middlewares/login_required";
 import { userAuthService } from "../services/userService";
-import bcrypt from "bcrypt";
-const sendMail = require("../utils/send-mail");
-const generateRandomPassword = require("../utils/generate-random-password");
+import sendMail from "../utils/send-mail";
+import generateRandomPassword from "../utils/generate-random-password";
 
 const userAuthRouter = Router();
 
@@ -33,13 +32,9 @@ userAuthRouter.post("/user/register", async function (req, res, next) {
     }
 
     res.status(201).json(newUser);
-  } catch (error) {
-    next(error);
+  } catch (err) {
+    next(err);
   }
-});
-
-userAuthRouter.get("/reset-password", (req, res, next) => {
-  res.send("/user/reset-password");
 });
 
 userAuthRouter.post("/user/reset-password", async function (req, res, next) {
@@ -51,6 +46,7 @@ userAuthRouter.post("/user/reset-password", async function (req, res, next) {
       throw new Error("해당 메일로 가입된 사용자가 없습니다.");
     }
     
+    const name = user.name;
     const user_id = user.id;
     const password = generateRandomPassword();
     const toUpdate = { password };
@@ -60,20 +56,26 @@ userAuthRouter.post("/user/reset-password", async function (req, res, next) {
       throw new Error (updatedUser.errorMessage);
     }
 
-    await sendMail(email, `${password}`)
-    res.send('비밀번호가 전송되었습니다.');
-  } catch (error) {
-    next(error);
+    await sendMail(email, "밥풀(pull) 임시 비밀번호입니다!",
+     `안녕하세요 ${name}님! 임시 비밀번호는: ${password} 입니다. 로그인 후 비밀번호를 꼭 변경해주세요!`);
+    res.status(200).send('임시 비밀번호가 전송되었습니다.');
+  } catch (err) {
+    next(err);
   }
 });
-    // const hashedPassword = await bcrypt.hash(numPassword, 10);
-    // await userAuthService.setPassword({ email, hashedPassword });
-    // console.log("numPassword:", numPassword);
-    // console.log("hashedPassword:", hashedPassword);
-    // await sendMail(email, "비밀번호가 변경되었습니다.", `변경된 비밀번호는: ${numPassword} 입니다.`);
 
+userAuthRouter.post("/user/verification-number", async function (req, res, next) {
+  try {
+    const email = req.body.email;
+    
+    const verificationNumber = generateRandomPassword();
 
-
+    await sendMail(email, `${verificationNumber}`)
+    res.status(200).send('인증번호가 전송되었습니다.');
+  } catch (err) {
+    next(err);
+  }
+});
 
 userAuthRouter.post("/user/send-message", async function (req, res, next) {
   try {
@@ -101,8 +103,8 @@ userAuthRouter.post("/user/login", async function (req, res, next) {
     }
 
     res.status(200).send(user);
-  } catch (error) {
-    next(error);
+  } catch (err) {
+    next(err);
   }
 });
 
@@ -114,8 +116,8 @@ userAuthRouter.get(
       // 전체 사용자 목록을 얻음
       const users = await userAuthService.getUsers();
       res.status(200).send(users);
-    } catch (error) {
-      next(error);
+    } catch (err) {
+      next(err);
     }
   }
 );
@@ -136,8 +138,8 @@ userAuthRouter.get(
       }
 
       res.status(200).send(currentUserInfo);
-    } catch (error) {
-      next(error);
+    } catch (err) {
+      next(err);
     }
   }
 );
@@ -164,8 +166,8 @@ userAuthRouter.put(
       }
 
       res.status(200).json(updatedUser);
-    } catch (error) {
-      next(error);
+    } catch (err) {
+      next(err);
     }
   }
 );
@@ -183,8 +185,8 @@ userAuthRouter.get(
       }
 
       res.status(200).send(currentUserInfo);
-    } catch (error) {
-      next(error);
+    } catch (err) {
+      next(err);
     }
   }
 );
@@ -202,8 +204,8 @@ userAuthRouter.delete(
       }
   
       res.status(204).send();
-    } catch (error) {
-      next(error);
+    } catch (err) {
+      next(err);
     }
   }
 );
