@@ -1,16 +1,20 @@
 import { Certificate } from "../db";
 
 class userCertificateService {
-  static async addCertificate({ user_id, title, description, when_date }) {
+  static async addCertificate({ user_id, title, description, issued_at }) {
     // 자격증 중복 확인
-  const titleWithDescription = await Certificate.findByTitleWithDescription({ user_id, title, description });
-  if (titleWithDescription) {
-    const errorMessage
-      = "동일한 자격증과 내용을 중복으로 등록할 수 없습니다.";
-    return { errorMessage };
-  }
+    const titleWithDescription = await Certificate.findByTitleWithDescription({
+      user_id,
+      title,
+      description,
+    });
+    if (titleWithDescription) {
+      const errorMessage =
+        "동일한 자격증과 내용을 중복으로 등록할 수 없습니다.";
+      return { errorMessage };
+    }
 
-    const newCertificate = { user_id, title, description, when_date };
+    const newCertificate = { user_id, title, description, issued_at };
 
     // db에 저장
     const createdNewCertificate = await Certificate.create({ newCertificate });
@@ -24,8 +28,7 @@ class userCertificateService {
 
     // db에서 찾지 못한 경우, 에러 메시지 반환
     if (!certificate) {
-      const errorMessage =
-        "자격증이 없습니다. 다시 한 번 확인해 주세요.";
+      const errorMessage = "자격증이 없습니다. 다시 한 번 확인해 주세요.";
       return { errorMessage };
     }
     return certificate;
@@ -37,17 +40,20 @@ class userCertificateService {
 
     // db에서 찾지 못한 경우, 에러 메시지 반환
     if (!certificate) {
-      const errorMessage =
-        "자격증이 없습니다. 다시 한 번 확인해 주세요.";
+      const errorMessage = "자격증이 없습니다. 다시 한 번 확인해 주세요.";
       return { errorMessage };
     }
 
     const title = toUpdate.title;
     const description = toUpdate.description;
-    const titleWithDescription = await Certificate.findByTitleWithDescription({ user_id, title, description });
+    const titleWithDescription = await Certificate.findByTitleWithDescription({
+      user_id,
+      title,
+      description,
+    });
     if (titleWithDescription) {
-      const errorMessage
-        = "동일한 자격증과 내용을 중복으로 등록할 수 없습니다.";
+      const errorMessage =
+        "동일한 자격증과 내용을 중복으로 등록할 수 없습니다.";
       return { errorMessage };
     }
 
@@ -64,9 +70,9 @@ class userCertificateService {
       certificate = await Certificate.update({ _id, fieldToUpdate, newValue });
     }
 
-    if (toUpdate.when_date) {
-      const fieldToUpdate = "when_date";
-      const newValue = toUpdate.when_date;
+    if (toUpdate.issued_at) {
+      const fieldToUpdate = "issued_at";
+      const newValue = toUpdate.issued_at;
       certificate = await Certificate.update({ _id, fieldToUpdate, newValue });
     }
 
@@ -75,17 +81,16 @@ class userCertificateService {
 
   static async getCertificatelistInfo({ user_id }) {
     const certificatelist = await Certificate.findByUserId({ user_id });
-    
+
     // db에서 찾지 못한 경우, 에러 메시지 반환
     if (!certificatelist || certificatelist.length === 0) {
-      const errorMessage =
-        "자격증이 없습니다. 다시 한 번 확인해 주세요."
-        return { errorMessage }
+      const errorMessage = "자격증이 없습니다. 다시 한 번 확인해 주세요.";
+      return { errorMessage };
     }
-    
+
     return certificatelist;
   }
-  
+
   static async getUserInfo({ user_id }) {
     const user = await Certificate.findByUserId({ user_id });
 
@@ -104,8 +109,7 @@ class userCertificateService {
 
     // db에서 찾지 못한 경우, 에러 메시지 반환
     if (!certificate || certificate === null) {
-      const errorMessage =
-        "자격증이 없습니다. 다시 한 번 확인해 주세요.";
+      const errorMessage = "자격증이 없습니다. 다시 한 번 확인해 주세요.";
       return { errorMessage };
     }
 

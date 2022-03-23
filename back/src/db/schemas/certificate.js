@@ -14,7 +14,7 @@ const CertificateSchema = new Schema(
       type: String,
       required: true,
     },
-    when_date: {
+    issued_at: {
       type: String,
       required: true,
     },
@@ -26,4 +26,4 @@ const CertificateSchema = new Schema(
 
 const CertificateModel = model("Certificate", CertificateSchema);
 
-export{ CertificateModel };
+export { CertificateModel };
