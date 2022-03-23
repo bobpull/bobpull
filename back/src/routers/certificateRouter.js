@@ -11,11 +11,9 @@ CertificateRouter.post(
   async function (req, res, next) {
     try {
       if (is.emptyObject(req.body)) {
-        throw new Error(
-          "필수 파라미터가 존재하지 않습니다."
-        );
+        throw new Error("필수 파라미터가 존재하지 않습니다.");
       }
-  
+
       const user_id = req.currentUserId;
       const title = req.body.title;
       const description = req.body.description;
@@ -43,10 +41,11 @@ CertificateRouter.post(
 CertificateRouter.get(
   "/certificates/:id",
   login_required,
-  async function(req, res, next) {
-    try{
+  async function (req, res, next) {
+    try {
       const id = req.params.id;
-      const currentCertificateInfo = await CertificateService.getCertificateInfo({ id });
+      const currentCertificateInfo =
+        await CertificateService.getCertificateInfo({ id });
 
       if (currentCertificateInfo.errorMessage) {
         throw new Error(currentCertificateInfo.errorMessage);
@@ -62,8 +61,8 @@ CertificateRouter.get(
 CertificateRouter.put(
   "/certificates/:id",
   login_required,
-  async function(req, res, next) {
-    try{
+  async function (req, res, next) {
+    try {
       const user_id = req.currentUserId;
       // url로부터 사용자 id를 추출함.
       const id = req.params.id;
@@ -72,10 +71,14 @@ CertificateRouter.put(
       const description = req.body.description ?? null;
       const issued_at = req.body.issued_at ?? null;
 
-      const toUpdate = {title, description, issued_at};
+      const toUpdate = { title, description, issued_at };
 
       // 해당 certificate_di로 자격증 정보를 db에서 찾아 업데이트함. 업데이트 요소가 없을 시 생략함
-      const updatedCertificate = await CertificateService.setCertificate({ user_id, id, toUpdate });
+      const updatedCertificate = await CertificateService.setCertificate({
+        user_id,
+        id,
+        toUpdate,
+      });
 
       if (updatedCertificate.errorMessage) {
         throw new Error(updatedCertificate.errorMessage);
@@ -93,7 +96,8 @@ CertificateRouter.get(
   async function (req, res, next) {
     try {
       const user_id = req.params.user_id;
-      const currentCertificatelistInfo = await CertificateService.getCertificatelistInfo({ user_id });
+      const currentCertificatelistInfo =
+        await CertificateService.getCertificatelistInfo({ user_id });
 
       if (currentCertificatelistInfo.errorMessage) {
         throw new Error(currentCertificatelistInfo.errorMessage);
@@ -112,12 +116,14 @@ CertificateRouter.delete(
   async function (req, res, next) {
     try {
       const id = req.params.id;
-      const deletedCertificate = await CertificateService.deleteUserCertificate({ id });
-  
+      const deletedCertificate = await CertificateService.deleteUserCertificate(
+        { id }
+      );
+
       if (deletedCertificate.errorMessage) {
         throw new Error(deletedCertificate.errorMessage);
       }
-  
+
       res.status(204).send();
     } catch (error) {
       next(error);
