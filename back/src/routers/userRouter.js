@@ -9,7 +9,7 @@ userAuthRouter.post("/user/register", async function (req, res, next) {
   try {
     if (is.emptyObject(req.body)) {
       throw new Error(
-        "headers의 Content-Type을 application/json으로 설정해주세요"
+        "필수 파라미터가 존재하지 않습니다."
       );
     }
 
@@ -99,11 +99,10 @@ userAuthRouter.put(
       const user_id = req.params.id;
       // body data 로부터 업데이트할 사용자 정보를 추출함.
       const name = req.body.name ?? null;
-      const email = req.body.email ?? null;
       const password = req.body.password ?? null;
       const description = req.body.description ?? null;
 
-      const toUpdate = { name, email, password, description };
+      const toUpdate = { name, password, description };
 
       // 해당 사용자 아이디로 사용자 정보를 db에서 찾아 업데이트함. 업데이트 요소가 없을 시 생략함
       const updatedUser = await userAuthService.setUser({ user_id, toUpdate });
@@ -132,6 +131,25 @@ userAuthRouter.get(
       }
 
       res.status(200).send(currentUserInfo);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+userAuthRouter.delete(
+  "/users/:id",
+  login_required,
+  async function (req, res, next) {
+    try {
+      const user_id = req.params.id;
+      const deletedUser = await userAuthService.deleteUser({ user_id });
+  
+      if (deletedUser.errorMessage) {
+        throw new Error(deletedUser.errorMessage);
+      }
+  
+      res.status(204).send();
     } catch (error) {
       next(error);
     }

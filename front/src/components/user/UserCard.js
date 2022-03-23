@@ -1,22 +1,61 @@
 import { useNavigate } from "react-router-dom";
 import { Card, Row, Button, Col } from "react-bootstrap";
+import "../../style/display.css"
+import "../../style/font.css"
+
+import { AiFillRead } from "react-icons/ai";
 
 function UserCard({ user, setIsEditing, isEditable, isNetwork }) {
   const navigate = useNavigate();
+
   return (
-    <Card className="mb-2 ms-3 mr-5" style={{ width: "18rem" }}>
+    <Col>
+    <Card className="mb-2 ms-0" style={{ width: "100%", margin: "0 auto" }}>
       <Card.Body>
-        <Row className="justify-content-md-center">
-          <Card.Img
-            style={{ width: "10rem", height: "8rem" }}
-            className="mb-3"
-            src="http://placekitten.com/200/200"
-            alt="랜덤 고양이 사진 (http://placekitten.com API 사용)"
-          />
+        <Row>
+          <div className="between">
+            <div style={{
+              display: "flex",
+            }}>
+              <Card.Img
+                style={{ width: "50px", height: "50px", borderRadius: "50%", marginRight: "10px" }}
+                className="mb-3"
+                src="http://placekitten.com/200/200"
+                alt="고양이 사진"
+              />
+              <div>
+                <Card.Title className="title">{user?.name}</Card.Title>
+                <Card.Subtitle className="text-muted text">{user?.email}</Card.Subtitle>
+                <Card.Text
+                  className="mb-3 text"
+                >{user?.description}</Card.Text>
+              </div>
+            </div>
+            {isNetwork && (
+              <Card.Link
+                className="mt-3"
+                href="#"
+                onClick={() => navigate(`/users/${user.id}`)}
+                style={{
+                  color: "black",
+                }}
+              >
+                <AiFillRead size={30}/>
+              </Card.Link>
+              )}
+          </div>
+          {isNetwork && (
+            <Card.Img
+              style={{ width: "70%", height: "auto", margin: "0 auto" }}
+              className="mb-3"
+              src="http://placekitten.com/200/200"
+              alt="고양이 사진"
+            />
+          )}
+          
+
         </Row>
-        <Card.Title>{user?.name}</Card.Title>
-        <Card.Subtitle className="mb-2 text-muted">{user?.email}</Card.Subtitle>
-        <Card.Text>{user?.description}</Card.Text>
+        
 
         {isEditable && (
           <Col>
@@ -34,17 +73,10 @@ function UserCard({ user, setIsEditing, isEditable, isNetwork }) {
           </Col>
         )}
 
-        {isNetwork && (
-          <Card.Link
-            className="mt-3"
-            href="#"
-            onClick={() => navigate(`/users/${user.id}`)}
-          >
-            포트폴리오
-          </Card.Link>
-        )}
+        
       </Card.Body>
     </Card>
+    </Col>
   );
 }
 
