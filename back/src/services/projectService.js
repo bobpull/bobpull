@@ -25,7 +25,7 @@ class ProjectService {
     return project;
   }
 
-  static async setProject({ user_id, id, toUpdate }) {
+  static async setProject({ id, toUpdate }) {
     // 우선 해당 id 의 프로젝트가 db에 존재하는지 여부 확인
     let project = await Project.findById({ id });
 
