@@ -7,6 +7,7 @@ import AwardEditForm from "./AwardEditForm";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 
+
 function AwardCard({ id, isEditable, title, description }) {
   const [isEditing, setIsEditing] = useState(false);
   const { setAwards } = useContext(AwardsContext);
