@@ -40,7 +40,7 @@ userAuthRouter.post("/user/register", async function (req, res, next) {
   }
 });
 
-userAuthRouter.post("/user/reset-password", async function (req, res, next) {
+userAuthRouter.post("/resetpw", async function (req, res, next) {
   try {
     const email = req.body.email;
     const user = await userAuthService.findUserByEmail({ email });
@@ -67,7 +67,7 @@ userAuthRouter.post("/user/reset-password", async function (req, res, next) {
   }
 });
 
-userAuthRouter.post("/user/verification-number", async function (req, res, next) {
+userAuthRouter.post("/availablemail", async function (req, res, next) {
   try {
     if (is.emptyObject(req.body)) {
       throw new Error(
@@ -86,7 +86,7 @@ userAuthRouter.post("/user/verification-number", async function (req, res, next)
   }
 });
 
-userAuthRouter.post("/user/verification-number/check", async function (req, res, next) {
+userAuthRouter.post("/availablemail/check", async function (req, res, next) {
   try {
     if (is.emptyObject(req.body)) {
       throw new Error(
