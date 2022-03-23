@@ -30,7 +30,7 @@ const Project = ({portfolioOwnerId, isEditable}) => {
     <Col>
       <Card className="mb-3">
         <Card.Body>
-          <Card.Title style={{textAlign: "left"}}>Project</Card.Title>
+          <Card.Title style={{textAlign: "left"}}>프로젝트</Card.Title>
 
           {/* 프로젝트가 추가 되었을 때, 편집 화면과 추가 내용 */}
             {projects && projects.map((item, index) => 
