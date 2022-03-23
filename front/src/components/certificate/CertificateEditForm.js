@@ -2,13 +2,9 @@ import { useState, useContext } from "react";
 import { Container, Col, Row, Form, Button } from "react-bootstrap";
 import { CertificatesContext } from "./Certificate";
 import * as Api from "../../api";
+import getDate from "../../today/TodayDate";
 
-// 자격증 편집 시 오늘 날짜인 todayDate를 최댓값으로 설정
-const today = new Date();
-const yyyy = today.getFullYear();
-const mm = today.getMonth() + 1;
-const dd = today.getDate();
-const todayDate = `${yyyy}-${mm < 10 ? "0" : ""}${mm}-${dd}`;
+const TodayDate = getDate();
 
 function CertificateEditForm({ certificate, setIsEditing }) {
   const { setCertificates } = useContext(CertificatesContext);
@@ -72,7 +68,7 @@ function CertificateEditForm({ certificate, setIsEditing }) {
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
                 min="1900-01-01"
-                max={todayDate}
+                max={TodayDate}
                 required
               ></Form.Control>
             </Form.Group>
