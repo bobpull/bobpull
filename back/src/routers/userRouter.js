@@ -50,20 +50,30 @@ userAuthRouter.post("/user/reset-password", async function (req, res, next) {
     if (!user) {
       throw new Error("해당 메일로 가입된 사용자가 없습니다.");
     }
-  
-    let numPassword = generateRandomPassword();
+    
+    const user_id = user.id;
+    const password = generateRandomPassword();
+    const toUpdate = { password };
+    const updatedUser = await userAuthService.setUser({ user_id, toUpdate })
 
-    const hashedPassword = await bcrypt.hash(numPassword, 10);
-    await userAuthService.setPassword({ email, hashedPassword });
-    await sendMail(email, "비밀번호가 변경되었습니다.", `변경된 비밀번호는: ${numPassword} 입니다.`);
+    if (updatedUser.errorMessage) {
+      throw new Error (updatedUser.errorMessage);
+    }
 
-
+    await sendMail(email, `${password}`)
     res.send('비밀번호가 전송되었습니다.');
-
-  } catch (err) {
-    next(err);
-  }  
+  } catch (error) {
+    next(error);
+  }
 });
+    // const hashedPassword = await bcrypt.hash(numPassword, 10);
+    // await userAuthService.setPassword({ email, hashedPassword });
+    // console.log("numPassword:", numPassword);
+    // console.log("hashedPassword:", hashedPassword);
+    // await sendMail(email, "비밀번호가 변경되었습니다.", `변경된 비밀번호는: ${numPassword} 입니다.`);
+
+
+
 
 userAuthRouter.post("/user/send-message", async function (req, res, next) {
   try {
