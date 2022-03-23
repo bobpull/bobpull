@@ -3,33 +3,36 @@ import { Container, Col, Row, Form, Button } from "react-bootstrap";
 import { CertificatesContext } from "./Certificate";
 import * as Api from "../../api";
 
+// 자격증 편집 시 오늘 날짜인 todayDate를 최댓값으로 설정
+const today = new Date();
+const yyyy = today.getFullYear();
+const mm = today.getMonth() + 1;
+const dd = today.getDate();
+const todayDate = `${yyyy}-${mm < 10 ? "0" : ""}${mm}-${dd}`;
+
 function CertificateEditForm({ certificate, setIsEditing }) {
-  const { certificates, setCertificates } = useContext(CertificatesContext);
+  const { setCertificates } = useContext(CertificatesContext);
   // useState로 title 상태를 생성함.
-  const _id = certificate._id;
+  const id = certificate.id;
   const [title, setTitle] = useState(certificate.title);
   const [description, setDescription] = useState(certificate.description);
-  const [date, setDate] = useState(certificate.when_date);
+  const [date, setDate] = useState(certificate.issued_at);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      // "certificate/:_id" 엔드포인트로 POST 요청함.
-      const res = await Api.put("certificates/" + _id, {
+      // "certificate/:id" 엔드포인트로 PUT 요청함.
+      const res = await Api.put("certificates/" + id, {
         title: title,
         description: description,
-        when_date: date,
+        issued_at: date,
       });
 
-      setCertificates((cur) => {
-        cur.map((v) => {
-          if (v._id === _id) return res.data;
-          else return v;
-        });
-      });
+      setCertificates((cur) => cur.map((v) => (v.id === id ? res.data : v)));
     } catch (err) {
       console.log(err);
+      alert("해당 변경사항을 적용할 수 없습니다.");
     }
 
     setIsEditing(false);
@@ -68,6 +71,8 @@ function CertificateEditForm({ certificate, setIsEditing }) {
                 className="mt-3"
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
+                min="1900-01-01"
+                max={todayDate}
                 required
               ></Form.Control>
             </Form.Group>

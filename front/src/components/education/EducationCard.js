@@ -4,15 +4,7 @@ import { Button, Row, Col, Card } from "react-bootstrap";
 import EducationEditForm from "./EducationEditForm";
 import EducationDeleteModal from "./EducationDeleteModal";
 
-function EducationCard({
-  id,
-  isEditable,
-  school,
-  major,
-  position,
-  educations,
-  setEducations,
-}) {
+function EducationCard({ id, isEditable, school, major, degree }) {
   const [isEditing, setIsEditing] = useState(false);
   const [show, setShow] = useState(false);
 
@@ -25,9 +17,7 @@ function EducationCard({
             setIsEditing={setIsEditing}
             _school={school}
             _major={major}
-            _position={position}
-            educations={educations}
-            setEducations={setEducations}
+            _degree={degree}
           />
         ) : (
           <>
@@ -35,7 +25,7 @@ function EducationCard({
               <span>{school}</span>
               <br />
               <span className="text-muted">
-                {major} ({position})
+                {major} ({degree})
               </span>
             </Col>
 
@@ -64,8 +54,6 @@ function EducationCard({
                   show={show}
                   onHide={() => setShow(false)}
                   id={id}
-                  educations={educations}
-                  setEducations={setEducations}
                 />
               </Col>
             )}

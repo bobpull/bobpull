@@ -1,20 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { EducationsContext } from "./Education";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Button, Row, Col, Form } from "react-bootstrap";
 import * as Api from "../../api";
 
-function EducationEditForm({
-  id,
-  setIsEditing,
-  _school,
-  _major,
-  _position,
-  educations,
-  setEducations,
-}) {
+function EducationEditForm({ id, setIsEditing, _school, _major, _degree }) {
+  const { setEducations } = useContext(EducationsContext);
   const [school, setSchool] = useState(_school);
   const [major, setMajor] = useState(_major);
-  const [position, setPosition] = useState(_position);
+  const [degree, setDegree] = useState(_degree);
   const posName = ["재학중", "학사졸업", "석사졸업", "박사졸업"];
 
   const handleSchoolChange = (e) => {
@@ -25,23 +19,26 @@ function EducationEditForm({
     setMajor(e.target.value);
   };
 
-  const handlePositionChange = (e) => {
-    setPosition(e.target.value);
+  const handleDegreeChange = (e) => {
+    setDegree(e.target.value);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      Api.put(`educations/${id}`, {
+      await Api.put(`educations/${id}`, {
         id,
         school,
         major,
-        position
+        degree,
       });
-      setEducations(educations.map((education) => education._id === id ? { ...education, school, major, position } : education ));
+      setEducations((cur) =>
+        cur.map((education) => education.id === id ? { ...education, school, major, degree } : education)
+      );
       setIsEditing(false);
     } catch (err) {
+      alert('동일한 학력을 중복으로 등록할 수 없습니다.');
       console.error(err);
     }
   };
@@ -54,6 +51,7 @@ function EducationEditForm({
             type="text"
             value={school}
             onChange={handleSchoolChange}
+            required
           />
         </Form.Group>
 
@@ -62,6 +60,7 @@ function EducationEditForm({
             type="text"
             value={major}
             onChange={handleMajorChange}
+            required
           />
         </Form.Group>
 
@@ -73,8 +72,8 @@ function EducationEditForm({
               type="radio"
               label={pos}
               value={pos}
-              checked={position === pos}
-              onChange={handlePositionChange}
+              checked={degree === pos}
+              onChange={handleDegreeChange}
             />
           ))}
         </Form.Group>

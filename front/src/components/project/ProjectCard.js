@@ -1,18 +1,20 @@
-import React, {useState} from "react"
+import React, {useState, useContext} from "react"
 import * as Api from "../../api";
 import {Button, Card, Col, Row} from "react-bootstrap";
 
-
 import ProjectEditForm from "./ProjectEditForm";
 
+import {ProjectContext} from "../../context/ProjectContext"
 
-const ProjectCard = ({item, dispatch, isEditable }) => {
+
+const ProjectCard = ({index, isEditable }) => {
+  const {projects, dispatch} =useContext(ProjectContext)
   const [isEditForm, setIsEditForm] = useState(false)
 
   const deleteHandler = async () => {
     try{
-      await Api.delete("projects", item._id)
-      dispatch({type: 'delete-project', payload: `${item._id}` })
+      await Api.delete("projects", projects[index].id)
+      dispatch({type: 'delete-project', payload: `${projects[index].id}` })
     } catch(e){
       console.error(e)
     }
@@ -22,20 +24,19 @@ const ProjectCard = ({item, dispatch, isEditable }) => {
       <Row>
         {isEditForm ? 
           <ProjectEditForm
-            item={item}
+            index={index}
             setIsEditForm={setIsEditForm}
-            dispatch={dispatch}
           /> : 
           <>
             <Col sm="11">
               <Card.Text className="mb-0" >
-                {item.title}
+                {projects[index].title}
               </Card.Text>
               <Card.Text className=" mb-0 text-muted">
-                {item.description}
+                {projects[index].description}
               </Card.Text>
               <Card.Text className="text-muted mb-2">
-                {item.from_date} ~ {item.to_date}
+                {projects[index].from_date} ~ {projects[index].to_date}
               </Card.Text>
             </Col>
 

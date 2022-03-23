@@ -1,12 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { EducationsContext } from "./Education";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Form, Button, Row, Col } from "react-bootstrap";
 import * as Api from "../../api";
 
-function EducationAddForm({ setIsAdding, educations, setEducations }) {
+function EducationAddForm({ setIsAdding }) {
+  const { setEducations } = useContext(EducationsContext);
   const [school, setSchool] = useState("");
   const [major, setMajor] = useState("");
-  const [position, setPosition] = useState("");
+  const [degree, setDegree] = useState("");
   const posName = ["재학중", "학사졸업", "석사졸업", "박사졸업"];
 
   const handleSchoolChange = (e) => {
@@ -17,8 +19,8 @@ function EducationAddForm({ setIsAdding, educations, setEducations }) {
     setMajor(e.target.value);
   };
 
-  const handlePositionChange = (e) => {
-    setPosition(e.target.value);
+  const handleDegreeChange = (e) => {
+    setDegree(e.target.value);
   };
 
   const handleSubmit = async (e) => {
@@ -28,11 +30,16 @@ function EducationAddForm({ setIsAdding, educations, setEducations }) {
       const response = await Api.post("education/create", {
         school,
         major,
-        position,
+        degree,
       });
-      setEducations([...educations, response.data]);
+      setEducations((current) => {
+        const newEducations = [...current];
+        newEducations.push(response.data);
+        return newEducations;
+      });
       setIsAdding(false);
     } catch (err) {
+      alert('동일한 학력을 중복으로 등록할 수 없습니다.');
       console.error(err);
     }
   };
@@ -45,6 +52,7 @@ function EducationAddForm({ setIsAdding, educations, setEducations }) {
           placeholder="학교 이름"
           value={school}
           onChange={handleSchoolChange}
+          required
         />
       </Form.Group>
 
@@ -54,10 +62,11 @@ function EducationAddForm({ setIsAdding, educations, setEducations }) {
           placeholder="전공"
           value={major}
           onChange={handleMajorChange}
+          required
         />
       </Form.Group>
 
-      <Form.Group controlId="userAddPosition" className="mb-3">
+      <Form.Group controlId="userAddDegree">
         {posName.map((pos) => (
           <Form.Check
             inline
@@ -65,11 +74,18 @@ function EducationAddForm({ setIsAdding, educations, setEducations }) {
             type="radio"
             label={pos}
             value={pos}
-            checked={position === pos}
-            onChange={handlePositionChange}
+            checked={degree === pos}
+            onChange={handleDegreeChange}
           />
         ))}
       </Form.Group>
+      {degree === "" ? (
+        <span style={{ color: "red", fontSize: "12px" }}>
+          학위를 선택해주세요
+        </span>
+      ) : (
+        ""
+      )}
 
       <Form.Group as={Row} className="mt-3 text-center">
         <Col sm={{ span: 20 }}>
