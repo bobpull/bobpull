@@ -1,9 +1,13 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { UserStateContext } from "../../App";
 import { Container, Form, Row, Button } from "react-bootstrap";
 
 function PasswordEdit() {
   const navigate = useNavigate();
+
+  const userState = useContext(UserStateContext);
+  const curUser = userState.user;
 
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
@@ -11,6 +15,7 @@ function PasswordEdit() {
 
   function handleSubmit(e) {
     e.preventDefault();
+    console.log(curUser.id);
   }
 
   return (
