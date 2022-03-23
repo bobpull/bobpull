@@ -22,7 +22,11 @@ function MemberEdit() {
         >
           비밀번호 변경
         </Button>
-        <Button variant="primary" className="mb-3">
+        <Button
+          variant="primary"
+          className="mb-3"
+          onClick={() => navigate("/edit/withdraw")}
+        >
           회원 탈퇴
         </Button>
       </Row>
