@@ -1,10 +1,17 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Container, Form, Row, Button } from "react-bootstrap";
 
 function PasswordEdit() {
+  const navigate = useNavigate();
+
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmNewPW, setConfirmNewPW] = useState("");
+
+  function handleSubmit(e) {
+    e.preventDefault();
+  }
 
   return (
     <Container style={{ maxWidth: "700px", border: "1px solid gray" }}>
@@ -18,7 +25,7 @@ function PasswordEdit() {
         </Row>
       </Row>
       <Row className="justify-content-md-center m-5">
-        <Form>
+        <Form onSubmit={handleSubmit}>
           <Form.Group controlId="currentPassword" className="mb-3">
             <Form.Control
               type="password"
@@ -53,7 +60,14 @@ function PasswordEdit() {
             <Button variant="primary" type="submit" className="mb-2">
               확인
             </Button>
-            <Button variant="secondary" type="submit" className="mb-2">
+            <Button
+              variant="secondary"
+              type="submit"
+              className="mb-2"
+              onClick={() => {
+                navigate("/edit");
+              }}
+            >
               취소
             </Button>
           </Form.Group>
