@@ -4,8 +4,11 @@ import { login_required } from "../middlewares/login_required";
 import { userAuthService } from "../services/userService";
 import sendMail from "../utils/send-mail";
 import generateRandomPassword from "../utils/generate-random-password";
+import { User } from "../db/models/User.js";
 
 const userAuthRouter = Router();
+
+let verificationNumber = {};
 
 userAuthRouter.post("/user/register", async function (req, res, next) {
   try {
@@ -37,7 +40,7 @@ userAuthRouter.post("/user/register", async function (req, res, next) {
   }
 });
 
-userAuthRouter.post("/user/reset-password", async function (req, res, next) {
+userAuthRouter.post("/resetpw", async function (req, res, next) {
   try {
     const email = req.body.email;
     const user = await userAuthService.findUserByEmail({ email });
@@ -64,32 +67,39 @@ userAuthRouter.post("/user/reset-password", async function (req, res, next) {
   }
 });
 
-userAuthRouter.post("/user/verification-number", async function (req, res, next) {
+userAuthRouter.post("/availablemail", async function (req, res, next) {
   try {
-    const email = req.body.email;
-    const user = await User.findByEmail({ email });
-    if (user) {
-      const errorMessage =
-        "이 이메일은 현재 사용중입니다. 다른 이메일을 입력해 주세요.";
-      return { errorMessage };
+    if (is.emptyObject(req.body)) {
+      throw new Error(
+        "필수 파라미터가 존재하지 않습니다."
+      );
     }
 
-    const verificationNumber = generateRandomPassword();
+    const email = req.body.email;
+    verificationNumber = generateRandomPassword();
 
     await sendMail(email, "밥풀(pull) 회원가입 인증번호입니다!", `안녕하세요! 인증번호는 ${verificationNumber} 입니다.`);
+
     res.status(200).send('인증번호가 전송되었습니다.');
   } catch (err) {
     next(err);
   }
 });
 
-userAuthRouter.post("/user/send-message", async function (req, res, next) {
+userAuthRouter.post("/availablemail/check", async function (req, res, next) {
   try {
-    const email = req.body.email;
-    const secretMessage = "테스트를 위한 문장입니다."
-    await sendMail(email, "You've received a message", secretMessage);
+    if (is.emptyObject(req.body)) {
+      throw new Error(
+        "필수 파라미터가 존재하지 않습니다."
+      );
+    }
+    
+    const inputNumber = req.body.verificationNumber;
 
-    res.status(200).send(user);
+    if (inputNumber !== verificationNumber) {
+      throw new Error("인증 번호가 일치하지 않습니다. 인증번호를 재요청하세요.")
+    }
+    res.status(200).send("올바른 인증번호입니다.");
   } catch (err) {
     next(err);
   }
