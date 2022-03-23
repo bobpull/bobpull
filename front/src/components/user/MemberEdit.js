@@ -1,13 +1,8 @@
-import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { UserStateContext } from "../../App";
 import { Container, Row, Button } from "react-bootstrap";
 
 function MemberEdit() {
   const navigate = useNavigate();
-
-  const userState = useContext(UserStateContext);
-  const curUser = userState.user;
 
   return (
     <Container style={{ maxWidth: "700px" }}>
