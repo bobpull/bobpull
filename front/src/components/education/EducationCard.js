@@ -7,6 +7,7 @@ import EducationEditForm from "./EducationEditForm";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 
+
 function EducationCard({ id, isEditable, school, major, degree }) {
   const [isEditing, setIsEditing] = useState(false);
   const { setEducations } = useContext(EducationsContext);
