@@ -27,6 +27,12 @@ class User {
     return user;
   }
 
+  static async findByFriendId({ friend_id }) {
+    const friend = await UserModel.findOne({ id: friend_id });
+    console.log(friend);
+    return friend;
+  }
+
   static async update({ user_id, fieldToUpdate, newValue }) {
     const filter = { id: user_id };
     const update = { [fieldToUpdate]: newValue };
