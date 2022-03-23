@@ -42,12 +42,16 @@ class AwardService {
 
     // 업데이트 대상에 title이 있다면, 즉 title 값이 null 이 아니라면 업데이트 진행
     if (title && description) {
-      const fieldToUpdate1 = "title";
-      const newTitle = title;
-      const fieldToUpdate2 = "description";
-      const newDescription = description;
-      award = await Award.update( id, {[fieldToUpdate1]:newTitle, [fieldToUpdate2]:newDescription});
-    }
+      const fieldToUpdateTitle = "title";
+      const fieldToUpdateDescription = "description";
+      award = await Award.update(
+         id, 
+         {
+           [fieldToUpdateTitle]: title,
+           [fieldToUpdateDescription]: description
+          }
+        );
+      }
 
     return award;
   }

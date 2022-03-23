@@ -35,24 +35,22 @@ class CertificateService {
 
     const title = toUpdate.title;
     const description = toUpdate.description;
+    const issued_at = toUpdate.issued_at;
 
     // 업데이트 대상에 title이 있다면, 즉 title 값이 null이 아니라면 업데이트 진행
-    if (title) {
-      const fieldToUpdate = "title";
-      const newValue = title;
-      certificate = await Certificate.update({ id, fieldToUpdate, newValue });
-    }
+    if (title && description && issued_at) {
+      const fieldToUpdateTitle = "title";
+      const fieldToUpdateDescription = "description";
+      const fieldToUpdateIssuedAt = "issued_at";
 
-    if (description) {
-      const fieldToUpdate = "description";
-      const newValue = description;
-      certificate = await Certificate.update({ id, fieldToUpdate, newValue });
-    }
-
-    if (toUpdate.issued_at) {
-      const fieldToUpdate = "issued_at";
-      const newValue = toUpdate.issued_at;
-      certificate = await Certificate.update({ id, fieldToUpdate, newValue });
+      certificate = await Certificate.update(
+        id,
+        {
+         [fieldToUpdateTitle]: title,
+         [fieldToUpdateDescription]: description,
+         [fieldToUpdateIssuedAt]: issued_at
+        }
+      );
     }
 
     return certificate;
