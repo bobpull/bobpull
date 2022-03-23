@@ -1,6 +1,8 @@
 import React, {useState, useContext} from "react"
 import * as Api from "../../api";
 import {Button, Card, Col, Row} from "react-bootstrap";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 
 import ProjectEditForm from "./ProjectEditForm";
 
@@ -11,6 +13,23 @@ const ProjectCard = ({index, isEditable }) => {
   const {projects, dispatch} =useContext(ProjectContext)
   const [isEditForm, setIsEditForm] = useState(false)
 
+  const handleClick = async () => {
+    const MySwal = withReactContent(Swal);
+
+    const result = await MySwal.fire({
+      title: <p>해당 정보를 삭제하시겠습니까?</p>,
+      icon: "error",
+      showCancelButton: true,
+      confirmButtonColor: "#0B5ED7",
+      confirmButtonText: "확인",
+      cancelButtonText: "취소",
+    });
+
+    if (result.isConfirmed) {
+      deleteHandler();
+    }
+  };
+
   const deleteHandler = async () => {
     try{
       await Api.delete("projects", projects[index].id)
@@ -19,6 +38,7 @@ const ProjectCard = ({index, isEditable }) => {
       console.error(e)
     }
   }
+
   return (
     <Card className="mb-3" style={{textAlign: "left", border: "none"}} >
       <Row>
@@ -51,7 +71,7 @@ const ProjectCard = ({index, isEditable }) => {
                 <Button
                   variant="outline-danger"
                   size="sm"
-                  onClick={deleteHandler}
+                  onClick={handleClick}
                 >삭제</Button>
               </Col>
             }

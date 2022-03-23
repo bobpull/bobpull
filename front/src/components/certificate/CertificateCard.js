@@ -1,55 +1,42 @@
 import { useState, useContext } from "react";
-import { Card, Row, Col, Button, Modal } from "react-bootstrap";
+import { Card, Row, Col, Button } from "react-bootstrap";
 import CertificateEditForm from "./CertificateEditForm";
 import { CertificatesContext } from "./Certificate";
 import * as Api from "../../api";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 
-function CheckModal({ show, setShow, id }) {
+
+function CertificateCard({ certificate, isEditable }) {
+  const [isEditing, setIsEditing] = useState(false);
   const { setCertificates } = useContext(CertificatesContext);
 
   async function handleDelete() {
     try {
-      await Api.delete("certificates/" + id);
-      setCertificates((cur) => cur.filter((v) => v.id !== id));
+      await Api.delete("certificates/" + certificate.id);
+      setCertificates((cur) => cur.filter((v) => v.id !== certificate.id));
     } catch (err) {
       console.log(err);
       alert("자격증 삭제를 실패하였습니다.");
     }
   }
 
-  return (
-    <Modal show={show} onHide={() => setShow(false)}>
-      <Modal.Header closeButton>
-        <Modal.Title>삭제하시겠습니까?</Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        <p>
-          해당 자격증을 삭제하시겠습니까? 삭제 후의 동작은 되돌릴 수 없습니다.
-        </p>
-      </Modal.Body>
-      <Modal.Footer>
-        <Button variant="secondary" onClick={() => setShow(false)}>
-          취소
-        </Button>
-        <Button
-          variant="primary"
-          onClick={() => {
-            setShow(false);
-            handleDelete();
-          }}
-        >
-          삭제
-        </Button>
-      </Modal.Footer>
-    </Modal>
-  );
-}
+  const handleClick = async () => {
+    const MySwal = withReactContent(Swal);
 
-function CertificateCard({ certificate, isEditable }) {
-  const [isEditing, setIsEditing] = useState(false);
+    const result = await MySwal.fire({
+      title: <p>해당 정보를 삭제하시겠습니까?</p>,
+      icon: "error",
+      showCancelButton: true,
+      confirmButtonColor: "#0B5ED7",
+      confirmButtonText: "확인",
+      cancelButtonText: "취소",
+    });
 
-  // modal 창을 관리하기 위한 상태를 useState로 정의
-  const [show, setShow] = useState(false);
+    if (result.isConfirmed) {
+      handleDelete();
+    }
+  };
 
   return (
     <>
@@ -81,9 +68,7 @@ function CertificateCard({ certificate, isEditable }) {
                       className="mr-3"
                       variant="outline-danger"
                       size="sm"
-                      onClick={() => {
-                        setShow(true);
-                      }}
+                      onClick={handleClick}
                     >
                       삭제
                     </Button>
@@ -92,7 +77,6 @@ function CertificateCard({ certificate, isEditable }) {
               )}
             </Row>
           </Card.Text>
-          <CheckModal show={show} setShow={setShow} id={certificate.id} />
         </>
       ) : (
         <CertificateEditForm
