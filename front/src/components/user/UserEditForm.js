@@ -46,6 +46,7 @@ function UserEditForm({ user, setIsEditing, setUser }) {
               type="email"
               placeholder="이메일"
               value={email}
+              disabled={true}
               onChange={(e) => setEmail(e.target.value)}
             />
           </Form.Group>
