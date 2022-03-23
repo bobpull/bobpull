@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Container, Col, Row, Form, Button } from "react-bootstrap";
 import * as Api from "../../api";
+import "../../style/display.css"
 
 function RegisterForm() {
   const navigate = useNavigate();
+  const errorRef = useRef()
 
   //useState로 email 상태를 생성함.
   const [email, setEmail] = useState("");
@@ -19,6 +21,10 @@ function RegisterForm() {
     authNum: "",
     isAuth: false
   })
+
+  useEffect(() => {
+    console.log(errorRef)
+  }, [])
 
   //이메일이 abc@example.com 형태인지 regex를 이용해 확인함.
   const validateEmail = (email) => {
@@ -43,8 +49,7 @@ function RegisterForm() {
     isEmailValid && isPasswordValid && isPasswordSame && isNameValid;
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-
+    e.preventDefault()
     try {
       // "user/register" 엔드포인트로 post요청함.
       await Api.post("user/register", {
@@ -52,7 +57,6 @@ function RegisterForm() {
         password,
         name,
       });
-
       // 로그인 페이지로 이동함.
       navigate("/login");
     } catch (err) {
@@ -62,8 +66,14 @@ function RegisterForm() {
 
   const handleAuthEmail = async () => {
     try{
-      //await Api.post("", email)
-      setAuthEmail(true)
+      await Api.post("user/verification-number", {email})
+      errorRef.current.innerText = `인증번호를 전송했습니다.`
+      setAuthEmail(cur => {
+        return {
+          ...cur,
+          isAuth: true
+        }
+      })
     } catch(e){
       console.log(e)
     }
@@ -81,10 +91,7 @@ function RegisterForm() {
             <Form.Group controlId="registerEmail">
               <Form.Label>이메일 주소</Form.Label>
               <Row>
-                <div style={{
-                  display: "flex",
-                  justifyContent: "space-between"
-                }}>
+                <div className="between">
                   <Form.Control
                     type="email"
                     autoComplete="off"
@@ -109,14 +116,21 @@ function RegisterForm() {
                   이메일 형식이 올바르지 않습니다.
                 </Form.Text>
               )}
-              <Form.Group controlId="authEmail">
-                <Form.Control
-                  className="mt-3"
-                  type="text"
-                  autoComplete="off"
-                  placeholder="인증번호를 입력해주세요."
-                  disabled={!authEmail.isAuth}
-                />
+              <Form.Group className="mt-3" controlId="authEmail">
+                <div className="between">
+                  <Form.Control
+                    type="text"
+                    autoComplete="off"
+                    placeholder="인증번호를 입력해주세요."
+                    disabled={!authEmail.isAuth}
+                  />
+                  <Button 
+                      style={{width: "150px", marginLeft: "10px"}}
+                      size="sm" 
+                      variant="primary" 
+                  >완료</Button>
+                  </div>
+                <Form.Text ref={errorRef} className="text-success"></Form.Text>
               </Form.Group>
               
             <Form.Group controlId="registerPassword" className="mt-3">
