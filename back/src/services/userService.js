@@ -22,7 +22,7 @@ class userAuthService {
 
     // db에 저장
     const createdNewUser = await User.create({ newUser });
-
+    console.log(createdNewUser);
     return createdNewUser;
   }
 

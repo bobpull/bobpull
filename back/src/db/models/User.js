@@ -8,7 +8,6 @@ class User {
 
   static async deleteById({ user_id }) {
     const user = await UserModel.deleteOne({ id: user_id });
-    
     return user;
   }
 
