@@ -71,6 +71,7 @@ function EducationAddForm({ setIsAdding }) {
           <Form.Check
             inline
             key={posName.indexOf(pos)}
+            id={"degree" + posName.indexOf(pos)}
             type="radio"
             label={pos}
             value={pos}

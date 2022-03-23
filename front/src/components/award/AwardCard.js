@@ -1,25 +1,58 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { AwardsContext } from "./Award";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Button, Row, Col, Card } from "react-bootstrap";
+import * as Api from "../../api";
 import AwardEditForm from "./AwardEditForm";
-import AwardDeleteModal from "./AwardDeleteModal";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+
 
 function AwardCard({ id, isEditable, title, description }) {
   const [isEditing, setIsEditing] = useState(false);
-  const [show, setShow] = useState(false);
+  const { setAwards } = useContext(AwardsContext);
+
+  const handleDelete = async () => {
+    try {
+      await Api.delete(`awards/${id}`);
+      setAwards((cur) => cur.filter((award) => award.id !== id));
+    } catch (err) {
+      alert("삭제 실패");
+      console.error(err);
+    }
+  };
+
+  const handleClick = async () => {
+    const MySwal = withReactContent(Swal);
+
+    const result = await MySwal.fire({
+      title: <p>해당 정보를 삭제하시겠습니까?</p>,
+      icon: "error",
+      showCancelButton: true,
+      confirmButtonColor: "#0B5ED7",
+      confirmButtonText: "확인",
+      cancelButtonText: "취소",
+    });
+
+    if (result.isConfirmed) {
+      await handleDelete();
+    }
+  };
 
   return (
-    <Card.Text>
-      <Row>
-        {isEditing ? (
+    <>
+      {isEditing ? (
+        <Row>
           <AwardEditForm
             id={id}
             setIsEditing={setIsEditing}
             _title={title}
             _description={description}
           />
-        ) : (
-          <>
+        </Row>
+      ) : (
+        <Card.Text>
+          <Row>
             <Col>
               <span>{title}</span>
               <br />
@@ -43,21 +76,16 @@ function AwardCard({ id, isEditable, title, description }) {
                 <Button
                   variant="outline-danger"
                   size="sm"
-                  onClick={() => setShow(true)}
+                  onClick={handleClick}
                 >
                   삭제
                 </Button>
-                <AwardDeleteModal
-                  show={show}
-                  onHide={() => setShow(false)}
-                  id={id}
-                />
               </Col>
             )}
-          </>
-        )}
-      </Row>
-    </Card.Text>
+          </Row>
+        </Card.Text>
+      )}
+    </>
   );
 }
 

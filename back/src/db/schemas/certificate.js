@@ -30,4 +30,4 @@ const CertificateSchema = new Schema(
 
 const CertificateModel = model("Certificate", CertificateSchema);
 
-export{ CertificateModel };
+export { CertificateModel };
