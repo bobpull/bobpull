@@ -26,7 +26,7 @@ const upload = multer({
 //         //     return;
 //         // } 
 //         //console.log(req.body);
-//         const nameField = "myImage";
+//         const nameField = "myImg";
         
 //         //넘겨준 inputName 값을 가진 파일을 받아와 destination에 저장하고, 파일의 정보를 req.file에 담는다.
 //         return upload.single(nameField)(req, res, next);
@@ -37,6 +37,6 @@ const upload = multer({
 //     }
 // }
 
-const nameField = "myImage";
+const nameField = "myImg";
 
 export { upload, nameField };
