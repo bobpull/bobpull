@@ -4,6 +4,7 @@ import { login_required } from "../middlewares/login_required";
 import { userAuthService } from "../services/userService";
 import sendMail from "../utils/send-mail";
 import generateRandomPassword from "../utils/generate-random-password";
+import { User } from "../db/models/User.js";
 
 const userAuthRouter = Router();
 
