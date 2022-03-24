@@ -2,27 +2,28 @@ import { Router } from "express";
 import { login_required } from "../middlewares/login_required";
 import { upload, nameField } from "../middlewares/multerMiddleware";
 import { ImageService } from "../services/imageService";
+import fs from "fs";
 
 const ImageRouter = Router();
 
 ImageRouter.post(
-  '/profile', 
-  login_required, 
+  '/profile/create', 
+  login_required,
   upload.single(nameField), 
   async function (req, res, next) {
-    try{
-      const filePath = req.file.file_path;
-      const imageBuffer = fs.readFileSync(filePath); 
+    try {
+      const user_id = req.currentUserId;
+      const filePath = req.file.path; 
+      const imageBuffer = fs.readFileSync(filePath);
       const contentType = req.file.mimetype;
-      const image = { 
+      const img = { 
         data: imageBuffer,
         contentType,
       }
-      const user_id = req.currentUserId;
       
-      const updatedImage = await ImageService.setUserImage({ user_id, image, filePath });
-  
-      if(updatedImage.errorMessage){
+      const updatedImage = await ImageService.setImage({ user_id, img, filePath });
+
+      if(updatedImage.errorMessage) {
         throw new Error(updatedImage.errorMessage);
       }
       
@@ -30,21 +31,43 @@ ImageRouter.post(
     } catch(error) {
       next(error);
     }
-});
-  
-ImageRouter.get(
-  "/profile", 
-  login_required, 
-  async function (req, res, next){
-    try{
-      const currentUserId = req.currentUserId;
-      const userImage = await ImageService.getUserImage({ currentUserId });
+  }
+);
 
-      if(userImage.errorMessage){
-        throw new Error(userImage.errorMessage);
+ImageRouter.get(
+  '/profile', 
+  login_required, 
+  async function (req, res, next) {
+    try{
+      const user_id = req.currentUserId;
+      
+      const image = await ImageService.getImage({ user_id });
+
+      if(image.errorMessage){
+        throw new Error(image.errorMessage);
+      }
+      
+      res.status(200).send(image);
+    } catch(error) {
+      next(error);
+    }
+  }
+);
+
+ImageRouter.get(
+  "/profiles/:id", 
+  login_required, 
+  async function (req, res, next) {
+    try{
+      const user_id = req.params.id;
+
+      const image = await ImageService.getImage({ user_id });
+
+      if(image.errorMessage){
+        throw new Error(userImg.errorMessage);
       }
     
-      res.status(200).send(userImage);
+      res.status(200).send(image);
     } catch(error) {
       next(error);
     }
