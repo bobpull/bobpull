@@ -262,6 +262,21 @@ userAuthRouter.put(
   }
 );
 
+userAuthRouter.get(
+  '/profileImg/:user_id',
+  login_require,
+  async function(req, res, next){
+    try{
+      const user_id = req.params.user_id;
+      const profileImg = await userAuthService.getProfileImg({user_id})
+      res.send(profileImg)
+    }catch(error){
+      next(error)
+    }
+  }
+)
+
+
 // jwt 토큰 기능 확인용, 삭제해도 되는 라우터임.
 userAuthRouter.get("/afterlogin", login_required, function (req, res, next) {
   res
