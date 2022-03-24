@@ -265,6 +265,20 @@ userAuthRouter.put(
 );
 
 userAuthRouter.get(
+  '/profileImg/:user_id',
+  login_require,
+  async function(req, res, next){
+    try{
+      const user_id = req.params.user_id;
+      const profileImg = await userAuthService.getProfileImg({user_id})
+      res.send(profileImg)
+    }catch(error){
+      next(error)
+    }
+  }
+)
+
+userAuthRouter.get(
   '/profile/:user_id',
   async function(req, res, next){
     try{
