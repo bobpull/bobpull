@@ -70,8 +70,6 @@ EducationRouter.put(
   login_required,
   async function (req, res, next) {
     try {
-      // URI로부터 education id를 추출함.
-      const user_id = req.currentUserId;
       const id = req.params.id;
       // body data 로부터 업데이트할 education 정보를 추출함.
       const school = req.body.school ?? null;
@@ -81,7 +79,7 @@ EducationRouter.put(
       const toUpdate = { school, major, degree };
 
       // 해당 education 아이디로 education 정보를 db에서 찾아 업데이트함. 업데이트 요소가 없을 시 생략함
-      const updatedEducation = await EducationService.setEducation({ user_id, id, toUpdate });
+      const updatedEducation = await EducationService.setEducation({ id, toUpdate });
 
       if (updatedEducation.errorMessage) {
         throw new Error(updatedEducation.errorMessage);

@@ -150,6 +150,22 @@ class userAuthService {
 
     return user;
   }
+
+  static async checkPassword({ user_id, password }) {
+    const user = await User.findById({ user_id });
+
+    const correctPasswordHash = user.password;
+    const isPasswordCorrect = await bcrypt.compare(
+      password,
+      correctPasswordHash
+    );
+    if (!isPasswordCorrect) {
+      const errorMessage =
+        "비밀번호를 다시 한 번 확인해 주세요.";
+      return {errorMessage};
+    }
+    return true;
+  }
 }
 
 export { userAuthService };
