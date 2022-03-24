@@ -2,6 +2,7 @@ import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserStateContext } from "../../App";
 import { Container, Form, Row, Button } from "react-bootstrap";
+import * as Api from "../../api";
 
 function PasswordEdit() {
   const navigate = useNavigate();
@@ -13,9 +14,23 @@ function PasswordEdit() {
   const [newPassword, setNewPassword] = useState("");
   const [confirmNewPW, setConfirmNewPW] = useState("");
 
-  function handleSubmit(e) {
+  const isCorrect = newPassword === confirmNewPW;
+
+  async function handleSubmit(e) {
     e.preventDefault();
-    console.log(curUser.id);
+    console.log(curUser);
+    try {
+      await Api.post("changepw", {
+        password: currentPassword,
+      });
+      await Api.put("users/" + curUser.id, {
+        password: newPassword,
+      });
+      alert("비밀번호가 변경되었습니다.");
+    } catch (err) {
+      console.log(err);
+      alert("현재 비밀번호와 일치하지 않습니다.");
+    }
   }
 
   return (
@@ -62,7 +77,12 @@ function PasswordEdit() {
             />
           </Form.Group>
           <Form.Group as={Row} style={{ margin: "0px" }} className="mt-5">
-            <Button variant="primary" type="submit" className="mb-2">
+            <Button
+              variant="primary"
+              type="submit"
+              className="mb-2"
+              disabled={!isCorrect}
+            >
               확인
             </Button>
             <Button
