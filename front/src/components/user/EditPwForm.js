@@ -27,6 +27,7 @@ function PasswordEdit() {
         password: newPassword,
       });
       alert("비밀번호가 변경되었습니다.");
+      navigate("/");
     } catch (err) {
       console.log(err);
       alert("현재 비밀번호와 일치하지 않습니다.");
