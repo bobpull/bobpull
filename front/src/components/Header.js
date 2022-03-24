@@ -13,8 +13,6 @@ function Header() {
   const userState = useContext(UserStateContext);
   const dispatch = useContext(DispatchContext);
 
-  const [show, setShow] = useState(false);
-
   // 전역상태에서 user가 null이 아니라면 로그인 성공 상태임.
   const isLogin = !!userState.user;
 
@@ -62,21 +60,17 @@ function Header() {
           <Nav.Item>
             <Dropdown
               style={{ margin: "20px 120px 0 0" }}
-              onMouseOver={() => {
-                setShow(true);
+              onMouseEnter={(e) => {
+                e.target.click();
               }}
-              onMouseLeave={() => {
-                setShow(false);
+              onMouseLeave={(e) => {
+                e.target.click();
               }}
             >
-              <Dropdown.Toggle
-                id="dropdown-autoclose-true"
-                variant="secondary"
-                className="myMenu"
-              >
+              <Dropdown.Toggle id="dropdown-autoclose-true" variant="secondary">
                 Menu
               </Dropdown.Toggle>
-              <Dropdown.Menu show={show}>
+              <Dropdown.Menu>
                 <Dropdown.Header>User</Dropdown.Header>
                 <Dropdown.Item eventKey="1" onClick={() => navigate("/edit")}>
                   회원정보
