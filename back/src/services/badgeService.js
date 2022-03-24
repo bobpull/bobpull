@@ -41,7 +41,6 @@ class BadgeService {
     const price = toUpdate.price;
     const description = toUpdate.description;
     const have = toUpdate.have;
-<<<<<<< HEAD
 
     if (title && price && description) {
       const fieldToUpdateTitle = "title";
