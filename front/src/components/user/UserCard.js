@@ -25,8 +25,8 @@ function UserCard({ user, setIsEditing, isEditable, isNetwork, isFriend }) {
                 alt="고양이 사진"
               />
               <div>
-                <Card.Title className="title">{user?.name}</Card.Title>
-                <Card.Subtitle className="text-muted text">{user?.email}</Card.Subtitle>
+                <Card.Text style={{margin: "0"}}>{user?.name}</Card.Text>
+                <Card.Text className="text-muted text">{user?.email}</Card.Text>
                 <Card.Text
                   className="mb-3 text"
                 >{user?.description}</Card.Text>

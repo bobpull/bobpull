@@ -77,7 +77,7 @@ function Portfolio() {
       maxWidth: "82.5rem",
     }}>
       <Row>
-        <Col lg="3">
+        <Col lg="5">
           <User
             portfolioOwnerId={portfolioOwner.id}
             isEditable={portfolioOwner.id === userState.user?.id}
