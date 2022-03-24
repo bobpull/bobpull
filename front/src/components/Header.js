@@ -67,7 +67,11 @@ function Header() {
                 e.target.click();
               }}
             >
-              <Dropdown.Toggle id="dropdown-autoclose-true" variant="secondary">
+              <Dropdown.Toggle
+                id="dropdown-autoclose-true"
+                variant="secondary"
+                className="myMenu"
+              >
                 Menu
               </Dropdown.Toggle>
               <Dropdown.Menu>
