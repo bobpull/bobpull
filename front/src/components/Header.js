@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Nav, Dropdown } from "react-bootstrap";
 import { UserStateContext, DispatchContext } from "../App";
