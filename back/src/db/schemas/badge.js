@@ -11,7 +11,7 @@ const BadgeSchema = new Schema(
       type: String,
       required: true,
     },
-    badge: {
+    title: {
       type: String,
       required: true,
     },
@@ -19,9 +19,15 @@ const BadgeSchema = new Schema(
       type: Number,
       required: true,
     },
+    description: {
+      type: String,
+      required: false,
+      default: "설명이 아직 없습니다. 추가해 주세요.",
+    },
     have: {
       type: Boolean,
-      required: true,
+      required: false,
+      default: false,
     }
   },
   {
