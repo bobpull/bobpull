@@ -3,7 +3,7 @@ import UserEditForm from "./UserEditForm";
 import UserCard from "./UserCard";
 import * as Api from "../../api";
 
-function User({ portfolioOwnerId, isEditable }) {
+function User({ portfolioOwnerId, isEditable, isFriend }) {
   // useState 훅을 통해 isEditing 상태를 생성함.
   const [isEditing, setIsEditing] = useState(false);
   // useState 훅을 통해 user 상태를 생성함.
@@ -27,6 +27,7 @@ function User({ portfolioOwnerId, isEditable }) {
           user={user}
           setIsEditing={setIsEditing}
           isEditable={isEditable}
+          isFriend={isFriend}
         />
       )}
     </>

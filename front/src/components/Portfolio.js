@@ -12,6 +12,7 @@ import Project from "./project/Project";
 
 import Skill from "./skill/Skill";
 
+import { FriendListContext } from '../context/FriendListContext';
 
 
 function Portfolio() {
@@ -24,6 +25,8 @@ function Portfolio() {
   const [isFetchCompleted, setIsFetchCompleted] = useState(false);
   const userState = useContext(UserStateContext);
 
+  const { friendList, setFriendList } = useContext(FriendListContext);
+
   const fetchPorfolioOwner = async (ownerId) => {
     // 유저 id를 가지고 "/users/유저id" 엔드포인트로 요청해 사용자 정보를 불러옴.
     const res = await Api.get("users", ownerId);
@@ -34,6 +37,11 @@ function Portfolio() {
     // fetchPorfolioOwner 과정이 끝났으므로, isFetchCompleted를 true로 바꿈.
     setIsFetchCompleted(true);
   };
+
+  const fetchUserFriendList = async (ownerId) => {
+    const res = await Api.get('friendlist', ownerId);
+    setFriendList(res.data);
+  }
 
   useEffect(() => {
     // 전역 상태의 user가 null이라면 로그인이 안 된 상태이므로, 로그인 페이지로 돌림.
@@ -55,6 +63,11 @@ function Portfolio() {
     }
   }, [params, userState, navigate]);
 
+  // 로그인한 유저가 변경될 때마다 해당 유저의 친구 리스트 set
+  useEffect(() => {
+    fetchUserFriendList(userState.user?.id);
+  }, [userState.user?.id]);
+
   if (!isFetchCompleted) {
     return "loading...";
   }
@@ -68,6 +81,7 @@ function Portfolio() {
           <User
             portfolioOwnerId={portfolioOwner.id}
             isEditable={portfolioOwner.id === userState.user?.id}
+            isFriend={friendList.find((el) => el.friend_id === portfolioOwner.id)}
           />
           <Skill
             isEditable={portfolioOwner.id === userState.user?.id}

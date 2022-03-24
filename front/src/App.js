@@ -13,6 +13,7 @@ import Portfolio from "./components/Portfolio";
 import MemberEdit from "./components/user/MemberInfoEdit";
 import PasswordEdit from "./components/user/EditPwForm";
 import WithdrawMember from "./components/user/WithdrawMemberForm";
+import FriendList from './components/user/FriendList';
 
 export const UserStateContext = createContext(null);
 export const DispatchContext = createContext(null);
@@ -71,6 +72,7 @@ function App() {
             <Route path="/edit" element={<MemberEdit />} />
             <Route path="/edit/password" element={<PasswordEdit />} />
             <Route path="/edit/withdraw" element={<WithdrawMember />} />
+            <Route path="/friendlist" element={<FriendList />} />
             <Route path="*" element={<Portfolio />} />
           </Routes>
         </Router>

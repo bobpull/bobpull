@@ -5,11 +5,14 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "react-datepicker/dist/react-datepicker.css";
 
 import {ProfileProvider} from "./context/ProfileContext"
+import { FriendListProvider } from "./context/FriendListContext";
 
 ReactDOM.render(
   <React.StrictMode>
       <ProfileProvider>
-        <App />
+        <FriendListProvider>
+          <App />
+        </FriendListProvider>
       </ProfileProvider>
   </React.StrictMode>,
   document.getElementById("root")

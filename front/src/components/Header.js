@@ -63,6 +63,9 @@ function Header() {
             <Nav.Link onClick={() => navigate("/")}>나의 페이지</Nav.Link>
           </Nav.Item>
           <Nav.Item>
+            <Nav.Link onClick={() => navigate("/friendlist")}>내친구들</Nav.Link>
+          </Nav.Item>
+          <Nav.Item>
             <Nav.Link onClick={() => navigate("/network")}>네트워크</Nav.Link>
           </Nav.Item>
           <Nav.Item>
