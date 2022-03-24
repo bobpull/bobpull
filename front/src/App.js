@@ -6,13 +6,13 @@ import { loginReducer } from "./reducer";
 
 import Header from "./components/Header";
 import LoginForm from "./components/user/LoginForm";
-import FindPwForm from "./components/user/FindPwForm"
+import FindPwForm from "./components/user/FindPwForm";
 import Network from "./components/user/Network";
 import RegisterForm from "./components/user/RegisterForm";
 import Portfolio from "./components/Portfolio";
-import MemberEdit from "./components/user/MemberEdit";
-import PasswordEdit from "./components/user/PasswordEdit";
-import WithdrawMember from "./components/user/WithdrawMember";
+import MemberEdit from "./components/user/MemberInfoEdit";
+import PasswordEdit from "./components/user/EditPwForm";
+import WithdrawMember from "./components/user/WithdrawMemberForm";
 
 export const UserStateContext = createContext(null);
 export const DispatchContext = createContext(null);
