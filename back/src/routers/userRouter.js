@@ -2,8 +2,13 @@ import is from "@sindresorhus/is";
 import { Router } from "express";
 import { login_required } from "../middlewares/login_required";
 import { userAuthService } from "../services/userService";
+import sendMail from "../utils/send-mail";
+import generateRandomPassword from "../utils/generate-random-password";
+import { User } from "../db/models/User.js";
 
 const userAuthRouter = Router();
+
+let verificationNumber = {};
 
 userAuthRouter.post("/user/register", async function (req, res, next) {
   try {
@@ -30,8 +35,73 @@ userAuthRouter.post("/user/register", async function (req, res, next) {
     }
 
     res.status(201).json(newUser);
-  } catch (error) {
-    next(error);
+  } catch (err) {
+    next(err);
+  }
+});
+
+userAuthRouter.post("/resetpw", async function (req, res, next) {
+  try {
+    const email = req.body.email;
+    const user = await userAuthService.findUserByEmail({ email });
+    
+    if (!user) {
+      throw new Error("해당 메일로 가입된 사용자가 없습니다.");
+    }
+    
+    const name = user.name;
+    const user_id = user.id;
+    const password = generateRandomPassword();
+    const toUpdate = { password };
+    const updatedUser = await userAuthService.setUser({ user_id, toUpdate })
+
+    if (updatedUser.errorMessage) {
+      throw new Error (updatedUser.errorMessage);
+    }
+
+    await sendMail(email, "밥풀(pull) 임시 비밀번호입니다!",
+     `안녕하세요 ${name}님! 임시 비밀번호는: ${password} 입니다. 로그인 후 비밀번호를 꼭 변경해주세요!`);
+    res.status(200).send('임시 비밀번호가 전송되었습니다.');
+  } catch (err) {
+    next(err);
+  }
+});
+
+userAuthRouter.post("/availablemail", async function (req, res, next) {
+  try {
+    if (is.emptyObject(req.body)) {
+      throw new Error(
+        "필수 파라미터가 존재하지 않습니다."
+      );
+    }
+
+    const email = req.body.email;
+    verificationNumber = generateRandomPassword();
+
+    await sendMail(email, "밥풀(pull) 회원가입 인증번호입니다!", `안녕하세요! 인증번호는 ${verificationNumber} 입니다.`);
+
+    res.status(200).send('인증번호가 전송되었습니다.');
+  } catch (err) {
+    next(err);
+  }
+});
+
+userAuthRouter.post("/availablemail/check", async function (req, res, next) {
+  try {
+    if (is.emptyObject(req.body)) {
+      throw new Error(
+        "필수 파라미터가 존재하지 않습니다."
+      );
+    }
+    
+    const inputNumber = req.body.verificationNumber;
+
+    if (inputNumber !== verificationNumber) {
+      throw new Error("인증 번호가 일치하지 않습니다. 인증번호를 재요청하세요.")
+    }
+    res.status(200).send("올바른 인증번호입니다.");
+  } catch (err) {
+    next(err);
   }
 });
 
@@ -49,8 +119,8 @@ userAuthRouter.post("/user/login", async function (req, res, next) {
     }
 
     res.status(200).send(user);
-  } catch (error) {
-    next(error);
+  } catch (err) {
+    next(err);
   }
 });
 
@@ -62,8 +132,8 @@ userAuthRouter.get(
       // 전체 사용자 목록을 얻음
       const users = await userAuthService.getUsers();
       res.status(200).send(users);
-    } catch (error) {
-      next(error);
+    } catch (err) {
+      next(err);
     }
   }
 );
@@ -84,8 +154,8 @@ userAuthRouter.get(
       }
 
       res.status(200).send(currentUserInfo);
-    } catch (error) {
-      next(error);
+    } catch (err) {
+      next(err);
     }
   }
 );
@@ -102,7 +172,7 @@ userAuthRouter.put(
       const password = req.body.password ?? null;
       const description = req.body.description ?? null;
 
-      const toUpdate = { name, password, description };
+      const toUpdate = { name, email, password, description };
 
       // 해당 사용자 아이디로 사용자 정보를 db에서 찾아 업데이트함. 업데이트 요소가 없을 시 생략함
       const updatedUser = await userAuthService.setUser({ user_id, toUpdate });
@@ -112,8 +182,8 @@ userAuthRouter.put(
       }
 
       res.status(200).json(updatedUser);
-    } catch (error) {
-      next(error);
+    } catch (err) {
+      next(err);
     }
   }
 );
@@ -131,8 +201,8 @@ userAuthRouter.get(
       }
 
       res.status(200).send(currentUserInfo);
-    } catch (error) {
-      next(error);
+    } catch (err) {
+      next(err);
     }
   }
 );
@@ -150,8 +220,8 @@ userAuthRouter.delete(
       }
   
       res.status(204).send();
-    } catch (error) {
-      next(error);
+    } catch (err) {
+      next(err);
     }
   }
 );

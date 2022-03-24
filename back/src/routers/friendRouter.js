@@ -29,6 +29,25 @@ FriendRouter.post(
 });
 
 FriendRouter.get(
+  "/friends/:friend_id",
+  login_required,
+  async function (req, res, next) {
+    try {
+      const friend_id = req.params.friend_id;
+      const currentFriendInfo = await FriendService.getFriendInfo({ friend_id });
+
+      if (currentFriendInfo.errorMessage) {
+        throw new Error(currentFriendInfo.errorMessage);
+      }
+
+      res.status(200).redirect(`/users/${currentFriendInfo.id}`);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+FriendRouter.get(
   "/friendlist/:user_id",
   login_required,
   async function (req, res, next) {

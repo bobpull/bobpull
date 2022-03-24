@@ -13,7 +13,7 @@ function UserCard({ user, setIsEditing, isEditable, isNetwork }) {
     <Card className="mb-2 ms-0" style={{ width: "100%", margin: "0 auto" }}>
       <Card.Body>
         <Row>
-          <div className="between">
+          <div className="between_top">
             <div style={{
               display: "flex",
             }}>

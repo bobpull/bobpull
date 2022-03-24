@@ -3,3 +3,22 @@
   justify-content: space-between;
   align-items: center;
 }
+.between_top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.flex {
+  display: flex;
+}
+
+/* LoginForm */
+.forgetPw {
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+/* useEdit */
+.display_none {
+  display: none;
+}

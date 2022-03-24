@@ -3,7 +3,6 @@ import bcrypt from "bcrypt";
 import { v4 as uuidv4 } from "uuid";
 import jwt from "jsonwebtoken";
 
-
 class userAuthService {
   static async addUser({ name, email, password }) {
     // 이메일 중복 확인
@@ -23,8 +22,13 @@ class userAuthService {
 
     // db에 저장
     const createdNewUser = await User.create({ newUser });
-
+    console.log(createdNewUser);
     return createdNewUser;
+  }
+
+  static async findByEmail({ email }) {
+    const user = await User.findOne({ email });
+    return user;
   }
 
   static async getUser({ email, password }) {
@@ -38,6 +42,7 @@ class userAuthService {
 
     // 비밀번호 일치 여부 확인
     const correctPasswordHash = user.password;
+    
     const isPasswordCorrect = await bcrypt.compare(
       password,
       correctPasswordHash
@@ -67,6 +72,11 @@ class userAuthService {
     };
 
     return loginUser;
+  }
+
+  static async findUserByEmail({ email }) {
+    const user = await User.findByEmail({ email });
+    return user;
   }
 
   static async getUsers() {
@@ -108,7 +118,7 @@ class userAuthService {
 
     return user;
   }
-
+  
   static async getUserInfo({ user_id }) {
     const user = await User.findById({ user_id });
 
