@@ -12,7 +12,7 @@ function MemberEdit() {
       >
         회원 정보
         <Row style={{ fontSize: "20px", fontWeight: "normal" }}>
-          밥풀에서의 회원 정보를 수정할 수 있습니다.
+          밥풀(pull)에서의 회원 정보를 수정할 수 있습니다.
         </Row>
       </Row>
       <Row className="justify-content-md-center m-5">
