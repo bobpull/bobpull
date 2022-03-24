@@ -11,6 +11,7 @@ class Badge {
     return badge;
   }
 
+<<<<<<< HEAD
   static async findByUserId({ user_id }) {
     const badge = await BadgeModel.find({ user_id });
     return badge;

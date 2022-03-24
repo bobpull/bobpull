@@ -9,7 +9,7 @@ const BadgeSchema = new Schema(
     },
     user_id: {
       type: String,
-      required: true,
+      required: false,
     },
     title: {
       type: String,

@@ -7,6 +7,10 @@ import { ProjectRouter } from "./routers/projectRouter";
 import { CertificateRouter } from "./routers/certificateRouter";
 import { FriendRouter } from "./routers/friendRouter";
 import { LetterRouter } from "./routers/letterRouter";
+<<<<<<< HEAD
+=======
+import { ImageRouter } from "./routers/imageRouter";
+>>>>>>> e319fcedb298b57f537f752cfa0f53cbd398b305
 import { BadgeRouter } from "./routers/badgeRouter";
 import { errorMiddleware } from "./middlewares/errorMiddleware";
 
@@ -36,6 +40,10 @@ app.use(ProjectRouter);
 app.use(CertificateRouter);
 app.use(FriendRouter);
 app.use(LetterRouter);
+<<<<<<< HEAD
+=======
+app.use(ImageRouter);
+>>>>>>> e319fcedb298b57f537f752cfa0f53cbd398b305
 app.use(BadgeRouter);
 
 // 순서 중요 (router 에서 next() 시 아래의 에러 핸들링  middleware로 전달됨)
