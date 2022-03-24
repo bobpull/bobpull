@@ -1,7 +1,7 @@
 {
   "name": "cafe-server",
   "version": "1.0.0",
-  "description": "",
+  "description": "아래 공식 문서 참조 \\\r https://docs.mongodb.com/manual/tutorial/install-mongodb-on-ubuntu/ \\\r `mongosh` 커맨드로 서버가 들어가지면 성공적으로 구축된 것입니다. \\",
   "main": "index.js",
   "scripts": {
     "start": "nodemon index.js --exec babel-node",
@@ -20,7 +20,7 @@
   "homepage": "https://github.com/",
   "dependencies": {
     "@sindresorhus/is": "^4.2.0",
-    "aws-sdk": "^2.1098.0",
+    "aws-sdk": "^2.1099.0",
     "bcrypt": "^5.0.1",
     "cors": "^2.8.5",
     "ejs": "^3.1.6",
@@ -31,6 +31,7 @@
     "mongoose": "^6.2.1",
     "multer": "^1.4.4",
     "multer-s3": "^2.10.0",
+    "multiparty": "^4.2.3",
     "nodemailer": "^6.7.3",
     "supertest": "^6.1.6",
     "uuid": "^8.3.2"
