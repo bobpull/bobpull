@@ -27,7 +27,7 @@ const BadgeSchema = new Schema(
     have: {
       type: Boolean,
       required: true,
-      default: false,
+      default: true,
     }
   },
   {
