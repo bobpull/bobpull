@@ -59,23 +59,6 @@ function Header() {
       </Nav.Item>
       {isLogin && (
         <>
-          {/* <Nav.Item>
-            <Nav.Link onClick={() => navigate("/edit")}>회원정보</Nav.Link>
-          </Nav.Item>
-          <Nav.Item>
-            <Nav.Link onClick={() => navigate("/")}>나의 페이지</Nav.Link>
-          </Nav.Item>
-          <Nav.Item>
-            <Nav.Link onClick={() => navigate("/friendlist")}>
-              내친구들
-            </Nav.Link>
-          </Nav.Item>
-          <Nav.Item>
-            <Nav.Link onClick={() => navigate("/network")}>네트워크</Nav.Link>
-          </Nav.Item>
-          <Nav.Item>
-            <Nav.Link onClick={handleClick}>로그아웃</Nav.Link>
-          </Nav.Item> */}
           <Nav.Item>
             <Dropdown
               style={{ margin: "20px 120px 0 0" }}
