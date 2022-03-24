@@ -52,4 +52,4 @@ class ImageService {
   }
 }
 
-export { userAuthService };
+export { ImageService };
