@@ -4,7 +4,7 @@ import { login_required } from "../middlewares/login_required";
 import { userAuthService } from "../services/userService";
 import sendMail from "../utils/send-mail";
 import generateRandomPassword from "../utils/generate-random-password";
-import { User } from "../db/models/User.js";
+import bcrypt from "bcrypt";
 
 const userAuthRouter = Router();
 
@@ -35,6 +35,26 @@ userAuthRouter.post("/user/register", async function (req, res, next) {
     }
 
     res.status(201).json(newUser);
+  } catch (err) {
+    next(err);
+  }
+});
+
+userAuthRouter.post(
+  "/changepw",
+  login_required,
+  async function (req, res, next) {
+  try {
+    const user_id = req.currentUserId;
+    const password = req.body.password;
+
+    const checkPassword = await userAuthService.checkPassword({ user_id, password });
+
+    if (checkPassword.errorMessage) {
+      throw new Error (checkPassword.errorMessage);
+    }
+
+    res.status(200).send("새로운 비밀번호를 입력해주세요.");
   } catch (err) {
     next(err);
   }
