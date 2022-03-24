@@ -41,8 +41,8 @@ class BadgeService {
     const price = toUpdate.price;
     const description = toUpdate.description;
     const have = toUpdate.have;
-    console.log("서비스:", id)
-    if (title && price && description && have) {
+
+    if (title && price && description) {
       const fieldToUpdateTitle = "title";
       const fieldToUpdatePrice = "price";
       const fieldToUpdateDescription = "description";
