@@ -13,12 +13,14 @@ BadgeRouter.post(
     const user_id = req.currentUserId;
     const title = req.body.title;
     const price = req.body.price;
+    const have = req.body.have;
   
     // 위 데이터를 뱃지 db에 추가하기
     const newBadge = await BadgeService.addBadge({
       user_id,
       title,
       price,
+      have
     });
   
     if (newBadge.errorMessage) {
@@ -57,13 +59,12 @@ BadgeRouter.put(
   async function (req, res, next) {
     try {
       const id = req.params.id;
-      const user_id = req.params.user_id ?? null;
-      const title = req.params.title ?? null;
-      const price = req.params.price ?? null;
-      const description = req.params.description ?? null;;
-      const have = req.params.have ?? null;
-      
-      const toUpdate = { user_id, title, price, description, have };
+      const title = req.body.title ?? null;
+      const description = req.body.description ?? null;
+      const price = req.body.price ?? null;
+      const have = req.body.have ?? null;
+    
+      const toUpdate = { title, description, price, have };
 
       const updatedBadge = await BadgeService.setBadge({ id, toUpdate });
   
@@ -78,12 +79,12 @@ BadgeRouter.put(
   }
 );
 
-AwardRouter.get(
+BadgeRouter.get(
   "/badgelist/:user_id",
   login_required,
   async function (req, res, next) {
     try {
-      const user_id = req.params.user_id;
+      const user_id = req.currentUserId;
       const currentBadgelistInfo = await BadgeService.getBadgelistInfo({ user_id });
 
       if (currentBadgelistInfo.errorMessage) {

@@ -21,12 +21,12 @@ const BadgeSchema = new Schema(
     },
     description: {
       type: String,
-      required: false,
-      default: "설명이 아직 없습니다. 추가해 주세요.",
+      required: true,
+      default: "새로운 뱃지",
     },
     have: {
       type: Boolean,
-      required: false,
+      required: true,
       default: false,
     }
   },

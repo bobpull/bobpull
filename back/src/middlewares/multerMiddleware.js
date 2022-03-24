@@ -6,7 +6,7 @@ const nameField = "profile";
 const upload = multer({
   storage: multer.diskStorage({
     destination(req, file, cb) {
-      cb(null, "uploads/"); 
+      cb(null, "upload/"); 
     },
 
     filename(req, file, cb) {
