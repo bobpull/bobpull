@@ -13,9 +13,7 @@ let verificationNumber = {};
 userAuthRouter.post("/user/register", async function (req, res, next) {
   try {
     if (is.emptyObject(req.body)) {
-      throw new Error(
-        "필수 파라미터가 존재하지 않습니다."
-      );
+      throw new Error("필수 파라미터가 존재하지 않습니다.");
     }
 
     // req (request) 에서 데이터 가져오기
@@ -44,44 +42,51 @@ userAuthRouter.post(
   "/changepw",
   login_required,
   async function (req, res, next) {
-  try {
-    const user_id = req.currentUserId;
-    const password = req.body.password;
+    try {
+      const user_id = req.currentUserId;
+      const password = req.body.password;
 
-    const checkPassword = await userAuthService.checkPassword({ user_id, password });
+      const checkPassword = await userAuthService.checkPassword({
+        user_id,
+        password,
+      });
 
-    if (checkPassword.errorMessage) {
-      throw new Error (checkPassword.errorMessage);
+      if (checkPassword.errorMessage) {
+        throw new Error(checkPassword.errorMessage);
+      }
+
+      res.status(200).send("새로운 비밀번호를 입력해주세요.");
+    } catch (err) {
+      next(err);
     }
-
-    res.status(200).send("새로운 비밀번호를 입력해주세요.");
-  } catch (err) {
-    next(err);
   }
-});
+);
 
 userAuthRouter.post("/resetpw", async function (req, res, next) {
   try {
     const email = req.body.email;
     const user = await userAuthService.findUserByEmail({ email });
-    
+
     if (!user) {
       throw new Error("해당 메일로 가입된 사용자가 없습니다.");
     }
-    
+
     const name = user.name;
     const user_id = user.id;
     const password = generateRandomPassword();
     const toUpdate = { password };
-    const updatedUser = await userAuthService.setUser({ user_id, toUpdate })
+    const updatedUser = await userAuthService.setUser({ user_id, toUpdate });
 
     if (updatedUser.errorMessage) {
-      throw new Error (updatedUser.errorMessage);
+      throw new Error(updatedUser.errorMessage);
     }
 
-    await sendMail(email, "밥풀(pull) 임시 비밀번호입니다!",
-     `안녕하세요 ${name}님! 임시 비밀번호는: ${password} 입니다. 로그인 후 비밀번호를 꼭 변경해주세요!`);
-    res.status(200).send('임시 비밀번호가 전송되었습니다.');
+    await sendMail(
+      email,
+      "밥풀(pull) 임시 비밀번호입니다!",
+      `안녕하세요 ${name}님! 임시 비밀번호는: ${password} 입니다. 로그인 후 비밀번호를 꼭 변경해주세요!`
+    );
+    res.status(200).send("임시 비밀번호가 전송되었습니다.");
   } catch (err) {
     next(err);
   }
@@ -90,17 +95,19 @@ userAuthRouter.post("/resetpw", async function (req, res, next) {
 userAuthRouter.post("/availablemail", async function (req, res, next) {
   try {
     if (is.emptyObject(req.body)) {
-      throw new Error(
-        "필수 파라미터가 존재하지 않습니다."
-      );
+      throw new Error("필수 파라미터가 존재하지 않습니다.");
     }
 
     const email = req.body.email;
     verificationNumber = generateRandomPassword();
 
-    await sendMail(email, "밥풀(pull) 회원가입 인증번호입니다!", `안녕하세요! 인증번호는 ${verificationNumber} 입니다.`);
+    await sendMail(
+      email,
+      "밥풀(pull) 회원가입 인증번호입니다!",
+      `안녕하세요! 인증번호는 ${verificationNumber} 입니다.`
+    );
 
-    res.status(200).send('인증번호가 전송되었습니다.');
+    res.status(200).send("인증번호가 전송되었습니다.");
   } catch (err) {
     next(err);
   }
@@ -109,15 +116,15 @@ userAuthRouter.post("/availablemail", async function (req, res, next) {
 userAuthRouter.post("/availablemail/check", async function (req, res, next) {
   try {
     if (is.emptyObject(req.body)) {
-      throw new Error(
-        "필수 파라미터가 존재하지 않습니다."
-      );
+      throw new Error("필수 파라미터가 존재하지 않습니다.");
     }
-    
+
     const inputNumber = req.body.verificationNumber;
 
     if (inputNumber !== verificationNumber) {
-      throw new Error("인증 번호가 일치하지 않습니다. 인증번호를 재요청하세요.")
+      throw new Error(
+        "인증 번호가 일치하지 않습니다. 인증번호를 재요청하세요."
+      );
     }
     res.status(200).send("올바른 인증번호입니다.");
   } catch (err) {
@@ -192,7 +199,7 @@ userAuthRouter.put(
       const password = req.body.password ?? null;
       const description = req.body.description ?? null;
 
-      const toUpdate = { name, email, password, description };
+      const toUpdate = { name, password, description };
 
       // 해당 사용자 아이디로 사용자 정보를 db에서 찾아 업데이트함. 업데이트 요소가 없을 시 생략함
       const updatedUser = await userAuthService.setUser({ user_id, toUpdate });
@@ -234,11 +241,11 @@ userAuthRouter.delete(
     try {
       const user_id = req.params.id;
       const deletedUser = await userAuthService.deleteUser({ user_id });
-  
+
       if (deletedUser.errorMessage) {
         throw new Error(deletedUser.errorMessage);
       }
-  
+
       res.status(204).send();
     } catch (err) {
       next(err);
