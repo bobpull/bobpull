@@ -32,7 +32,7 @@ function Header() {
       title: <p>로그아웃 하시겠습니까?</p>,
       icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: '#0B5ED7',
+      confirmButtonColor: "#0B5ED7",
       confirmButtonText: "확인",
       cancelButtonText: "취소",
     });
@@ -43,7 +43,7 @@ function Header() {
         title: <p>로그아웃 되었습니다!</p>,
         html: <div>서비스를 이용하려면 다시 로그인 해주세요.</div>,
         icon: "success",
-        confirmButtonColor: '#0B5ED7',
+        confirmButtonColor: "#0B5ED7",
         confirmButtonText: "확인",
       });
     }
@@ -54,16 +54,24 @@ function Header() {
       <Nav.Item className="me-auto mb-5">
         <Nav.Link disabled>안녕하세요, 포트폴리오 공유 서비스입니다.</Nav.Link>
       </Nav.Item>
-      <Nav.Item>
-        <Nav.Link onClick={() => navigate("/")}>나의 페이지</Nav.Link>
-      </Nav.Item>
-      <Nav.Item>
-        <Nav.Link onClick={() => navigate("/network")}>네트워크</Nav.Link>
-      </Nav.Item>
       {isLogin && (
-        <Nav.Item>
-          <Nav.Link onClick={handleClick}>로그아웃</Nav.Link>
-        </Nav.Item>
+        <>
+          <Nav.Item>
+            <Nav.Link onClick={() => navigate("/edit")}>회원정보</Nav.Link>
+          </Nav.Item>
+          <Nav.Item>
+            <Nav.Link onClick={() => navigate("/")}>나의 페이지</Nav.Link>
+          </Nav.Item>
+          <Nav.Item>
+            <Nav.Link onClick={() => navigate("/friendlist")}>내친구들</Nav.Link>
+          </Nav.Item>
+          <Nav.Item>
+            <Nav.Link onClick={() => navigate("/network")}>네트워크</Nav.Link>
+          </Nav.Item>
+          <Nav.Item>
+            <Nav.Link onClick={handleClick}>로그아웃</Nav.Link>
+          </Nav.Item>
+        </>
       )}
     </Nav>
   );

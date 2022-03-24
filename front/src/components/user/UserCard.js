@@ -2,10 +2,11 @@ import { useNavigate } from "react-router-dom";
 import { Card, Row, Button, Col } from "react-bootstrap";
 import "../../style/display.css"
 import "../../style/font.css"
+import UserFriendButton from "./UserFriendButton";
 
 import { AiFillRead } from "react-icons/ai";
 
-function UserCard({ user, setIsEditing, isEditable, isNetwork }) {
+function UserCard({ user, setIsEditing, isEditable, isNetwork, isFriend }) {
   const navigate = useNavigate();
 
   return (
@@ -24,8 +25,8 @@ function UserCard({ user, setIsEditing, isEditable, isNetwork }) {
                 alt="고양이 사진"
               />
               <div>
-                <Card.Title className="title">{user?.name}</Card.Title>
-                <Card.Subtitle className="text-muted text">{user?.email}</Card.Subtitle>
+                <Card.Text style={{margin: "0"}}>{user?.name}</Card.Text>
+                <Card.Text className="text-muted text">{user?.email}</Card.Text>
                 <Card.Text
                   className="mb-3 text"
                 >{user?.description}</Card.Text>
@@ -73,7 +74,9 @@ function UserCard({ user, setIsEditing, isEditable, isNetwork }) {
           </Col>
         )}
 
-        
+        {!isNetwork && !isEditable && (
+          <UserFriendButton user={user} isFriend={isFriend} />
+        )}
       </Card.Body>
     </Card>
     </Col>

@@ -11,16 +11,24 @@ const FindPwForm = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const isEmailValid = ValidateEmail(email);
-  const errorRef = useRef()
+  const confirmRef = useRef()
 
   useEffect(() => {
-    if(!isEmailValid) errorRef.current.innerText = '이메일 형식이 올바르지 않습니다.'
-    else errorRef.current.innerText = ''
+    if(!isEmailValid) {
+      confirmRef.current.innerText = '이메일 형식이 올바르지 않습니다.'
+      confirmRef.current.classList.add('text-danger')
+    }
+      
+    else confirmRef.current.innerText = ''
   }, [email])
 
   const submithandler = async (e) => {
     e.preventDefault()
-    // await Api.post("", email)
+    const res = await Api.post("resetpw", {email})
+    if(res.status === 200){
+      confirmRef.current.innerText = '임시 비밀번호를 전송했습니다!'
+      confirmRef.current.classList.add('text-success')
+    }
     
   }
 
@@ -45,7 +53,8 @@ const FindPwForm = () => {
                 disabled={!isEmailValid}
               >전송</Button>
             </div>
-            <Form.Text ref={errorRef} className="text-success"></Form.Text>
+            <Form.Text ref={confirmRef}></Form.Text>
+            
           </Form.Group>
           <Form.Group as={Row} className="mt-3 text-center">
                 <Col sm={{ span: 20 }}>
