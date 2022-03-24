@@ -63,9 +63,8 @@ BadgeRouter.put(
       const description = req.body.description ?? null;
       const price = req.body.price ?? null;
       const have = req.body.have ?? null;
-    
+      
       const toUpdate = { title, description, price, have };
-
       const updatedBadge = await BadgeService.setBadge({ id, toUpdate });
   
       if (updatedBadge.errorMessage) {

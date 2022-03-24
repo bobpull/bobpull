@@ -21,7 +21,7 @@ const BadgeSchema = new Schema(
     },
     description: {
       type: String,
-      required: false,
+      required: true,
       default: "새로운 뱃지",
     },
     have: {

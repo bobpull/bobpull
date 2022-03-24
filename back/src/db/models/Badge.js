@@ -57,8 +57,26 @@ class BadgeService {
         }
       );
     }
-
     return badge;
+  }
+
+  static async findByUserId({ user_id }) {
+    const badge = await BadgeModel.find({ user_id });
+    return badge;
+  }
+
+  static async update(id, fieldToUpdate) {
+    console.log(id);
+    const filter = { id };
+    const update = fieldToUpdate;
+    const option = { returnOriginal: false };
+
+    const updatedBadge = await BadgeModel.findOneAndUpdate(
+      filter,
+      update,
+      option
+    );
+    return updatedBadge;
   }
 
   static async getBadgelistInfo({ user_id }) {
