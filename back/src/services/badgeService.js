@@ -2,10 +2,10 @@ import { Badge } from "../db";
 import { v4 as uuidv4 } from "uuid";
 
 class BadgeService {
-  static async addBadge({ user_id, title, price }) {
+  static async addBadge({ user_id, title, price, have }) {
 
     const id = uuidv4();
-    const newBadge = { id, user_id, title, price };
+    const newBadge = { id, user_id, title, price, have };
 
     // db에 저장
     const createdNewBadge = await Badge.create({ newBadge });
@@ -37,49 +37,55 @@ class BadgeService {
       return { errorMessage };
     }
 
-    const user_id = toUpdate.user_id;
     const title = toUpdate.title;
     const price = toUpdate.price;
     const description = toUpdate.description;
-    const have = toUpdate.description;
-
-    if (user_id && title && price && description && have) {
-      const fieldToUpdateUserId = "user_id";
+    const have = toUpdate.have;
+    console.log("서비스:", id)
+    if (title && price && description && have) {
       const fieldToUpdateTitle = "title";
       const fieldToUpdatePrice = "price";
       const fieldToUpdateDescription = "description";
-      const newDescription = description;
-      Badge = await Badge.update( id, {[fieldToUpdate1]:newTitle, [fieldToUpdate2]:newDescription});
+      const fieldToUpdateHave = "have";
+      badge = await Badge.update(
+        id,
+        {
+          [fieldToUpdateTitle]: title,
+          [fieldToUpdatePrice]: price,
+          [fieldToUpdateDescription]: description,
+          [fieldToUpdateHave]: have,
+        }
+      );
     }
 
-    return Badge;
+    return badge;
   }
 
   static async getBadgelistInfo({ user_id }) {
-    const Badgelist = await Badge.findByUserId({ user_id });
+    const badgelist = await Badge.findByUserId({ user_id });
 
     // db에서 찾지 못한 경우, 에러 메시지 반환
-    if (!Badgelist || Badgelist.length === 0) {
+    if (!badgelist || badgelist.length === 0) {
       const errorMessage =
-        "수상 이력이 없습니다. 다시 한 번 확인해 주세요."
+        "뱃지가 없습니다. 다시 한 번 확인해 주세요."
         return { errorMessage }
     }
-    return Badgelist;
+
+    return badgelist;
   }
 
-  static async deleteUserBadge({ id }) {
-    const Badge = await Badge.findById({ id });
+  static async deleteBadge({ id }) {
+    const badge = await Badge.findById({ id });
     
     // db에서 찾지 못한 경우, 에러 메시지 반환
-    if (!Badge || Badge === null) {
+    if (!badge || badge === null) {
       const errorMessage =
       "수상 이력이 없습니다. 다시 한 번 확인해 주세요.";
-
-      await Badge.deleteById({ id });
       return { errorMessage };
     }
+    await Badge.deleteById({ id });
 
-    return Badge;
+    return badge;
   }
 }
 

@@ -11,18 +11,18 @@ class Badge {
     return badge;
   }
 
-  static async update(id, toUpdate) {
+  static async update(id, fieldToUpdate) {
     const filter = { id };
     const update = fieldToUpdate;
     const option = { returnOriginal: false };
-    
+    console.log("모델:", filter);
     const updatedBadge = await BadgeModel.findOneAndUpdate(
       filter,
       update,
       option
-      );
-      return updatedBadge;
-    }
+    );
+    return updatedBadge;
+  }
 
   static async deleteById({ id }) {
     const badge = await BadgeModel.deleteOne({ id });
