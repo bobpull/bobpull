@@ -59,7 +59,7 @@ class User {
   }
 
   static async findImgById({ user_id }) {
-    const user = await UserModel.findOne({ user_id });
+    const user = await UserModel.findOne({ id: user_id });
     return user.profileImg;
   }
 }
