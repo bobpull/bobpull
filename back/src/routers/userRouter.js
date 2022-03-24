@@ -246,21 +246,21 @@ userAuthRouter.delete(
   }
 );
 
-// userAuthRouter.get(
-//   "/profile/:user_id", 
-//   login_required, 
-//   function (req, res, next) {
-//     try {
-//       const user_id = req.params.user_id;
-//       const toUpdate = req.file.path;
+userAuthRouter.put(
+  "/profile/:user_id", 
+  upload.single("img"),
+  function (req, res, next) {
+    try {
+      const user_id = req.params.user_id;
+      const toUpdate = req.file.path;
 
-//       const uploadedImg = await userAuthService.setProfileImg({ user_id, toUpdate });
-//       res.status(200).json(uploadedImg);
-//     } catch (err) {
-//       next(err);
-//     }
-//   }
-// );
+      const uploadedImg = await userAuthService.setProfileImg({ user_id, toUpdate });
+      res.status(200).json(uploadedImg);
+    } catch (err) {
+      next(err);
+    }
+  }
+);
 
 // jwt 토큰 기능 확인용, 삭제해도 되는 라우터임.
 userAuthRouter.get("/afterlogin", login_required, function (req, res, next) {

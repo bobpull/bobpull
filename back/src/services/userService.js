@@ -166,6 +166,17 @@ class userAuthService {
     }
     return true;
   }
+
+  static async setProfileImg({ user_id, toUpdate }) {
+    const user = await User.findById({ user_id });
+
+    if (!user) {
+      const errorMessage =
+        "해당 유저가 존재하지 않습니다.";
+      return {errorMessage};
+    }
+    return user;
+  }
 }
 
 export { userAuthService };
