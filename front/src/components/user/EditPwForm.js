@@ -17,7 +17,7 @@ function PasswordEdit() {
   const errorRef = useRef();
 
   useEffect(() => {
-    if (newPassword.length < 4) {
+    if (newPassword.length < 4 && newPassword > 0) {
       errorRef.current.innerText = "비밀번호는 4글자 이상으로 설정해 주세요.";
     } else {
       errorRef.current.innerText = "";
