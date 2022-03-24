@@ -17,13 +17,14 @@ function PasswordEdit() {
   const errorRef = useRef();
 
   useEffect(() => {
-    if (newPassword.length < 4 && newPassword > 0) {
+    if (!isPasswordValid && newPassword.length > 0) {
       errorRef.current.innerText = "비밀번호는 4글자 이상으로 설정해 주세요.";
     } else {
       errorRef.current.innerText = "";
     }
   }, [newPassword]);
 
+  const isPasswordValid = newPassword.length >= 4;
   const isCorrect = newPassword === confirmNewPW;
 
   async function handleSubmit(e) {
@@ -86,6 +87,7 @@ function PasswordEdit() {
               onChange={(e) => setConfirmNewPW(e.target.value)}
               placeholder="새 비밀번호 확인"
               style={{ height: "43px" }}
+              disabled={!isPasswordValid}
             />
           </Form.Group>
           <Form.Group as={Row} style={{ margin: "0px" }} className="mt-5">
