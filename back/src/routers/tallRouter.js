@@ -61,10 +61,14 @@ TallRouter.put(
 
       switch(condition) {
         case "skillBadge":
-          tall -= skillBadgePrice;
+          if (tall >= skillBadgePrice) {
+            tall -= skillBadgePrice;
+          }
           break;
         case "pullBadge":
-          tall -= pullBadgePrice;
+          if (tall >= pullBadgePrice) {
+            tall -= pullBadgePrice;
+          }
           break;
         case "dailyCheck":
           // 출석 체크하는 함수 만들기
