@@ -166,6 +166,33 @@ class userAuthService {
     }
     return true;
   }
+
+  static async getProfileImg({ user_id }){
+
+    let user = await User.findById({ user_id });
+
+    if (!user) {
+      const errorMessage =
+        "해당 유저가 존재하지 않습니다.";
+      return { errorMessage };
+    }
+
+    const profileImg = await User.findImgById({ user_id });
+    if (!profileImg) {
+      const errorMessage =
+        '프로필 이미지가 없습니다.';
+      return { errorMessage };
+    }
+
+    const profileImgsPath = "http://localhost:5001/src/uploads/profile_img"
+    const profileImgURL = profileImgsPath+ profileImg;
+
+
+    return profileImgURL;
+
+  }
+
+
 }
 
 export { userAuthService };

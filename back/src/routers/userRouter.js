@@ -1,10 +1,11 @@
 import is from "@sindresorhus/is";
 import { Router } from "express";
 import { login_required } from "../middlewares/login_required";
+import {upload} from '../middlewares/multerMiddleware';
 import { userAuthService } from "../services/userService";
 import sendMail from "../utils/send-mail";
 import generateRandomPassword from "../utils/generate-random-password";
-import bcrypt from "bcrypt";
+// import bcrypt from "bcrypt";
 
 const userAuthRouter = Router();
 
@@ -192,7 +193,7 @@ userAuthRouter.put(
       const password = req.body.password ?? null;
       const description = req.body.description ?? null;
 
-      const toUpdate = { name, email, password, description };
+      const toUpdate = { name, password, description };
 
       // 해당 사용자 아이디로 사용자 정보를 db에서 찾아 업데이트함. 업데이트 요소가 없을 시 생략함
       const updatedUser = await userAuthService.setUser({ user_id, toUpdate });
@@ -245,6 +246,37 @@ userAuthRouter.delete(
     }
   }
 );
+
+userAuthRouter.put(
+  "/profile/:user_id", 
+  upload.single("img"),
+  async function (req, res, next) {
+    try {
+
+      const user_id = req.params.user_id;
+      const toUpdate = req.file.path;
+      
+      const uploadedImg = await userAuthService.setProfileImg({ user_id, toUpdate });
+      res.status(200).json(uploadedImg);
+    } catch (err) {
+      next(err);
+    }
+  }
+);
+
+userAuthRouter.get(
+  '/profile/:user_id',
+  async function(req, res, next){
+    try{
+      const user_id = req.params.user_id;
+      const profileImg = await userAuthService.getProfileImg({ user_id });
+      res.send(profileImg);
+    }catch(err){
+      next(err);
+    }
+  }
+);
+
 
 // jwt 토큰 기능 확인용, 삭제해도 되는 라우터임.
 userAuthRouter.get("/afterlogin", login_required, function (req, res, next) {
