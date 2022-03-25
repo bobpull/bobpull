@@ -270,6 +270,9 @@ userAuthRouter.delete(
   }
 );
 
+/*******
+프로필 이미지 처리
+********/
 userAuthRouter.put(
   '/profile/:user_id',
   upload.single("img"),
@@ -311,6 +314,59 @@ userAuthRouter.get(
     } catch (err) {
       next(err);
     }
+  }
+);
+
+/*******
+뱃지 구입
+********/
+userAuthRouter.put(
+  "/buybadge/:badge_id",
+  login_required,
+  async function (req, res, next) {
+    const user_id = req.currentUserId;
+    const badge_id = req.params.badge_id;
+
+    const user = await userAuthService.getUserInfo({ user_id });
+
+    if (user.errorMessage) {
+      throw new Error(user.errorMessage);
+    }
+
+    const { tall } = user;
+
+    /*** 뱃지 가격 ***/
+    const skillBadgePrice = 3;
+    const pullBadgePrice = 10;
+
+    switch (badge_id) {
+      case badge_id < 4:
+        if (tall >= skillBadgePrice) {
+          tall -= skillBadgePrice;
+        } else {
+          return res.status().send("톨이 부족합니다.");
+        }
+        break;
+      case badge_id >= 4:
+        if (tall >= pullBadgePrice) {
+          tall -= pullBadgePrice;
+        } else {
+          return res.status().send("톨이 부족합니다.");
+        }
+        break;
+      default:
+        return res.status().send("유효하지 않는 badge id 입니다.") // 오류 번호 여쭤보기!!
+    }
+
+    const toUpdate = { tall };
+
+    const updatedUser = await userAuthService.setUser({ user_id, toUpdate });
+
+    if (updatedUser.errorMessage) {
+      throw new Error(updatedUser.errorMessage);
+    }
+
+    res.status(200).json(updatedUser);
   }
 );
 
