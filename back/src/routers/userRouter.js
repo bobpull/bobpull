@@ -79,7 +79,7 @@ userAuthRouter.post("/resetpw", async function (req, res, next) {
     const password = generateRandomPassword();
     const toUpdate = { password };
     const updatedUser = await userAuthService.setUser({ user_id, toUpdate });
-
+  
     if (updatedUser.errorMessage) {
       throw new Error(updatedUser.errorMessage);
     }
@@ -151,11 +151,11 @@ userAuthRouter.post("/user/login", async function (req, res, next) {
     // 출석 체크 (tall 하나 추가)
     const beforeLoginedAt = user.loginedAt;
     let tall = user.tall;
-    console.log("조건문 전 tall:", tall);
+    
     if (beforeLoginedAt < koreaNow()) {  
       tall += 1;
     }
-    console.log("조건문 후 tall:", tall);
+    
     const user_id = user.id;
     const loginedAt = koreaNow();
     const toUpdate = { loginedAt, tall };
@@ -167,7 +167,7 @@ userAuthRouter.post("/user/login", async function (req, res, next) {
       throw new Error(updatedUser.errorMessage);
     }
 
-    res.status(200).send(updatedUser);
+    res.status(200).send(user);
   } catch (err) {
     next(err);
   }
