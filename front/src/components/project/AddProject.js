@@ -12,7 +12,7 @@ const AddProject = ({setIsEditing}) => {
   const [project, setProject] = useState({
     title: "",
     description: "",
-    projectUrl: "",
+    url: "",
     from_date: `${todayDate}`,
     to_date: `${todayDate}`,
   })
@@ -62,9 +62,9 @@ const AddProject = ({setIsEditing}) => {
       </Form.Group>
       <Form.Group className="mb-3" controlId="projectUrl">
         <Form.Control  
-          placeholder="프로젝트 url"
-          name="projectUrl" 
-          value={project.projectUrl}
+          placeholder="url"
+          name="url" 
+          value={project.url}
           onChange={onChange}
           required
         />

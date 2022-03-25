@@ -9,7 +9,7 @@ import ProjectEditForm from "./ProjectEditForm";
 import {ProjectContext} from "../../context/ProjectContext"
 
 
-const ProjectCard = ({index, isEditable }) => {
+const ProjectCard = ({project, isEditable }) => {
   const {projects, dispatch} =useContext(ProjectContext)
   const [isEditForm, setIsEditForm] = useState(false)
 
@@ -32,8 +32,8 @@ const ProjectCard = ({index, isEditable }) => {
 
   const deleteHandler = async () => {
     try{
-      await Api.delete("projects", projects[index].id)
-      dispatch({type: 'delete-project', payload: `${projects[index].id}` })
+      await Api.delete("projects", project.id)
+      dispatch({type: 'delete-project', payload: `${project.id}` })
     } catch(e){
       console.error(e)
     }
@@ -44,19 +44,22 @@ const ProjectCard = ({index, isEditable }) => {
       <Row className="justify-content-lg-around">
         {isEditForm ? 
           <ProjectEditForm
-            index={index}
+          project={project}
             setIsEditForm={setIsEditForm}
           /> : 
           <>
             <Col className="col-sm-9 col-md-9 col-lg-9 col-xl-9">
               <Card.Text className="mb-0" >
-                {projects[index].title}
+                {project.title}
               </Card.Text>
               <Card.Text className=" mb-0 text-muted">
-                {projects[index].description}
+                {project.description}
+              </Card.Text>
+              <Card.Text className=" mb-0 text-muted">
+                {project.url}
               </Card.Text>
               <Card.Text className="text-muted mb-2">
-                {projects[index].from_date} ~ {projects[index].to_date}
+                {project.from_date.toString().substr(0,10)} ~ {project.to_date.toString().substr(0,10)}
               </Card.Text>
             </Col>
 
