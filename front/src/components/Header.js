@@ -5,6 +5,7 @@ import { UserStateContext, DispatchContext } from "../App";
 import "../style/header.css";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
+import { FriendListContext } from "../context/FriendListContext";
 
 function Header() {
   const navigate = useNavigate();
@@ -12,6 +13,8 @@ function Header() {
 
   const userState = useContext(UserStateContext);
   const dispatch = useContext(DispatchContext);
+
+  const { setFriendList } = useContext(FriendListContext);
 
   // 전역상태에서 user가 null이 아니라면 로그인 성공 상태임.
   const isLogin = !!userState.user;
@@ -22,6 +25,8 @@ function Header() {
     sessionStorage.removeItem("userToken");
     // dispatch 함수를 이용해 로그아웃함.
     dispatch({ type: "LOGOUT" });
+    // 로그아웃 하면 현재 유저의 friendList를 빈 배열로 초기화
+    setFriendList([]);
     // 기본 페이지로 돌아감.
     navigate("/");
   };

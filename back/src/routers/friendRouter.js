@@ -29,7 +29,7 @@ FriendRouter.post(
 });
 
 FriendRouter.get(
-  "/friend/:user_id",
+  "/friendlist/:user_id",
   login_required,
   async function (req, res, next) {
     try {

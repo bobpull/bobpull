@@ -66,8 +66,9 @@ function Portfolio() {
   // 로그인한 유저가 변경될 때마다 해당 유저의 친구 리스트 set
   useEffect(() => {
     fetchUserFriendList(userState.user?.id);
-    
   }, [userState.user?.id]);
+
+  console.log(`${userState.user?.id}의 친구들`, friendList);
 
   if (!isFetchCompleted) {
     return "loading...";
