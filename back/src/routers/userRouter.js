@@ -8,6 +8,7 @@ import generateRandomPassword from "../utils/generate-random-password";
 import fs from "fs";
 import sharp from "sharp";
 import koreaNow from "../utils/korea-now";
+import { badgelist } from "../db/publicSchema/badgelist";
 
 const userAuthRouter = Router();
 
@@ -162,8 +163,22 @@ userAuthRouter.post("/user/login", async function (req, res, next) {
 
     res.status(200).send(user);
   } catch (err) {
-    next(err);
-  }
+    badgelist.map((obj) => {
+      const url = obj.url ?? null;
+      const name = obj.name ?? null;
+      const description = obj.description ?? null;
+      const have = obj.have ?? null;
+
+      const toUpdate = { user_id, url, name, description, have };
+      const updatedBadge = await badgeService.addBadge({ toUpdate });
+
+      if (updatedBadge.errorMessage) {
+        throw new Error(updatedBadge.errorMessage);
+      }
+      return updatedBadge
+    }) 
+      res.status(200).send(user);
+    } 
 });
 
 userAuthRouter.get(
@@ -353,7 +368,7 @@ userAuthRouter.put(
           return res.status(403).send("톨이 부족합니다.");
         }
       }
-      
+
       console.log("빼기 ==== ", tall)
       const toUpdate = { tall };
 

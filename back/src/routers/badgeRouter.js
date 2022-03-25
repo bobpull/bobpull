@@ -3,6 +3,7 @@ import { Router } from "express";
 import { login_required } from "../middlewares/login_required";
 import { BadgeService } from "../services/badgeService";
 
+
 const BadgeRouter = Router();
 
 BadgeRouter.post(
@@ -11,16 +12,18 @@ BadgeRouter.post(
   async function (req, res, next) {
   try {
     const user_id = req.currentUserId;
-    const title = req.body.title;
+    const name = req.body.name;
     const price = req.body.price;
     const have = req.body.have;
+    const url = req.body.url;
   
     // 위 데이터를 뱃지 db에 추가하기
     const newBadge = await BadgeService.addBadge({
       user_id,
-      title,
+      name,
       price,
-      have
+      have,
+      url
     });
   
     if (newBadge.errorMessage) {
@@ -59,12 +62,13 @@ BadgeRouter.put(
   async function (req, res, next) {
     try {
       const id = req.params.id;
-      const title = req.body.title ?? null;
+      const name = req.body.name ?? null;
       const description = req.body.description ?? null;
       const price = req.body.price ?? null;
       const have = req.body.have ?? null;
+      const url = req.body.url ?? null;
 
-      const toUpdate = { title, description, price, have };
+      const toUpdate = { name, description, price, have, url };
 
       const updatedBadge = await BadgeService.setBadge({ id, toUpdate });
   

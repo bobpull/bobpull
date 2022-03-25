@@ -36,13 +36,18 @@ const UserSchema = new Schema(
     loginedAt: {
       type: String,
       required: false,
-      default: ""
+      default: "2022-02-22"
     },
     tall: {
       type: Number,
       required: true,
       default: 3,
     },
+    badgeList: {
+      type: Array,
+      required: false,
+      default: [],
+    }
   },
   {
     timestamps: true,
