@@ -22,7 +22,6 @@ class userAuthService {
 
     // db에 저장
     const createdNewUser = await User.create({ newUser });
-    console.log(createdNewUser);
     return createdNewUser;
   }
 
@@ -234,12 +233,10 @@ class userAuthService {
 뱃지 구입
 ********/
   static async setTall({ user_id, toUpdate }) {
-    const id = user_id;
-
     const fieldToUpdate = "tall";
     const newValue = toUpdate.tall;
-
-    const user = await User.update({ id, fieldToUpdate, newValue });
+    
+    const user = await User.update({ user_id, fieldToUpdate, newValue });
     
     return user;
   }

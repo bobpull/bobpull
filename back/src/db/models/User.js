@@ -28,7 +28,6 @@ class User {
 
   static async findByFriendId({ friend_id }) {
     const friend = await UserModel.findOne({ id: friend_id });
-    console.log(friend);
     return friend;
   }
 

@@ -337,12 +337,12 @@ userAuthRouter.put(
 
       const user = await userAuthService.getUserInfo({ user_id });
 
-      if (user.errorMessage) {
+      if (!user) {
         throw new Error(user.errorMessage);
       }
       
       let { tall } = user;
-      console.log("업데이트 전 === ", tall);
+
       /*** 뱃지 가격 ***/
       const pullBadgePrice = 10;
       const skillBadgePrice = 1;
@@ -361,16 +361,10 @@ userAuthRouter.put(
         }
       }
 
-      console.log("빼기 ==== ", tall)
       const toUpdate = { tall };
 
       const updatedUser = await userAuthService.setTall({ user_id, toUpdate });
-
-      if (updatedUser.errorMessage) {
-        throw new Error(updatedUser.errorMessage);
-      }
-
-      console.log("업데이트 후 === ", updatedUser.tall);
+      
       res.status(200).json(updatedUser);
     } catch (err) {
       next(err);
