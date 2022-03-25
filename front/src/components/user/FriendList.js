@@ -47,8 +47,8 @@ function FriendList() {
         </Row>
       ) : (
         <Row className="jusify-content-center align-items-center text-center">
-          <h2>아직 친구 추가를 하지 않았습니다.</h2>
-          <h3>마음에 드는 친구를 추가해보세요!</h3>
+          <h3>아직 추가된 친구가 존재하지 않습니다.</h3>
+          <h4>마음에 드는 친구를 추가해보세요😊</h4>
         </Row>
       )}
     </Container>
