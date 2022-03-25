@@ -225,7 +225,7 @@ userAuthRouter.put(
         throw new Error(updatedUser.errorMessage);
       }
 
-      res.status(200).json(updatedUser);
+      res.status(200).json(user);
     } catch (err) {
       next(err);
     }
