@@ -37,9 +37,13 @@
     "multer-s3": "^2.10.0",
     "multiparty": "^4.2.3",
     "nodemailer": "^6.7.3",
+    "react-icons": "^4.3.1",
     "s3-imgurl-upload": "^1.2.6",
+    "sequelize": "^6.17.0",
     "sharp": "^0.30.3",
     "supertest": "^6.1.6",
+    "sweetalert2": "^11.4.7",
+    "sweetalert2-react-content": "^4.2.0",
     "uuid": "^8.3.2"
   },
   "devDependencies": {

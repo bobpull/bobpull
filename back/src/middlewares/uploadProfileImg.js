@@ -4,7 +4,7 @@ import path from "path"
 const upload = multer({
   storage: multer.diskStorage({  // 이미지 저장 정보 설정
     destination(req, file, done) { 
-      done(null, 'uploads/profile_img'); 
+      done(null, "uploads/profile_img"); 
     },
     filename(req, file, done) {   // 이미지 이름 설정
       const ext = path.extname(file.originalname); 

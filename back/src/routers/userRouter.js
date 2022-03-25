@@ -8,8 +8,6 @@ import generateRandomPassword from "../utils/generate-random-password";
 import fs from "fs";
 import sharp from "sharp";
 import koreaNow from "../utils/korea-now";
-const { Sequelize } = require('sequelize'); 
-const { and, or, like, not } = Sequelize.Op;
 
 const userAuthRouter = Router();
 
@@ -193,12 +191,16 @@ userAuthRouter.get(
 userAuthRouter.get(
   '/userlist/search/:name',
   login_required,
-  async function( req, res, next ) {
+  async function (req, res, next) {
     try {
-      const name = req.query.name;
+      const name = req.body.name;
 
       const userlist = await userAuthService.searchUsers({ name });
 
+      if (userlist.length === 0) {
+        throw new Error("검색 내용이 존재하지 않습니다.");
+      }
+      
       res.status(200).send(userlist);
     } catch (err) {
       next(err);
