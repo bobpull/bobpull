@@ -1,28 +1,41 @@
-import is from "@sindresorhus/is";
 import { Router } from "express";
 import { login_required } from "../middlewares/login_required";
 import { BadgeService } from "../services/badgeService";
 
-
 const BadgeRouter = Router();
 
+const badgeName = ["pull", "bowl", "egg", "spam", "clean-code", "css3", "dj", "es6", "Graph_QL", "grid", "html5", "JS", "MongoDB", "Nest_JS", "nodejs", "Pug", "python", "clean-React_Native", "React", "socketio", "typescript", "websockets"];
+const badgeUrlList = ["img/pull.png", "img/bowl.png", "img/egg.png", "img/spam.png", "img/clean-code.png", "img/css3.png", "img/dj.png", "img/es6.png", "Graph_QL.png", "grid.png", "html5.png", "JS.png",  "MongoDB.png", "Nest_JS.png", "nodejs.png", "Pug.png", "python.png", "clean-React_Native.png", "React.png", "socketio.png", "typescript.png", "websockets.png"];
+
 BadgeRouter.post(
-  "/badge/create",
+  "/badge/:id",
   login_required,
   async function (req, res, next) {
   try {
     const user_id = req.currentUserId;
-    const name = req.body.name;
-    const price = req.body.price;
-    const have = req.body.have;
-    const url = req.body.url;
+    let id = req.params.id;
+    let name;
+    let price;
+    let url;
+  
+    for (let i = 0; i < 23; i++) {
+      if (i === id) {
+        name = badgeName[i];
+        if (i < 5) {
+          price = 10;
+        } else {
+          price = 3;
+        }
+        url = "https://bobpullbucket.s3.ap-northeast-2.amazonaws.com/language/" + badgeUrlList[i];
+      }
+    }
   
     // 위 데이터를 뱃지 db에 추가하기
     const newBadge = await BadgeService.addBadge({
+      id,
       user_id,
       name,
       price,
-      have,
       url
     });
   
@@ -43,7 +56,7 @@ BadgeRouter.get(
   async function (req, res, next) {
     try {
       const id = req.params.id;
-      const currentBadge = await BadgeService.getBadgeInfo({ id });
+      const currentBadge = await BadgeService.getBadge({ id });
   
       if (currentBadge.errorMessage) {
         throw new Error(currentBadge.errorMessage);
@@ -56,65 +69,20 @@ BadgeRouter.get(
   }
 );
 
-BadgeRouter.put(
-  "/badges/:id",
-  login_required,
-  async function (req, res, next) {
-    try {
-      const id = req.params.id;
-      const name = req.body.name ?? null;
-      const description = req.body.description ?? null;
-      const price = req.body.price ?? null;
-      const have = req.body.have ?? null;
-      const url = req.body.url ?? null;
-
-      const toUpdate = { name, description, price, have, url };
-
-      const updatedBadge = await BadgeService.setBadge({ id, toUpdate });
-  
-      if (updatedBadge.errorMessage) {
-        throw new Error(updatedBadge.errorMessage);
-      }
-  
-      res.status(200).json(updatedBadge);
-    } catch (err) {
-      next(err);
-    }
-  }
-);
-
 BadgeRouter.get(
   "/badgelist/:user_id",
   login_required,
   async function (req, res, next) {
     try {
-      const user_id = req.currentUserId;
-      const currentBadgelistInfo = await BadgeService.getBadgelistInfo({ user_id });
+      const user_id = req.params.user_id;
 
-      if (currentBadgelistInfo.errorMessage) {
-        throw new Error(currentBadgelistInfo.errorMessage);
+      const currentBadgelist = await BadgeService.getBadgelist({ user_id });
+
+      if (currentBadgelist.errorMessage) {
+        throw new Error(currentBadgelist.errorMessage);
       }
 
-      res.status(200).send(currentBadgelistInfo);
-    } catch (err) {
-      next(err);
-    }
-  }
-);
-
-BadgeRouter.delete(
-  "/badges/:id",
-  login_required,
-  async function (req, res, next) {
-    try {
-      const id = req.params.id;
-      const deletedBadge = await BadgeService.deleteBadge({ id });
-  
-      if (deletedBadge.errorMessage) {
-        throw new Error(deletedBadge.errorMessage);
-      }
-  
-      res.status(204).send();
+      res.status(200).send(currentBadgelist);
     } catch (err) {
       next(err);
     }

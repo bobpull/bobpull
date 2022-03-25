@@ -1,8 +1,6 @@
 import { Schema, model } from "mongoose";
-import { stringify } from "uuid";
 
 const BadgeSchema = new Schema(
-  
   {
     id: {
       type: String,
@@ -10,7 +8,7 @@ const BadgeSchema = new Schema(
     },
     user_id: {
       type: String,
-      required: false,
+      required: true,
     },
     name: {
       type: String,
@@ -20,16 +18,6 @@ const BadgeSchema = new Schema(
       type: Number,
       required: false,
       default: 3,
-    },
-    description: {
-      type: String,
-      required: true,
-      default: "새로운 뱃지",
-    },
-    have: {
-      type: Boolean,
-      required: true,
-      default: true,
     },
     url: {
       type: String,
