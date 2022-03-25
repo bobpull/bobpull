@@ -4,16 +4,20 @@ import { Form, Row, Col, Button } from 'react-bootstrap';
 import TodayDate from "../../today/TodayDate"
 import {ProjectContext} from "../../context/ProjectContext"
 
-const ProjectEditForm = ({index, setIsEditForm}) => {
+const today = TodayDate()
+
+const ProjectEditForm = ({project, setIsEditForm}) => {
     const {projects,dispatch} = useContext(ProjectContext)
     const [newProject, setNewProject] = useState({
-      ...projects[index]
+      ...project,
+      to_date: project.to_date.toString().substr(0,10),
+      from_date: project.from_date.toString().substr(0,10),
     })
 
   const onSubmit = async (e) => {
     e.preventDefault();
     try{
-      await Api.put(`projects/${projects[index].id}`, newProject)
+      await Api.put(`projects/${project.id}`, newProject)
       dispatch({type: "put-project", payload: newProject})
       setIsEditForm(false)
     } catch(e){
@@ -53,15 +57,25 @@ const ProjectEditForm = ({index, setIsEditForm}) => {
         />
       </Form.Group>
 
+      <Form.Group className="mb-3" controlId="projectUrl">
+        <Form.Control  
+          placeholder="url"
+          name="url" 
+          value={newProject.url}
+          onChange={onChange}
+          required
+        />
+      </Form.Group>
+
       <Form.Group as={Row} className="mb-3" controlId="시작일">
         <Col sm>
           <Form.Control 
             type="date" 
             placeholder="시작일"
             name="from_date" 
-            value={projects[index].from_date.toString().substr(0,10)}
             onChange={onChange}
-            max={TodayDate}
+            value={newProject.from_date}
+            max={today}
             required
           />
         </Col>
@@ -70,10 +84,10 @@ const ProjectEditForm = ({index, setIsEditForm}) => {
             type="date" 
             placeholder="끝"
             name="to_date" 
-            value={projects[index].to_date.toString().substr(0,10)}
+            value={newProject.to_date}
+            min={newProject.from_date}
+            max={today}
             onChange={onChange}
-            min={projects[index].from_date}
-            max={TodayDate}
             required
           />
         </Col>
