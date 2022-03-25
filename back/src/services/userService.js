@@ -61,6 +61,8 @@ class userAuthService {
     const id = user.id;
     const name = user.name;
     const description = user.description;
+    const tall = user.tall;
+    const loginedAt = user.loginedAt;
 
     const loginUser = {
       token,
@@ -69,6 +71,8 @@ class userAuthService {
       name,
       description,
       errorMessage: null,
+      tall,
+      loginedAt
     };
 
     return loginUser;
@@ -116,6 +120,18 @@ class userAuthService {
       user = await User.update({ user_id, fieldToUpdate, newValue });
     }
 
+    if (toUpdate.loginedAt) {
+      const fieldToUpdate = "loginedAt";
+      const newValue = toUpdate.loginedAt;
+      user = await User.update({ user_id, fieldToUpdate, newValue });
+    }
+
+    if (toUpdate.tall) {
+      const fieldToUpdate = "tall";
+      const newValue = toUpdate.tall;
+      user = await User.update({ user_id, fieldToUpdate, newValue });
+    }
+    
     return user;
   }
   

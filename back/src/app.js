@@ -8,7 +8,6 @@ import { CertificateRouter } from "./routers/certificateRouter";
 import { FriendRouter } from "./routers/friendRouter";
 import { LetterRouter } from "./routers/letterRouter";
 import { BadgeRouter } from "./routers/badgeRouter";
-import { TallRouter } from "./routers/tallRouter";
 import { errorMiddleware } from "./middlewares/errorMiddleware";
 
 const app = express();
@@ -38,7 +37,6 @@ app.use(CertificateRouter);
 app.use(FriendRouter);
 app.use(LetterRouter);
 app.use(BadgeRouter);
-app.use(TallRouter);
 
 // 순서 중요 (router 에서 next() 시 아래의 에러 핸들링  middleware로 전달됨)
 app.use(errorMiddleware);

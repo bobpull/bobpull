@@ -73,7 +73,8 @@ TallRouter.put(
         case "dailyCheck":
           // 출석 체크하는 함수 만들기
           break;
-        default: // 어떻게 할지 몰라잇
+        default: 
+          res.status(400).send("잔액이 부족하거나 올바르지 않은 case 입니다.");
       }
   
       const toUpdate = { tall };

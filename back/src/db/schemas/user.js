@@ -1,4 +1,4 @@
-import { Schema, model } from "mongoose";
+import { Schema, model } from "mongoose"; 
 
 const UserSchema = new Schema(
   {
@@ -26,8 +26,18 @@ const UserSchema = new Schema(
     profileImg:{
       type: String,
       required: false,
-      default : "/src/uploads/default_profile.png"
+      default : "/src/upload/default_profile.png"
     },
+    loginedAt: {
+      type: String,
+      required: false,
+      default: ""
+    },
+    tall: {
+      type: Number,
+      required: true,
+      default: 3,
+    }
   },
   {
     timestamps: true,
