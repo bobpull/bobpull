@@ -232,7 +232,7 @@ userAuthRouter.put(
         throw new Error(updatedUser.errorMessage);
       }
 
-      res.status(200).json(user);
+      res.status(200).json(updatedUser);
     } catch (err) {
       next(err);
     }
