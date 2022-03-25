@@ -3,7 +3,6 @@ import * as Api from "../../api";
 
 import AddProject from "./AddProject"
 import ProjectCard from "./ProjectCard"
-
 import {ProjectContext} from "../../context/ProjectContext"
 
 import {Button, Row, Col, Card} from "react-bootstrap";
@@ -22,7 +21,9 @@ const Project = ({portfolioOwnerId, isEditable}) => {
       }
     }
       fetchAPI()
-  },[portfolioOwnerId])
+  },[portfolioOwnerId] )
+
+  const projectFilterUserId = projects.filter((project) => project.user_id === portfolioOwnerId)
 
   return (
 <>
@@ -33,7 +34,7 @@ const Project = ({portfolioOwnerId, isEditable}) => {
           <Card.Title style={{textAlign: "left"}}>프로젝트</Card.Title>
 
           {/* 프로젝트가 추가 되었을 때, 편집 화면과 추가 내용 */}
-            {projects && projects.map((item, index) => 
+            {projectFilterUserId && projectFilterUserId.map((item, index) => 
               <ProjectCard
                 key={item.id}
                 index={index}
