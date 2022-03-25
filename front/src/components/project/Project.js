@@ -56,7 +56,7 @@ const Project = ({portfolioOwnerId, isEditable}) => {
             {projectFilterUserId && projectFilterUserId.map((item, index) => 
               <ProjectCard
                 key={item.id}
-                index={index}
+                project={item}
                 isEditable={isEditable}
               />
             )}
