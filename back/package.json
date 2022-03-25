@@ -21,6 +21,7 @@
   "dependencies": {
     "@sindresorhus/is": "^4.2.0",
     "aws-sdk": "^2.1099.0",
+    "babel-node": "^0.0.1-security",
     "bcrypt": "^5.0.1",
     "cors": "^2.8.5",
     "ejs": "^3.1.6",
@@ -35,6 +36,7 @@
     "multer-s3": "^2.10.0",
     "multiparty": "^4.2.3",
     "nodemailer": "^6.7.3",
+    "sharp": "^0.30.3",
     "supertest": "^6.1.6",
     "uuid": "^8.3.2"
   },

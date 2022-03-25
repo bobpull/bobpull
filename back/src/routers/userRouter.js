@@ -1,10 +1,12 @@
 import is from "@sindresorhus/is";
 import { Router } from "express";
 import { login_required } from "../middlewares/login_required";
-import {upload} from '../middlewares/multerMiddleware';
 import { userAuthService } from "../services/userService";
+import { upload } from '../middlewares/uploadProfileImg';
 import sendMail from "../utils/send-mail";
 import generateRandomPassword from "../utils/generate-random-password";
+import fs from "fs";
+import sharp from "sharp";
 // import bcrypt from "bcrypt";
 
 const userAuthRouter = Router();
@@ -248,15 +250,29 @@ userAuthRouter.delete(
 );
 
 userAuthRouter.put(
-  "/profile/:user_id", 
+  '/profile/:user_id',
   upload.single("img"),
-  async function (req, res, next) {
-    try {
-
-      const user_id = req.params.user_id;
-      const toUpdate = req.file.path;
+  async function (req, res, next){
+    try{
+      sharp(req.file.path) 
+      .resize({ width: 400 }) 
+      .withMetadata()
+      .toBuffer((err, buffer) => {
+        if (err) throw err;
+        fs.writeFile(req.file.path, buffer, (err) => {
+          if (err) throw err;
+        });
+      });
       
-      const uploadedImg = await userAuthService.setProfileImg({ user_id, toUpdate });
+      const user_id = req.params.user_id;  
+      const profileImg = req.file.filename;
+      const profilePath = "http://localhost:5000/profileImg/" + profileImg;
+      const toUpdate = {    
+        profileImg,
+        profilePath
+      };
+      const uploadedImg = await userAuthService.setProfile({ user_id, toUpdate });
+      
       res.status(200).json(uploadedImg);
     } catch (err) {
       next(err);
@@ -265,32 +281,17 @@ userAuthRouter.put(
 );
 
 userAuthRouter.get(
-  '/profileImg/:user_id',
-  login_required,
-  async function(req, res, next){
-    try{
-      const user_id = req.params.user_id;
-      const profileImg = await userAuthService.getProfileImg({user_id})
-      res.send(profileImg)
-    }catch(error){
-      next(error)
-    }
-  }
-)
-
-userAuthRouter.get(
   '/profile/:user_id',
   async function(req, res, next){
-    try{
+    try {
       const user_id = req.params.user_id;
       const profileImg = await userAuthService.getProfileImg({ user_id });
       res.send(profileImg);
-    }catch(err){
+    } catch (err) {
       next(err);
     }
   }
 );
-
 
 // jwt 토큰 기능 확인용, 삭제해도 되는 라우터임.
 userAuthRouter.get("/afterlogin", login_required, function (req, res, next) {

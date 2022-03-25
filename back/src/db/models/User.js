@@ -58,7 +58,7 @@ class User {
     return updatedPassword;
   }
 
-  static async findImgById({ user_id }) {
+  static async findProfileById({ user_id }) {
     const user = await UserModel.findOne({ id: user_id });
     return user.profileImg;
   }
