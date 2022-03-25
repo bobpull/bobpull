@@ -2,9 +2,9 @@ import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { Container, Col, Row, Form, Button } from "react-bootstrap";
 
-import "../../style/display.css"
+import "../../style/display.css";
 
-import {ValidateEmail} from "./ValidateEmail"
+import { ValidateEmail } from "./ValidateEmail";
 import * as Api from "../../api";
 import { DispatchContext } from "../../App";
 
@@ -17,6 +17,7 @@ function LoginForm() {
   //useState로 password 상태를 생성함.
   const [password, setPassword] = useState("");
 
+  const [errorText, setErrorText] = useState("");
 
   //위 validateEmail 함수를 통해 이메일 형태 적합 여부를 확인함.
   const isEmailValid = ValidateEmail(email);
@@ -48,8 +49,10 @@ function LoginForm() {
       });
 
       // 기본 페이지로 이동함.
+      setErrorText("");
       navigate("/", { replace: true });
     } catch (err) {
+      setErrorText("이메일, 비밀번호가 일치하지 않습니다.");
       console.log("로그인에 실패하였습니다.\n", err);
     }
   };
@@ -59,6 +62,17 @@ function LoginForm() {
       <Row className="justify-content-md-center mt-5">
         <Col lg={8}>
           <Form onSubmit={handleSubmit}>
+            <Row align="center">
+              <Form.Text
+                style={{
+                  color: "#FF0000",
+                  fontWeight: "bold",
+                  marginBottom: "20px",
+                }}
+              >
+                {errorText}
+              </Form.Text>
+            </Row>
             <Form.Group controlId="loginEmail">
               <Form.Label>이메일 주소</Form.Label>
               <Form.Control
@@ -75,8 +89,13 @@ function LoginForm() {
             </Form.Group>
 
             <Form.Group controlId="loginPassword" className="mt-3">
-                <Form.Label>비밀번호</Form.Label>
-                <Form.Text onClick={() => navigate("/resetpw")} className="forgetPw">비밀번호를 까먹었니?</Form.Text>
+              <Form.Label>비밀번호</Form.Label>
+              <Form.Text
+                onClick={() => navigate("/resetpw")}
+                className="forgetPw"
+              >
+                비밀번호를 까먹었니?
+              </Form.Text>
               <Form.Control
                 type="password"
                 autoComplete="on"
@@ -88,8 +107,6 @@ function LoginForm() {
                   비밀번호는 4글자 이상입니다.
                 </Form.Text>
               )}
-              
-              
             </Form.Group>
 
             <Form.Group as={Row} className="mt-3 text-center">
