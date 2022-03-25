@@ -13,6 +13,7 @@ const ProjectEditForm = ({project, setIsEditForm}) => {
       to_date: project.to_date.toString().substr(0,10),
       from_date: project.from_date.toString().substr(0,10),
     })
+    console.log(project)
 
   const onSubmit = async (e) => {
     e.preventDefault();
