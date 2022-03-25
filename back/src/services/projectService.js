@@ -2,9 +2,9 @@ import { Project } from "../db"; // from을 폴더(db) 로 설정 시, 디폴트
 import { v4 as uuidv4 } from "uuid";
 
 class ProjectService {
-  static async addProject({ user_id, title, description, from_date, to_date }) {
+  static async addProject({ user_id, title, description, url, from_date, to_date }) {
     const id = uuidv4();
-    const newProject = { id, user_id, title, description, from_date, to_date };
+    const newProject = { id, user_id, title, description, url, from_date, to_date };
 
     // db에 저장
     const createdNewProject = await Project.create({ newProject });
@@ -38,6 +38,7 @@ class ProjectService {
 
     const title = toUpdate.title;
     const description = toUpdate.description;
+    const url = toUpdate.url;
     const from_date = toUpdate.from_date;
     const to_date = toUpdate.to_date;
 
@@ -45,6 +46,7 @@ class ProjectService {
     if (title && description && from_date && to_date) {
       const fieldToUpdateTitle = "title";
       const fieldToUpdateDescription = "description";
+      const fieldToUpdateUrl = "url";
       const fieldToUpdateFromDate = "from_date";
       const fieldToUpdateToDate = "to_date";
       project = await Project.update( 
@@ -52,6 +54,7 @@ class ProjectService {
         {
           [fieldToUpdateTitle]: title, 
           [fieldToUpdateDescription]: description, 
+          [fieldToUpdateUrl]: url, 
           [fieldToUpdateFromDate]: from_date, 
           [fieldToUpdateToDate]: to_date
         }

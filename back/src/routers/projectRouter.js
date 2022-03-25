@@ -19,6 +19,7 @@ ProjectRouter.post(
     const user_id = req.currentUserId;
     const title = req.body.title;
     const description = req.body.description;
+    const url = req.body.url;
     const from_date = req.body.from_date;
     const to_date = req.body.to_date;
   
@@ -27,6 +28,7 @@ ProjectRouter.post(
       user_id,
       title,
       description,
+      url,
       from_date,
       to_date,
     });
@@ -70,10 +72,11 @@ ProjectRouter.put(
       const id = req.params.id;
       const title = req.body.title ?? null;
       const description = req.body.description ?? null;
+      const url = req.body.url ?? null;
       const from_date = req.body.from_date ?? null;
       const to_date = req.body.to_date ?? null;
   
-      const toUpdate = { title, description, from_date, to_date };
+      const toUpdate = { title, description, url, from_date, to_date };
   
       // 해당 프로젝트 아이디로 프로젝트 정보를 db에서 찾아 업데이트함. 업데이트 요소가 없을 시 생략함
       const updatedProject = await ProjectService.setProject({ id, toUpdate });
