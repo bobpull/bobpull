@@ -4,14 +4,16 @@ import axios from "axios"
 import * as Api from "../../api";
 import "../../style/display.css";
 
+
+
 function UserEditForm({ user, setIsEditing, setUser }) {
   const imgRef = useRef()
-
-const [info, setInfo] = useState({
-  name: user.name,
-  email: user.email,
-  description: user.description,
-})
+  
+  const [info, setInfo] = useState({
+    name: user.name,
+    email: user.email,
+    description: user.description,
+  })
   const [files, setFiles] = useState(user.profilePath)
   const [image, setImage] = useState(user.profilePath)
   
@@ -48,6 +50,7 @@ const [info, setInfo] = useState({
           Authorization: `Bearer ${sessionStorage.getItem("userToken")}`,
         }
       })
+
     } catch(e){
       console.log(e)
     }
