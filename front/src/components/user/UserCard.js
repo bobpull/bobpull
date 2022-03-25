@@ -5,7 +5,7 @@ import "../../style/display.css"
 import "../../style/font.css"
 import UserFriendButton from "./UserFriendButton";
 import { AiFillRead } from "react-icons/ai";
-import {ProfileContext} from "../../context/ProfileContext"
+import {profileContext} from "../../context/ProfileContext"
 
 function UserCard({ user, setIsEditing, isEditable, isNetwork, isFriend }) {
   const navigate = useNavigate();
