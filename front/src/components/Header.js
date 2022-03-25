@@ -58,15 +58,7 @@ function Header() {
       {isLogin && (
         <>
           <Nav.Item>
-            <Dropdown
-              style={{ margin: "20px 120px 0 0" }}
-              onMouseEnter={(e) => {
-                e.target.click();
-              }}
-              onMouseLeave={(e) => {
-                e.target.click();
-              }}
-            >
+            <Dropdown style={{ margin: "20px 120px 0 0" }}>
               <Dropdown.Toggle
                 id="dropdown-autoclose-true"
                 variant="secondary"
