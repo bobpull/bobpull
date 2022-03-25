@@ -32,7 +32,17 @@ const UserSchema = new Schema(
       type: String,
       required: false,
       default: "http://localhost:5000/profileImg/default_img/default_profile.jpg"
-    }
+    },
+    loginedAt: {
+      type: String,
+      required: false,
+      default: ""
+    },
+    tall: {
+      type: Number,
+      required: true,
+      default: 3,
+    },
   },
   {
     timestamps: true,

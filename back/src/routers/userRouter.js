@@ -7,7 +7,7 @@ import sendMail from "../utils/send-mail";
 import generateRandomPassword from "../utils/generate-random-password";
 import fs from "fs";
 import sharp from "sharp";
-// import bcrypt from "bcrypt";
+import koreaNow from "../utils/korea-now";
 
 const userAuthRouter = Router();
 
@@ -141,7 +141,26 @@ userAuthRouter.post("/user/login", async function (req, res, next) {
       throw new Error(user.errorMessage);
     }
 
-    res.status(200).send(user);
+    // 출석 체크 (tall 하나 추가)
+    const beforeLoginedAt = user.loginedAt;
+    let tall = user.tall;
+    console.log("조건문 전 tall:", tall);
+    if (beforeLoginedAt < koreaNow()) {  
+      tall += 1;
+    }
+    console.log("조건문 후 tall:", tall);
+    const user_id = user.id;
+    const loginedAt = koreaNow();
+    const toUpdate = { loginedAt, tall };
+
+    // 해당 사용자 아이디로 사용자 정보를 db에서 찾아 최근 접속시간을 업데이트
+    const updatedUser = await userAuthService.setUser({ user_id, toUpdate });
+
+    if (updatedUser.errorMessage) {
+      throw new Error(updatedUser.errorMessage);
+    }
+
+    res.status(200).send(updatedUser);
   } catch (err) {
     next(err);
   }
@@ -194,8 +213,10 @@ userAuthRouter.put(
       const name = req.body.name ?? null;
       const password = req.body.password ?? null;
       const description = req.body.description ?? null;
+      const loginedAt = req.body.loginedAt ?? null;
+      const tall = req.body.tall ?? null;
 
-      const toUpdate = { name, password, description };
+      const toUpdate = { name, password, description, loginedAt, tall };
 
       // 해당 사용자 아이디로 사용자 정보를 db에서 찾아 업데이트함. 업데이트 요소가 없을 시 생략함
       const updatedUser = await userAuthService.setUser({ user_id, toUpdate });
