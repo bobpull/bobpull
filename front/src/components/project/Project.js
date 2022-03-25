@@ -5,7 +5,8 @@ import AddProject from "./AddProject"
 import ProjectCard from "./ProjectCard"
 import {ProjectContext} from "../../context/ProjectContext"
 
-import {Button, Row, Col, Card} from "react-bootstrap";
+import {Button, Row, Col, Card, OverlayTrigger, Tooltip} from "react-bootstrap";
+import { AiFillQuestionCircle } from "react-icons/ai";
 
 const Project = ({portfolioOwnerId, isEditable}) => {
   const [isEditing, setIsEditing] = useState(false)
@@ -31,7 +32,25 @@ const Project = ({portfolioOwnerId, isEditable}) => {
     <Col>
       <Card className="mb-3">
         <Card.Body>
-          <Card.Title style={{textAlign: "left"}}>프로젝트</Card.Title>
+          <Card.Title style={{textAlign: "left"}}>
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <span>프로젝트</span>
+              {isEditable && (
+                <OverlayTrigger
+                  placement="top"
+                  overlay={
+                    <Tooltip id="award-tooltip">
+                      지원하는 직무와 관련 있는 프로젝트를 작성해주세요.
+                    </Tooltip>
+                  }
+                >
+                  <span style={{ color: "#bfbfbf", marginLeft: 8 }}>
+                    <AiFillQuestionCircle size={22} />
+                  </span>
+                </OverlayTrigger>
+              )}
+            </div>
+          </Card.Title>
 
           {/* 프로젝트가 추가 되었을 때, 편집 화면과 추가 내용 */}
             {projectFilterUserId && projectFilterUserId.map((item, index) => 
