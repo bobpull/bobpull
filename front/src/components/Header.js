@@ -84,8 +84,11 @@ function Header() {
       </Navbar.Brand>
       {isLogin && (
         <>
-          <Nav.Item style={{ margin: "30px 20px 0 0", fontSize: "20px" }}>
-            <p>{tall} 톨</p>
+          <Nav.Item style={{ margin: "25px 20px 0 0", fontSize: "20px" }}>
+            <p>
+              <img src="img/tall.png" style={{ width: "23px" }} alt="톨" />
+              {tall} 톨
+            </p>
           </Nav.Item>
           <Nav.Item style={{ margin: "20px 20px 0 0" }}>
             <Dropdown>
