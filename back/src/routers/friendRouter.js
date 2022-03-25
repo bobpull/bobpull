@@ -48,11 +48,11 @@ FriendRouter.get(
 );
 
 FriendRouter.get(
-  "/friendlist/:user_id",
+  "/friendlist",
   login_required,
   async function (req, res, next) {
     try {
-      const user_id = req.params.user_id;
+      const user_id = req.currentUser.id;
       const currentFriendlist = await FriendService.getFriendlist({ user_id });
 
       if (currentFriendlist.errorMessage) {
@@ -78,7 +78,7 @@ FriendRouter.delete(
         throw new Error(deletedFriend.errorMessage);
       }
   
-      res.status(204).send();
+      res.status(204).send("삭제가 완료되었습니다.");
     } catch (err) {
       next(err);
     }

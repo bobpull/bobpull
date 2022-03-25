@@ -229,6 +229,20 @@ class userAuthService {
 
     return profileImgURL;
   }
+
+/*******
+뱃지 구입
+********/
+  static async setTall({ user_id, toUpdate }) {
+    const id = user_id;
+
+    const fieldToUpdate = "tall";
+    const newValue = toUpdate.tall;
+
+    const user = await User.update({ id, fieldToUpdate, newValue });
+    
+    return user;
+  }
 }
 
 export { userAuthService };
