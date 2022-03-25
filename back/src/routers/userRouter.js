@@ -8,7 +8,8 @@ import generateRandomPassword from "../utils/generate-random-password";
 import fs from "fs";
 import sharp from "sharp";
 import koreaNow from "../utils/korea-now";
-import { badgelist } from "../db/publicSchema/badgelist";
+import { badgeList } from "../db/publicSchema/badgelist";
+import {BadgeService} from "../services/badgeService";
 
 const userAuthRouter = Router();
 
@@ -37,7 +38,7 @@ userAuthRouter.post("/user/register", async function (req, res, next) {
     if (newUser.errorMessage) {
       throw new Error(newUser.errorMessage);
     }
-
+    
     res.status(201).json(newUser);
   } catch (err) {
     next(err);
@@ -163,22 +164,8 @@ userAuthRouter.post("/user/login", async function (req, res, next) {
 
     res.status(200).send(user);
   } catch (err) {
-    badgelist.map((obj) => {
-      const url = obj.url ?? null;
-      const name = obj.name ?? null;
-      const description = obj.description ?? null;
-      const have = obj.have ?? null;
-
-      const toUpdate = { user_id, url, name, description, have };
-      const updatedBadge = await badgeService.addBadge({ toUpdate });
-
-      if (updatedBadge.errorMessage) {
-        throw new Error(updatedBadge.errorMessage);
-      }
-      return updatedBadge
-    }) 
-      res.status(200).send(user);
-    } 
+    next(err);
+  }
 });
 
 userAuthRouter.get(

@@ -43,11 +43,6 @@ const UserSchema = new Schema(
       required: true,
       default: 3,
     },
-    badgeList: {
-      type: Array,
-      required: false,
-      default: [],
-    }
   },
   {
     timestamps: true,

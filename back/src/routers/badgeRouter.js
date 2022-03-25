@@ -11,7 +11,12 @@ BadgeRouter.post(
   "/badge/:id",
   login_required,
   async function (req, res, next) {
-  try {
+    try {
+      if (is.emptyObject(req.body)) {
+        throw new Error(
+          "필수 파라미터가 존재하지 않습니다."
+        );
+      }
     const user_id = req.currentUserId;
     let id = req.params.id;
     let name;
