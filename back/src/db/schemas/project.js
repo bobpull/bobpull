@@ -18,6 +18,10 @@ const ProjectSchema = new Schema(
       type: String,
       required: true,
     },
+    url: {
+      type: String,
+      required: false,
+    },
     from_date: {
       type: Date,
       required: true,
