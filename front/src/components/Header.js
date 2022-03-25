@@ -1,7 +1,8 @@
 import React, { useContext } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import Nav from "react-bootstrap/Nav";
+import { Nav, Dropdown } from "react-bootstrap";
 import { UserStateContext, DispatchContext } from "../App";
+import "../style/menu.css";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 
@@ -57,19 +58,41 @@ function Header() {
       {isLogin && (
         <>
           <Nav.Item>
-            <Nav.Link onClick={() => navigate("/edit")}>회원정보</Nav.Link>
-          </Nav.Item>
-          <Nav.Item>
-            <Nav.Link onClick={() => navigate("/")}>나의 페이지</Nav.Link>
-          </Nav.Item>
-          <Nav.Item>
-            <Nav.Link onClick={() => navigate("/friendlist")}>내친구들</Nav.Link>
-          </Nav.Item>
-          <Nav.Item>
-            <Nav.Link onClick={() => navigate("/network")}>네트워크</Nav.Link>
-          </Nav.Item>
-          <Nav.Item>
-            <Nav.Link onClick={handleClick}>로그아웃</Nav.Link>
+            <Dropdown style={{ margin: "20px 120px 0 0" }}>
+              <Dropdown.Toggle
+                id="dropdown-autoclose-true"
+                variant="secondary"
+                className="myMenu"
+              >
+                Menu
+              </Dropdown.Toggle>
+              <Dropdown.Menu>
+                <Dropdown.Header>User</Dropdown.Header>
+                <Dropdown.Item eventKey="1" onClick={() => navigate("/edit")}>
+                  회원정보
+                </Dropdown.Item>
+                <Dropdown.Item eventKey="2" onClick={() => navigate("/")}>
+                  나의 페이지
+                </Dropdown.Item>
+                <Dropdown.Header>Social</Dropdown.Header>
+                <Dropdown.Item
+                  eventKey="3"
+                  onClick={() => navigate("/network")}
+                >
+                  네트워크
+                </Dropdown.Item>
+                <Dropdown.Item
+                  eventKey="4"
+                  onClick={() => navigate("/friendlist")}
+                >
+                  내 친구들
+                </Dropdown.Item>
+                <Dropdown.Divider />
+                <Dropdown.Item eventKey="5" onClick={handleClick}>
+                  로그아웃
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
           </Nav.Item>
         </>
       )}
