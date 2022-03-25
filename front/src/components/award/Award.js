@@ -30,16 +30,22 @@ function Award({ portfolioOwnerId, isEditable }) {
           <Card className="mb-3">
             <Card.Body>
               <Card.Title>
-                <div style={{display: "flex", alignItems:"center"}}>
+                <div style={{ display: "flex", alignItems: "center" }}>
                   <span>수상이력</span>
-                  <OverlayTrigger
-                    placement="top"
-                    overlay={<Tooltip id="award-tooltip">희망 직무와 관련된 수상이력을 작성해주세요.</Tooltip>}
-                  >
-                    <span style={{ color: "#bfbfbf", marginLeft: 8 }}>
-                      <AiFillQuestionCircle size={22} />
-                    </span>
-                  </OverlayTrigger>
+                  {isEditable && (
+                    <OverlayTrigger
+                      placement="top"
+                      overlay={
+                        <Tooltip id="award-tooltip">
+                          희망 직무와 관련된 수상이력을 작성해주세요.
+                        </Tooltip>
+                      }
+                    >
+                      <span style={{ color: "#bfbfbf", marginLeft: 8 }}>
+                        <AiFillQuestionCircle size={22} />
+                      </span>
+                    </OverlayTrigger>
+                  )}
                 </div>
               </Card.Title>
               <AwardsContext.Provider value={{ awards, setAwards }}>
