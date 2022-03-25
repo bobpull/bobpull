@@ -1,9 +1,17 @@
 import React, { useState, useEffect, createContext } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Row, Col, Card, Button } from "react-bootstrap";
+import {
+  Row,
+  Col,
+  Card,
+  Button,
+  OverlayTrigger,
+  Tooltip,
+} from "react-bootstrap";
 import AwardAddForm from "./AwardAddForm";
 import AwardCard from "./AwardCard";
 import * as Api from "../../api";
+import { AiFillQuestionCircle } from "react-icons/ai";
 
 export const AwardsContext = createContext();
 
@@ -21,7 +29,19 @@ function Award({ portfolioOwnerId, isEditable }) {
         <Col>
           <Card className="mb-3">
             <Card.Body>
-              <Card.Title>수상이력</Card.Title>
+              <Card.Title>
+                <div style={{display: "flex", alignItems:"center"}}>
+                  <span>수상이력</span>
+                  <OverlayTrigger
+                    placement="top"
+                    overlay={<Tooltip id="award-tooltip">희망 직무와 관련된 수상이력을 작성해주세요.</Tooltip>}
+                  >
+                    <span style={{ color: "#bfbfbf", marginLeft: 8 }}>
+                      <AiFillQuestionCircle size={22} />
+                    </span>
+                  </OverlayTrigger>
+                </div>
+              </Card.Title>
               <AwardsContext.Provider value={{ awards, setAwards }}>
                 {awards.map((award) => (
                   <AwardCard
