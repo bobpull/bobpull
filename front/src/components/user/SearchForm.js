@@ -21,6 +21,7 @@ function SearchForm() {
           borderLeft: "none",
           borderRadius: "0 0.25rem 0.25rem 0",
         }}
+        type="submit"
       >
         <FaSearch style={{ color: "gray" }} />
       </Button>

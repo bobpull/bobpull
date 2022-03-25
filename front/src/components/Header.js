@@ -2,7 +2,8 @@ import React, { useContext } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Nav, Dropdown, Navbar } from "react-bootstrap";
 import { UserStateContext, DispatchContext } from "../App";
-import "../style/menu.css";
+import "../style/header.css";
+import SearchForm from "./user/SearchForm";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 
@@ -57,6 +58,11 @@ function Header() {
       </Navbar.Brand>
       {isLogin && (
         <>
+          {location.pathname === "/network" && (
+            <Nav.Item className="d-flex align-items-center justify-content-center">
+              <SearchForm />
+            </Nav.Item>
+          )}
           <Nav.Item style={{ margin: "30px 20px 0 0" }}>
             <p>100톨</p>
           </Nav.Item>
