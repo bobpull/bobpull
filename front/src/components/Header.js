@@ -51,9 +51,11 @@ function Header() {
   };
 
   return (
-    <Nav activeKey={location.pathname}>
+    <Nav activeKey={location.pathname} style={{ backgroundColor: "#FFEAA1" }}>
       <Navbar.Brand className="me-auto mb-5">
-        <Nav.Link onClick={() => navigate("/")}>밥풀(pull)</Nav.Link>
+        <Nav.Link onClick={() => navigate("/")} style={{ color: "#000000" }}>
+          밥풀(pull)
+        </Nav.Link>
       </Navbar.Brand>
       {isLogin && (
         <>
