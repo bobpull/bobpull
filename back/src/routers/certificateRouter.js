@@ -1,36 +1,26 @@
 import is from "@sindresorhus/is";
 import { Router } from "express";
 import { login_required } from "../middlewares/login_required";
-import { userCertificateService } from "../services/certificateService";
+import { CertificateService } from "../services/certificateService";
 
-const userCertificateRouter = Router();
+const CertificateRouter = Router();
 
-userCertificateRouter.post(
+CertificateRouter.post(
   "/certificate/create",
   login_required,
   async function (req, res, next) {
     try {
       if (is.emptyObject(req.body)) {
-        throw new Error(
-          "header의 Content-Type을 application/json으로 설정해주세요"
-        );
+        throw new Error("필수 파라미터가 존재하지 않습니다.");
       }
 
       const user_id = req.currentUserId;
-      const currentUserInfo = await userCertificateService.getUserInfo({
-        user_id,
-      });
-
-      if (currentUserInfo.errorMessage) {
-        throw new Error(currentUserInfo.errorMessage);
-      }
-
       const title = req.body.title;
       const description = req.body.description;
       const issued_at = req.body.issued_at;
 
       // 위 데이터를 자격증 db에 추가하기
-      const newCertificate = await userCertificateService.addCertificate({
+      const newCertificate = await CertificateService.addCertificate({
         user_id,
         title,
         description,
@@ -48,14 +38,14 @@ userCertificateRouter.post(
   }
 );
 
-userCertificateRouter.get(
+CertificateRouter.get(
   "/certificates/:id",
   login_required,
   async function (req, res, next) {
     try {
-      const _id = req.params.id;
+      const id = req.params.id;
       const currentCertificateInfo =
-        await userCertificateService.getCertificateInfo({ _id });
+        await CertificateService.getCertificateInfo({ id });
 
       if (currentCertificateInfo.errorMessage) {
         throw new Error(currentCertificateInfo.errorMessage);
@@ -68,14 +58,14 @@ userCertificateRouter.get(
   }
 );
 
-userCertificateRouter.put(
+CertificateRouter.put(
   "/certificates/:id",
   login_required,
   async function (req, res, next) {
     try {
       const user_id = req.currentUserId;
       // url로부터 사용자 id를 추출함.
-      const _id = req.params.id;
+      const id = req.params.id;
       // body data로부터 업데이트할 자격증 정보를 추출함.
       const title = req.body.title ?? null;
       const description = req.body.description ?? null;
@@ -84,9 +74,9 @@ userCertificateRouter.put(
       const toUpdate = { title, description, issued_at };
 
       // 해당 certificate_di로 자격증 정보를 db에서 찾아 업데이트함. 업데이트 요소가 없을 시 생략함
-      const updatedCertificate = await userCertificateService.setCertificate({
+      const updatedCertificate = await CertificateService.setCertificate({
         user_id,
-        _id,
+        id,
         toUpdate,
       });
 
@@ -100,14 +90,14 @@ userCertificateRouter.put(
   }
 );
 
-userCertificateRouter.get(
+CertificateRouter.get(
   "/certificatelist/:user_id",
   login_required,
   async function (req, res, next) {
     try {
       const user_id = req.params.user_id;
       const currentCertificatelistInfo =
-        await userCertificateService.getCertificatelistInfo({ user_id });
+        await CertificateService.getCertificatelistInfo({ user_id });
 
       if (currentCertificatelistInfo.errorMessage) {
         throw new Error(currentCertificatelistInfo.errorMessage);
@@ -120,14 +110,15 @@ userCertificateRouter.get(
   }
 );
 
-userCertificateRouter.delete(
+CertificateRouter.delete(
   "/certificates/:id",
   login_required,
   async function (req, res, next) {
     try {
-      const _id = req.params.id;
-      const deletedCertificate =
-        await userCertificateService.deleteUserCertificate({ _id });
+      const id = req.params.id;
+      const deletedCertificate = await CertificateService.deleteUserCertificate(
+        { id }
+      );
 
       if (deletedCertificate.errorMessage) {
         throw new Error(deletedCertificate.errorMessage);
@@ -140,4 +131,4 @@ userCertificateRouter.delete(
   }
 );
 
-export { userCertificateRouter };
+export { CertificateRouter };

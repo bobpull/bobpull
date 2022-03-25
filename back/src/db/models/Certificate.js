@@ -6,19 +6,14 @@ class Certificate {
     return createdNewCertificate;
   }
 
-  static async findByTitleWithDescription({ user_id, title, description }) {
-    const titleWithDescription = await CertificateModel.findOne({ user_id, title, description });
-    return titleWithDescription;
-  }
-
-  static async findById({ _id }) {
-    const certificate = await CertificateModel.findOne({ _id });
+  static async findById({ id }) {
+    const certificate = await CertificateModel.findOne({ id });
     return certificate;
   }
 
-  static async update({ _id, fieldToUpdate, newValue }) {
-    const filter = { _id };
-    const update = { [fieldToUpdate]: newValue };
+  static async update(id, fieldToUpdate) {
+    const filter = { id };
+    const update = fieldToUpdate;
     const option = { returnOriginal: false };
 
     const updatedCertificate = await CertificateModel.findOneAndUpdate(
@@ -34,9 +29,14 @@ class Certificate {
     return certificatelist;
   }
 
-  static async deleteById({ _id }) {
-    const certificate = await CertificateModel.deleteOne({ _id });
+  static async deleteById({ id }) {
+    const certificate = await CertificateModel.deleteOne({ id });
     return certificate;
+  }
+
+  static async deleteByUserId({ user_id }) {
+    const certificates = await CertificateModel.deleteMany({ user_id });
+    return certificates;
   }
 }
 
