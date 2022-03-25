@@ -12,6 +12,7 @@ const AddProject = ({setIsEditing}) => {
   const [project, setProject] = useState({
     title: "",
     description: "",
+    projectUrl: "",
     from_date: `${todayDate}`,
     to_date: `${todayDate}`,
   })
@@ -23,7 +24,6 @@ const AddProject = ({setIsEditing}) => {
       // project id값을 받기 위해 res 변수 선언.
       const res = await Api.post("project/create", project);
       dispatch({type: "add-project", payload: res.data})
-      console.log(res.data)
       setIsEditing(false)
     } catch(e) {
       console.log(e)
@@ -56,6 +56,15 @@ const AddProject = ({setIsEditing}) => {
           placeholder="상세설명"
           name="description" 
           value={project.description}
+          onChange={onChange}
+          required
+        />
+      </Form.Group>
+      <Form.Group className="mb-3" controlId="projectUrl">
+        <Form.Control  
+          placeholder="프로젝트 url"
+          name="projectUrl" 
+          value={project.projectUrl}
           onChange={onChange}
           required
         />

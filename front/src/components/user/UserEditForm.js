@@ -1,10 +1,11 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useContext } from "react";
 import { Button, Form, Card, Col, Row } from "react-bootstrap";
+import {ProfileContext} from "../../context/ProfileContext"
 import * as Api from "../../api";
-import "../../style/display.css"
+import "../../style/display.css";
 
 function UserEditForm({ user, setIsEditing, setUser }) {
-
+  const {profile, dispatch} = useContext(ProfileContext)
   const imgRef = useRef()
   const [info, setInfo] = useState({
     name: user.name,
@@ -12,8 +13,7 @@ function UserEditForm({ user, setIsEditing, setUser }) {
     description: user.description
   })
   const [image, setImage] = useState({
-    id: "",
-    file: "",
+    id: user.id,
     url: "http://placekitten.com/200/200"
   })
 
@@ -29,27 +29,28 @@ function UserEditForm({ user, setIsEditing, setUser }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try{
+      // userInfo
       const res = await Api.put(`users/${user.id}`, info);
       const updatedUser = res.data;
-  
       setUser(updatedUser);
       setIsEditing(false);
+
+      // ProfileInfo
+      // await Api.put(`profile/${user.id}`,{toUpdate: image.url})
+      dispatch({type: "update-profile", payload: image})
     }catch(e){
       console.log(e)
     }
   };
 
   const handleProfile = (e) => {
-    const newImg = e.target.files
     setImage(cur => {
+      const newImg = e.target.files
       return{
-        id: newImg[0].name, 
-        file: newImg[0], 
+        ...cur, 
         url: URL.createObjectURL(newImg[0])}
     })
-   console.log(image)
-    
-    
+
   }
 
   return (
@@ -69,11 +70,11 @@ function UserEditForm({ user, setIsEditing, setUser }) {
           type="file"            
           name="image"
           ref={imgRef}
-          accept=""
+          accept="image/jpg, image/jpeg, image/png"
           onChange={handleProfile}
         />
-       
         </Form.Group>
+        {/* 이름 변경 */}
         <Form.Group controlId="useEditName" className="mb-3">
           <Form.Control
             type="text"
@@ -83,38 +84,38 @@ function UserEditForm({ user, setIsEditing, setUser }) {
             onChange={handleChange}
           />
         </Form.Group>
+        {/* 이메일은 변경 안됩니다.*/}
+        <Form.Group controlId="userEditEmail" className="mb-3">
+          <Form.Control
+            type="email"
+            name="email"
+            placeholder="이메일"
+            value={info.email}
+            disabled={true}
+            onChange={handleChange}
+          />
+        </Form.Group>
+        {/* 상세설명 수정 */}
+        <Form.Group controlId="userEditDescription">
+          <Form.Control
+            type="text"
+            name="description"
+            placeholder="정보, 인사말"
+            value={info.description}
+            onChange={handleChange}
+          />
+        </Form.Group>
 
-          <Form.Group controlId="userEditEmail" className="mb-3">
-            <Form.Control
-              type="email"
-              name="email"
-              placeholder="이메일"
-              value={info.email}
-              disabled={true}
-              onChange={handleChange}
-            />
-          </Form.Group>
-
-          <Form.Group controlId="userEditDescription">
-            <Form.Control
-              type="text"
-              name="description"
-              placeholder="정보, 인사말"
-              value={info.description}
-              onChange={handleChange}
-            />
-          </Form.Group>
-
-          <Form.Group as={Row} className="mt-3 text-center">
-            <Col sm={{ span: 20 }}>
-              <Button variant="primary" type="submit" className="me-3">
-                확인
-              </Button>
-              <Button variant="secondary" onClick={() => setIsEditing(false)}>
-                취소
-              </Button>
-            </Col>
-          </Form.Group>
+        <Form.Group as={Row} className="mt-3 text-center">
+          <Col sm={{ span: 20 }}>
+            <Button variant="primary" type="submit" className="me-3">
+              확인
+            </Button>
+            <Button variant="secondary" onClick={() => setIsEditing(false)}>
+              취소
+            </Button>
+          </Col>
+        </Form.Group>
         </Form>
       </Card.Body>
     </Card>

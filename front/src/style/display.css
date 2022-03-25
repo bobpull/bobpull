@@ -11,6 +11,11 @@
 .flex {
   display: flex;
 }
+.col-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
 /* LoginForm */
 .forgetPw {

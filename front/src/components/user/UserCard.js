@@ -1,14 +1,16 @@
+import React, {useContext} from "react"
 import { useNavigate } from "react-router-dom";
 import { Card, Row, Button, Col } from "react-bootstrap";
 import "../../style/display.css"
 import "../../style/font.css"
 import UserFriendButton from "./UserFriendButton";
-
 import { AiFillRead } from "react-icons/ai";
+import {ProfileContext} from "../../context/ProfileContext"
 
 function UserCard({ user, setIsEditing, isEditable, isNetwork, isFriend }) {
   const navigate = useNavigate();
-
+  
+  // const imgUrl = profile.filter((img) => user.id === img.id)
   return (
     <Col>
     <Card className="mb-2 ms-0" style={{ width: "100%", margin: "0 auto" }}>
@@ -21,7 +23,7 @@ function UserCard({ user, setIsEditing, isEditable, isNetwork, isFriend }) {
               <Card.Img
                 style={{ width: "50px", height: "50px", borderRadius: "50%", marginRight: "10px" }}
                 className="mb-3"
-                src="http://placekitten.com/200/200"
+                src="http://placekitten.com/200/200" // imgUrl.toUpdate
                 alt="고양이 사진"
               />
               <div>
@@ -53,11 +55,7 @@ function UserCard({ user, setIsEditing, isEditable, isNetwork, isFriend }) {
               alt="고양이 사진"
             />
           )}
-          
-
         </Row>
-        
-
         {isEditable && (
           <Col>
             <Row className="mt-3 text-center text-info">

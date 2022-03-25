@@ -1,7 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Container, Col, Row } from "react-bootstrap";
-import {ProjectProvider} from "../context/ProjectContext"
 import { UserStateContext } from "../App";
 import * as Api from "../api";
 import User from "./user/User";
@@ -10,10 +9,9 @@ import Certificate from "./certificate/Certificate";
 import Education from "./education/Education";
 import Project from "./project/Project";
 
-import Skill from "./skill/Skill";
+import Badge from "./badge/Badge";
 
 import { FriendListContext } from '../context/FriendListContext';
-
 
 function Portfolio() {
   const navigate = useNavigate();
@@ -26,6 +24,8 @@ function Portfolio() {
   const userState = useContext(UserStateContext);
 
   const { friendList, setFriendList } = useContext(FriendListContext);
+  
+  
 
   const fetchPorfolioOwner = async (ownerId) => {
     // 유저 id를 가지고 "/users/유저id" 엔드포인트로 요청해 사용자 정보를 불러옴.
@@ -66,6 +66,7 @@ function Portfolio() {
   // 로그인한 유저가 변경될 때마다 해당 유저의 친구 리스트 set
   useEffect(() => {
     fetchUserFriendList(userState.user?.id);
+    
   }, [userState.user?.id]);
 
   if (!isFetchCompleted) {
@@ -75,6 +76,7 @@ function Portfolio() {
   return (
     <Container fluid style={{
       maxWidth: "82.5rem",
+      minWidth: "320px"
     }}>
       <Row>
         <Col lg="5">
@@ -83,7 +85,8 @@ function Portfolio() {
             isEditable={portfolioOwner.id === userState.user?.id}
             isFriend={friendList.find((el) => el.friend_id === portfolioOwner.id)}
           />
-          <Skill
+          <Badge
+            portfolioOwnerId={portfolioOwner.id}
             isEditable={portfolioOwner.id === userState.user?.id}
           />
         </Col>
@@ -97,12 +100,13 @@ function Portfolio() {
               portfolioOwnerId={portfolioOwner.id}
               isEditable={portfolioOwner.id === userState.user?.id}
             />
-            <ProjectProvider>
+            
               <Project
                 portfolioOwnerId={portfolioOwner.id}
                 isEditable={portfolioOwner.id === userState.user?.id}
+                
               />
-              </ProjectProvider>
+              
             <Certificate
               portfolioOwnerId={portfolioOwner.id}
               isEditable={portfolioOwner.id === userState.user?.id}
