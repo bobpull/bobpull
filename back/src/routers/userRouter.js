@@ -8,6 +8,8 @@ import generateRandomPassword from "../utils/generate-random-password";
 import fs from "fs";
 import sharp from "sharp";
 import koreaNow from "../utils/korea-now";
+const { Sequelize } = require('sequelize'); 
+const { and, or, like, not } = Sequelize.Op;
 
 const userAuthRouter = Router();
 
@@ -187,6 +189,23 @@ userAuthRouter.get(
   }
 );
 
+/*** 유저 검색 ***/
+userAuthRouter.get(
+  '/userlist/search/:name',
+  login_required,
+  async function( req, res, next ) {
+    try {
+      const name = req.query.name;
+
+      const userlist = await userAuthService.searchUsers({ name });
+
+      res.status(200).send(userlist);
+    } catch (err) {
+      next(err);
+    }
+  }
+);
+
 userAuthRouter.get(
   "/user/current",
   login_required,
@@ -276,6 +295,7 @@ userAuthRouter.delete(
     }
   }
 );
+
 
 /*******
 프로필 이미지 처리
