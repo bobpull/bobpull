@@ -11,6 +11,7 @@ function Network() {
   const userState = useContext(UserStateContext);
   // useState 훅을 통해 users 상태를 생성함.
   const [users, setUsers] = useState([]);
+  const [search, setSearch] = useState("test");
 
   useEffect(() => {
     // 만약 전역 상태의 user가 null이라면, 로그인 페이지로 이동함.
@@ -25,9 +26,13 @@ function Network() {
   return (
     <Container fluid>
       <Row xs="1" md="2" lg="3" className="jusify-content-center">
-        {users.map((user) => (
-          <UserCard key={user.id} user={user} isNetwork />
-        ))}
+        {search
+          ? users
+              .filter((user) => user.name.includes(search))
+              .map((user) => <UserCard key={user.id} user={user} isNetwork />)
+          : users.map((user) => (
+              <UserCard key={user.id} user={user} isNetwork />
+            ))}
       </Row>
     </Container>
   );
