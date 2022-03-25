@@ -48,13 +48,6 @@ function FriendCard({ id, name, email, description }) {
                 <AiFillRead size={30} />
               </Card.Link>
             </div>
-
-            <Card.Img
-              style={{ width: "70%", height: "auto", margin: "0 auto" }}
-              className="mb-3"
-              src="http://placekitten.com/200/200"
-              alt="고양이 사진"
-            />
           </Row>
         </Card.Body>
       </Card>

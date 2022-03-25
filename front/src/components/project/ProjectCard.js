@@ -41,14 +41,14 @@ const ProjectCard = ({index, isEditable }) => {
 
   return (
     <Card className="mb-3" style={{textAlign: "left", border: "none"}} >
-      <Row>
+      <Row className="justify-content-lg-around">
         {isEditForm ? 
           <ProjectEditForm
             index={index}
             setIsEditForm={setIsEditForm}
           /> : 
           <>
-            <Col sm="11">
+            <Col className="col-sm-9 col-md-9 col-lg-9 col-xl-9">
               <Card.Text className="mb-0" >
                 {projects[index].title}
               </Card.Text>
@@ -60,10 +60,10 @@ const ProjectCard = ({index, isEditable }) => {
               </Card.Text>
             </Col>
 
-            <Col className="p-0 text-center">
             { isEditable && 
-              <Col>
+              <Col className="p-0 col-sm-3 col-md-3 col-lg-3 col-xl-3 text-center">
                 <Button
+                  className="mx-3"
                   variant="outline-info"
                   size="sm"
                   onClick={() => setIsEditForm(true)}
@@ -75,7 +75,6 @@ const ProjectCard = ({index, isEditable }) => {
                 >삭제</Button>
               </Col>
             }
-            </Col>
           </>
         }
       </Row>
