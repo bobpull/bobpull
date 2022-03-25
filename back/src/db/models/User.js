@@ -21,6 +21,11 @@ class User {
     return users;
   }
 
+  static async findAll({ name }) {
+    const users = await UserModel.find({ name });
+    return users;
+  }
+
   static async findByEmail({ email }) {
     const user = await UserModel.findOne({ email });
     return user;
@@ -28,7 +33,6 @@ class User {
 
   static async findByFriendId({ friend_id }) {
     const friend = await UserModel.findOne({ id: friend_id });
-    console.log(friend);
     return friend;
   }
 

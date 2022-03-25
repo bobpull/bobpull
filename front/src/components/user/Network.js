@@ -37,13 +37,23 @@ function Network() {
       </Container>
       <Container fluid style={{ clear: "both" }}>
         <Row xs="1" md="2" lg="3" className="jusify-content-center">
-          {search
-            ? users
+          {search ? (
+            users.filter((user) => user.name.includes(search)).length > 0 ? (
+              users
                 .filter((user) => user.name.includes(search))
                 .map((user) => <UserCard key={user.id} user={user} isNetwork />)
-            : users.map((user) => (
-                <UserCard key={user.id} user={user} isNetwork />
-              ))}
+            ) : (
+              <div
+                style={{ float: "left", margin: "0 auto", textAlign: "center" }}
+              >
+                검색 결과가 존재하지 않습니다.
+              </div>
+            )
+          ) : (
+            users.map((user) => (
+              <UserCard key={user.id} user={user} isNetwork />
+            ))
+          )}
         </Row>
       </Container>
     </>

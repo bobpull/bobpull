@@ -5,6 +5,7 @@ import { UserStateContext, DispatchContext } from "../App";
 import "../style/header.css";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
+import { FriendListContext } from "../context/FriendListContext";
 
 function Header() {
   const navigate = useNavigate();
@@ -12,6 +13,8 @@ function Header() {
 
   const userState = useContext(UserStateContext);
   const dispatch = useContext(DispatchContext);
+
+  const { setFriendList } = useContext(FriendListContext);
 
   // 전역상태에서 user가 null이 아니라면 로그인 성공 상태임.
   const isLogin = !!userState.user;
@@ -22,6 +25,8 @@ function Header() {
     sessionStorage.removeItem("userToken");
     // dispatch 함수를 이용해 로그아웃함.
     dispatch({ type: "LOGOUT" });
+    // 로그아웃 하면 현재 유저의 friendList를 빈 배열로 초기화
+    setFriendList([]);
     // 기본 페이지로 돌아감.
     navigate("/");
   };
@@ -51,13 +56,30 @@ function Header() {
   };
 
   return (
-    <Nav activeKey={location.pathname}>
-      <Navbar.Brand className="me-auto mb-5">
-        <Nav.Link onClick={() => navigate("/")}>밥풀(pull)</Nav.Link>
+    <Nav
+      activeKey={location.pathname}
+      style={{
+        backgroundColor: "#FFEAA1",
+        height: "100px",
+        fontFamily: "Do Hyeon, sans-serif",
+      }}
+      className="mb-5"
+    >
+      <Navbar.Brand className="me-auto">
+        <Nav.Link
+          onClick={() => navigate("/")}
+          style={{
+            color: "#000000",
+            fontSize: "40px",
+          }}
+        >
+          <img src="img/bobpull.png" style={{ width: "80px" }} alt="밥풀" />
+          밥풀(pull)
+        </Nav.Link>
       </Navbar.Brand>
       {isLogin && (
         <>
-          <Nav.Item style={{ margin: "30px 20px 0 0" }}>
+          <Nav.Item style={{ margin: "30px 20px 0 0", fontSize: "20px" }}>
             <p>100톨</p>
           </Nav.Item>
           <Nav.Item style={{ margin: "20px 20px 0 0" }}>

@@ -8,6 +8,8 @@ import generateRandomPassword from "../utils/generate-random-password";
 import fs from "fs";
 import sharp from "sharp";
 import koreaNow from "../utils/korea-now";
+const { Sequelize } = require('sequelize'); 
+const { and, or, like, not } = Sequelize.Op;
 
 const userAuthRouter = Router();
 
@@ -187,6 +189,23 @@ userAuthRouter.get(
   }
 );
 
+/*** 유저 검색 ***/
+userAuthRouter.get(
+  '/userlist/search/:name',
+  login_required,
+  async function( req, res, next ) {
+    try {
+      const name = req.query.name;
+
+      const userlist = await userAuthService.searchUsers({ name });
+
+      res.status(200).send(userlist);
+    } catch (err) {
+      next(err);
+    }
+  }
+);
+
 userAuthRouter.get(
   "/user/current",
   login_required,
@@ -277,6 +296,7 @@ userAuthRouter.delete(
   }
 );
 
+
 /*******
 프로필 이미지 처리
 ********/
@@ -328,52 +348,47 @@ userAuthRouter.get(
 뱃지 구입
 ********/
 userAuthRouter.put(
-  "/buybadge/:badge_id",
+  "/buyBadge",
   login_required,
   async function (req, res, next) {
-    const user_id = req.currentUserId;
-    const badge_id = req.params.badge_id;
+    try {
+      const user_id = req.currentUserId;
+      const badge_id = 6;
 
-    const user = await userAuthService.getUserInfo({ user_id });
+      const user = await userAuthService.getUserInfo({ user_id });
 
-    if (user.errorMessage) {
-      throw new Error(user.errorMessage);
-    }
+      if (!user) {
+        throw new Error(user.errorMessage);
+      }
+      
+      let { tall } = user;
 
-    const { tall } = user;
+      /*** 뱃지 가격 ***/
+      const pullBadgePrice = 10;
+      const skillBadgePrice = 1;
 
-    /*** 뱃지 가격 ***/
-    const skillBadgePrice = 3;
-    const pullBadgePrice = 10;
-
-    switch (badge_id) {
-      case badge_id < 4:
-        if (tall >= skillBadgePrice) {
-          tall -= skillBadgePrice;
-        } else {
-          return res.status().send("톨이 부족합니다.");
-        }
-        break;
-      case badge_id >= 4:
+      if (badge_id < 4) {
         if (tall >= pullBadgePrice) {
           tall -= pullBadgePrice;
         } else {
-          return res.status().send("톨이 부족합니다.");
+          return res.status(403).send("톨이 부족합니다.");
         }
-        break;
-      default:
-        return res.status().send("유효하지 않는 badge id 입니다.") // 오류 번호 여쭤보기!!
-    }
+      } else {
+        if (tall >= skillBadgePrice) {
+          tall -= skillBadgePrice;
+        } else {
+          return res.status(403).send("톨이 부족합니다.");
+        }
+      }
 
-    const toUpdate = { tall };
+      const toUpdate = { tall };
 
-    const updatedUser = await userAuthService.setUser({ user_id, toUpdate });
-
-    if (updatedUser.errorMessage) {
-      throw new Error(updatedUser.errorMessage);
-    }
-
-    res.status(200).json(updatedUser);
+      const updatedUser = await userAuthService.setTall({ user_id, toUpdate });
+      
+      res.status(200).json(updatedUser);
+    } catch (err) {
+      next(err);
+    }  
   }
 );
 

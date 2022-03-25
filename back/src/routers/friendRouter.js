@@ -29,37 +29,18 @@ FriendRouter.post(
 });
 
 FriendRouter.get(
-  "/friends/:friend_id",
-  login_required,
-  async function (req, res, next) {
-    try {
-      const friend_id = req.params.friend_id;
-      const currentFriendInfo = await FriendService.getFriendInfo({ friend_id });
-
-      if (currentFriendInfo.errorMessage) {
-        throw new Error(currentFriendInfo.errorMessage);
-      }
-
-      res.status(200).redirect(`/users/${currentFriendInfo.id}`);
-    } catch (error) {
-      next(error);
-    }
-  }
-);
-
-FriendRouter.get(
   "/friendlist/:user_id",
   login_required,
   async function (req, res, next) {
     try {
       const user_id = req.params.user_id;
-      const currentFriendlist = await FriendService.getFriendlist({ user_id });
+      const friendlist = await FriendService.getFriendlist({ user_id });
 
-      if (currentFriendlist.errorMessage) {
-        throw new Error(currentFriendlist.errorMessage);
+      if (friendlist.errorMessage) {
+        throw new Error(friendlist.errorMessage);
       }
 
-      res.status(200).send(currentFriendlist);
+      res.status(200).send(friendlist);
     } catch (err) {
       next(err);
     }
@@ -78,7 +59,7 @@ FriendRouter.delete(
         throw new Error(deletedFriend.errorMessage);
       }
   
-      res.status(204).send();
+      res.status(204).send("삭제가 완료되었습니다.");
     } catch (err) {
       next(err);
     }

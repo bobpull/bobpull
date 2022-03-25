@@ -1,21 +1,20 @@
 import React, { useState, useRef, useContext } from "react";
 import { Button, Form, Card, Col, Row } from "react-bootstrap";
-import {ProfileContext} from "../../context/ProfileContext"
+import axios from "axios"
 import * as Api from "../../api";
 import "../../style/display.css";
 
 function UserEditForm({ user, setIsEditing, setUser }) {
-  const {profile, dispatch} = useContext(ProfileContext)
   const imgRef = useRef()
-  const [info, setInfo] = useState({
-    name: user.name,
-    email: user.email,
-    description: user.description
-  })
-  const [image, setImage] = useState({
-    id: user.id,
-    url: "http://placekitten.com/200/200"
-  })
+
+const [info, setInfo] = useState({
+  name: user.name,
+  email: user.email,
+  description: user.description,
+})
+  const [files, setFiles] = useState(user.profilePath)
+  const [image, setImage] = useState(user.profilePath)
+  
 
   const handleChange = (e) => {
       setInfo(cur => {
@@ -29,50 +28,66 @@ function UserEditForm({ user, setIsEditing, setUser }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try{
-      // userInfo
       const res = await Api.put(`users/${user.id}`, info);
       const updatedUser = res.data;
       setUser(updatedUser);
       setIsEditing(false);
-
-      // ProfileInfo
-      // await Api.put(`profile/${user.id}`,{toUpdate: image.url})
-      dispatch({type: "update-profile", payload: image})
     }catch(e){
       console.log(e)
     }
   };
 
-  const handleProfile = (e) => {
-    setImage(cur => {
-      const newImg = e.target.files
-      return{
-        ...cur, 
-        url: URL.createObjectURL(newImg[0])}
-    })
+  const submitProfile = async (e) => {
+    e.preventDefault()
+    try {
+      const formData = new FormData()
+      formData.append('img', files[0])
+     await axios.put(`http://localhost:5000/profile/${user.id}`, formData, {
+        headers: {
+          'Content-Type': "multipart/form-data",
+          Authorization: `Bearer ${sessionStorage.getItem("userToken")}`,
+        }
+      })
+    } catch(e){
+      console.log(e)
+    }
+  }
 
+  const handleProfile = (e) => {
+    const newFile = e.target.files
+    setFiles(newFile)
+    const reader = new FileReader();
+        reader.onload = () => {
+            if(reader.readyState === 2){
+                setImage(reader.result)
+            }
+        }
+        reader.readAsDataURL(e.target.files[0])
   }
 
   return (
     <Card className="mb-2">
       <Card.Body>
-        <Form onSubmit={handleSubmit}>
-        <Card.Img
+      <Card.Img
           ref={imgRef}
           style={{ width: "50px", height: "50px", borderRadius: "50%", marginRight: "10px", cursor: "pointer" }}
-          src={image.url}
+          src={image}
           alt="프로필 사진"
           onClick={() => {imgRef.current.click()}}
         />
+        <Button
+          onClick={submitProfile}
+        >확인</Button>
+      <Form onSubmit={handleSubmit}>
         <Form.Group controlId="useEditprofile" className="mb-3 ">
-        <Form.Control
-          style={{display: "none"}}
-          type="file"            
-          name="image"
-          ref={imgRef}
-          accept="image/jpg, image/jpeg, image/png"
-          onChange={handleProfile}
-        />
+          <Form.Control
+            style={{display: "none"}}
+            type="file"
+            name="image"
+            ref={imgRef}
+            accept="image/*"
+            onChange={handleProfile}
+          />
         </Form.Group>
         {/* 이름 변경 */}
         <Form.Group controlId="useEditName" className="mb-3">
@@ -90,7 +105,7 @@ function UserEditForm({ user, setIsEditing, setUser }) {
             type="email"
             name="email"
             placeholder="이메일"
-            value={info.email}
+            value={user.email}
             disabled={true}
             onChange={handleChange}
           />

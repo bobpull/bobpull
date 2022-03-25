@@ -22,7 +22,6 @@ class userAuthService {
 
     // db에 저장
     const createdNewUser = await User.create({ newUser });
-    console.log(createdNewUser);
     return createdNewUser;
   }
 
@@ -85,6 +84,11 @@ class userAuthService {
 
   static async getUsers() {
     const users = await User.findAll();
+    return users;
+  }
+
+  static async searchUsers({ name }) {
+    const users = await User.findUserName({ name });
     return users;
   }
 
@@ -228,6 +232,18 @@ class userAuthService {
     const profileImgURL = profileImgPath + profileImg;
 
     return profileImgURL;
+  }
+
+/*******
+뱃지 구입
+********/
+  static async setTall({ user_id, toUpdate }) {
+    const fieldToUpdate = "tall";
+    const newValue = toUpdate.tall;
+    
+    const user = await User.update({ user_id, fieldToUpdate, newValue });
+    
+    return user;
   }
 }
 
