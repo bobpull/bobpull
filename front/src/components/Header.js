@@ -1,10 +1,13 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Nav, Dropdown, Navbar } from "react-bootstrap";
 import { UserStateContext, DispatchContext } from "../App";
+import * as Api from "../api";
 import "../style/header.css";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
+
+import { TallContext } from "../context/TallContext";
 
 function Header() {
   const navigate = useNavigate();
@@ -12,9 +15,16 @@ function Header() {
 
   const userState = useContext(UserStateContext);
   const dispatch = useContext(DispatchContext);
+  const { tall, setTall } = useContext(TallContext);
 
   // 전역상태에서 user가 null이 아니라면 로그인 성공 상태임.
   const isLogin = !!userState.user;
+
+  useEffect(() => {
+    if (userState.user) {
+      setTall(userState.user.tall);
+    }
+  }, [userState]);
 
   // 로그아웃 클릭 시 실행되는 함수
   const logout = () => {
@@ -75,7 +85,7 @@ function Header() {
       {isLogin && (
         <>
           <Nav.Item style={{ margin: "30px 20px 0 0", fontSize: "20px" }}>
-            <p>100톨</p>
+            <p>{tall} 톨</p>
           </Nav.Item>
           <Nav.Item style={{ margin: "20px 20px 0 0" }}>
             <Dropdown>

@@ -6,12 +6,15 @@ import "react-datepicker/dist/react-datepicker.css";
 
 // import { ProfileProvider } from "./context/ProfileContext";
 import { FriendListProvider } from "./context/FriendListContext";
+import { TallProvider } from "./context/TallContext";
 
 ReactDOM.render(
   <React.StrictMode>
     {/* <ProfileProvider> */}
     <FriendListProvider>
-      <App />
+      <TallProvider>
+        <App />
+      </TallProvider>
     </FriendListProvider>
     {/* </ProfileProvider> */}
   </React.StrictMode>,
