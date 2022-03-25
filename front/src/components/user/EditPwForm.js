@@ -1,4 +1,4 @@
-import { useState, useContext, useRef, useEffect } from "react";
+import { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserStateContext } from "../../App";
 import { Container, Form, Row, Button } from "react-bootstrap";
@@ -13,14 +13,13 @@ function PasswordEdit() {
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmNewPW, setConfirmNewPW] = useState("");
-
-  const errorRef = useRef();
+  const [errorText, setErrorText] = useState("");
 
   useEffect(() => {
     if (!isPasswordValid && newPassword.length > 0) {
-      errorRef.current.innerText = "비밀번호는 4글자 이상으로 설정해 주세요.";
+      setErrorText("비밀번호는 4글자 이상으로 설정해 주세요.");
     } else {
-      errorRef.current.innerText = "";
+      setErrorText("");
     }
   }, [newPassword]);
 
@@ -77,7 +76,7 @@ function PasswordEdit() {
               placeholder="새 비밀번호"
               style={{ height: "43px" }}
             />
-            <Form.Text ref={errorRef} className="text-success"></Form.Text>
+            <Form.Text className="text-success">{errorText}</Form.Text>
           </Form.Group>
           <Form.Group controlId="confirmNewPassword">
             <Form.Control
