@@ -32,7 +32,7 @@ class User {
   }
 
   static async findUserName({ name }) {
-    const searchedUsers = await UserModel.find({ name: { $in: [ /^ac/i, /^ab/ ] } });
+    const searchedUsers = await UserModel.find(replace(regexOne, '___'));
     return searchedUsers;
   }
 
