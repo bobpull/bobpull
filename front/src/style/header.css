@@ -1,0 +1,16 @@
+.myMenu:after {
+  display: none !important;
+}
+
+.searchBar {
+  width: 300px;
+  border-right: none;
+  border-radius: 0.25rem 0 0 0.25rem;
+}
+
+.searchButton {
+  background: none;
+  border-color: #ced4da;
+  border-left: none;
+  border-radius: 0 0.25rem 0.25rem 0;
+}

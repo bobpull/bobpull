@@ -1,8 +1,8 @@
 import React, { useContext } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { Nav, Dropdown } from "react-bootstrap";
+import { Nav, Dropdown, Navbar } from "react-bootstrap";
 import { UserStateContext, DispatchContext } from "../App";
-import "../style/menu.css";
+import "../style/header.css";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 
@@ -52,13 +52,16 @@ function Header() {
 
   return (
     <Nav activeKey={location.pathname}>
-      <Nav.Item className="me-auto mb-5">
-        <Nav.Link disabled>안녕하세요, 포트폴리오 공유 서비스입니다.</Nav.Link>
-      </Nav.Item>
+      <Navbar.Brand className="me-auto mb-5">
+        <Nav.Link onClick={() => navigate("/")}>밥풀(pull)</Nav.Link>
+      </Navbar.Brand>
       {isLogin && (
         <>
-          <Nav.Item>
-            <Dropdown style={{ margin: "20px 120px 0 0" }}>
+          <Nav.Item style={{ margin: "30px 20px 0 0" }}>
+            <p>100톨</p>
+          </Nav.Item>
+          <Nav.Item style={{ margin: "20px 20px 0 0" }}>
+            <Dropdown>
               <Dropdown.Toggle
                 id="dropdown-autoclose-true"
                 variant="secondary"
