@@ -7,7 +7,6 @@ import EducationEditForm from "./EducationEditForm";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 
-
 function EducationCard({ id, isEditable, school, major, degree }) {
   const [isEditing, setIsEditing] = useState(false);
   const { setEducations } = useContext(EducationsContext);
@@ -53,8 +52,8 @@ function EducationCard({ id, isEditable, school, major, degree }) {
         </Row>
       ) : (
         <Card.Text>
-          <Row>
-            <Col>
+          <Row className="justify-content-lg-around">
+            <Col className="col-sm-9 col-md-9 col-lg-9 col-xl-9">
               <span>{school}</span>
               <br />
               <span className="text-muted">
@@ -63,20 +62,17 @@ function EducationCard({ id, isEditable, school, major, degree }) {
             </Col>
 
             {isEditable && (
-              <Col lg="1">
+              <Col className="p-0 col-sm-3 col-md-3 col-lg-3 col-xl-3 text-center">
                 <Button
+                  className="mx-3"
                   variant="outline-info"
                   size="sm"
                   onClick={() => setIsEditing(true)}
                 >
                   편집
                 </Button>
-              </Col>
-            )}
-
-            {isEditable && (
-              <Col lg="1">
                 <Button
+                  className="mx-1"
                   variant="outline-danger"
                   size="sm"
                   onClick={handleClick}

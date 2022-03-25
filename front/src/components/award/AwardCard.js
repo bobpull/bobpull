@@ -52,28 +52,25 @@ function AwardCard({ id, isEditable, title, description }) {
         </Row>
       ) : (
         <Card.Text>
-          <Row>
-            <Col>
+          <Row className="justify-content-lg-around">
+            <Col className="col-sm-9 col-md-9 col-lg-9 col-xl-9">
               <span>{title}</span>
               <br />
               <span className="text-muted">{description}</span>
             </Col>
 
             {isEditable && (
-              <Col lg="1">
+              <Col className="p-0 col-sm-3 col-md-3 col-lg-3 col-xl-3 text-center">
                 <Button
+                  className="mx-3"
                   variant="outline-info"
                   size="sm"
                   onClick={() => setIsEditing(true)}
                 >
                   편집
                 </Button>
-              </Col>
-            )}
-
-            {isEditable && (
-              <Col lg="1">
                 <Button
+                  className="mx-1"
                   variant="outline-danger"
                   size="sm"
                   onClick={handleClick}
