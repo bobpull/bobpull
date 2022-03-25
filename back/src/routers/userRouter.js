@@ -266,7 +266,7 @@ userAuthRouter.put(
 
 userAuthRouter.get(
   '/profileImg/:user_id',
-  login_require,
+  login_required,
   async function(req, res, next){
     try{
       const user_id = req.params.user_id;
