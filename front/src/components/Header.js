@@ -56,13 +56,30 @@ function Header() {
   };
 
   return (
-    <Nav activeKey={location.pathname}>
-      <Navbar.Brand className="me-auto mb-5">
-        <Nav.Link onClick={() => navigate("/")}>밥풀(pull)</Nav.Link>
+    <Nav
+      activeKey={location.pathname}
+      style={{
+        backgroundColor: "#FFEAA1",
+        height: "100px",
+        fontFamily: "Do Hyeon, sans-serif",
+      }}
+      className="mb-5"
+    >
+      <Navbar.Brand className="me-auto">
+        <Nav.Link
+          onClick={() => navigate("/")}
+          style={{
+            color: "#000000",
+            fontSize: "40px",
+          }}
+        >
+          <img src="img/bobpull.png" style={{ width: "80px" }} alt="밥풀" />
+          밥풀(pull)
+        </Nav.Link>
       </Navbar.Brand>
       {isLogin && (
         <>
-          <Nav.Item style={{ margin: "30px 20px 0 0" }}>
+          <Nav.Item style={{ margin: "30px 20px 0 0", fontSize: "20px" }}>
             <p>100톨</p>
           </Nav.Item>
           <Nav.Item style={{ margin: "20px 20px 0 0" }}>

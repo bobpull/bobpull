@@ -14,3 +14,13 @@
   border-left: none;
   border-radius: 0 0.25rem 0.25rem 0;
 }
+
+@font-face {
+  font-family: "Black Han Sans";
+  src: url("../../public/fonts/BlackHanSans-Regular.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Do Hyeon";
+  src: url("../../public/fonts/DoHyeon-Regular.ttf") format("truetype");
+}
