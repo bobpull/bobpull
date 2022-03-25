@@ -1,11 +1,13 @@
 import is from "@sindresorhus/is";
 import { Router } from "express";
 import { login_required } from "../middlewares/login_required";
-import {upload} from '../middlewares/multerMiddleware';
 import { userAuthService } from "../services/userService";
+import { upload } from '../middlewares/uploadProfileImg';
 import sendMail from "../utils/send-mail";
 import generateRandomPassword from "../utils/generate-random-password";
-// import bcrypt from "bcrypt";
+import fs from "fs";
+import sharp from "sharp";
+import koreaNow from "../utils/korea-now";
 
 const userAuthRouter = Router();
 
@@ -146,7 +148,26 @@ userAuthRouter.post("/user/login", async function (req, res, next) {
       throw new Error(user.errorMessage);
     }
 
-    res.status(200).send(user);
+    // 출석 체크 (tall 하나 추가)
+    const beforeLoginedAt = user.loginedAt;
+    let tall = user.tall;
+    console.log("조건문 전 tall:", tall);
+    if (beforeLoginedAt < koreaNow()) {  
+      tall += 1;
+    }
+    console.log("조건문 후 tall:", tall);
+    const user_id = user.id;
+    const loginedAt = koreaNow();
+    const toUpdate = { loginedAt, tall };
+
+    // 해당 사용자 아이디로 사용자 정보를 db에서 찾아 최근 접속시간을 업데이트
+    const updatedUser = await userAuthService.setUser({ user_id, toUpdate });
+
+    if (updatedUser.errorMessage) {
+      throw new Error(updatedUser.errorMessage);
+    }
+
+    res.status(200).send(updatedUser);
   } catch (err) {
     next(err);
   }
@@ -199,8 +220,10 @@ userAuthRouter.put(
       const name = req.body.name ?? null;
       const password = req.body.password ?? null;
       const description = req.body.description ?? null;
+      const loginedAt = req.body.loginedAt ?? null;
+      const tall = req.body.tall ?? null;
 
-      const toUpdate = { name, password, description };
+      const toUpdate = { name, password, description, loginedAt, tall };
 
       // 해당 사용자 아이디로 사용자 정보를 db에서 찾아 업데이트함. 업데이트 요소가 없을 시 생략함
       const updatedUser = await userAuthService.setUser({ user_id, toUpdate });
@@ -255,15 +278,29 @@ userAuthRouter.delete(
 );
 
 userAuthRouter.put(
-  "/profile/:user_id", 
+  '/profile/:user_id',
   upload.single("img"),
-  async function (req, res, next) {
-    try {
-
-      const user_id = req.params.user_id;
-      const toUpdate = req.file.path;
+  async function (req, res, next){
+    try{
+      sharp(req.file.path) 
+      .resize({ width: 400 }) 
+      .withMetadata()
+      .toBuffer((err, buffer) => {
+        if (err) throw err;
+        fs.writeFile(req.file.path, buffer, (err) => {
+          if (err) throw err;
+        });
+      });
       
-      const uploadedImg = await userAuthService.setProfileImg({ user_id, toUpdate });
+      const user_id = req.params.user_id;  
+      const profileImg = req.file.filename;
+      const profilePath = "http://localhost:5000/profileImg/" + profileImg;
+      const toUpdate = {    
+        profileImg,
+        profilePath
+      };
+      const uploadedImg = await userAuthService.setProfile({ user_id, toUpdate });
+      
       res.status(200).json(uploadedImg);
     } catch (err) {
       next(err);
@@ -274,16 +311,15 @@ userAuthRouter.put(
 userAuthRouter.get(
   '/profile/:user_id',
   async function(req, res, next){
-    try{
+    try {
       const user_id = req.params.user_id;
       const profileImg = await userAuthService.getProfileImg({ user_id });
       res.send(profileImg);
-    }catch(err){
+    } catch (err) {
       next(err);
     }
   }
 );
-
 
 // jwt 토큰 기능 확인용, 삭제해도 되는 라우터임.
 userAuthRouter.get("/afterlogin", login_required, function (req, res, next) {

@@ -2,8 +2,10 @@ import is from "@sindresorhus/is";
 import { Router } from "express";
 import { login_required } from "../middlewares/login_required";
 import { TallService } from "../services/tallService";
-
 const TallRouter = Router();
+
+const skillBadgePrice = 3;
+const pullBadgePrice = 10;
 
 TallRouter.post(
   "/tall/create",
@@ -11,8 +13,8 @@ TallRouter.post(
   async function (req, res, next) {
   try {
     const user_id = req.currentUserId;
-  
-    // 위 데이터를 프로젝트 db에 추가하기
+
+    // 위 데이터를 톨 db에 추가하기
     const newTall = await TallService.addTall({
       user_id,
     });
@@ -55,16 +57,29 @@ TallRouter.put(
       // URI, body data 로부터 업데이트할 프로젝트 정보를 추출함.
       const user_id = req.currentUserId;
       let condition = req.params.case;
+      const tall = await TallService.getTallInfo({ user_id });
 
       switch(condition) {
-          case "add":
-              
-          case "minus":
+        case "skillBadge":
+          if (tall >= skillBadgePrice) {
+            tall -= skillBadgePrice;
+          }
+          break;
+        case "pullBadge":
+          if (tall >= pullBadgePrice) {
+            tall -= pullBadgePrice;
+          }
+          break;
+        case "dailyCheck":
+          // 출석 체크하는 함수 만들기
+          break;
+        default: 
+          res.status(400).send("잔액이 부족하거나 올바르지 않은 case 입니다.");
       }
   
-      const toUpdate = { toUpdate };
+      const toUpdate = { tall };
   
-      // 해당 프로젝트 아이디로 프로젝트 정보를 db에서 찾아 업데이트함. 업데이트 요소가 없을 시 생략함
+      // 해당 아이디로 톨 정보를 db에서 찾아 업데이트함. 업데이트 요소가 없을 시 생략함
       const updatedTall = await TallService.setTall({ user_id, toUpdate });
   
       if (updatedTall.errorMessage) {

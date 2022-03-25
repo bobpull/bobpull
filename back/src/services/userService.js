@@ -61,6 +61,8 @@ class userAuthService {
     const id = user.id;
     const name = user.name;
     const description = user.description;
+    const tall = user.tall;
+    const loginedAt = user.loginedAt;
 
     const loginUser = {
       token,
@@ -69,6 +71,8 @@ class userAuthService {
       name,
       description,
       errorMessage: null,
+      tall,
+      loginedAt
     };
 
     return loginUser;
@@ -116,6 +120,18 @@ class userAuthService {
       user = await User.update({ user_id, fieldToUpdate, newValue });
     }
 
+    if (toUpdate.loginedAt) {
+      const fieldToUpdate = "loginedAt";
+      const newValue = toUpdate.loginedAt;
+      user = await User.update({ user_id, fieldToUpdate, newValue });
+    }
+
+    if (toUpdate.tall) {
+      const fieldToUpdate = "tall";
+      const newValue = toUpdate.tall;
+      user = await User.update({ user_id, fieldToUpdate, newValue });
+    }
+    
     return user;
   }
   
@@ -162,37 +178,57 @@ class userAuthService {
     if (!isPasswordCorrect) {
       const errorMessage =
         "비밀번호를 다시 한 번 확인해 주세요.";
-      return {errorMessage};
+      return { errorMessage };
     }
     return true;
   }
 
-  static async getProfileImg({ user_id }){
-
-    let user = await User.findById({ user_id });
+  static async setProfile({ user_id, toUpdate }) {
+    const user = await User.findById({ user_id });
 
     if (!user) {
       const errorMessage =
-        "해당 유저가 존재하지 않습니다.";
+      "해당 유저가 존재하지 않습니다.";
       return { errorMessage };
     }
 
-    const profileImg = await User.findImgById({ user_id });
+    const pullKeys = Object.keys(toUpdate);
+
+    for (let i = 0; i < pullKeys.length; i++) {
+      if (toUpdate[pullKeys[i]] !== null) {
+        const fieldToUpdate = pullKeys[i];
+        const newValue = toUpdate[pullKeys[i]];
+        user = await User.update({
+          user_id,
+          fieldToUpdate,
+          newValue,
+        });
+      }
+    }
+    return user;
+  };
+
+  static async getProfileImg({ user_id }) {
+    const user = await User.findById({ user_id });
+
+    if (!user) {
+      const errorMessage =
+        '해당 이메일은 가입 내역이 없습니다. 다시 한 번 확인해 주세요.';
+      return { errorMessage };
+    }
+
+    const profileImg = await User.findProfileById({ user_id });
     if (!profileImg) {
       const errorMessage =
-        '프로필 이미지가 없습니다.';
+        '프로필 이미지가 존재하지 않습니다.';
       return { errorMessage };
     }
 
-    const profileImgsPath = "http://localhost:5001/src/uploads/profile_img"
-    const profileImgURL = profileImgsPath+ profileImg;
-
+    const profileImgPath = "http://localhost:5000/profileImg/";
+    const profileImgURL = profileImgPath + profileImg;
 
     return profileImgURL;
-
   }
-
-
 }
 
 export { userAuthService };
