@@ -1,6 +1,9 @@
 .titile {
+  font-weight: bold;
   font-size: 1rem;
+  margin: 0;
 }
 .text {
   font-size: 0.9rem;
+  margin: 0;
 }
