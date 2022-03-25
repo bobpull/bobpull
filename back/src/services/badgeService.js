@@ -2,10 +2,10 @@ import { Badge } from "../db";
 import { v4 as uuidv4 } from "uuid";
 
 class BadgeService {
-  static async addBadge({ user_id, title, price, have }) {
+  static async addBadge({ user_id, url, name, description, have }) {
 
     const id = uuidv4();
-    const newBadge = { id, user_id, title, price, have };
+    const newBadge = { id, user_id, url, name, description, have };
 
     // db에 저장
     const createdNewBadge = await Badge.create({ newBadge });
@@ -37,23 +37,26 @@ class BadgeService {
       return { errorMessage };
     }
 
-    const title = toUpdate.title;
+    const name = toUpdate.name;
     const price = toUpdate.price;
     const description = toUpdate.description;
     const have = toUpdate.have;
+    const url = toUpdate.url;
 
-    if (title && price && description) {
-      const fieldToUpdateTitle = "title";
+    if (name && price && description && url) {
+      const fieldToUpdateName = "name";
       const fieldToUpdatePrice = "price";
       const fieldToUpdateDescription = "description";
       const fieldToUpdateHave = "have";
+      const fieldToUpdateUrl = "url";
       badge = await Badge.update(
         id,
         {
-          [fieldToUpdateTitle]: title,
+          [fieldToUpdateName]: name,
           [fieldToUpdatePrice]: price,
           [fieldToUpdateDescription]: description,
           [fieldToUpdateHave]: have,
+          [fieldToUpdateUrl]: url,
         }
       );
     }
@@ -80,7 +83,7 @@ class BadgeService {
     // db에서 찾지 못한 경우, 에러 메시지 반환
     if (!badge || badge === null) {
       const errorMessage =
-      "수상 이력이 없습니다. 다시 한 번 확인해 주세요.";
+      "뱃지가 없습니다. 다시 한 번 확인해 주세요."
       return { errorMessage };
     }
     await Badge.deleteById({ id });
