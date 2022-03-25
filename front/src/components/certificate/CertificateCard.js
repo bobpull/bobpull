@@ -43,8 +43,8 @@ function CertificateCard({ certificate, isEditable }) {
       {!isEditing ? (
         <>
           <Card.Text>
-            <Row className="align-itmes-center">
-              <Col>
+            <Row className="justify-content-lg-around">
+              <Col className="col-sm-9 col-md-9 col-lg-9 col-xl-9">
                 {certificate.title}
                 <br />
                 <span className="text-muted">{certificate.description}</span>
@@ -53,9 +53,9 @@ function CertificateCard({ certificate, isEditable }) {
               </Col>
               {isEditable && (
                 <>
-                  <Col className="col-lg-1">
+                  <Col className="p-0 col-sm-3 col-md-3 col-lg-3 col-xl-3 text-center">
                     <Button
-                      className="mr-3"
+                      className="mx-3"
                       variant="outline-info"
                       size="sm"
                       onClick={() => {
@@ -65,7 +65,6 @@ function CertificateCard({ certificate, isEditable }) {
                       편집
                     </Button>
                     <Button
-                      className="mr-3"
                       variant="outline-danger"
                       size="sm"
                       onClick={handleClick}

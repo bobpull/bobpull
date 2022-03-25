@@ -72,7 +72,6 @@ function EducationCard({ id, isEditable, school, major, degree }) {
                   편집
                 </Button>
                 <Button
-                  className="mx-1"
                   variant="outline-danger"
                   size="sm"
                   onClick={handleClick}
