@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { Nav, Dropdown, Navbar } from "react-bootstrap";
 import { UserStateContext, DispatchContext } from "../App";
 import "../style/header.css";
+import "../style/display.css"
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { FriendListContext } from "../context/FriendListContext";
@@ -62,15 +63,17 @@ function Header() {
         backgroundColor: "#FFEAA1",
         height: "100px",
         fontFamily: "Do Hyeon, sans-serif",
+        padding: "0 20px"
       }}
-      className="mb-5"
+      className="mb-5 between"
     >
       <Navbar.Brand className="me-auto">
         <Nav.Link
           onClick={() => navigate("/")}
           style={{
             color: "#000000",
-            fontSize: "40px",
+            fontSize: "35px",
+            padding: "0"
           }}
         >
           <img src="img/bobpull.png" style={{ width: "80px" }} alt="밥풀" />
@@ -78,11 +81,11 @@ function Header() {
         </Nav.Link>
       </Navbar.Brand>
       {isLogin && (
-        <>
-          <Nav.Item style={{ margin: "30px 20px 0 0", fontSize: "20px" }}>
-            <p>100톨</p>
+        <div className="between">
+          <Nav.Item style={{ fontSize: "20px" }}>
+            <p style={{ margin: 0}}>100톨</p>
           </Nav.Item>
-          <Nav.Item style={{ margin: "20px 20px 0 0" }}>
+          <Nav.Item style={{marginLeft: "14px"}}>
             <Dropdown>
               <Dropdown.Toggle
                 id="dropdown-autoclose-true"
@@ -119,7 +122,7 @@ function Header() {
               </Dropdown.Menu>
             </Dropdown>
           </Nav.Item>
-        </>
+        </div>
       )}
     </Nav>
   );
