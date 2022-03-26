@@ -16,7 +16,7 @@ const BadgeSchema = new Schema(
     },
     price: {
       type: Number,
-      required: false,
+      required: true,
       default: 3,
     },
     url: {
@@ -26,7 +26,8 @@ const BadgeSchema = new Schema(
   },
   {
     timestamps: true,
-  }
+  },
+  { typeKey: '$type' },
 );
 
 const BadgeModel = model("Badge", BadgeSchema);

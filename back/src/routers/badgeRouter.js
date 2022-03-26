@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { login_required } from "../middlewares/login_required";
 import { BadgeService } from "../services/badgeService";
+import is from "@sindresorhus/is";
 
 const BadgeRouter = Router();
 
@@ -17,42 +18,55 @@ BadgeRouter.post(
           "필수 파라미터가 존재하지 않습니다."
         );
       }
-    const user_id = req.currentUserId;
-    let id = req.params.id;
-    let name;
-    let price;
-    let url;
-  
-    for (let i = 0; i < 23; i++) {
-      if (i === id) {
-        name = badgeName[i];
-        if (i < 5) {
-          price = 10;
-        } else {
-          price = 3;
+
+      const user_id = req.currentUserId;
+      let id = req.params.id;
+      let name = "";
+      let price = 0;
+      let url = "";
+    
+      for (let i = 0; i < 23; i++) {
+        if (i === id) {
+          name = badgeName[i];
+          if (i < 5) {
+            price = 10;
+          } else {
+            price = 3;
+          }
+          url = "https://bobpullbucket.s3.ap-northeast-2.amazonaws.com/language/" + badgeUrlList[i];
         }
-        url = "https://bobpullbucket.s3.ap-northeast-2.amazonaws.com/language/" + badgeUrlList[i];
       }
-    }
-  
-    // 위 데이터를 뱃지 db에 추가하기
-    const newBadge = await BadgeService.addBadge({
-      id,
-      user_id,
-      name,
-      price,
-      url
-    });
-  
-    if (newBadge.errorMessage) {
-      throw new Error(newBadge.errorMessage);
-    }
-  
+    
+      switch (id) {
+        case 1:
+          price = 2;
+          console.log(price);
+          name = "3";
+          url = "2";
+      }
+      // const {a} = {} 
+      // name = 3;
+      // url = "2";
+      // price = 2;
+
+      // 위 데이터를 뱃지 db에 추가하기
+      const newBadge = await BadgeService.addBadge({
+        id,
+        user_id,
+        name,
+        price,
+        url
+      });
+    
+      if (newBadge.errorMessage) {
+        throw new Error(newBadge.errorMessage);
+      }
+    
       res.status(201).json(newBadge);
     } catch (err) {
       next(err);
     }
-  } 
+  }
 );
 
 BadgeRouter.get(
