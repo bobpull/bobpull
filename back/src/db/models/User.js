@@ -32,8 +32,7 @@ class User {
   }
 
   static async findUserName({ name }) {
-    let regexOne = new RegExp(name)
-    const searchedUsers = await UserModel.find(replace(regexOne, '___'));
+    const searchedUsers = await UserModel.find({$text: { $search: `${name}` }});
     return searchedUsers;
   }
 

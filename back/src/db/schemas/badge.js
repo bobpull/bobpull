@@ -1,7 +1,6 @@
 import { Schema, model } from "mongoose";
 
 const BadgeSchema = new Schema(
-  
   {
     id: {
       type: String,
@@ -9,30 +8,26 @@ const BadgeSchema = new Schema(
     },
     user_id: {
       type: String,
-      required: false,
+      required: true,
     },
-    title: {
+    name: {
       type: String,
       required: true,
     },
     price: {
       type: Number,
       required: true,
+      default: 3,
     },
-    description: {
+    url: {
       type: String,
       required: true,
-      default: "새로운 뱃지",
-    },
-    have: {
-      type: Boolean,
-      required: true,
-      default: true,
     }
   },
   {
     timestamps: true,
-  }
+  },
+  { typeKey: '$type' },
 );
 
 const BadgeModel = model("Badge", BadgeSchema);

@@ -89,6 +89,7 @@ class userAuthService {
 
   static async searchUsers({ name }) {
     const users = await User.findUserName({ name });
+    console.log("서비스윽 : ", name);
     return users;
   }
 
@@ -136,11 +137,12 @@ class userAuthService {
       user = await User.update({ user_id, fieldToUpdate, newValue });
     }
     
+    console.log("서비스윽 : ", user);
     return user;
   }
   
   static async getUserInfo({ user_id }) {
-    const user = await User.findById({ user_id });
+    let user = await User.findById({ user_id });
 
     // db에서 찾지 못한 경우, 에러 메시지 반환
     if (!user) {
@@ -153,7 +155,7 @@ class userAuthService {
   }
 
   static async deleteUser({ user_id }) {
-    const user = await User.findById({ user_id });
+    let user = await User.findById({ user_id });
 
     // db에서 찾지 못한 경우, 에러 메시지 반환
     if (!user || user === null) {
@@ -187,6 +189,9 @@ class userAuthService {
     return true;
   }
 
+/*******
+* 프로필 이미지 처리 
+*******/
   static async setProfile({ user_id, toUpdate }) {
     let user = await User.findById({ user_id });
 
