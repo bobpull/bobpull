@@ -28,7 +28,23 @@
   border-radius: 9999px;
   box-shadow: var(--tw-ring-offset-shadow,0 0 #0000),var(--tw-ring-shadow,0 0 #0000),var(--tw-shadow);
   border: 0 solid #e5e7eb;
+  
 }
+
+.spinAni{
+  animation: spin 500ms backwards;
+}
+
+@keyframes spin {
+  from {
+    transform:rotate(0deg);
+  }
+  to{
+    transform:rotate(360deg);
+  }
+}
+
+
 
 .colBox {
   position: relative;

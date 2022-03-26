@@ -7,116 +7,126 @@ import BadgeLock from "./BadgeLock"
 
 const imgUrl = [
   {
-    url: "img/clean-code.png",
+    url: `${process.env.PUBLIC_URL}/img/clean-code.png`,
     name: "clean-code",
+    isOpen: false
   },
   {
-    url: "img/css3.png",
+    url: `${process.env.PUBLIC_URL}/img/css3.png`,
     name: "css3",
+    isOpen: false
   },
   {
-    url: "img/dj.png",
+    url: `${process.env.PUBLIC_URL}/img/dj.png`,
     name: "dj",
+    isOpen: false
   },
   {
-    url: "img/es6.png",
+    url: `${process.env.PUBLIC_URL}/img/es6.png`,
     name: "es6",
+    isOpen: false
   },
   {
-    url:"img/Graph_QL.png",
+    url: `${process.env.PUBLIC_URL}/img/Graph_QL.png`,
     name: "Graph_QL",
+    isOpen: false
   },
   {
-    url: "img/grid.png",
+    url: `${process.env.PUBLIC_URL}/img/grid.png`,
     name: "grid",
+    isOpen: false
   },
   {
-    url: "img/html5.png",
+    url: `${process.env.PUBLIC_URL}/img/html5.png`,
     name: "html5",
+    isOpen: false
   },
   {
-    url: "img/JS.png",
+    url: `${process.env.PUBLIC_URL}/img/JS.png`,
     name: "JS",
+    isOpen: false
   },
   {
-    url: "img/MongoDB.png",
+    url: `${process.env.PUBLIC_URL}/img/MongoDB.png`,
     name: "MongoDB",
+    isOpen: true
   },
   {
-    url: "img/Nest_JS.png",
+    url: `${process.env.PUBLIC_URL}/img/Nest_JS.png`,
     name: "Nest_JS",
+    isOpen: false
   },
   {
-    url: "img/nodejs.png",
+    url: `${process.env.PUBLIC_URL}/img/nodejs.png`,
     name: "nodejs",
+    isOpen: false
   },
   {
-    url: "img/Pug.png",
+    url: `${process.env.PUBLIC_URL}/img/Pug.png`,
     name: "Pug",
+    isOpen: false
   },
   {
-    url: "img/python.png",
+    url: `${process.env.PUBLIC_URL}/img/python.png`,
     name: "python",
+    isOpen: false
   },
   {
-    url: "img/React_Native.png",
+    url: `${process.env.PUBLIC_URL}/img/React_Native.png`,
     name: "clean-React_Native",
+    isOpen: false
   },
   {
-    url: "img/React.png",
+    url: `${process.env.PUBLIC_URL}/img/React.png`,
     name: "React",
+    isOpen: false
   },
   {
-    url: "img/socketio.png",
+    url: `${process.env.PUBLIC_URL}/img/socketio.png`,
     name: "socketio",
+    isOpen: false
   },
   {
-    url: "img/typescript.png",
+    url: `${process.env.PUBLIC_URL}/img/typescript.png`,
     name: "typescript",
+    isOpen: false
   },
   {
-    url: "img/websockets.png",
+    url: `${process.env.PUBLIC_URL}/img/websockets.png`,
     name: "websockets",
+    isOpen: false
   },
 ]
 
 const Skill = ({portfolioOwnerId, isEditable}) => {
   const imgRef = useRef()
   const [badges, setBadges] = useState([]);
+  // setBadges([...imgUrl])
+  console.log(badges)
 
-  useEffect(() => {
-    const fetchAPI = async () => {
-      const res = await Api.get("badgelist", portfolioOwnerId)
-      setBadges(res.data)
-      
-    }
-    fetchAPI()
-  }, [portfolioOwnerId])
+  // useEffect(() => {
+  //   const fetchAPI = async () => {
+  //     const res = await Api.get("badgelist", portfolioOwnerId)
+  //     setBadges(res.data)
+  //   }
+  //   fetchAPI()
+  // }, [portfolioOwnerId])
 
-  const openBadge = async (e) => {
-    /*
-    const res = await Api.post("bedge/create", {
-      user_id: portfolioOwnerId
-      title: e.target.name,
-      price: 3 or 10,
-      have: true,
-    })
-    
-     */
+  const openBadge = async (bedge) => {
   }
 
   return <Card className="mb-3">
     <Card.Body>
       <Row xs="4" sm="5" md="6" lg="5" className="jusify-content-center">
         {imgUrl.map((bedge, index) => (
-          <Col className="mb-3 col-center colBox">
+          <Col className="mb-3 col-center colBox"  onClick={openBadge}>
             <Card.Img
-              className={badges.isOpen ? "cardImg" : "cardImg opacity"}
+              className={bedge.isOpen ? "cardImg spinAni" : "cardImg opacity"}
               src={bedge.url}
               ref={imgRef}
-              isClick={openBadge}
+             
             />
-            {!badges.isOpen && <BadgeLock/>}
+            {!bedge.isOpen && <BadgeLock/>}
             <Badge pill bg="light" text="dark">
               {bedge.name}
             </Badge>
