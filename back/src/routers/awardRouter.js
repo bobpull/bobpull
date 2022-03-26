@@ -5,6 +5,7 @@ import { AwardService } from "../services/awardService";
 
 const AwardRouter = Router();
 
+/*** 수상 내역 작성 ***/
 AwardRouter.post(
   "/award/create",
   login_required,
@@ -38,6 +39,7 @@ AwardRouter.post(
   }
 );
 
+/*** 선택한 수상 내역 조회 ***/
 AwardRouter.get(
   "/awards/:id",
   login_required,
@@ -57,6 +59,7 @@ AwardRouter.get(
   }
 );
 
+/*** 해당 id를 가진 수상 내역 수정 ***/
 AwardRouter.put(
   "/awards/:id",
   login_required,
@@ -81,6 +84,7 @@ AwardRouter.put(
   }
 );
 
+/*** user의 수상 리스트 조회 ***/
 AwardRouter.get(
   "/awardlist/:user_id",
   login_required,
@@ -100,6 +104,7 @@ AwardRouter.get(
   }
 );
 
+/*** 해당 id인 수상 내역 삭제 ***/
 AwardRouter.delete(
   "/awards/:id",
   login_required,

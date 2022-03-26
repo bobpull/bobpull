@@ -5,6 +5,7 @@ import { CertificateService } from "../services/certificateService";
 
 const CertificateRouter = Router();
 
+/*** 자격증 생성 ***/
 CertificateRouter.post(
   "/certificate/create",
   login_required,
@@ -38,6 +39,7 @@ CertificateRouter.post(
   }
 );
 
+/*** 선택한 자격증 조회 ***/
 CertificateRouter.get(
   "/certificates/:id",
   login_required,
@@ -58,6 +60,7 @@ CertificateRouter.get(
   }
 );
 
+/*** user의 자격증 리스트 조회 ***/
 CertificateRouter.put(
   "/certificates/:id",
   login_required,
@@ -90,6 +93,7 @@ CertificateRouter.put(
   }
 );
 
+/*** 선택한 자격증 수정 ***/
 CertificateRouter.get(
   "/certificatelist/:user_id",
   login_required,
@@ -110,6 +114,7 @@ CertificateRouter.get(
   }
 );
 
+/*** 선택한 자격증 삭제 ***/
 CertificateRouter.delete(
   "/certificates/:id",
   login_required,

@@ -5,6 +5,7 @@ import { EducationService } from "../services/educationService";
 
 const EducationRouter = Router();
 
+/*** 학력 작성 ***/ 
 EducationRouter.post(
   "/education/create",
   login_required,
@@ -46,6 +47,7 @@ EducationRouter.post(
   }
 });
 
+/*** 선택한 학력 조회 ***/ 
 EducationRouter.get(
   "/educations/:id",
   login_required,
@@ -65,6 +67,8 @@ EducationRouter.get(
   }
 );
 
+
+/*** 선택한 학력 수정 ***/
 EducationRouter.put(
   "/educations/:id",
   login_required,
@@ -92,6 +96,7 @@ EducationRouter.put(
   }
 );
 
+/*** user의 학력 리스트 조회 ***/
 EducationRouter.get(
   "/educationlist/:user_id",
   login_required,
@@ -111,6 +116,7 @@ EducationRouter.get(
   }
 );
 
+/*** 해당 id인 학력 삭제 ***/
 EducationRouter.delete(
   "/educations/:id",
   login_required,

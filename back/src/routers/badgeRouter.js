@@ -9,6 +9,7 @@ const badgeName = ["pull", "bowl", "egg", "spam", "cleanCode", "css3", "dj", "es
 
 const badgeUrlList = ["pull.png", "bowl.png", "egg.png", "spam.png", "cleanCode.png", "css3.png", "dj.png", "es6.png", "GraphQL.png", "grid.png", "html5.png", "JS.png",  "MongoDB.png", "NestJS.png", "nodejs.png", "Pug.png", "python.png", "ReactNative.png", "React.png", "socketio.png", "typescript.png", "websockets.png"];
 
+/*** 뱃지 구매 시 결제 기능 구현 ***/
 BadgeRouter.post(
   "/badge/:id",
   login_required,
