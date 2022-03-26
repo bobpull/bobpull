@@ -92,8 +92,3 @@
     margin: 0 auto;
   }
 }
-
-@font-face {
-  font-family: "Black Han Sans";
-  src: url("../../public/fonts/BlackHanSans-Regular.ttf") format("truetype");
-}
