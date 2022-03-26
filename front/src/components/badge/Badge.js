@@ -9,6 +9,8 @@ import BadgeLock from "./BadgeLock"
 
 // const badgeUrlList = ["pull.png", "bowl.png", "egg.png", "spam.png", "cleanCode.png", "css3.png", "dj.png", "es6.png", "GraphQL.png", "grid.png", "html5.png", "JS.png",  "MongoDB.png", "NestJS.png", "nodejs.png", "Pug.png", "python.png", "ReactNative.png", "React.png", "socketio.png", "typescript.png", "websockets.png"];
 
+//일단 인덱스를 저장해
+
 const imgUrl = [
   {
     url: `${process.env.PUBLIC_URL}/img/pull.png`,
@@ -122,24 +124,35 @@ const imgUrl = [
   },
 ]
 const Skill = ({portfolioOwnerId, isEditable}) => {
+
   const imgRef = useRef()
   const [badges, setBadges] = useState([]);
   useEffect(() => {
     const fetchAPI = async () => {
       const res = await Api.get("badgelist", portfolioOwnerId)
-      setBadges(res.data)
-      console.log(badges)
+      console.log(res.data)
+      setBadges(res.data.map(item => item.id))
     }
     fetchAPI()
   }, [portfolioOwnerId])
-
   /*
   BadgeRouter.post("/badge/:id",
   BadgeRouter.get("/badges/:id",
   BadgeRouter.get("/badgelist/:user_id",
   */
 
-  const openBadge = async (bedge) => {
+  const openBadge = async (index) => {
+    try {
+       await Api.post(`badge/${index}`)
+      setBadges(cur => {
+          return [
+            ...cur,
+            index
+          ]
+      })
+    }catch(e){
+      
+    }
   }
 
   return <Card className="mb-3">
@@ -148,12 +161,18 @@ const Skill = ({portfolioOwnerId, isEditable}) => {
         {imgUrl.map((bedge, index) => (
           <Col className="mb-3 col-center colBox"  onClick={openBadge}>
             <Card.Img
-              className={bedge.isOpen ? "cardImg spinAni" : "cardImg opacity"}
+              key={index}
+              className={badges.includes(index.toString()) ? "cardImg spinAni" : "cardImg opacity"}
               src={bedge.url}
               ref={imgRef}
-             
+              onClick={() => {
+                if(isEditable && !badges.includes(index.toString())){
+                  openBadge(index.toString())
+                }
+                else return
+              }}
             />
-            {!bedge.isOpen && <BadgeLock/>}
+            {!badges.includes(index.toString()) && <BadgeLock/>}
             <Badge pill bg="light" text="dark">
               {bedge.name}
             </Badge>
