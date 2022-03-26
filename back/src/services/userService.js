@@ -89,6 +89,7 @@ class userAuthService {
 
   static async searchUsers({ name }) {
     const users = await User.findUserName({ name });
+    console.log("서비스윽 : ", name);
     return users;
   }
 

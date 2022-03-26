@@ -189,13 +189,14 @@ userAuthRouter.get(
 
 /*** 유저 검색 ***/
 userAuthRouter.get(
-  '/userlist/search/:name',
+  '/search',
   login_required,
   async function (req, res, next) {
     try {
-      const name = req.body.name;
+      const { query: { search }} = req;
+      console.log(req.query.search);
 
-      const userlist = await userAuthService.searchUsers({ name });
+      const userlist = await userAuthService.searchUsers({ search });
 
       if (userlist.length === 0) {
         throw new Error("검색 내용이 존재하지 않습니다.");
