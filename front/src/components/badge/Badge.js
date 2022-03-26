@@ -62,7 +62,7 @@ const imgUrl = [
   },
   {
     url: `${process.env.PUBLIC_URL}/img/NestJS.png`,
-    name: "Nest_JS",
+    name: "NestJS",
   },
   {
     url: `${process.env.PUBLIC_URL}/img/nodejs.png`,
@@ -78,7 +78,7 @@ const imgUrl = [
   },
   {
     url: `${process.env.PUBLIC_URL}/img/ReactNative.png`,
-    name: "clean-React_Native",
+    name: "ReactNative",
   },
   {
     url: `${process.env.PUBLIC_URL}/img/React.png`,
