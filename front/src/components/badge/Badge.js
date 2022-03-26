@@ -11,7 +11,7 @@ import {imgUrl} from "./BadgeList"
 
 const Skill = ({ portfolioOwnerId, isEditable }) => {
 
-  const handleClick = async () => {
+  const handleClick = async (index) => {
     const MySwal = withReactContent(Swal);
 
     const result = await MySwal.fire({
@@ -24,7 +24,7 @@ const Skill = ({ portfolioOwnerId, isEditable }) => {
     });
 
     if (result.isConfirmed) {
-      openBadge();
+      openBadge(index);
     }
   };
 
@@ -68,7 +68,7 @@ const Skill = ({ portfolioOwnerId, isEditable }) => {
                 ref={imgRef}
                 onClick={() => {
                   if (isEditable && !badges.includes(index.toString())) {
-                    openBadge(index.toString());
+                    handleClick(index.toString());
                   } else return;
                 }}
               />
