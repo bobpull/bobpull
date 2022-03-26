@@ -1,24 +1,18 @@
 import { Router } from "express";
 import { login_required } from "../middlewares/login_required";
 import { BadgeService } from "../services/badgeService";
-import is from "@sindresorhus/is";
 
 const BadgeRouter = Router();
 
-const badgeName = ["pull", "bowl", "egg", "spam", "clean-code", "css3", "dj", "es6", "Graph_QL", "grid", "html5", "JS", "MongoDB", "Nest_JS", "nodejs", "Pug", "python", "clean-React_Native", "React", "socketio", "typescript", "websockets"];
-const badgeUrlList = ["pull.png", "bowl.png", "egg.png", "spam.png", "clean-code.png", "css3.png", "dj.png", "es6.png", "GraphQL.png", "grid.png", "html5.png", "JS.png",  "MongoDB.png", "NestJS.png", "nodejs.png", "Pug.png", "python.png", "clean-React_Native.png", "React.png", "socketio.png", "typescript.png", "websockets.png"];
+const badgeName = ["pull", "bowl", "egg", "spam", "cleanCode", "css3", "dj", "es6", "GraphQL", "grid", "html5", "JS", "MongoDB", "NestJS", "nodejs", "Pug", "python", "ReactNative", "React", "socketio", "typescript", "websockets"];
+
+const badgeUrlList = ["pull.png", "bowl.png", "egg.png", "spam.png", "cleanCode.png", "css3.png", "dj.png", "es6.png", "GraphQL.png", "grid.png", "html5.png", "JS.png",  "MongoDB.png", "NestJS.png", "nodejs.png", "Pug.png", "python.png", "ReactNative.png", "React.png", "socketio.png", "typescript.png", "websockets.png"];
 
 BadgeRouter.post(
   "/badge/:id",
   login_required,
   async function (req, res, next) {
     try {
-      if (is.emptyObject(req.body)) {
-        throw new Error(
-          "필수 파라미터가 존재하지 않습니다."
-        );
-      }
-
       const user_id = req.currentUserId;
       let id = req.params.id;
       let name = {};
@@ -35,6 +29,10 @@ BadgeRouter.post(
           }
           url = "https://bobpullbucket.s3.ap-northeast-2.amazonaws.com/language/" + badgeUrlList[i];
         }
+      }
+
+      if (Number(id) >= 22) {
+        return res.status(400).send("유효하지 않은 접근입니다.");
       }
 
       // 위 데이터를 뱃지 db에 추가하기
