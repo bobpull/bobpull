@@ -69,4 +69,18 @@ FriendRouter.delete(
   }
 );
 
+/*** 모든 유저 검색 ***/
+FriendRouter.get(
+  "/friendlist",
+  login_required,
+  async function (req, res, next) {
+    try {
+      const friendlist = await FriendService.getUsers();
+      res.status(200).send(friendlist);
+    } catch (err) {
+      next(err);
+    }
+  }
+);
+
 export { FriendRouter };

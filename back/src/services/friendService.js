@@ -5,9 +5,16 @@ class FriendService {
   static async addFriend({ user_id, friend_id }) {
     const id = uuidv4();
 
-    const newFriend = { id, user_id, friend_id };
+    const friend = await Friend.findByFriendId({ friend_id });
+  
+    if (friend) {
+      const errorMessage =
+        "친구 리스트에 존재합니다.";
+      return { errorMessage };
+    }
 
-    // db에 저장
+    const newFriend = { id, user_id, friend_id };
+    
     const createdNewFriend = await Friend.create({ newFriend });
 
     return createdNewFriend;
@@ -39,6 +46,11 @@ class FriendService {
     await Friend.deleteById({ id });
 
     return friend;
+  }
+
+  static async getUsers() {
+    const friendlist = await Friend.findAll();
+    return friendlist;
   }
 }
 
