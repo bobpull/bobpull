@@ -8,8 +8,6 @@ import generateRandomPassword from "../utils/generate-random-password";
 import fs from "fs";
 import sharp from "sharp";
 import koreaNow from "../utils/korea-now";
-import { badgeList } from "../db/publicSchema/badgelist";
-import {BadgeService} from "../services/badgeService";
 
 const userAuthRouter = Router();
 
