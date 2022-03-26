@@ -1,4 +1,4 @@
-import React, {useContext} from "react"
+import React from "react"
 import { useNavigate } from "react-router-dom";
 import { Card, Row, Button, Col } from "react-bootstrap";
 import "../../style/display.css"
@@ -9,7 +9,7 @@ import { AiFillRead } from "react-icons/ai";
 
 function UserCard({ user, setIsEditing, isEditable, isNetwork, isFriend }) {
   const navigate = useNavigate();
-  console.log(user)
+  
   
   // const imgUrl = profile.filter((img) => user.id === img.id)
   return (

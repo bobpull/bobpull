@@ -68,7 +68,6 @@ function Portfolio() {
     fetchUserFriendList(userState.user?.id);
   }, [userState.user?.id]);
 
-  console.log(`${userState.user?.id}의 친구들`, friendList);
 
   if (!isFetchCompleted) {
     return "loading...";

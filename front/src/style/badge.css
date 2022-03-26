@@ -32,7 +32,7 @@
 }
 
 .spinAni{
-  animation: spin 500ms backwards;
+  animation: spin 1000ms backwards;
 }
 
 @keyframes spin {
