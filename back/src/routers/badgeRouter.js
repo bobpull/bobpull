@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { login_required } from "../middlewares/login_required";
 import { BadgeService } from "../services/badgeService";
+import { userAuthService } from "../services/userService";
 
 const BadgeRouter = Router();
 
@@ -47,8 +48,37 @@ BadgeRouter.post(
       if (newBadge.errorMessage) {
         throw new Error(newBadge.errorMessage);
       }
-    
-      res.status(201).json(newBadge);
+
+      const user = await userAuthService.getUserInfo({ user_id });
+
+      if (!user) {
+        throw new Error(user.errorMessage);
+      }
+      
+      let { tall } = user;
+
+      if (id < 4) {
+        if (tall >= price) {
+          tall -= price;
+        } else {
+          return res.status(403).send("톨이 부족합니다.");
+        }
+      } else {
+        if (tall >= price) {
+          tall -= price;
+        } else {
+          return res.status(403).send("톨이 부족합니다.");
+        }
+      }
+
+      const toUpdate = { tall };
+
+      const updatedUser = await userAuthService.setTall({ user_id, toUpdate });
+
+      id = newBadge.id;
+      tall = updatedUser.tall
+      
+      res.status(201).json([id, tall]);
     } catch (err) {
       next(err);
     }

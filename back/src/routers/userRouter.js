@@ -42,6 +42,7 @@ userAuthRouter.post("/user/register", async function (req, res, next) {
   }
 });
 
+/*** 비밀번호 변경(로그인 상태에서) ***/
 userAuthRouter.post(
   "/changepw",
   login_required,
@@ -66,6 +67,7 @@ userAuthRouter.post(
   }
 );
 
+/*** 임시 비밀번호 생성 ***/
 userAuthRouter.post("/resetpw", async function (req, res, next) {
   try {
     const email = req.body.email;
@@ -96,6 +98,7 @@ userAuthRouter.post("/resetpw", async function (req, res, next) {
   }
 });
 
+/*** 회원가입 인증 번호 ***/
 userAuthRouter.post("/availablemail", async function (req, res, next) {
   try {
     if (is.emptyObject(req.body)) {
@@ -117,6 +120,7 @@ userAuthRouter.post("/availablemail", async function (req, res, next) {
   }
 });
 
+/*** 회원가입 시 인증 번호 일치 확인 ***/
 userAuthRouter.post("/availablemail/check", async function (req, res, next) {
   try {
     if (is.emptyObject(req.body)) {
@@ -136,20 +140,19 @@ userAuthRouter.post("/availablemail/check", async function (req, res, next) {
   }
 });
 
+/*** 로그인 ***/
 userAuthRouter.post("/user/login", async function (req, res, next) {
   try {
-    // req (request) 에서 데이터 가져오기
     const email = req.body.email;
     const password = req.body.password;
 
-    // 위 데이터를 이용하여 유저 db에서 유저 찾기
     const user = await userAuthService.getUser({ email, password });
 
     if (user.errorMessage) {
       throw new Error(user.errorMessage);
     }
 
-    // 출석 체크 (tall 하나 추가)
+    // 출석 체크 (tall += 2)
     const beforeLoginedAt = user.loginedAt;
     let tall = user.tall;
     
@@ -161,7 +164,7 @@ userAuthRouter.post("/user/login", async function (req, res, next) {
     const loginedAt = koreaNow();
     const toUpdate = { loginedAt, tall };
 
-    // 해당 사용자 아이디로 사용자 정보를 db에서 찾아 최근 접속시간을 업데이트
+    // 해당 사용자 아이디로 사용자 정보를 db에서 찾아 최근 접속시간 업데이트
     const updatedUser = await userAuthService.setUser({ user_id, toUpdate });
 
     if (updatedUser.errorMessage) {
@@ -174,12 +177,12 @@ userAuthRouter.post("/user/login", async function (req, res, next) {
   }
 });
 
+/*** 모든 유저 검색 ***/
 userAuthRouter.get(
   "/userlist",
   login_required,
   async function (req, res, next) {
     try {
-      // 전체 사용자 목록을 얻음
       const users = await userAuthService.getUsers();
       res.status(200).send(users);
     } catch (err) {
@@ -188,7 +191,7 @@ userAuthRouter.get(
   }
 );
 
-/*** 유저 검색 ***/
+/*** 이름으로 유저 검색 ***/
 userAuthRouter.get(
   '/search/:word',
   login_required,
@@ -209,12 +212,12 @@ userAuthRouter.get(
   }
 );
 
+/*** 마이페이지 ***/
 userAuthRouter.get(
   "/user/current",
   login_required,
   async function (req, res, next) {
     try {
-      // jwt토큰에서 추출된 사용자 id를 가지고 db에서 사용자 정보를 찾음.
       const user_id = req.currentUserId;
       const currentUserInfo = await userAuthService.getUserInfo({
         user_id,
@@ -231,14 +234,13 @@ userAuthRouter.get(
   }
 );
 
+/*** 유저 리스트 검색 ***/
 userAuthRouter.put(
   "/users/:id",
   login_required,
   async function (req, res, next) {
     try {
-      // URI로부터 사용자 id를 추출함.
       const user_id = req.params.id;
-      // body data 로부터 업데이트할 사용자 정보를 추출함.
       const name = req.body.name ?? null;
       const password = req.body.password ?? null;
       const description = req.body.description ?? null;
@@ -247,7 +249,7 @@ userAuthRouter.put(
 
       const toUpdate = { name, password, description, loginedAt, tall };
 
-      // 해당 사용자 아이디로 사용자 정보를 db에서 찾아 업데이트함. 업데이트 요소가 없을 시 생략함
+      // 해당 사용자 아이디로 사용자 정보를 db에서 찾아 업데이트. 업데이트 요소가 없을 시 생략함
       const updatedUser = await userAuthService.setUser({ user_id, toUpdate });
 
       if (updatedUser.errorMessage) {
@@ -261,6 +263,7 @@ userAuthRouter.put(
   }
 );
 
+/*** 유저 페이지 방문 ***/
 userAuthRouter.get(
   "/users/:id",
   login_required,
@@ -280,6 +283,7 @@ userAuthRouter.get(
   }
 );
 
+/*** 회원 탈퇴 ***/
 userAuthRouter.delete(
   "/users/:id",
   login_required,
@@ -347,53 +351,53 @@ userAuthRouter.get(
   }
 );
 
-/*******
-* 뱃지 구입
-********/
-userAuthRouter.put(
-  "/buyBadge",
-  login_required,
-  async function (req, res, next) {
-    try {
-      const user_id = req.currentUserId;
-      const badge_id = 6;
+// /*******
+// * 뱃지 구입
+// ********/
+// userAuthRouter.put(
+//   "/buyBadge",
+//   login_required,
+//   async function (req, res, next) {
+//     try {
+//       const user_id = req.currentUserId;
+//       const badge_id = 6;
 
-      const user = await userAuthService.getUserInfo({ user_id });
+//       const user = await userAuthService.getUserInfo({ user_id });
 
-      if (!user) {
-        throw new Error(user.errorMessage);
-      }
+//       if (!user) {
+//         throw new Error(user.errorMessage);
+//       }
       
-      let { tall } = user;
+//       let { tall } = user;
 
-      /*** 뱃지 가격 ***/
-      const pullBadgePrice = 10;
-      const skillBadgePrice = 1;
+//       /*** 뱃지 가격 ***/
+//       const pullBadgePrice = 10;
+//       const skillBadgePrice = 1;
 
-      if (badge_id < 4) {
-        if (tall >= pullBadgePrice) {
-          tall -= pullBadgePrice;
-        } else {
-          return res.status(403).send("톨이 부족합니다.");
-        }
-      } else {
-        if (tall >= skillBadgePrice) {
-          tall -= skillBadgePrice;
-        } else {
-          return res.status(403).send("톨이 부족합니다.");
-        }
-      }
+//       if (badge_id < 4) {
+//         if (tall >= pullBadgePrice) {
+//           tall -= pullBadgePrice;
+//         } else {
+//           return res.status(403).send("톨이 부족합니다.");
+//         }
+//       } else {
+//         if (tall >= skillBadgePrice) {
+//           tall -= skillBadgePrice;
+//         } else {
+//           return res.status(403).send("톨이 부족합니다.");
+//         }
+//       }
 
-      const toUpdate = { tall };
+//       const toUpdate = { tall };
 
-      const updatedUser = await userAuthService.setTall({ user_id, toUpdate });
+//       const updatedUser = await userAuthService.setTall({ user_id, toUpdate });
 
-      res.status(200).json(updatedUser);
-    } catch (err) {
-      next(err);
-    }  
-  }
-);
+//       res.status(200).json(updatedUser);
+//     } catch (err) {
+//       next(err);
+//     }  
+//   }
+// );
 
 // jwt 토큰 기능 확인용, 삭제해도 되는 라우터임.
 userAuthRouter.get("/afterlogin", login_required, function (req, res, next) {
