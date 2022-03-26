@@ -49,7 +49,7 @@ function Header() {
       title: <p>로그아웃 하시겠습니까?</p>,
       icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: "#0B5ED7",
+      confirmButtonColor: "#514fa1",
       confirmButtonText: "확인",
       cancelButtonText: "취소",
     });
@@ -60,7 +60,7 @@ function Header() {
         title: <p>로그아웃 되었습니다!</p>,
         html: <div>서비스를 이용하려면 다시 로그인 해주세요.</div>,
         icon: "success",
-        confirmButtonColor: "#0B5ED7",
+        confirmButtonColor: "#514fa1",
         confirmButtonText: "확인",
       });
     }

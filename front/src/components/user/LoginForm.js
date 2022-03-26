@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { Container, Col, Row, Form, Button } from "react-bootstrap";
-import Home from "../Home"
+import Home from "../Home";
 
 import "../../style/display.css";
 
@@ -60,7 +60,7 @@ function LoginForm() {
 
   return (
     <Container>
-      <Home/>
+      <Home />
       <Row className="justify-content-md-center">
         <Col lg={8}>
           <Form onSubmit={handleSubmit}>
@@ -113,7 +113,12 @@ function LoginForm() {
 
             <Form.Group as={Row} className="mt-3 text-center">
               <Col sm={{ span: 20 }}>
-                <Button variant="primary" type="submit" disabled={!isFormValid}>
+                <Button
+                  variant="primary"
+                  style={{ backgroundColor: "#514fa1" }}
+                  type="submit"
+                  disabled={!isFormValid}
+                >
                   로그인
                 </Button>
               </Col>
