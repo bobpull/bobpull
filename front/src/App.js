@@ -15,6 +15,7 @@ import MemberEdit from "./components/user/MemberInfoEdit";
 import PasswordEdit from "./components/user/EditPwForm";
 import WithdrawMember from "./components/user/WithdrawMemberForm";
 import FriendList from "./components/user/FriendList";
+import Home from "./components/Home";
 
 export const UserStateContext = createContext(null);
 export const DispatchContext = createContext(null);
@@ -64,17 +65,18 @@ function App() {
         <Router>
           <Header />
           <Routes>
-            <Route path="/" exact element={<Portfolio />} />
+            <Route path="/" exact element={<Home />} />
             <Route path="/login" element={<LoginForm />} />
             <Route path="/register" element={<RegisterForm />} />
             <Route path="/resetpw" element={<FindPwForm />} />
+            <Route path="/mypage" element={<Portfolio />} />
             <Route path="/users/:userId" element={<Portfolio />} />
             <Route path="/network" element={<Network />} />
             <Route path="/edit" element={<MemberEdit />} />
             <Route path="/edit/password" element={<PasswordEdit />} />
             <Route path="/edit/withdraw" element={<WithdrawMember />} />
             <Route path="/friendlist" element={<FriendList />} />
-            <Route path="*" element={<Portfolio />} />
+            <Route path="*" element={<Home />} />
           </Routes>
           <Footer />
         </Router>

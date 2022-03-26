@@ -3,13 +3,14 @@ import path from "path"
 
 const upload = multer({
   storage: multer.diskStorage({  
-    destination(req, file, done) { 
-      done(null, "uploads/profile_img"); 
+    destination(req, file, cb) { 
+      cb(null, 'uploads/profile_img'); 
     },
-    filename(req, file, done) {   
+    
+    filename(req, file, cb) {   
       const ext = path.extname(file.originalname); 
       const user_id = req.params.id
-      done(null, user_id + "_" + Date.now() + ext); 
+      cb(null, user_id + "_" + Date.now() + ext);
     }
   }),
 });

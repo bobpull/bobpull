@@ -1,16 +1,15 @@
-.imgBox > img{
+.imgBox > img {
   width: 100px;
   height: 100px;
 }
 
 .homeContainer {
   width: 100%;
-  height: 300px;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin: 0 auto;
 }
 
 .HomeTitle {
@@ -23,20 +22,13 @@
   display: inline-block;
   border: 3px solid #333333;
   font-size: 1.6rem;
-  border-radius: 10% 10% 9% 8% / 10% 9% 20% 10%;
+  border-radius: 25px;
   text-transform: uppercase;
   letter-spacing: 0.1ch;
   background: #ffffff;
   position: relative;
-  z-index: 100;
-}
-.homeBox {
-  position: relative;
-}
-
-.imgBox {
-  position: absolute;
-  top: -61px;
+  font-family: "Black Han Sans", "Sans serif", "Helvetica Neue";
+  font-size: 40px;
 }
 
 .subTitle {
@@ -44,13 +36,16 @@
   font-weight: bold;
   text-align: center;
   letter-spacing: 0.1ch;
-  
+
   margin: 0;
   padding: 0;
 }
 
-.subBox{
+.subBox {
   position: relative;
+  font-size: "10px";
+  text-align: center;
+  margin-top: 10px;
 }
 
 .tall {
@@ -59,4 +54,41 @@
   position: absolute;
   right: 80px;
   top: 0;
+}
+
+.ad {
+  font-size: 1.3rem;
+  font-family: "Black Han Sans", "Sans serif", "Helvetica Neue";
+}
+
+.welcome {
+  margin-top: 30px;
+  font-size: 2rem;
+  font-family: "Black Han Sans", "Sans serif", "Helvetica Neue";
+}
+
+.button {
+  border-radius: 10px;
+  text-align: center;
+  font-size: 30px;
+  font-weight: bold;
+  background-color: black;
+  color: white;
+  cursor: pointer;
+  padding: 10px;
+  margin: 20px;
+}
+
+.alignButton {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+}
+
+@media (max-width: 600px) {
+  .alignButton {
+    display: block;
+    margin: 0 auto;
+  }
 }
