@@ -1,5 +1,6 @@
 .Wrapper {
   width: 100%;
+  min-height: 100%;
 }
 
 .copyright {
@@ -9,15 +10,4 @@
   justify-content: center;
   align-items: center;
   text-align: center;
-  margin-top: 50px;
-}
-
-@font-face {
-  font-family: "Black Han Sans";
-  src: url("../../public/fonts/BlackHanSans-Regular.ttf") format("truetype");
-}
-
-@font-face {
-  font-family: "Do Hyeon";
-  src: url("../../public/fonts/DoHyeon-Regular.ttf") format("truetype");
 }
