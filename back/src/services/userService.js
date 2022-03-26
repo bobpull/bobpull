@@ -188,7 +188,7 @@ class userAuthService {
 * 프로필 이미지 처리 
 *******/
   static async setProfile({ user_id, toUpdate }) {
-    const user = await User.findById({ user_id });
+    let user = await User.findById({ user_id });
 
     if (!user) {
       const errorMessage =
