@@ -35,6 +35,11 @@ class Friend {
     return friend;
   }
 
+  static async deleteByUserId({ user_id }) {
+    const friend = await FriendModel.deleteMany({ user_id });
+    return friend;
+  }
+
   static async findAll() {
     const friendlist = await FriendModel.find({});
     return friendlist;
