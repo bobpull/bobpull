@@ -61,7 +61,7 @@ function Header() {
       activeKey={location.pathname}
       style={{
         backgroundColor: "#FFEAA1",
-        height: "100px",
+        height: "80px",
         fontFamily: "Do Hyeon, sans-serif",
         padding: "0 20px"
       }}
@@ -76,7 +76,7 @@ function Header() {
             padding: "0"
           }}
         >
-          <img src="img/bobpull.png" style={{ width: "80px" }} alt="밥풀" />
+          <img src={`${process.env.PUBLIC_URL}/img/pull.png`} style={{ width: "80px" }} alt="밥풀" />
           밥풀(pull)
         </Nav.Link>
       </Navbar.Brand>
