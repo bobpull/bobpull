@@ -50,6 +50,9 @@ function UserEditForm({ user, setIsEditing, setUser }) {
           Authorization: `Bearer ${sessionStorage.getItem("userToken")}`,
         }
       })
+      const res = await Api.get('users', user.id)
+      setUser(res.data)
+
 
     } catch(e){
       console.log(e)

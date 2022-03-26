@@ -24,7 +24,7 @@ function UserCard({ user, setIsEditing, isEditable, isNetwork, isFriend }) {
               <Card.Img
                 style={{ width: "50px", height: "50px", borderRadius: "50%", marginRight: "10px" }}
                 className="mb-3"
-                src=""//{user.profilePath} // imgUrl.toUpdate
+                src={user?.profilePath}//{user.profilePath} // imgUrl.toUpdate
                 alt="고양이 사진"
               />
               <div>
