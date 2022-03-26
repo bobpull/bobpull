@@ -68,6 +68,7 @@ function App() {
             <Route path="/login" element={<LoginForm />} />
             <Route path="/register" element={<RegisterForm />} />
             <Route path="/resetpw" element={<FindPwForm />} />
+            <Route path="/mypage" element={<Portfolio />} />
             <Route path="/users/:userId" element={<Portfolio />} />
             <Route path="/network" element={<Network />} />
             <Route path="/edit" element={<MemberEdit />} />
