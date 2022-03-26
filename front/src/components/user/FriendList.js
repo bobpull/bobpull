@@ -32,7 +32,8 @@ function FriendList() {
   console.log(friendInUsers);
 
   return (
-    <Container fluid>
+    <Container fluid style={{ height: `calc(100vh - 175px)` }}>
+
       {friendInUsers.length > 0 ? (
         <Row xs="1" md="2" lg="3" className="jusify-content-center">
           {friendInUsers.map((f) => (

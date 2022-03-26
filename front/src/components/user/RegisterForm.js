@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Container, Col, Row, Form, Button } from "react-bootstrap";
 import { ValidateEmail } from "./ValidateEmail";
@@ -8,7 +8,6 @@ import "../../style/display.css";
 function RegisterForm() {
   const navigate = useNavigate();
   const confirmMessageRef = useRef();
-  const blockBtn = useRef();
 
   //useState로 email 상태를 생성함.
   const [email, setEmail] = useState("");
@@ -207,7 +206,7 @@ function RegisterForm() {
                   variant="primary"
                   type="submit"
                   disabled={!isFormValid}
-                  style={{ backgroundColor: "#514fa1" }}
+                  style={{ backgroundColor: "#514fa1", borderColor: "#514fa1" }}
                 >
                   회원가입
                 </Button>

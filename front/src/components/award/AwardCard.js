@@ -7,7 +7,6 @@ import AwardEditForm from "./AwardEditForm";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 
-
 function AwardCard({ id, isEditable, title, description }) {
   const [isEditing, setIsEditing] = useState(false);
   const { setAwards } = useContext(AwardsContext);
@@ -59,25 +58,27 @@ function AwardCard({ id, isEditable, title, description }) {
               <span className="text-muted">{description}</span>
             </Col>
 
-            {isEditable && (
-              <Col className="p-0 col-sm-3 col-md-3 col-lg-3 col-xl-3 text-center">
-                <Button
-                  className="mx-3"
-                  variant="outline-info"
-                  size="sm"
-                  onClick={() => setIsEditing(true)}
-                >
-                  편집
-                </Button>
-                <Button
-                  variant="outline-danger"
-                  size="sm"
-                  onClick={handleClick}
-                >
-                  삭제
-                </Button>
-              </Col>
-            )}
+            <Col className="p-0 col-sm-3 col-md-3 col-lg-3 col-xl-3 text-center">
+              {isEditable && (
+                <>
+                  <Button
+                    className="mx-3"
+                    variant="outline-info"
+                    size="sm"
+                    onClick={() => setIsEditing(true)}
+                  >
+                    편집
+                  </Button>
+                  <Button
+                    variant="outline-danger"
+                    size="sm"
+                    onClick={handleClick}
+                  >
+                    삭제
+                  </Button>
+                </>
+              )}
+            </Col>
           </Row>
         </Card.Text>
       )}

@@ -6,7 +6,7 @@ function MemberEdit() {
   const navigate = useNavigate();
 
   return (
-    <Container style={{ maxWidth: "700px" }}>
+    <Container style={{ maxWidth: "700px", height: `calc(100vh - 210px)` }}>
       <Row
         className="m-3 mt-5"
         style={{ fontSize: "30px", fontWeight: "bold" }}

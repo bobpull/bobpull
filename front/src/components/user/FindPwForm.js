@@ -47,6 +47,7 @@ const FindPwForm = () => {
                     width: "150px",
                     marginLeft: "10px",
                     backgroundColor: "#514fa1",
+                    borderColor: "#514fa1",
                   }}
                   type="submit"
                   variant="primary"

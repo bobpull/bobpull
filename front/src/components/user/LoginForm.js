@@ -115,7 +115,7 @@ function LoginForm() {
               <Col sm={{ span: 20 }}>
                 <Button
                   variant="primary"
-                  style={{ backgroundColor: "#514fa1" }}
+                  style={{ backgroundColor: "#514fa1", borderColor: "#514fa1" }}
                   type="submit"
                   disabled={!isFormValid}
                 >

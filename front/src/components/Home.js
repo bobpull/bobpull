@@ -1,18 +1,17 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import "../style/Home.css";
 import { useNavigate, useLocation } from "react-router-dom";
-import { UserStateContext, DispatchContext } from "../App";
+import { UserStateContext } from "../App";
 
 const Home = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const userState = useContext(UserStateContext);
-  const [show, setShow] = useState(true);
 
   // 전역상태에서 user가 null이 아니라면 로그인 성공 상태임.
   const isLogin = !!userState.user;
 
-  return show ? (
+  return (
     <div className="homeContainer">
       <h1 className="HomeTitle">밥풀(pull)</h1>
       <img
@@ -21,7 +20,7 @@ const Home = () => {
         alt="삼톨이들"
       />
 
-      {location.pathname === "/" && (
+      {location.pathname === "/" ? (
         <div>
           <div className="subBox">
             <p>
@@ -62,10 +61,14 @@ const Home = () => {
             )}
           </div>
         </div>
+      ) : (
+        <div className="notFound">
+          잘못된 경로로 접근하셨습니다.
+          <br />
+          여기는 서비스를 제공하지 않아요.
+        </div>
       )}
     </div>
-  ) : (
-    <div></div>
   );
 };
 
