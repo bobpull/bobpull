@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { Container, Row, Button } from "react-bootstrap";
+import "../../style/button.css";
 
 function MemberEdit() {
   const navigate = useNavigate();
