@@ -31,7 +31,7 @@ const UserSchema = new Schema(
     profilePath:{
       type: String,
       required: false,
-      default: "http://localhost:5000/profileImg/default_img/default_profile.jpg"
+      default: "http://localhost:5000/profileImg/default_profile.jpg"
     },
     loginedAt: {
       type: String,
@@ -49,7 +49,6 @@ const UserSchema = new Schema(
   }
 );
 
-UserSchema.index({ name: 'text' });
 const UserModel = model("User", UserSchema);
 
 export { UserModel };
