@@ -21,12 +21,18 @@ class User {
     return users;
   }
 
+  static async findAll({ name }) {
+    const users = await UserModel.find({ name });
+    return users;
+  }
+
   static async findByEmail({ email }) {
     const user = await UserModel.findOne({ email });
     return user;
   }
 
   static async findUserName({ name }) {
+    let regexOne = new RegExp(name)
     const searchedUsers = await UserModel.find(replace(regexOne, '___'));
     return searchedUsers;
   }
