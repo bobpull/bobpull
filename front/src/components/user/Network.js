@@ -1,6 +1,7 @@
 import React, { useEffect, useContext, useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
-import { Container, Row } from "react-bootstrap";
+import { useNavigate, useLocation, Link } from "react-router-dom";
+import { Container, Row, Card } from "react-bootstrap";
+
 
 import * as Api from "../../api";
 import UserCard from "./UserCard";
@@ -51,7 +52,7 @@ function Network() {
             )
           ) : (
             users.map((user) => (
-              <UserCard key={user.id} user={user} isNetwork />
+              <UserCard key={user.id} user={user} isNetwork />              
             ))
           )}
         </Row>

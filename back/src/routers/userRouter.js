@@ -351,54 +351,6 @@ userAuthRouter.get(
   }
 );
 
-// /*******
-// * 뱃지 구입
-// ********/
-// userAuthRouter.put(
-//   "/buyBadge",
-//   login_required,
-//   async function (req, res, next) {
-//     try {
-//       const user_id = req.currentUserId;
-//       const badge_id = 6;
-
-//       const user = await userAuthService.getUserInfo({ user_id });
-
-//       if (!user) {
-//         throw new Error(user.errorMessage);
-//       }
-      
-//       let { tall } = user;
-
-//       /*** 뱃지 가격 ***/
-//       const pullBadgePrice = 10;
-//       const skillBadgePrice = 1;
-
-//       if (badge_id < 4) {
-//         if (tall >= pullBadgePrice) {
-//           tall -= pullBadgePrice;
-//         } else {
-//           return res.status(403).send("톨이 부족합니다.");
-//         }
-//       } else {
-//         if (tall >= skillBadgePrice) {
-//           tall -= skillBadgePrice;
-//         } else {
-//           return res.status(403).send("톨이 부족합니다.");
-//         }
-//       }
-
-//       const toUpdate = { tall };
-
-//       const updatedUser = await userAuthService.setTall({ user_id, toUpdate });
-
-//       res.status(200).json(updatedUser);
-//     } catch (err) {
-//       next(err);
-//     }  
-//   }
-// );
-
 // jwt 토큰 기능 확인용, 삭제해도 되는 라우터임.
 userAuthRouter.get("/afterlogin", login_required, function (req, res, next) {
   res
