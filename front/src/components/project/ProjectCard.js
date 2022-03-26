@@ -9,7 +9,7 @@ import ProjectEditForm from "./ProjectEditForm";
 import { ProjectContext } from "../../context/ProjectContext";
 
 const ProjectCard = ({ project, isEditable }) => {
-  const { projects, dispatch } = useContext(ProjectContext);
+  const { dispatch } = useContext(ProjectContext);
   const [isEditForm, setIsEditForm] = useState(false);
 
   const handleClick = async () => {

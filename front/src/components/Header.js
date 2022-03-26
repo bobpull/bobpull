@@ -2,7 +2,6 @@ import React, { useContext, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Nav, Dropdown, Navbar } from "react-bootstrap";
 import { UserStateContext, DispatchContext } from "../App";
-import * as Api from "../api";
 import "../style/header.css";
 import "../style/display.css";
 import Swal from "sweetalert2";
