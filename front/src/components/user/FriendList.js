@@ -29,6 +29,7 @@ function FriendList() {
   const friendIdList = friendList.map((f) => f.friend_id);
   // users에서 friendList의 id를 포함한 객체들 가져오기
   const friendInUsers = users.filter((user) => friendIdList.includes(user.id));
+  console.log(friendInUsers);
 
   return (
     <Container fluid>
@@ -41,6 +42,7 @@ function FriendList() {
               name={f.name}
               email={f.email}
               description={f.description}
+              profilePath={f.profilePath}
               isNetwork
             />
           ))}
