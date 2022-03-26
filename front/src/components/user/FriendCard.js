@@ -6,7 +6,7 @@ import "../../style/font.css";
 
 import { AiFillRead } from "react-icons/ai";
 
-function FriendCard({ id, name, email, description }) {
+function FriendCard({ id, name, email, description, profilePath }) {
   const navigate = useNavigate();
 
   // const handleClick = () => {
@@ -27,7 +27,7 @@ function FriendCard({ id, name, email, description }) {
                 <Card.Img
                   style={{ width: "50px", height: "50px", borderRadius: "50%", marginRight: "10px" }}
                   className="mb-3"
-                  src="http://placekitten.com/200/200"
+                  src={profilePath}
                   alt="고양이 사진"
                 />
                 <div>

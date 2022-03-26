@@ -154,7 +154,7 @@ userAuthRouter.post("/user/login", async function (req, res, next) {
     let tall = user.tall;
     
     if (beforeLoginedAt < koreaNow()) {  
-      tall += 1;
+      tall += 2;
     }
     
     const user_id = user.id;
