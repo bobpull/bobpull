@@ -36,7 +36,7 @@ const UserSchema = new Schema(
     loginedAt: {
       type: String,
       required: false,
-      default: ""
+      default: "2022-02-22"
     },
     tall: {
       type: Number,

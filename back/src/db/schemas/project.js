@@ -20,7 +20,7 @@ const ProjectSchema = new Schema(
     },
     url: {
       type: String,
-      required: false,
+      required: true,
     },
     from_date: {
       type: Date,

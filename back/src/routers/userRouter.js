@@ -8,11 +8,14 @@ import generateRandomPassword from "../utils/generate-random-password";
 import fs from "fs";
 import sharp from "sharp";
 import koreaNow from "../utils/korea-now";
+import { badgeList } from "../db/publicSchema/badgelist";
+import {BadgeService} from "../services/badgeService";
 
 const userAuthRouter = Router();
 
 let verificationNumber = {};
 
+/*** 회원가입 ***/
 userAuthRouter.post("/user/register", async function (req, res, next) {
   try {
     if (is.emptyObject(req.body)) {
@@ -34,7 +37,7 @@ userAuthRouter.post("/user/register", async function (req, res, next) {
     if (newUser.errorMessage) {
       throw new Error(newUser.errorMessage);
     }
-
+    
     res.status(201).json(newUser);
   } catch (err) {
     next(err);
@@ -301,7 +304,7 @@ userAuthRouter.delete(
 
 
 /*******
-프로필 이미지 처리
+* 프로필 이미지 처리
 ********/
 userAuthRouter.put(
   '/profile/:user_id',
@@ -348,7 +351,7 @@ userAuthRouter.get(
 );
 
 /*******
-뱃지 구입
+* 뱃지 구입
 ********/
 userAuthRouter.put(
   "/buyBadge",
@@ -387,7 +390,7 @@ userAuthRouter.put(
       const toUpdate = { tall };
 
       const updatedUser = await userAuthService.setTall({ user_id, toUpdate });
-      
+
       res.status(200).json(updatedUser);
     } catch (err) {
       next(err);
