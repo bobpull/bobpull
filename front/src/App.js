@@ -5,6 +5,7 @@ import * as Api from "./api";
 import { loginReducer } from "./reducer";
 
 import Header from "./components/Header";
+import Footer from "./components/Footer";
 import LoginForm from "./components/user/LoginForm";
 import FindPwForm from "./components/user/FindPwForm";
 import Network from "./components/user/Network";
@@ -13,7 +14,7 @@ import Portfolio from "./components/Portfolio";
 import MemberEdit from "./components/user/MemberInfoEdit";
 import PasswordEdit from "./components/user/EditPwForm";
 import WithdrawMember from "./components/user/WithdrawMemberForm";
-import FriendList from './components/user/FriendList';
+import FriendList from "./components/user/FriendList";
 
 export const UserStateContext = createContext(null);
 export const DispatchContext = createContext(null);
@@ -75,6 +76,7 @@ function App() {
             <Route path="/friendlist" element={<FriendList />} />
             <Route path="*" element={<Portfolio />} />
           </Routes>
+          <Footer />
         </Router>
       </UserStateContext.Provider>
     </DispatchContext.Provider>
