@@ -1,0 +1,62 @@
+.imgBox > img{
+  width: 100px;
+  height: 100px;
+}
+
+.homeContainer {
+  width: 100%;
+  height: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+}
+
+.HomeTitle {
+  text-align: center;
+  border: 1px solid black;
+}
+
+.HomeTitle {
+  padding: 2rem 4.5rem;
+  display: inline-block;
+  border: 3px solid #333333;
+  font-size: 1.6rem;
+  border-radius: 10% 10% 9% 8% / 10% 9% 20% 10%;
+  text-transform: uppercase;
+  letter-spacing: 0.1ch;
+  background: #ffffff;
+  position: relative;
+  z-index: 100;
+}
+.homeBox {
+  position: relative;
+}
+
+.imgBox {
+  position: absolute;
+  top: -61px;
+}
+
+.subTitle {
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+  letter-spacing: 0.1ch;
+  
+  margin: 0;
+  padding: 0;
+}
+
+.subBox{
+  position: relative;
+}
+
+.tall {
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  right: 80px;
+  top: 0;
+}

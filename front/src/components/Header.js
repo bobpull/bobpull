@@ -77,18 +77,18 @@ function Header() {
       }}
       className="mb-5 between"
     >
-      <Navbar.Brand className="me-auto">
+      <Navbar.Brand className="me-auto" style={{margin: "0"}}>
         <Nav.Link
           onClick={() => navigate("/")}
           style={{
             color: "#000000",
-            fontSize: "35px",
+            fontSize: "24px",
             padding: "0",
           }}
         >
           <img
             src={`${process.env.PUBLIC_URL}/img/pull.png`}
-            style={{ width: "80px" }}
+            style={{ width: "80px", height: "70px"}}
             alt="밥풀"
           />
           밥풀(pull)
