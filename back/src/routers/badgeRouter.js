@@ -15,13 +15,13 @@ BadgeRouter.post(
   async function (req, res, next) {
     try {
       const user_id = req.currentUserId;
-      let id = req.params.id;
+      let id = Number(req.params.id);
       let name = {};
       let price = {};
       let url = {};
     
       for (let i = 0; i < 22; i++) {
-        if (i === Number(id)) {
+        if (i === id) {
           name = badgeName[i];
           if (i < 5) {
             price = 10;
@@ -32,7 +32,7 @@ BadgeRouter.post(
         }
       }
 
-      if (Number(id) >= 22) {
+      if (id >= 22) {
         return res.status(400).send("유효하지 않은 접근입니다.");
       }
 
