@@ -324,7 +324,7 @@ userAuthRouter.put(
       
       const user_id = req.params.user_id;  
       const profileImg = req.file.filename;
-      const profilePath = "http://localhost:5000/profileImg/" + profileImg;
+      const profilePath = `http://${process.env.PUBLIC_URL}:5000/profileImg/` + profileImg;
       const toUpdate = {    
         profileImg,
         profilePath
