@@ -75,7 +75,7 @@ function App() {
             <Route path="/edit/password" element={<PasswordEdit />} />
             <Route path="/edit/withdraw" element={<WithdrawMember />} />
             <Route path="/friendlist" element={<FriendList />} />
-            <Route path="*" element={<Portfolio />} />
+            <Route path="*" element={<Home />} />
           </Routes>
         </Router>
       </UserStateContext.Provider>
