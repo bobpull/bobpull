@@ -17,7 +17,12 @@ class Friend {
   }
 
   static async deleteById({ id }) {
-    const friend = await FriendModel.deleteOne({ id })
+    const friend = await FriendModel.deleteOne({ id });
+    return friend;
+  }
+
+  static async deleteByUserId({ user_id }) {
+    const friend = await FriendModel.deleteMany({ user_id });
     return friend;
   }
 }

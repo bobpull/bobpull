@@ -1,4 +1,4 @@
-import { User, Education, Award, Project, Certificate } from "../db"; // from을 폴더(db) 로 설정 시, 디폴트로 index.js 로부터 import함.
+import { User, Education, Award, Project, Certificate, Friend } from "../db"; // from을 폴더(db) 로 설정 시, 디폴트로 index.js 로부터 import함.
 import bcrypt from "bcrypt";
 import { v4 as uuidv4 } from "uuid";
 import jwt from "jsonwebtoken";
@@ -167,6 +167,7 @@ class userAuthService {
     await Award.deleteByUserId({ user_id });
     await Project.deleteByUserId({ user_id });
     await Certificate.deleteByUserId({ user_id });
+    await Friend.deleteByUserId({ user_id });
 
     return user;
   }
