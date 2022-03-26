@@ -23,6 +23,9 @@ class Friend {
 
   static async deleteByUserId({ user_id }) {
     const friend = await FriendModel.deleteMany({ user_id });
+    const deleteFriend = await FriendModel.deleteMany({ friend_id: user_id });
+    
+    console.log(deleteFriend);
     return friend;
   }
 }

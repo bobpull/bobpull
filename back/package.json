@@ -41,6 +41,7 @@
     "s3-imgurl-upload": "^1.2.6",
     "sequelize": "^6.17.0",
     "sharp": "^0.30.3",
+    "styled-components": "^5.3.5",
     "supertest": "^6.1.6",
     "sweetalert2": "^11.4.7",
     "sweetalert2-react-content": "^4.2.0",
