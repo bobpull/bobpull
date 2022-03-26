@@ -37,6 +37,7 @@ class Friend {
   static async findAll() {
     const friendlist = await FriendModel.find({});
     return friendlist;
+
   }
 }
 
