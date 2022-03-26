@@ -7,7 +7,7 @@ import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import BadgeLock from "./BadgeLock";
 import { TallContext } from "../../context/TallContext";
-import {imgUrl} from "./BadgeList"
+import { imgUrl } from "./BadgeList";
 
 const Skill = ({ portfolioOwnerId, isEditable }) => {
 
@@ -15,7 +15,12 @@ const Skill = ({ portfolioOwnerId, isEditable }) => {
     const MySwal = withReactContent(Swal);
 
     const result = await MySwal.fire({
-      title: <p>구매 할래요?</p>,
+      title: (
+        <p>
+          {index < 4 ? "10" : "3"}톨입니다. <br />
+          구매 할래요?
+        </p>
+      ),
       icon: "question",
       showCancelButton: true,
       confirmButtonColor: "#0B5ED7",
@@ -27,7 +32,6 @@ const Skill = ({ portfolioOwnerId, isEditable }) => {
       openBadge(index);
     }
   };
-
 
   const imgRef = useRef();
   const [badges, setBadges] = useState([]);
@@ -46,7 +50,6 @@ const Skill = ({ portfolioOwnerId, isEditable }) => {
       setBadges((cur) => {
         return [...cur, index];
       });
-      imgRef.current.classList.add('spinAni')
       setTall(res.data[1]);
     } catch (e) {}
   };
@@ -61,7 +64,7 @@ const Skill = ({ portfolioOwnerId, isEditable }) => {
                 key={index}
                 className={
                   badges.includes(index.toString())
-                    ? "cardImg"
+                    ? "cardImg spinAni"
                     : "cardImg opacity"
                 }
                 src={bedge.url}
