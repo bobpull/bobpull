@@ -6,7 +6,6 @@ import * as Api from "../../api";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 
-
 function CertificateCard({ certificate, isEditable }) {
   const [isEditing, setIsEditing] = useState(false);
   const { setCertificates } = useContext(CertificatesContext);
@@ -51,9 +50,9 @@ function CertificateCard({ certificate, isEditable }) {
                 <br />
                 <span className="text-muted">{certificate.issued_at}</span>
               </Col>
-              {isEditable && (
-                <>
-                  <Col className="p-0 col-sm-3 col-md-3 col-lg-3 col-xl-3 text-center">
+              <Col className="p-0 col-sm-3 col-md-3 col-lg-3 col-xl-3 text-center">
+                {isEditable && (
+                  <>
                     <Button
                       className="mx-3"
                       variant="outline-info"
@@ -71,9 +70,9 @@ function CertificateCard({ certificate, isEditable }) {
                     >
                       삭제
                     </Button>
-                  </Col>
-                </>
-              )}
+                  </>
+                )}
+              </Col>
             </Row>
           </Card.Text>
         </>
