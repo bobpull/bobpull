@@ -207,7 +207,7 @@ function RegisterForm() {
                   variant="primary"
                   type="submit"
                   disabled={!isFormValid}
-                  style={{ backgroundColor: "#514fa1" }}
+                  style={{ backgroundColor: "#514fa1", borderColor: "#514fa1" }}
                 >
                   회원가입
                 </Button>

@@ -64,6 +64,7 @@ function WithdrawMember() {
               type="submit"
               className="mb-2"
               disabled={!isCorrect}
+              style={{ backgroundColor: "#514fa1", borderColor: "#514fa1" }}
             >
               확인
             </Button>
