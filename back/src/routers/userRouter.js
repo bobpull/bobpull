@@ -2,7 +2,6 @@ import is from "@sindresorhus/is";
 import { Router } from "express";
 import { login_required } from "../middlewares/login_required";
 import { userAuthService } from "../services/userService";
-import { upload } from '../middlewares/multerProfileImg';
 import sendMail from "../utils/send-mail";
 import generateRandomPassword from "../utils/generate-random-password";
 import fs from "fs";
@@ -338,18 +337,7 @@ userAuthRouter.put(
   }
 );
 
-userAuthRouter.get(
-  '/profile/:user_id',
-  async function(req, res, next){
-    try {
-      const user_id = req.params.user_id;
-      const profileImg = await userAuthService.getProfileImg({ user_id });
-      res.status(200).send(profileImg);
-    } catch (err) {
-      next(err);
-    }
-  }
-);
+
 
 // /*******
 // * 뱃지 구입
