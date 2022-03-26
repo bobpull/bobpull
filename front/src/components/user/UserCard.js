@@ -4,7 +4,7 @@ import { Card, Row, Button, Col } from "react-bootstrap";
 import "../../style/display.css"
 import "../../style/font.css"
 import UserFriendButton from "./UserFriendButton";
-import { AiFillRead } from "react-icons/ai";
+import "../../style/setting.css"
 
 
 function UserCard({ user, setIsEditing, isEditable, isNetwork, isFriend }) {
@@ -13,8 +13,16 @@ function UserCard({ user, setIsEditing, isEditable, isNetwork, isFriend }) {
   
   // const imgUrl = profile.filter((img) => user.id === img.id)
   return (
-    <Col>
+    <Col>  
     <Card className="mb-2 ms-0" style={{ width: "100%", margin: "0 auto" }}>
+      <Card.Link
+                className="mt-3"
+                href="#"
+                onClick={() => navigate(`/users/${user.id}`)}
+                style={{
+                  color: "black",
+                }}
+              >
       <Card.Body>
         <Row>
           <div className="between_top">
@@ -35,18 +43,6 @@ function UserCard({ user, setIsEditing, isEditable, isNetwork, isFriend }) {
                 >{user?.description}</Card.Text>
               </div>
             </div>
-            {isNetwork && (
-              <Card.Link
-                className="mt-3"
-                href="#"
-                onClick={() => navigate(`/users/${user.id}`)}
-                style={{
-                  color: "black",
-                }}
-              >
-                <AiFillRead size={30}/>
-              </Card.Link>
-              )}
           </div>
           {isNetwork && (
             <Card.Img
@@ -77,6 +73,7 @@ function UserCard({ user, setIsEditing, isEditable, isNetwork, isFriend }) {
           <UserFriendButton user={user} isFriend={isFriend} />
         )}
       </Card.Body>
+        </Card.Link>
     </Card>
     </Col>
   );

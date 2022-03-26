@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { Container, Col, Row, Form, Button } from "react-bootstrap";
+import Home from "../Home"
 
 import "../../style/display.css";
 
@@ -59,7 +60,8 @@ function LoginForm() {
 
   return (
     <Container>
-      <Row className="justify-content-md-center mt-5">
+      <Home/>
+      <Row className="justify-content-md-center">
         <Col lg={8}>
           <Form onSubmit={handleSubmit}>
             <Row align="center">
