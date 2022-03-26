@@ -1,12 +1,15 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Nav, Dropdown, Navbar } from "react-bootstrap";
 import { UserStateContext, DispatchContext } from "../App";
+import * as Api from "../api";
 import "../style/header.css";
-import "../style/display.css"
+import "../style/display.css";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { FriendListContext } from "../context/FriendListContext";
+
+import { TallContext } from "../context/TallContext";
 
 function Header() {
   const navigate = useNavigate();
@@ -14,11 +17,18 @@ function Header() {
 
   const userState = useContext(UserStateContext);
   const dispatch = useContext(DispatchContext);
+  const { tall, setTall } = useContext(TallContext);
 
   const { setFriendList } = useContext(FriendListContext);
 
   // 전역상태에서 user가 null이 아니라면 로그인 성공 상태임.
   const isLogin = !!userState.user;
+
+  useEffect(() => {
+    if (userState.user) {
+      setTall(userState.user.tall);
+    }
+  }, [userState]);
 
   // 로그아웃 클릭 시 실행되는 함수
   const logout = () => {
@@ -63,7 +73,7 @@ function Header() {
         backgroundColor: "#FFEAA1",
         height: "80px",
         fontFamily: "Do Hyeon, sans-serif",
-        padding: "0 20px"
+        padding: "0 20px",
       }}
       className="mb-5 between"
     >
@@ -73,19 +83,26 @@ function Header() {
           style={{
             color: "#000000",
             fontSize: "35px",
-            padding: "0"
+            padding: "0",
           }}
         >
-          <img src={`${process.env.PUBLIC_URL}/img/pull.png`} style={{ width: "80px" }} alt="밥풀" />
+          <img
+            src={`${process.env.PUBLIC_URL}/img/pull.png`}
+            style={{ width: "80px" }}
+            alt="밥풀"
+          />
           밥풀(pull)
         </Nav.Link>
       </Navbar.Brand>
       {isLogin && (
         <div className="between">
           <Nav.Item style={{ fontSize: "20px" }}>
-            <p style={{ margin: 0}}>100톨</p>
+            <p style={{ margin: 0 }}>
+              <img src="img/tall.png" style={{ width: "23px" }} alt="톨" />
+              {tall} 톨
+            </p>
           </Nav.Item>
-          <Nav.Item style={{marginLeft: "14px"}}>
+          <Nav.Item style={{ marginLeft: "14px" }}>
             <Dropdown>
               <Dropdown.Toggle
                 id="dropdown-autoclose-true"
