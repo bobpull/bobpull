@@ -98,7 +98,7 @@ function Header() {
         <div className="between">
           <Nav.Item style={{ fontSize: "20px" }}>
             <p style={{ margin: 0 }}>
-              <img src="img/tall.png" style={{ width: "23px" }} alt="톨" />
+              <img src={`${process.env.PUBLIC_URL}img/tall.png`} style={{ width: "23px" }} alt="톨" />
               {tall} 톨
             </p>
           </Nav.Item>
