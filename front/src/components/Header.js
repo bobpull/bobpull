@@ -74,10 +74,11 @@ function Header() {
         height: "80px",
         fontFamily: "Do Hyeon, sans-serif",
         padding: "0 20px",
+        marginBottom: "15px",
       }}
-      className="mb-5 between"
+      className="between"
     >
-      <Navbar.Brand className="me-auto" style={{margin: "0"}}>
+      <Navbar.Brand className="me-auto" style={{ margin: "0" }}>
         <Nav.Link
           onClick={() => navigate("/")}
           style={{
@@ -88,7 +89,7 @@ function Header() {
         >
           <img
             src={`${process.env.PUBLIC_URL}/img/pull.png`}
-            style={{ width: "80px", height: "70px"}}
+            style={{ width: "80px", height: "70px" }}
             alt="밥풀"
           />
           밥풀(pull)
@@ -98,7 +99,11 @@ function Header() {
         <div className="between">
           <Nav.Item style={{ fontSize: "20px" }}>
             <p style={{ margin: 0 }}>
-              <img src={`${process.env.PUBLIC_URL}/img/tall.png`} style={{ width: "23px", marginRight: "5px" }} alt="톨" />
+              <img
+                src={`${process.env.PUBLIC_URL}/img/tall.png`}
+                style={{ width: "23px", marginRight: "5px" }}
+                alt="톨"
+              />
               {tall} 톨
             </p>
           </Nav.Item>
