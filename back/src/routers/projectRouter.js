@@ -5,6 +5,7 @@ import { ProjectService } from "../services/projectService";
 
 const ProjectRouter = Router();
 
+/*** 프로젝트 생성 ***/
 ProjectRouter.post(
   "/project/create",
   login_required,
@@ -44,6 +45,7 @@ ProjectRouter.post(
   } 
 );
 
+/*** 프로젝트 수정 시 선택 ***/
 ProjectRouter.get(
   "/projects/:id",
   login_required,
@@ -63,6 +65,27 @@ ProjectRouter.get(
   }
 );
 
+/*** 프로젝트 리스트 ***/
+ProjectRouter.get(
+  "/projectlist/:user_id",
+  login_required,
+  async function (req, res, next) {
+    try {
+      const user_id = req.params.user_id;
+      const currentProjectlist = await ProjectService.getProjectlistInfo({ user_id });
+
+      if (currentProjectlist.errorMessage) {
+        throw new Error(currentProjectlist.errorMessage);
+      }
+
+      res.status(200).send(currentProjectlist);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+/*** 프로젝트 수정 ***/
 ProjectRouter.put(
   "/projects/:id",
   login_required,
@@ -92,25 +115,7 @@ ProjectRouter.put(
   }
 );
 
-ProjectRouter.get(
-  "/projectlist/:user_id",
-  login_required,
-  async function (req, res, next) {
-    try {
-      const user_id = req.params.user_id;
-      const currentProjectlistInfo = await ProjectService.getProjectlistInfo({ user_id });
-
-      if (currentProjectlistInfo.errorMessage) {
-        throw new Error(currentProjectlistInfo.errorMessage);
-      }
-
-      res.status(200).send(currentProjectlistInfo);
-    } catch (error) {
-      next(error);
-    }
-  }
-);
-
+/*** 프로젝트 삭제 ***/
 ProjectRouter.delete(
   "/projects/:id",
   login_required,
