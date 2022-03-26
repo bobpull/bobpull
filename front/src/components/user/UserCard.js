@@ -14,15 +14,12 @@ function UserCard({ user, setIsEditing, isEditable, isNetwork, isFriend }) {
   // const imgUrl = profile.filter((img) => user.id === img.id)
   return (
     <Col>  
-    <Card className="mb-2 ms-0" style={{ width: "100%", margin: "0 auto" }}>
-      <Card.Link
-                className="mt-3"
-                href="#"
-                onClick={() => navigate(`/users/${user.id}`)}
-                style={{
-                  color: "black",
-                }}
-              >
+    <Card
+    onClick={() => {
+      if(isNetwork)
+        navigate(`users/${user.id}`)
+    }}
+     className="mb-2 ms-0" style={{ width: "100%", margin: "0 auto", cursor: `${isNetwork ? "pointer" : null}` }}>
       <Card.Body>
         <Row>
           <div className="between_top">
@@ -73,7 +70,6 @@ function UserCard({ user, setIsEditing, isEditable, isNetwork, isFriend }) {
           <UserFriendButton user={user} isFriend={isFriend} />
         )}
       </Card.Body>
-        </Card.Link>
     </Card>
     </Col>
   );
