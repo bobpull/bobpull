@@ -37,6 +37,21 @@ BadgeRouter.post(
         return res.status(400).send("유효하지 않은 접근입니다.");
       }
 
+     // 유저의 아이디로 tall을 찾음
+      const user = await userAuthService.getUserInfo({ user_id });
+
+      if (!user) {
+        throw new Error(user.errorMessage);
+      }
+
+      let { tall } = user;
+
+      if (tall >= price) {
+        tall -= price;
+      } else {
+        return res.status(403).send("톨이 부족합니다.");
+      }
+
       // 위 데이터를 뱃지 db에 추가하기
       const newBadge = await BadgeService.addBadge({
         id,
@@ -48,21 +63,6 @@ BadgeRouter.post(
     
       if (newBadge.errorMessage) {
         throw new Error(newBadge.errorMessage);
-      }
-      
-      // 유저의 아이디로 tall을 찾음
-      const user = await userAuthService.getUserInfo({ user_id });
-
-      if (!user) {
-        throw new Error(user.errorMessage);
-      }
-      
-      let { tall } = user;
-
-      if (tall >= price) {
-        tall -= price;
-      } else {
-        return res.status(403).send("톨이 부족합니다.");
       }
 
       const toUpdate = { tall };
