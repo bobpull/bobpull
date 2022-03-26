@@ -80,6 +80,10 @@
   margin: 20px;
 }
 
+.button:hover {
+  transform: scale(1.03);
+}
+
 .alignButton {
   display: flex;
   justify-content: space-between;
