@@ -19,15 +19,7 @@ class Friend {
 
   static async findByUserId({ user_id }) {
     let findFriendList = await FriendModel.find({ user_id });
-
-    let friendlist = [];
-
-    for (let i = 0; i < findFriendList.length; i++) {
-      let { friend_id } = findFriendList[i];
-      friendlist.push(await UserModel.find({ id: friend_id }));
-    }
-
-    return friendlist;
+    return findFriendList;
   }
 
   static async deleteById({ id }) {
@@ -37,6 +29,8 @@ class Friend {
 
   static async deleteByUserId({ user_id }) {
     const friend = await FriendModel.deleteMany({ user_id });
+    const deleteFriend = await FriendModel.deleteMany({ friend_id: user_id });
+    console.log(deleteFriend);
     return friend;
   }
 
