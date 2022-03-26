@@ -6,7 +6,7 @@ import is from "@sindresorhus/is";
 const BadgeRouter = Router();
 
 const badgeName = ["pull", "bowl", "egg", "spam", "clean-code", "css3", "dj", "es6", "Graph_QL", "grid", "html5", "JS", "MongoDB", "Nest_JS", "nodejs", "Pug", "python", "clean-React_Native", "React", "socketio", "typescript", "websockets"];
-const badgeUrlList = ["img/pull.png", "img/bowl.png", "img/egg.png", "img/spam.png", "img/clean-code.png", "img/css3.png", "img/dj.png", "img/es6.png", "Graph_QL.png", "grid.png", "html5.png", "JS.png",  "MongoDB.png", "Nest_JS.png", "nodejs.png", "Pug.png", "python.png", "clean-React_Native.png", "React.png", "socketio.png", "typescript.png", "websockets.png"];
+const badgeUrlList = ["pull.png", "bowl.png", "egg.png", "spam.png", "clean-code.png", "css3.png", "dj.png", "es6.png", "GraphQL.png", "grid.png", "html5.png", "JS.png",  "MongoDB.png", "NestJS.png", "nodejs.png", "Pug.png", "python.png", "clean-React_Native.png", "React.png", "socketio.png", "typescript.png", "websockets.png"];
 
 BadgeRouter.post(
   "/badge/:id",
@@ -21,12 +21,12 @@ BadgeRouter.post(
 
       const user_id = req.currentUserId;
       let id = req.params.id;
-      let name = "";
-      let price = 0;
-      let url = "";
+      let name = {};
+      let price = {};
+      let url = {};
     
-      for (let i = 0; i < 23; i++) {
-        if (i === id) {
+      for (let i = 0; i < 22; i++) {
+        if (i === Number(id)) {
           name = badgeName[i];
           if (i < 5) {
             price = 10;
@@ -36,18 +36,6 @@ BadgeRouter.post(
           url = "https://bobpullbucket.s3.ap-northeast-2.amazonaws.com/language/" + badgeUrlList[i];
         }
       }
-    
-      switch (id) {
-        case 1:
-          price = 2;
-          console.log(price);
-          name = "3";
-          url = "2";
-      }
-      // const {a} = {} 
-      // name = 3;
-      // url = "2";
-      // price = 2;
 
       // 위 데이터를 뱃지 db에 추가하기
       const newBadge = await BadgeService.addBadge({
