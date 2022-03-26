@@ -20,7 +20,7 @@ const Home = () => {
         alt="삼톨이들"
       />
 
-      {location.pathname === "/" && (
+      {location.pathname === "/" ? (
         <div>
           <div className="subBox">
             <p>
@@ -60,6 +60,12 @@ const Home = () => {
               <div className="welcome">당신은 이미 최고의 밥풀입니다!</div>
             )}
           </div>
+        </div>
+      ) : (
+        <div className="notFound">
+          잘못된 경로로 접근하셨습니다.
+          <br />
+          여기는 서비스를 제공하지 않아요.
         </div>
       )}
     </div>

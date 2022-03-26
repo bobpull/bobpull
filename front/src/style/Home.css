@@ -66,6 +66,15 @@
   margin-top: 30px;
   font-size: 2rem;
   font-family: "Black Han Sans", "Sans serif", "Helvetica Neue";
+  text-align: center;
+}
+
+.notFound {
+  margin-top: 30px;
+  font-size: 2rem;
+  font-family: "Black Han Sans", "Sans serif", "Helvetica Neue";
+  text-align: center;
+  color: #c90000;
 }
 
 .button {
