@@ -3,13 +3,32 @@ import { Card, Row, Col, Badge } from "react-bootstrap";
 import { setDefaultLocale } from "react-datepicker";
 import * as Api from "../../api.js";
 import "../../style/display.css";
-
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 import BadgeLock from "./BadgeLock";
 import { TallContext } from "../../context/TallContext";
-
 import {imgUrl} from "./BadgeList"
 
 const Skill = ({ portfolioOwnerId, isEditable }) => {
+
+  const handleClick = async () => {
+    const MySwal = withReactContent(Swal);
+
+    const result = await MySwal.fire({
+      title: <p>구매 할래요?</p>,
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonColor: "#0B5ED7",
+      confirmButtonText: "확인",
+      cancelButtonText: "취소",
+    });
+
+    if (result.isConfirmed) {
+      openBadge();
+    }
+  };
+
+
   const imgRef = useRef();
   const [badges, setBadges] = useState([]);
   const { setTall } = useContext(TallContext);
@@ -27,6 +46,7 @@ const Skill = ({ portfolioOwnerId, isEditable }) => {
       setBadges((cur) => {
         return [...cur, index];
       });
+      imgRef.current.classList.add('spinAni')
       setTall(res.data[1]);
     } catch (e) {}
   };
@@ -36,12 +56,12 @@ const Skill = ({ portfolioOwnerId, isEditable }) => {
       <Card.Body>
         <Row xs="4" sm="5" md="6" lg="5" className="jusify-content-center">
           {imgUrl.map((bedge, index) => (
-            <Col className="mb-3 col-center colBox" onClick={openBadge}>
+            <Col className="mb-3 col-center colBox">
               <Card.Img
                 key={index}
                 className={
                   badges.includes(index.toString())
-                    ? "cardImg spinAni"
+                    ? "cardImg"
                     : "cardImg opacity"
                 }
                 src={bedge.url}
