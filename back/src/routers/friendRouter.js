@@ -4,6 +4,7 @@ import { FriendService } from "../services/friendService";
 
 const FriendRouter = Router();
 
+/*** 친구 맺기 ***/
 FriendRouter.post(
   "/friend/:friend_id",
   login_required,
@@ -12,7 +13,7 @@ FriendRouter.post(
     const user_id = req.currentUserId;
     const friend_id = req.params.friend_id;
 
-    // 위 데이터를 Like db에 추가하기
+    // 위 데이터를 Friend db에 추가
     const newFriend = await FriendService.addFriend({
       user_id,
       friend_id,
@@ -28,6 +29,7 @@ FriendRouter.post(
   }
 });
 
+/*** 친구 리스트 ***/
 FriendRouter.get(
   "/friendlist/:user_id",
   login_required,
@@ -47,6 +49,7 @@ FriendRouter.get(
   }
 );
 
+/*** 친구 끊기 ***/
 FriendRouter.delete(
   "/friends/:id",
   login_required,

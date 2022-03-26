@@ -9,6 +9,7 @@ const badgeName = ["pull", "bowl", "egg", "spam", "cleanCode", "css3", "dj", "es
 
 const badgeUrlList = ["pull.png", "bowl.png", "egg.png", "spam.png", "cleanCode.png", "css3.png", "dj.png", "es6.png", "GraphQL.png", "grid.png", "html5.png", "JS.png",  "MongoDB.png", "NestJS.png", "nodejs.png", "Pug.png", "python.png", "ReactNative.png", "React.png", "socketio.png", "typescript.png", "websockets.png"];
 
+/*** 뱃지 구매 ***/
 BadgeRouter.post(
   "/badge/:id",
   login_required,
@@ -23,7 +24,7 @@ BadgeRouter.post(
       for (let i = 0; i < 22; i++) {
         if (i === id) {
           name = badgeName[i];
-          if (i < 5) {
+          if (i < 4) {
             price = 10;
           } else {
             price = 3;
@@ -48,7 +49,8 @@ BadgeRouter.post(
       if (newBadge.errorMessage) {
         throw new Error(newBadge.errorMessage);
       }
-
+      
+      // 유저의 아이디로 tall을 찾음
       const user = await userAuthService.getUserInfo({ user_id });
 
       if (!user) {
@@ -57,22 +59,15 @@ BadgeRouter.post(
       
       let { tall } = user;
 
-      if (id < 4) {
-        if (tall >= price) {
-          tall -= price;
-        } else {
-          return res.status(403).send("톨이 부족합니다.");
-        }
+      if (tall >= price) {
+        tall -= price;
       } else {
-        if (tall >= price) {
-          tall -= price;
-        } else {
-          return res.status(403).send("톨이 부족합니다.");
-        }
+        return res.status(403).send("톨이 부족합니다.");
       }
 
       const toUpdate = { tall };
 
+      // tall 결제
       const updatedUser = await userAuthService.setTall({ user_id, toUpdate });
 
       id = newBadge.id;
@@ -85,6 +80,7 @@ BadgeRouter.post(
   }
 );
 
+/*** 뱃지  ***/
 BadgeRouter.get(
   "/badges/:id",
   login_required,
