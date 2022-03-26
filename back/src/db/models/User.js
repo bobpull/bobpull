@@ -31,6 +31,11 @@ class User {
     return user;
   }
 
+  static async findUserName({ name }) {
+    const searchedUsers = await UserModel.find(replace(regexOne, '___'));
+    return searchedUsers;
+  }
+
   static async findByFriendId({ friend_id }) {
     const friend = await UserModel.findOne({ id: friend_id });
     return friend;
