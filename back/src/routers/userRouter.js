@@ -183,8 +183,8 @@ userAuthRouter.get(
   login_required,
   async function (req, res, next) {
     try {
-      const users = await userAuthService.getUsers();
-      res.status(200).send(users);
+      const userlist = await userAuthService.getUsers();
+      res.status(200).send(userlist);
     } catch (err) {
       next(err);
     }
@@ -234,7 +234,27 @@ userAuthRouter.get(
   }
 );
 
-/*** 유저 리스트 검색 ***/
+/*** 유저 페이지 방문 ***/
+userAuthRouter.get(
+  "/users/:id",
+  login_required,
+  async function (req, res, next) {
+    try {
+      const user_id = req.params.id;
+      const currentUserInfo = await userAuthService.getUserInfo({ user_id });
+
+      if (currentUserInfo.errorMessage) {
+        throw new Error(currentUserInfo.errorMessage);
+      }
+
+      res.status(200).send(currentUserInfo);
+    } catch (err) {
+      next(err);
+    }
+  }
+);
+
+/*** 유저 바이오 수정 ***/
 userAuthRouter.put(
   "/users/:id",
   login_required,
@@ -257,26 +277,6 @@ userAuthRouter.put(
       }
 
       res.status(200).json(updatedUser);
-    } catch (err) {
-      next(err);
-    }
-  }
-);
-
-/*** 유저 페이지 방문 ***/
-userAuthRouter.get(
-  "/users/:id",
-  login_required,
-  async function (req, res, next) {
-    try {
-      const user_id = req.params.id;
-      const currentUserInfo = await userAuthService.getUserInfo({ user_id });
-
-      if (currentUserInfo.errorMessage) {
-        throw new Error(currentUserInfo.errorMessage);
-      }
-
-      res.status(200).send(currentUserInfo);
     } catch (err) {
       next(err);
     }
@@ -344,7 +344,7 @@ userAuthRouter.get(
     try {
       const user_id = req.params.user_id;
       const profileImg = await userAuthService.getProfileImg({ user_id });
-      res.send(profileImg);
+      res.status(200).send(profileImg);
     } catch (err) {
       next(err);
     }
