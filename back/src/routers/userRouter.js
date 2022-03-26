@@ -15,6 +15,7 @@ const userAuthRouter = Router();
 
 let verificationNumber = {};
 
+/*** 회원가입 ***/
 userAuthRouter.post("/user/register", async function (req, res, next) {
   try {
     if (is.emptyObject(req.body)) {

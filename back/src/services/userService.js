@@ -132,6 +132,7 @@ class userAuthService {
       user = await User.update({ user_id, fieldToUpdate, newValue });
     }
     
+    console.log("서비스윽 : ", user);
     return user;
   }
   
