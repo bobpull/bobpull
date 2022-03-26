@@ -2,7 +2,7 @@ import is from "@sindresorhus/is";
 import { Router } from "express";
 import { login_required } from "../middlewares/login_required";
 import { userAuthService } from "../services/userService";
-import { upload } from '../middlewares/uploadProfileImg';
+import { upload } from '../middlewares/multerProfileImg';
 import sendMail from "../utils/send-mail";
 import generateRandomPassword from "../utils/generate-random-password";
 import fs from "fs";
