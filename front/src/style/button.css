@@ -1,11 +1,12 @@
 .btn-primary {
   background-color: #514fa1;
-  border: none;
+  border-color: #514fa1;
 }
 
 .btn-primary:hover,
 .btn-primary:focus {
   background-color: #323092;
+  border-color: #323092;
 }
 
 .dropdown-item:focus {

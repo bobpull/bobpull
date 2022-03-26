@@ -1,14 +1,14 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Container, Col, Row, Form, Button } from "react-bootstrap";
-import {ValidateEmail} from "./ValidateEmail"
+import { ValidateEmail } from "./ValidateEmail";
 import * as Api from "../../api";
-import "../../style/display.css"
+import "../../style/display.css";
 
 function RegisterForm() {
   const navigate = useNavigate();
-  const confirmMessageRef = useRef()
-  const blockBtn = useRef()
+  const confirmMessageRef = useRef();
+  const blockBtn = useRef();
 
   //useState로 email 상태를 생성함.
   const [email, setEmail] = useState("");
@@ -22,9 +22,8 @@ function RegisterForm() {
   const [authEmail, setAuthEmail] = useState({
     authNum: "",
     isAuthening: false,
-    isAuth: false
-  })
-
+    isAuth: false,
+  });
 
   //위 validateEmail 함수를 통해 이메일 형태 적합 여부를 확인함.
   const isEmailValid = ValidateEmail(email);
@@ -37,10 +36,14 @@ function RegisterForm() {
 
   // 위 4개 조건이 모두 동시에 만족되는지 여부를 확인함.
   const isFormValid =
-    isEmailValid && isPasswordValid && isPasswordSame && isNameValid && authEmail.isAuth;
+    isEmailValid &&
+    isPasswordValid &&
+    isPasswordSame &&
+    isNameValid &&
+    authEmail.isAuth;
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     try {
       // "user/register" 엔드포인트로 post요청함.
       await Api.post("user/register", {
@@ -56,57 +59,51 @@ function RegisterForm() {
   };
 
   const handleAuthEmail = async () => {
-    try{
-      await Api.post("availablemail", {email})
-      confirmMessageRef.current.innerText = `인증번호를 전송했습니다.`
-      setAuthEmail(cur => {
+    try {
+      await Api.post("availablemail", { email });
+      confirmMessageRef.current.innerText = `인증번호를 전송했습니다.`;
+      setAuthEmail((cur) => {
         return {
           ...cur,
           isAuthening: true,
-        }
-      })
-      
-    } catch(e){
-      console.log(e)
+        };
+      });
+    } catch (e) {
+      console.log(e);
     }
-    
-  }
+  };
 
   const handleAuthEmailNum = (e) => {
-    setAuthEmail(cur => {
+    setAuthEmail((cur) => {
       return {
         ...cur,
-        authNum: e.target.value
-      }
-    })
-  }
+        authNum: e.target.value,
+      };
+    });
+  };
 
-  const cofirmAuthMailNum = async() => {
-      const res = await Api.post("availablemail/check", {
-        verificationNumber: authEmail.authNum,
-      })
-      if(res.status === 200){
-        confirmMessageRef.current.innerText = `인증에 성공했습니다!`
-        setAuthEmail(cur => {
-          return {
-            ...cur,
-            isAuth: true,
-          }
-        })
-      }
-      else{
-        confirmMessageRef.current.innerText = `인증에 실패했습니다! 인증번호를 확인해주세요.`
-      }
-  }
+  const cofirmAuthMailNum = async () => {
+    const res = await Api.post("availablemail/check", {
+      verificationNumber: authEmail.authNum,
+    });
+    if (res.status === 200) {
+      confirmMessageRef.current.innerText = `인증에 성공했습니다!`;
+      setAuthEmail((cur) => {
+        return {
+          ...cur,
+          isAuth: true,
+        };
+      });
+    } else {
+      confirmMessageRef.current.innerText = `인증에 실패했습니다! 인증번호를 확인해주세요.`;
+    }
+  };
 
   return (
     <Container>
       <Row className="justify-content-md-center mt-5">
         <Col lg={8}>
-          <Form
-           method="post"
-           onSubmit={handleSubmit}
-          >
+          <Form method="post" onSubmit={handleSubmit}>
             <Form.Group controlId="registerEmail">
               <Form.Label>이메일 주소</Form.Label>
               <Row>
@@ -118,42 +115,47 @@ function RegisterForm() {
                     disabled={authEmail.isAuthening}
                     onChange={(e) => setEmail(e.target.value)}
                   />
-                  <Button 
-                    style={{width: "150px", marginLeft: "10px"}}
-                    variant="primary" 
+                  <Button
+                    style={{ width: "150px", marginLeft: "10px" }}
+                    variant="primary"
                     onClick={handleAuthEmail}
                     disabled={authEmail.isAuthening}
-                  >인증번호 전송</Button>
+                  >
+                    인증번호 전송
+                  </Button>
                 </div>
               </Row>
-              
-              
             </Form.Group>
 
             {!isEmailValid && (
-                <Form.Text className="text-success">
-                  이메일 형식이 올바르지 않습니다.
-                </Form.Text>
-              )}
-              <Form.Group className="mt-3" controlId="authEmail">
-                <div className="between">
-                  <Form.Control
-                    type="text"
-                    autoComplete="off"
-                    placeholder="인증번호를 입력해주세요."
-                    onChange={handleAuthEmailNum}
-                    disabled={authEmail.isAuth}
-                  />
-                  <Button 
-                      style={{width: "150px", marginLeft: "10px"}}
-                      variant="primary"
-                      onClick={cofirmAuthMailNum}
-                      disabled={authEmail.isAuth}
-                  >인증</Button>
-                  </div>
-                <Form.Text ref={confirmMessageRef} className="text-success"></Form.Text>
-              </Form.Group>
-              
+              <Form.Text className="text-success">
+                이메일 형식이 올바르지 않습니다.
+              </Form.Text>
+            )}
+            <Form.Group className="mt-3" controlId="authEmail">
+              <div className="between">
+                <Form.Control
+                  type="text"
+                  autoComplete="off"
+                  placeholder="인증번호를 입력해주세요."
+                  onChange={handleAuthEmailNum}
+                  disabled={authEmail.isAuth}
+                />
+                <Button
+                  style={{ width: "150px", marginLeft: "10px" }}
+                  variant="primary"
+                  onClick={cofirmAuthMailNum}
+                  disabled={authEmail.isAuth}
+                >
+                  인증
+                </Button>
+              </div>
+              <Form.Text
+                ref={confirmMessageRef}
+                className="text-success"
+              ></Form.Text>
+            </Form.Group>
+
             <Form.Group controlId="registerPassword" className="mt-3">
               <Form.Label>비밀번호</Form.Label>
               <Form.Control
@@ -200,8 +202,13 @@ function RegisterForm() {
             </Form.Group>
 
             <Form.Group as={Row} className="mt-3 text-center">
-              <Col >
-                <Button variant="primary" type="submit" disabled={!isFormValid}>
+              <Col>
+                <Button
+                  variant="primary"
+                  type="submit"
+                  disabled={!isFormValid}
+                  style={{ backgroundColor: "#514fa1" }}
+                >
                   회원가입
                 </Button>
               </Col>
