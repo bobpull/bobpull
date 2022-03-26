@@ -14,7 +14,7 @@ function UserCard({ user, setIsEditing, isEditable, isNetwork, isFriend }) {
   // const imgUrl = profile.filter((img) => user.id === img.id)
   return (
     <Col>
-    <Card className="mb-2 ms-0" style={{ width: "100%", margin: "0 auto" }}>
+    <Card className="mb-2 ms-0" style={{ width: "100%", minHeight: "350px", margin: "0 auto" }}>
       <Card.Body>
         <Row>
           <div className="between_top">
