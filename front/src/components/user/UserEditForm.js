@@ -81,9 +81,6 @@ function UserEditForm({ user, setIsEditing, setUser }) {
           alt="프로필 사진"
           onClick={() => {imgRef.current.click()}}
         />
-        <Button
-          onClick={submitProfile}
-        >확인</Button>
       <Form onSubmit={handleSubmit}>
         <Form.Group controlId="useEditprofile" className="mb-3 ">
           <Form.Control
