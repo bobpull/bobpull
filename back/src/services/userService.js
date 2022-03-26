@@ -87,9 +87,8 @@ class userAuthService {
     return users;
   }
 
-  static async searchUsers({ name }) {
-    const users = await User.findUserName({ name });
-    console.log("서비스윽 : ", name);
+  static async searchUsers({ word }) {
+    let users = await User.findUserName({ word });
     return users;
   }
 
@@ -137,7 +136,6 @@ class userAuthService {
       user = await User.update({ user_id, fieldToUpdate, newValue });
     }
     
-    console.log("서비스윽 : ", user);
     return user;
   }
   
