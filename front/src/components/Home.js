@@ -63,7 +63,9 @@ const Home = () => {
         </div>
       ) : (
         <div className="notFound">
-          
+          잘못된 경로로 접근하셨습니다.
+          <br />
+          여기는 서비스를 제공하지 않아요.
         </div>
       )}
     </div>
