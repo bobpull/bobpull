@@ -28,6 +28,7 @@ function FriendCard({ id, name, email, description, profilePath }) {
                   style={{ width: "50px", height: "50px", borderRadius: "50%", marginRight: "10px" }}
                   className="mb-3"
                   src="https://bobpullbucket.s3.ap-northeast-2.amazonaws.com/bobpulls/1.jpg"
+                  
                   alt="밥풀"
                 />
                 <div>
