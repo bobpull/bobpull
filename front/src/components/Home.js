@@ -20,7 +20,7 @@ const Home = () => {
         alt="삼톨이들"
       />
 
-      {location.pathname === "/" ? (
+      
         <div>
           <div className="subBox">
             <p>
@@ -61,13 +61,7 @@ const Home = () => {
             )}
           </div>
         </div>
-      ) : (
-        <div className="notFound">
-          잘못된 경로로 접근하셨습니다.
-          <br />
-          여기는 서비스를 제공하지 않아요.
-        </div>
-      )}
+      ) 
     </div>
   );
 };
