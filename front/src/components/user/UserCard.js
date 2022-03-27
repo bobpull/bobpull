@@ -39,8 +39,8 @@ function UserCard({ user, setIsEditing, isEditable, isNetwork, isFriend }) {
                     marginRight: "10px",
                   }}
                   className="mb-3"
-                  src={user?.profilePath} //{user.profilePath} // imgUrl.toUpdate
-                  alt="고양이 사진"
+                  src="https://bobpullbucket.s3.ap-northeast-2.amazonaws.com/bobpulls/1.jpg"
+                  alt="밥풀"
                 />
                 <div>
                   <Card.Text style={{ margin: "0" }}>{user?.name}</Card.Text>
