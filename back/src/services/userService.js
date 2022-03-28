@@ -60,7 +60,7 @@ class userAuthService {
     const id = user.id;
     const name = user.name;
     const description = user.description;
-    const tall = user.tall;
+    const tol = user.tol;
     const loginedAt = user.loginedAt;
 
     const loginUser = {
@@ -70,7 +70,7 @@ class userAuthService {
       name,
       description,
       errorMessage: null,
-      tall,
+      tol,
       loginedAt
     };
 
@@ -130,9 +130,9 @@ class userAuthService {
       user = await User.update({ user_id, fieldToUpdate, newValue });
     }
 
-    if (toUpdate.tall) {
-      const fieldToUpdate = "tall";
-      const newValue = toUpdate.tall;
+    if (toUpdate.tol) {
+      const fieldToUpdate = "tol";
+      const newValue = toUpdate.tol;
       user = await User.update({ user_id, fieldToUpdate, newValue });
     }
     
@@ -238,9 +238,9 @@ class userAuthService {
 /*******
 뱃지 구입
 ********/
-  static async setTall({ user_id, toUpdate }) {
-    const fieldToUpdate = "tall";
-    const newValue = toUpdate.tall;
+  static async settol({ user_id, toUpdate }) {
+    const fieldToUpdate = "tol";
+    const newValue = toUpdate.tol;
     
     const user = await User.update({ user_id, fieldToUpdate, newValue });
     

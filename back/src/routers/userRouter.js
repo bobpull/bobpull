@@ -152,17 +152,17 @@ userAuthRouter.post("/user/login", async function (req, res, next) {
       throw new Error(user.errorMessage);
     }
 
-    // 출석 체크 (tall += 2)
+    // 출석 체크 (tol += 2)
     const beforeLoginedAt = user.loginedAt;
-    let tall = user.tall;
+    let tol = user.tol;
     
     if (beforeLoginedAt < koreaNow()) {  
-      tall += 2;
+      tol += 2;
     }
     
     const user_id = user.id;
     const loginedAt = koreaNow();
-    const toUpdate = { loginedAt, tall };
+    const toUpdate = { loginedAt, tol };
 
     // 해당 사용자 아이디로 사용자 정보를 db에서 찾아 최근 접속시간 업데이트
     const updatedUser = await userAuthService.setUser({ user_id, toUpdate });
@@ -265,9 +265,9 @@ userAuthRouter.put(
       const password = req.body.password ?? null;
       const description = req.body.description ?? null;
       const loginedAt = req.body.loginedAt ?? null;
-      const tall = req.body.tall ?? null;
+      const tol = req.body.tol ?? null;
 
-      const toUpdate = { name, password, description, loginedAt, tall };
+      const toUpdate = { name, password, description, loginedAt, tol };
 
       // 해당 사용자 아이디로 사용자 정보를 db에서 찾아 업데이트. 업데이트 요소가 없을 시 생략함
       const updatedUser = await userAuthService.setUser({ user_id, toUpdate });
@@ -305,7 +305,7 @@ userAuthRouter.delete(
 
 
 /*******
-* 프로필 이미지 처리
+* 프로필 이미지 변경
 ********/
 
 userAuthRouter.put(
