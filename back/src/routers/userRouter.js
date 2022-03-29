@@ -152,17 +152,17 @@ userAuthRouter.post("/user/login", async function (req, res, next) {
       throw new Error(user.errorMessage);
     }
 
-    // 출석 체크 (tol += 2)
+    // 출석 체크 (point += 2)
     const beforeLoginedAt = user.loginedAt;
-    let tol = user.tol;
+    let point = user.point;
     
     if (beforeLoginedAt < koreaNow()) {  
-      tol += 2;
+      point += 2;
     }
     
     const user_id = user.id;
     const loginedAt = koreaNow();
-    const toUpdate = { loginedAt, tol };
+    const toUpdate = { loginedAt, point };
 
     // 해당 사용자 아이디로 사용자 정보를 db에서 찾아 최근 접속시간 업데이트
     const updatedUser = await userAuthService.setUser({ user_id, toUpdate });
@@ -265,9 +265,9 @@ userAuthRouter.put(
       const password = req.body.password ?? null;
       const description = req.body.description ?? null;
       const loginedAt = req.body.loginedAt ?? null;
-      const tol = req.body.tol ?? null;
+      const point = req.body.point ?? null;
 
-      const toUpdate = { name, password, description, loginedAt, tol };
+      const toUpdate = { name, password, description, loginedAt, point };
 
       // 해당 사용자 아이디로 사용자 정보를 db에서 찾아 업데이트. 업데이트 요소가 없을 시 생략함
       const updatedUser = await userAuthService.setUser({ user_id, toUpdate });
