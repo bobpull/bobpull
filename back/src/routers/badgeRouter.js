@@ -37,17 +37,17 @@ BadgeRouter.post(
         return res.status(400).send("유효하지 않은 접근입니다.");
       }
 
-     // 유저의 아이디로 tall을 찾음
+     // 유저의 아이디로 point를 찾음
       const user = await userAuthService.getUserInfo({ user_id });
 
       if (!user) {
         throw new Error(user.errorMessage);
       }
 
-      let { tall } = user;
+      let { point } = user;
 
-      if (tall >= price) {
-        tall -= price;
+      if (point >= price) {
+        point -= price;
       } else {
         return res.status(403).send("톨이 부족합니다.");
       }
@@ -65,15 +65,15 @@ BadgeRouter.post(
         throw new Error(newBadge.errorMessage);
       }
 
-      const toUpdate = { tall };
+      const toUpdate = { point };
 
-      // tall 결제
+      // point 결제
       const updatedUser = await userAuthService.setTall({ user_id, toUpdate });
 
       id = newBadge.id;
-      tall = updatedUser.tall
+      point = updatedUser.point
       
-      res.status(201).json([id, tall]);
+      res.status(201).json([id, point]);
     } catch (err) {
       next(err);
     }

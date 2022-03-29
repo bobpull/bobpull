@@ -38,7 +38,7 @@ const UserSchema = new Schema(
       required: false,
       default: "2022-02-22"
     },
-    tol: {
+    point: {
       type: Number,
       required: true,
       default: 5,
