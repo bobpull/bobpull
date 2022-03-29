@@ -44,7 +44,7 @@ userAuthRouter.post("/user/register", async function (req, res, next) {
 
 /*** 비밀번호 변경(로그인 상태에서) ***/
 userAuthRouter.post(
-  "/changepw",
+  "/change_password",
   login_required,
   async function (req, res, next) {
     try {
@@ -68,7 +68,7 @@ userAuthRouter.post(
 );
 
 /*** 임시 비밀번호 생성 ***/
-userAuthRouter.post("/resetpw", async function (req, res, next) {
+userAuthRouter.post("/reset_password", async function (req, res, next) {
   try {
     const email = req.body.email;
     const user = await userAuthService.findUserByEmail({ email });
