@@ -69,7 +69,6 @@ function LoginForm() {
                 style={{
                   color: "#FF0000",
                   fontWeight: "bold",
-                  marginBottom: "20px",
                 }}
               >
                 {errorText}
