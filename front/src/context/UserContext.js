@@ -1,6 +1,8 @@
 import React, {createContext, useReducer} from "react"
 
-const UserContext = createContext(null)
+const UserContext = createContext({
+  user: null,
+})
 
 const loginReducer = (userState, action) => {
   switch (action.type) {
