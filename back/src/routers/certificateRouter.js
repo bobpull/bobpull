@@ -121,12 +121,12 @@ CertificateRouter.delete(
   async function (req, res, next) {
     try {
       const id = req.params.id;
-      const deletedCertificate = await CertificateService.deleteUserCertificate(
+      const certificateDelete = await CertificateService.deleteUserCertificate(
         { id }
       );
 
-      if (deletedCertificate.errorMessage) {
-        throw new Error(deletedCertificate.errorMessage);
+      if (certificateDelete.errorMessage) {
+        throw new Error(certificateDelete.errorMessage);
       }
 
       res.status(204).send();

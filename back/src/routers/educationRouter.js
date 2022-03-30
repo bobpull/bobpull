@@ -123,10 +123,10 @@ EducationRouter.delete(
   async function (req, res, next) {
     try {
       const id = req.params.id;
-      const deletedEducation = await EducationService.deleteUserEducation({ id });
+      const educationDelete = await EducationService.deleteUserEducation({ id });
   
-      if (deletedEducation.errorMessage) {
-        throw new Error(deletedEducation.errorMessage);
+      if (educationDelete.errorMessage) {
+        throw new Error(educationDelete.errorMessage);
       }
   
       res.status(204).send();
