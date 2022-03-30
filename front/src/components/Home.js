@@ -55,7 +55,7 @@ const Home = () => {
                 </div>
               </div>
             ) : (
-              <div className="welcome">당신은 이미 최고의 밥풀입니다!</div>
+              <div className={styled.hello}>당신은 이미 최고의 밥풀입니다!</div>
             )}
           </div>
         </div>

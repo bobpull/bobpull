@@ -120,7 +120,7 @@ function RegisterForm() {
                     onClick={handleAuthEmail}
                     disabled={authEmail.isAuthening}
                   >
-                    인증번호 전송
+                   전송
                   </Button>
                 </div>
               </Row>
