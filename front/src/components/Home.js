@@ -19,8 +19,6 @@ const Home = () => {
         style={{ width: "300px", align: "center" }}
         alt="삼톨이들"
       />
-
-      
         <div>
           <div className="subBox">
             <p>
@@ -61,7 +59,6 @@ const Home = () => {
             )}
           </div>
         </div>
-      ) 
     </div>
   );
 };

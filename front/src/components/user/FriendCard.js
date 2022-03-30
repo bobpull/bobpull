@@ -27,8 +27,9 @@ function FriendCard({ id, name, email, description, profilePath }) {
                 <Card.Img
                   style={{ width: "50px", height: "50px", borderRadius: "50%", marginRight: "10px" }}
                   className="mb-3"
-                  src={profilePath}
-                  alt="고양이 사진"
+                  src="https://bobpullbucket.s3.ap-northeast-2.amazonaws.com/bobpulls/1.jpg"
+                  
+                  alt="밥풀"
                 />
                 <div>
                   <Card.Title className="title">{name}</Card.Title>

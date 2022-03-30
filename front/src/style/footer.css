@@ -1,8 +1,9 @@
 .Wrapper {
   width: 100%;
-  position: relative;
-  bottom: 0;
+  height: 100%;
   margin-top: 30px;
+  height: 20px;
+  padding: 20px;
 }
 
 .copyright {

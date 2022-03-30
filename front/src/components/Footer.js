@@ -13,12 +13,12 @@ function Footer() {
       className="Wrapper"
       style={{
         backgroundColor: "#FFEAA1",
-        height: "50px",
         fontFamily: "Do Hyeon, sans-serif",
       }}
     >
       <div className="copyright">
-        Copyright ©&nbsp;<span>{thisYear()}</span>&nbsp;bobpull all rights reserved
+        Copyright ©&nbsp;<span>{thisYear()}</span>&nbsp;bobpull all rights
+        reserved
       </div>
     </div>
   );
