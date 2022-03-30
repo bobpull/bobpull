@@ -6,8 +6,8 @@ class Badge {
     return createdNewBadge;
   }
 
-  static async findById({ id }) {
-    const badge = await BadgeModel.findOne({ id });
+  static async findBadge({ user_id, id }) {
+    const badge = await BadgeModel.findOne({ user_id, id });
     return badge;
   }
 

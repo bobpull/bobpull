@@ -238,7 +238,7 @@ class userService {
 /*******
 뱃지 구입
 ********/
-  static async setpoint({ user_id, toUpdate }) {
+  static async setPoint({ user_id, toUpdate }) {
     const fieldToUpdate = "point";
     const newValue = toUpdate.point;
     
