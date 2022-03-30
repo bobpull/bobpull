@@ -43,41 +43,25 @@ userAuthRouter.post("/user/register", async function (req, res, next) {
 });
 
 /*** 비밀번호 변경(로그인 상태에서) ***/
-userAuthRouter.post(
-  "/check_password",
+userAuthRouter.put(
+  "/change_password",
   login_required,
   async function (req, res, next) {
     try {
       const user_id = req.currentUserId;
-      const password = req.body.password;
+      const currentPassword = req.body.currentPassword;
 
       const checkPassword = await userService.checkPassword({
         user_id,
-        password,
+        password : currentPassword,
       });
 
       if (checkPassword.errorMessage) {
         throw new Error(checkPassword.errorMessage);
       }
 
-      res.status(200).send("새로운 비밀번호를 입력해주세요.");
-    } catch (err) {
-      next(err);
-    }
-  }
-);
-
-/*** 유저 바이오 수정 ***/
-userAuthRouter.put(
-  "/change_password",
-  login_required,
-  async function (req, res, next) {
-    try {
-      const user_id = req.params.id;
-      const password = req.body.password ?? null;
-
+      const password = req.body.password;
       const toUpdate = { password };
-
       // 해당 사용자 아이디로 사용자 정보를 db에서 찾아 업데이트. 업데이트 요소가 없을 시 생략함
       const updated_result = await userService.setUser({ user_id, toUpdate });
 
@@ -85,7 +69,7 @@ userAuthRouter.put(
         throw new Error(updated_result.errorMessage);
       }
 
-      res.status(200).json(updated_result);
+      res.status(200).json("비밀번호가 변경되었습니다.");
     } catch (err) {
       next(err);
     }

@@ -1,4 +1,5 @@
 const nodemailer = require("nodemailer");
+import 'dotenv/config'
 
 // nodemailer로 gmail transport 생성하기
 const transport = nodemailer.createTransport({
