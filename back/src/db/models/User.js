@@ -27,7 +27,9 @@ class User {
   }
 
   static async findUserName({ word }) {
-    const regex = "/^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|]+$/";
+    // const regex = "/^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|]+$/"; (이전에 사용한 정규식)
+    const regex = '/^(?=.*[ㄱ-ㅎ])(?=.*[가-힣])(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^*()\-_=+\\\|\[\]{};:\'",.<>\/?])*.{2,}$/i';
+
     let searchedUsers = await UserModel.find({ name: { $regex: String(word) } });
 
     return searchedUsers;
