@@ -270,13 +270,13 @@ userAuthRouter.put(
       const toUpdate = { name, password, description, loginedAt, point };
 
       // 해당 사용자 아이디로 사용자 정보를 db에서 찾아 업데이트. 업데이트 요소가 없을 시 생략함
-      const updatedUser = await userAuthService.setUser({ user_id, toUpdate });
+      const updated_result = await userAuthService.setUser({ user_id, toUpdate });
 
-      if (updatedUser.errorMessage) {
-        throw new Error(updatedUser.errorMessage);
+      if (updated_result.errorMessage) {
+        throw new Error(updated_result.errorMessage);
       }
 
-      res.status(200).json(updatedUser);
+      res.status(200).json(updated_result);
     } catch (err) {
       next(err);
     }

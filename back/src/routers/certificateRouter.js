@@ -77,16 +77,16 @@ CertificateRouter.put(
       const toUpdate = { title, description, issued_at };
 
       // 해당 certificate_di로 자격증 정보를 db에서 찾아 업데이트함. 업데이트 요소가 없을 시 생략함
-      const updatedCertificate = await CertificateService.setCertificate({
+      const updated_result = await CertificateService.setCertificate({
         user_id,
         id,
         toUpdate,
       });
 
-      if (updatedCertificate.errorMessage) {
-        throw new Error(updatedCertificate.errorMessage);
+      if (updated_result.errorMessage) {
+        throw new Error(updated_result.errorMessage);
       }
-      res.status(200).json(updatedCertificate);
+      res.status(200).json(updated_result);
     } catch (err) {
       next(err);
     }
@@ -130,8 +130,8 @@ CertificateRouter.delete(
       }
 
       res.status(204).send();
-    } catch (error) {
-      next(error);
+    } catch (err) {
+      next(err);
     }
   }
 );

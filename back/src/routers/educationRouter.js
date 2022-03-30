@@ -83,13 +83,13 @@ EducationRouter.put(
       const toUpdate = { school, major, degree };
 
       // 해당 education 아이디로 education 정보를 db에서 찾아 업데이트함. 업데이트 요소가 없을 시 생략함
-      const updatedEducation = await EducationService.setEducation({ id, toUpdate });
+      const updated_result = await EducationService.setEducation({ id, toUpdate });
 
-      if (updatedEducation.errorMessage) {
-        throw new Error(updatedEducation.errorMessage);
+      if (updated_result.errorMessage) {
+        throw new Error(updated_result.errorMessage);
       }
 
-      res.status(200).json(updatedEducation);
+      res.status(200).json(updated_result);
     } catch (err) {
       next(err);
     }
