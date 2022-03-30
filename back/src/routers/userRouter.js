@@ -44,7 +44,7 @@ userAuthRouter.post("/user/register", async function (req, res, next) {
 
 /*** 비밀번호 변경(로그인 상태에서) ***/
 userAuthRouter.post(
-  "/change_password",
+  "/check_password",
   login_required,
   async function (req, res, next) {
     try {
@@ -66,6 +66,32 @@ userAuthRouter.post(
     }
   }
 );
+
+/*** 유저 바이오 수정 ***/
+userAuthRouter.put(
+  "/change_password",
+  login_required,
+  async function (req, res, next) {
+    try {
+      const user_id = req.params.id;
+      const password = req.body.password ?? null;
+
+      const toUpdate = { password };
+
+      // 해당 사용자 아이디로 사용자 정보를 db에서 찾아 업데이트. 업데이트 요소가 없을 시 생략함
+      const updated_result = await userService.setUser({ user_id, toUpdate });
+
+      if (updated_result.errorMessage) {
+        throw new Error(updated_result.errorMessage);
+      }
+
+      res.status(200).json(updated_result);
+    } catch (err) {
+      next(err);
+    }
+  }
+);
+
 
 /*** 임시 비밀번호 생성 ***/
 userAuthRouter.post("/reset_password", async function (req, res, next) {
@@ -262,12 +288,11 @@ userAuthRouter.put(
     try {
       const user_id = req.params.id;
       const name = req.body.name ?? null;
-      const password = req.body.password ?? null;
       const description = req.body.description ?? null;
       const loginedAt = req.body.loginedAt ?? null;
       const point = req.body.point ?? null;
 
-      const toUpdate = { name, password, description, loginedAt, point };
+      const toUpdate = { name, description, loginedAt, point };
 
       // 해당 사용자 아이디로 사용자 정보를 db에서 찾아 업데이트. 업데이트 요소가 없을 시 생략함
       const updated_result = await userService.setUser({ user_id, toUpdate });
