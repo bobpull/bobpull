@@ -162,12 +162,12 @@ class userAuthService {
       return { errorMessage };
     }
     
-    await User.deleteById({ user_id });
     await Education.deleteByUserId({ user_id });
     await Award.deleteByUserId({ user_id });
     await Project.deleteByUserId({ user_id });
     await Certificate.deleteByUserId({ user_id });
     await Friend.deleteByUserId({ user_id });
+    await User.deleteById({ user_id });
 
     return user;
   }
