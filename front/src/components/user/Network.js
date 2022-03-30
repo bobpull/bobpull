@@ -1,18 +1,18 @@
 import React, { useEffect, useContext, useState } from "react";
-import { useNavigate, useLocation, Link } from "react-router-dom";
-import { Container, Row, Card } from "react-bootstrap";
+import { useNavigate, useLocation } from "react-router-dom";
+import { Container, Row} from "react-bootstrap";
 
 
 import * as Api from "../../api";
 import UserCard from "./UserCard";
 import SearchForm from "./SearchForm";
-import { UserStateContext } from "../../App";
+import { UserContext } from "../../context/UserContext";
 
 function Network() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const userState = useContext(UserStateContext);
+  const {userState} = useContext(UserContext);
   // useState 훅을 통해 users 상태를 생성함.
   const [users, setUsers] = useState([]);
   const [search, setSearch] = useState("");

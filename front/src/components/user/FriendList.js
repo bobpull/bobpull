@@ -4,12 +4,12 @@ import { Container, Row } from "react-bootstrap";
 
 import * as Api from "../../api";
 import FriendCard from "./FriendCard";
-import { UserStateContext } from "../../App";
+import {UserContext} from "../../context/UserContext"
 import { FriendListContext } from "../../context/FriendListContext";
 
 function FriendList() {
   const navigate = useNavigate();
-  const userState = useContext(UserStateContext);
+  const {userState} = useContext(UserContext);
   // useState 훅을 통해 users 상태를 생성함.
   const [users, setUsers] = useState([]);
 

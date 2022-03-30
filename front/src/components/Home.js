@@ -1,12 +1,12 @@
 import React, { useContext } from "react";
 import "../style/Home.css";
 import { useNavigate, useLocation } from "react-router-dom";
-import { UserStateContext } from "../App";
+import { UserContext } from "../context/UserContext";
 
 const Home = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const userState = useContext(UserStateContext);
+  const {userState} = useContext(UserContext);
 
   // 전역상태에서 user가 null이 아니라면 로그인 성공 상태임.
   const isLogin = !!userState.user;

@@ -7,11 +7,11 @@ import "../../style/display.css";
 
 import { ValidateEmail } from "./ValidateEmail";
 import * as Api from "../../api";
-import { DispatchContext } from "../../App";
+import {UserContext} from "../../context/UserContext"
 
 function LoginForm() {
   const navigate = useNavigate();
-  const dispatch = useContext(DispatchContext);
+  const {userDispatch} = useContext(UserContext);
 
   //useState로 email 상태를 생성함.
   const [email, setEmail] = useState("");
@@ -44,7 +44,7 @@ function LoginForm() {
       // sessionStorage에 "userToken"이라는 키로 JWT 토큰을 저장함.
       sessionStorage.setItem("userToken", jwtToken);
       // dispatch 함수를 이용해 로그인 성공 상태로 만듦.
-      dispatch({
+      userDispatch({
         type: "LOGIN_SUCCESS",
         payload: user,
       });

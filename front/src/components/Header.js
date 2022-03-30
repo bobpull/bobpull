@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Nav, Dropdown, Navbar } from "react-bootstrap";
-import { UserStateContext, DispatchContext } from "../App";
+import {UserContext} from "../context/UserContext";
 import "../style/header.css";
 import "../style/display.css";
 import Swal from "sweetalert2";
@@ -14,8 +14,7 @@ function Header() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const userState = useContext(UserStateContext);
-  const dispatch = useContext(DispatchContext);
+  const {userState, userDispatch} = useContext(UserContext)
   const { tall, setTall } = useContext(TallContext);
 
   const { setFriendList } = useContext(FriendListContext);
@@ -34,7 +33,7 @@ function Header() {
     // sessionStorage 에 저장했던 JWT 토큰을 삭제함.
     sessionStorage.removeItem("userToken");
     // dispatch 함수를 이용해 로그아웃함.
-    dispatch({ type: "LOGOUT" });
+    userDispatch({ type: "LOGOUT" });
     // 로그아웃 하면 현재 유저의 friendList를 빈 배열로 초기화
     setFriendList([]);
     // 기본 페이지로 돌아감.
