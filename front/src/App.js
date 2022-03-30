@@ -17,6 +17,8 @@ import WithdrawMember from "./components/user/WithdrawMemberForm";
 import FriendList from "./components/user/FriendList";
 import Home from "./components/Home";
 
+import styled from "./style/App.module.css"
+
 function App() {
   // useReducer 훅을 통해 userState 상태와 dispatch함수를 생성함.
   const {userState, userDispatch} = useContext(UserContext)
@@ -59,6 +61,7 @@ function App() {
     // User와 dispatch를 나눠서 관리할 필요가 있을까.
         <Router>
           <Header />
+          <div className={styled.container}>
           <Routes>
             <Route path="/" exact element={<Home />} />
             <Route path="/login" element={<LoginForm />} />
@@ -71,8 +74,8 @@ function App() {
             <Route path="/edit/password" element={<PasswordEdit />} />
             <Route path="/edit/withdraw" element={<WithdrawMember />} />
             <Route path="/friendlist" element={<FriendList />} />
-            <Route path="*" element={<Home />} />
           </Routes>
+          </div>
           <Footer />
         </Router>
   );

@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import "../style/Home.css";
+import styled from "../style/Home.module.css";
 import { useNavigate, useLocation } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
 
@@ -12,33 +12,33 @@ const Home = () => {
   const isLogin = !!userState.user;
 
   return (
-    <div className="homeContainer">
-      <h1 className="HomeTitle">밥풀(pull)</h1>
+    <div className={styled.homeContainer}>
+      <h1 className={styled.HomeTitle}>밥풀(pull)</h1>
       <img
         src={`${process.env.PUBLIC_URL}/img/3talls.png`}
         style={{ width: "300px", align: "center" }}
         alt="삼톨이들"
       />
         <div>
-          <div className="subBox">
-            <p>
+          <div className={styled.subBox}>
+            <p className={styled.welcome}>
               밥풀이 <b>찰싹</b> 붙는 것처럼
-              <br />
-              원하는 곳에 <b>찰싹</b> 붙으시길! <br />
-              <br />
+              <br/>
+              원하는 곳에 <b>찰싹</b> 붙으시길!
+            </p >
+            <p className={styled.welcome}>
               우리가 원하는 바를 git <b>pull</b> 해오는 것처럼
-              <br />
+              <br/>
               회사가 당신을 <b>pull</b> 해가기를!
             </p>
-
-            <div className="ad">
+            <div className={styled.ad}>
               포트폴리오 관리는 <u>"밥풀(pull)"</u>이지
             </div>
 
             {!isLogin ? (
-              <div className="alignButton">
+              <div className={styled.alignButton}>
                 <div
-                  className="button"
+                  className={styled.button}
                   onClick={() => {
                     navigate("/register");
                   }}
@@ -46,7 +46,7 @@ const Home = () => {
                   밥풀이 되시겠어요?
                 </div>
                 <div
-                  className="button"
+                  className={styled.button}
                   onClick={() => {
                     navigate("/login");
                   }}
