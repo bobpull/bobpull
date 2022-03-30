@@ -4,7 +4,7 @@ import axios from "axios"
 import * as Api from "../../api";
 import "../../style/display.css";
 
-
+const hostName = Api.serverUrl;
 
 function UserEditForm({ user, setIsEditing, setUser }) {
   const imgRef = useRef()

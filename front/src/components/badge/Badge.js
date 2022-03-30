@@ -56,7 +56,7 @@ const Skill = ({ portfolioOwnerId, isEditable }) => {
 
   return (
     <Card className="mb-3">
-      <Card.Body>
+      <Card.Body className="cardBody">
         <Row xs="4" sm="5" md="6" lg="5" className="jusify-content-center">
           {imgUrl.map((bedge, index) => (
             <Col className="mb-3 col-center colBox">

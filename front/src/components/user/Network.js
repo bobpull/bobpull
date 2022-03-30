@@ -33,7 +33,7 @@ function Network() {
 
   return (
     <>
-      <Container fluid style={{ width: "365px" }} className="mb-3">
+      <Container fluid style={{ width: "365px" }} className="mb-5 mt-5 serachForm">
         <SearchForm search={search} setSearch={setSearch} />
       </Container>
       <Container fluid style={{ clear: "both" }}>
