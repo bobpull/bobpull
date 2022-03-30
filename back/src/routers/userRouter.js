@@ -1,7 +1,7 @@
 import is from "@sindresorhus/is";
 import { Router } from "express";
 import { login_required } from "../middlewares/login_required";
-import { userAuthService } from "../services/userService";
+import { userService } from "../services/userService";
 import { upload } from '../middlewares/multerProfileImg';
 import sendMail from "../utils/send-mail";
 import generateRandomPassword from "../utils/generate-random-password";
@@ -26,7 +26,7 @@ userAuthRouter.post("/user/register", async function (req, res, next) {
     const password = req.body.password;
 
     // 위 데이터를 유저 db에 추가하기
-    const newUser = await userAuthService.addUser({
+    const newUser = await userService.addUser({
       name,
       email,
       password,
@@ -51,7 +51,7 @@ userAuthRouter.post(
       const user_id = req.currentUserId;
       const password = req.body.password;
 
-      const checkPassword = await userAuthService.checkPassword({
+      const checkPassword = await userService.checkPassword({
         user_id,
         password,
       });
@@ -71,7 +71,7 @@ userAuthRouter.post(
 userAuthRouter.post("/reset_password", async function (req, res, next) {
   try {
     const email = req.body.email;
-    const user = await userAuthService.findUserByEmail({ email });
+    const user = await userService.findUserByEmail({ email });
 
     if (!user) {
       throw new Error("해당 메일로 가입된 사용자가 없습니다.");
@@ -81,7 +81,7 @@ userAuthRouter.post("/reset_password", async function (req, res, next) {
     const user_id = user.id;
     const password = generateRandomPassword();
     const toUpdate = { password };
-    const updatedUser = await userAuthService.setUser({ user_id, toUpdate });
+    const updatedUser = await userService.setUser({ user_id, toUpdate });
   
     if (updatedUser.errorMessage) {
       throw new Error(updatedUser.errorMessage);
@@ -146,7 +146,7 @@ userAuthRouter.post("/user/login", async function (req, res, next) {
     const email = req.body.email;
     const password = req.body.password;
 
-    const user = await userAuthService.getUser({ email, password });
+    const user = await userService.getUser({ email, password });
 
     if (user.errorMessage) {
       throw new Error(user.errorMessage);
@@ -165,7 +165,7 @@ userAuthRouter.post("/user/login", async function (req, res, next) {
     const toUpdate = { loginedAt, point };
 
     // 해당 사용자 아이디로 사용자 정보를 db에서 찾아 최근 접속시간 업데이트
-    const updatedUser = await userAuthService.setUser({ user_id, toUpdate });
+    const updatedUser = await userService.setUser({ user_id, toUpdate });
 
     if (updatedUser.errorMessage) {
       throw new Error(updatedUser.errorMessage);
@@ -183,7 +183,7 @@ userAuthRouter.get(
   login_required,
   async function (req, res, next) {
     try {
-      const userlist = await userAuthService.getUsers();
+      const userlist = await userService.getUsers();
       res.status(200).send(userlist);
     } catch (err) {
       next(err);
@@ -199,7 +199,7 @@ userAuthRouter.get(
     try {
       const word = req.params.word;
 
-      let userlist = await userAuthService.searchUsers({ word });
+      let userlist = await userService.searchUsers({ word });
 
       if (userlist.length === 0) {
         throw new Error("검색 내용이 존재하지 않습니다.");
@@ -219,7 +219,7 @@ userAuthRouter.get(
   async function (req, res, next) {
     try {
       const user_id = req.currentUserId;
-      const currentUserInfo = await userAuthService.getUserInfo({
+      const currentUserInfo = await userService.getUserInfo({
         user_id,
       });
 
@@ -241,7 +241,7 @@ userAuthRouter.get(
   async function (req, res, next) {
     try {
       const user_id = req.params.id;
-      const currentUserInfo = await userAuthService.getUserInfo({ user_id });
+      const currentUserInfo = await userService.getUserInfo({ user_id });
 
       if (currentUserInfo.errorMessage) {
         throw new Error(currentUserInfo.errorMessage);
@@ -270,7 +270,7 @@ userAuthRouter.put(
       const toUpdate = { name, password, description, loginedAt, point };
 
       // 해당 사용자 아이디로 사용자 정보를 db에서 찾아 업데이트. 업데이트 요소가 없을 시 생략함
-      const updated_result = await userAuthService.setUser({ user_id, toUpdate });
+      const updated_result = await userService.setUser({ user_id, toUpdate });
 
       if (updated_result.errorMessage) {
         throw new Error(updated_result.errorMessage);
@@ -290,7 +290,7 @@ userAuthRouter.delete(
   async function (req, res, next) {
     try {
       const user_id = req.params.id;
-      const userDelete = await userAuthService.deleteUser({ user_id });
+      const userDelete = await userService.deleteUser({ user_id });
 
       if (userDelete.errorMessage) {
         throw new Error(userDelete.errorMessage);
@@ -330,7 +330,7 @@ userAuthRouter.put(
         profileImg,
         profilePath
       };
-      const uploadedImg = await userAuthService.setProfile({ user_id, toUpdate });
+      const uploadedImg = await userService.setProfile({ user_id, toUpdate });
       
       res.status(200).json(uploadedImg);
     } catch (err) {
@@ -344,7 +344,7 @@ userAuthRouter.get(
   async function(req, res, next){
     try {
       const user_id = req.params.user_id;
-      const profileImg = await userAuthService.getProfileImg({ user_id });
+      const profileImg = await userService.getProfileImg({ user_id });
       res.status(200).send(profileImg);
     } catch (err) {
       next(err);
