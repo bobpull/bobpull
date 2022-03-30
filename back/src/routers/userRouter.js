@@ -60,8 +60,9 @@ userAuthRouter.put(
         throw new Error(checkPassword.errorMessage);
       }
 
-      const password = req.body.password;
-      const toUpdate = { password };
+      const newPassword = req.body.newPassword;
+      const toUpdate = { password : newPassword };
+
       // 해당 사용자 아이디로 사용자 정보를 db에서 찾아 업데이트. 업데이트 요소가 없을 시 생략함
       const updated_result = await userService.setUser({ user_id, toUpdate });
 
