@@ -6,7 +6,7 @@ import { UserContext } from "../context/UserContext";
 const Home = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const {userState} = useContext(UserContext);
+  const { userState } = useContext(UserContext);
 
   // 전역상태에서 user가 null이 아니라면 로그인 성공 상태임.
   const isLogin = !!userState.user;
@@ -19,16 +19,17 @@ const Home = () => {
         style={{ width: "300px", align: "center" }}
         alt="삼톨이들"
       />
+      {location.pathname === "/" && (
         <div>
           <div className={styled.subBox}>
             <p className={styled.welcome}>
               밥풀이 <b>찰싹</b> 붙는 것처럼
-              <br/>
+              <br />
               원하는 곳에 <b>찰싹</b> 붙으시길!
-            </p >
+            </p>
             <p className={styled.welcome}>
               우리가 원하는 바를 git <b>pull</b> 해오는 것처럼
-              <br/>
+              <br />
               회사가 당신을 <b>pull</b> 해가기를!
             </p>
             <div className={styled.ad}>
@@ -59,6 +60,7 @@ const Home = () => {
             )}
           </div>
         </div>
+      )}
     </div>
   );
 };
