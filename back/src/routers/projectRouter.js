@@ -122,10 +122,10 @@ ProjectRouter.delete(
   async function (req, res, next) {
     try {
       const id = req.params.id;
-      const projectDelete = await ProjectService.deleteUserProject({ id });
+      const deleted_result = await ProjectService.deleteUserProject({ id });
   
-      if (projectDelete.errorMessage) {
-        throw new Error(projectDelete.errorMessage);
+      if (deleted_result.errorMessage) {
+        throw new Error(deleted_result.errorMessage);
       }
   
       res.status(204).send();

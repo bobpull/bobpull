@@ -111,10 +111,10 @@ AwardRouter.delete(
   async function (req, res, next) {
     try {
       const id = req.params.id;
-      const awardDelete = await AwardService.deleteUserAward({ id });
+      const deleted_result = await AwardService.deleteUserAward({ id });
   
-      if (awardDelete.errorMessage) {
-        throw new Error(awardDelete.errorMessage);
+      if (deleted_result.errorMessage) {
+        throw new Error(deleted_result.errorMessage);
       }
   
       res.status(204).send();
