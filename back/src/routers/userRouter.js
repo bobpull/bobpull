@@ -2,6 +2,8 @@ import is from "@sindresorhus/is";
 import { Router } from "express";
 import { login_required } from "../middlewares/login_required";
 import { userAuthService } from "../services/userService";
+import sendMail from "../utils/send-mail";
+import generateRandomPassword from "../utils/generate-random-password";
 
 const userAuthRouter = Router();
 
@@ -9,7 +11,7 @@ userAuthRouter.post("/user/register", async function (req, res, next) {
   try {
     if (is.emptyObject(req.body)) {
       throw new Error(
-        "headers의 Content-Type을 application/json으로 설정해주세요"
+        "필수 파라미터가 존재하지 않습니다."
       );
     }
 
@@ -30,8 +32,66 @@ userAuthRouter.post("/user/register", async function (req, res, next) {
     }
 
     res.status(201).json(newUser);
-  } catch (error) {
-    next(error);
+  } catch (err) {
+    next(err);
+  }
+});
+
+userAuthRouter.post("/user/reset-password", async function (req, res, next) {
+  try {
+    const email = req.body.email;
+    const user = await userAuthService.findUserByEmail({ email });
+    
+    if (!user) {
+      throw new Error("해당 메일로 가입된 사용자가 없습니다.");
+    }
+    
+    const name = user.name;
+    const user_id = user.id;
+    const password = generateRandomPassword();
+    const toUpdate = { password };
+    const updatedUser = await userAuthService.setUser({ user_id, toUpdate })
+
+    if (updatedUser.errorMessage) {
+      throw new Error (updatedUser.errorMessage);
+    }
+
+    await sendMail(email, "밥풀(pull) 임시 비밀번호입니다!",
+     `안녕하세요 ${name}님! 임시 비밀번호는: ${password} 입니다. 로그인 후 비밀번호를 꼭 변경해주세요!`);
+    res.status(200).send('임시 비밀번호가 전송되었습니다.');
+  } catch (err) {
+    next(err);
+  }
+});
+
+userAuthRouter.post("/user/verification-number", async function (req, res, next) {
+  try {
+    const email = req.body.email;
+    const user = await User.findByEmail({ email });
+    if (user) {
+      const errorMessage =
+        "이 이메일은 현재 사용중입니다. 다른 이메일을 입력해 주세요.";
+      return { errorMessage };
+    }
+
+    const verificationNumber = generateRandomPassword();
+
+    await sendMail(email, "밥풀(pull) 회원가입 인증번호입니다!", `안녕하세요! 인증번호는 ${verificationNumber} 입니다.`);
+    res.status(200).send('인증번호가 전송되었습니다.');
+  } catch (err) {
+    next(err);
+  }
+});
+
+userAuthRouter.post("/user/send-message", async function (req, res, next) {
+  try {
+    const email = req.body.email;
+    const secretMessage = "테스트를 위한 문장입니다."
+    await sendMail(email, "You've received a message", secretMessage);
+
+    res.status(200).send(user);
+  } catch (err) {
+    next(err);
   }
 });
 
@@ -49,8 +109,8 @@ userAuthRouter.post("/user/login", async function (req, res, next) {
     }
 
     res.status(200).send(user);
-  } catch (error) {
-    next(error);
+  } catch (err) {
+    next(err);
   }
 });
 
@@ -62,8 +122,8 @@ userAuthRouter.get(
       // 전체 사용자 목록을 얻음
       const users = await userAuthService.getUsers();
       res.status(200).send(users);
-    } catch (error) {
-      next(error);
+    } catch (err) {
+      next(err);
     }
   }
 );
@@ -84,8 +144,8 @@ userAuthRouter.get(
       }
 
       res.status(200).send(currentUserInfo);
-    } catch (error) {
-      next(error);
+    } catch (err) {
+      next(err);
     }
   }
 );
@@ -99,7 +159,6 @@ userAuthRouter.put(
       const user_id = req.params.id;
       // body data 로부터 업데이트할 사용자 정보를 추출함.
       const name = req.body.name ?? null;
-      const email = req.body.email ?? null;
       const password = req.body.password ?? null;
       const description = req.body.description ?? null;
 
@@ -113,8 +172,8 @@ userAuthRouter.put(
       }
 
       res.status(200).json(updatedUser);
-    } catch (error) {
-      next(error);
+    } catch (err) {
+      next(err);
     }
   }
 );
@@ -132,8 +191,27 @@ userAuthRouter.get(
       }
 
       res.status(200).send(currentUserInfo);
-    } catch (error) {
-      next(error);
+    } catch (err) {
+      next(err);
+    }
+  }
+);
+
+userAuthRouter.delete(
+  "/users/:id",
+  login_required,
+  async function (req, res, next) {
+    try {
+      const user_id = req.params.id;
+      const deletedUser = await userAuthService.deleteUser({ user_id });
+  
+      if (deletedUser.errorMessage) {
+        throw new Error(deletedUser.errorMessage);
+      }
+  
+      res.status(204).send();
+    } catch (err) {
+      next(err);
     }
   }
 );

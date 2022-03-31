@@ -2,6 +2,8 @@ import React, { useContext } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import Nav from "react-bootstrap/Nav";
 import { UserStateContext, DispatchContext } from "../App";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 
 function Header() {
   const navigate = useNavigate();
@@ -23,6 +25,30 @@ function Header() {
     navigate("/");
   };
 
+  const handleClick = async () => {
+    const MySwal = withReactContent(Swal);
+
+    const result = await MySwal.fire({
+      title: <p>로그아웃 하시겠습니까?</p>,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: '#0B5ED7',
+      confirmButtonText: "확인",
+      cancelButtonText: "취소",
+    });
+
+    if (result.isConfirmed) {
+      await logout();
+      MySwal.fire({
+        title: <p>로그아웃 되었습니다!</p>,
+        html: <div>서비스를 이용하려면 다시 로그인 해주세요.</div>,
+        icon: "success",
+        confirmButtonColor: '#0B5ED7',
+        confirmButtonText: "확인",
+      });
+    }
+  };
+
   return (
     <Nav activeKey={location.pathname}>
       <Nav.Item className="me-auto mb-5">
@@ -36,7 +62,7 @@ function Header() {
       </Nav.Item>
       {isLogin && (
         <Nav.Item>
-          <Nav.Link onClick={logout}>로그아웃</Nav.Link>
+          <Nav.Link onClick={handleClick}>로그아웃</Nav.Link>
         </Nav.Item>
       )}
     </Nav>

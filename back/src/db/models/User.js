@@ -6,8 +6,9 @@ class User {
     return createdNewUser;
   }
 
-  static async findByEmail({ email }) {
-    const user = await UserModel.findOne({ email });
+  static async deleteById({ user_id }) {
+    const user = await UserModel.deleteOne({ id: user_id });
+    
     return user;
   }
 
@@ -21,6 +22,11 @@ class User {
     return users;
   }
 
+  static async findByEmail({ email }) {
+    const user = await UserModel.findOne({ email });
+    return user;
+  }
+
   static async update({ user_id, fieldToUpdate, newValue }) {
     const filter = { id: user_id };
     const update = { [fieldToUpdate]: newValue };
@@ -32,6 +38,19 @@ class User {
       option
     );
     return updatedUser;
+  }
+
+  static async updatePassword({ email, password }) {
+    const filter = { email };
+    const update = { [password]: password };
+    const option = { returnOriginal: false };
+
+    const updatedPassword = await UserModel.findOneAndUpdate(
+      filter,
+      update,
+      option
+    );
+    return updatedPassword;
   }
 }
 
