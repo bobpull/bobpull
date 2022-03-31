@@ -50,7 +50,16 @@ const ProjectCard = ({ project, isEditable }) => {
               <Card.Text className=" mb-0 text-muted">
                 {project.description}
               </Card.Text>
-              <Card.Text className=" mb-0 text-muted">{project.url}</Card.Text>
+              <Card.Text className=" mb-0 text-muted">
+                <a
+                  href={project.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ textDecoration: "none", color: "#6c757d" }}
+                >
+                  {project.url}
+                </a>
+              </Card.Text>
               <Card.Text className="text-muted mb-2">
                 {project.from_date.toString().substr(0, 10)} ~{" "}
                 {project.to_date.toString().substr(0, 10)}
