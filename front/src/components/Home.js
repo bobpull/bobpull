@@ -13,9 +13,9 @@ const Home = () => {
 
   return (
     <div className={styled.homeContainer}>
-      <h1 className={styled.HomeTitle}>밥풀(pull)</h1>
+      {/* <h1 className={styled.HomeTitle}>밥풀(pull)</h1> */}
       <img
-        src={`${process.env.PUBLIC_URL}/img/3talls.png`}
+        src="https://bobpullbucket.s3.ap-northeast-2.amazonaws.com/language/cutePull.png"
         style={{ width: "300px", align: "center" }}
         alt="삼톨이들"
       />
