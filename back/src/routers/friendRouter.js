@@ -29,6 +29,26 @@ FriendRouter.post(
   }
 });
 
+/***  ***/
+// FriendRouter.get(
+//   "/friends/:id",
+//   login_required,
+//   async function (req, res, next) {
+//     try {
+//       const id = req.params.id;
+//       const friend = await FriendService.getFriend({ id });
+
+//       if (friend.errorMessage) {
+//         throw new Error(friend.errorMessage);
+//       }
+
+//       res.status(200).send(friend);
+//     } catch (err) {
+//       next(err);
+//     }
+//   }
+// );
+
 /*** 친구 리스트 ***/
 FriendRouter.get(
   "/friendlist/:user_id",

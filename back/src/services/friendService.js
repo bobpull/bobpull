@@ -5,13 +5,13 @@ class FriendService {
   static async addFriend({ user_id, friend_id }) {
     const id = uuidv4();
 
-    const friend = await Friend.findByFriendId({ friend_id });
+    // const friend = await Friend.findByFriendId({ friend_id });
   
-    if (friend) {
-      const errorMessage =
-        "친구 리스트에 존재합니다.";
-      return { errorMessage };
-    }
+    // if (friend) {
+    //   const errorMessage =
+    //     "친구 리스트에 존재합니다.";
+    //   return { errorMessage };
+    // }
 
     const newFriend = { id, user_id, friend_id };
     
@@ -19,6 +19,19 @@ class FriendService {
 
     return createdNewFriend;
   }
+  
+  // static async getFriend({ id }) {
+  //   const friend = await Friend.findById({ id });
+
+  //   // db에서 찾지 못한 경우, 에러 메시지 반환
+  //   if (!friend || friend.length === 0) {
+  //     const errorMessage =
+  //       "친구가 존재하지 않습니다.";
+  //     return { errorMessage };
+  //   }
+
+  //   return friend;
+  // }
 
   static async getFriendlist({ user_id }) {
     const friendlist = await Friend.findByUserId({ user_id });
