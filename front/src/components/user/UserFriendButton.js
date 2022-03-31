@@ -3,10 +3,28 @@ import * as Api from "../../api";
 import { useContext } from "react";
 import { FriendListContext } from "../../context/FriendListContext";
 
+
 function UserFriendButton({ user, isFriend }) {
   const { friendList, setFriendList } = useContext(FriendListContext);
+  
+  const addFriend = async () => {
+    try {
+      const res = await Api.post(`friend/${user.id}`);
+      setFriendList((cur) => [...cur, res.data]);
+    } catch(err) {
+      console.error(err);
+    }
+  }
+  console.log(isFriend)
 
-  console.log('friendList: ', friendList);
+  const deleteFriend = async () => {
+    try {
+      await Api.delete("friends", isFriend.id);
+      setFriendList((cur) => cur.filter((el) => el.id !== isFriend.id));
+    } catch(err) {
+      console.error(err);
+    }
+  }
 
   return (
     <>
@@ -17,14 +35,7 @@ function UserFriendButton({ user, isFriend }) {
               <Button
                 variant="outline-warning"
                 size="sm"
-                onClick={async () => {
-                  try {
-                    const res = await Api.post(`friend/${user.id}`);
-                    setFriendList((cur) => [...cur, res.data]);
-                  } catch(err) {
-                    console.error(err);
-                  }
-                }}
+                onClick={addFriend}
               >
                 친구추가
               </Button>
@@ -38,14 +49,7 @@ function UserFriendButton({ user, isFriend }) {
               <Button
                 variant="outline-warning"
                 size="sm"
-                onClick={async () => {
-                  try {
-                    await Api.delete(`friends/${isFriend.id}`);
-                    setFriendList((cur) => cur.filter((el) => el.id !== isFriend.id));
-                  } catch(err) {
-                    console.error(err);
-                  }
-                }}
+                onClick={deleteFriend}
               >
                 팔로우 끊기
               </Button>

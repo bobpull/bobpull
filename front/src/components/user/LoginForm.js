@@ -51,7 +51,9 @@ function LoginForm() {
 
       // 기본 페이지로 이동함.
       setErrorText("");
+
       navigate("/", { replace: true });
+      alert("만우절 이벤트 진행 중, 톨 드릴테니 구매할 수 있으면 해보셈")
     } catch (err) {
       setErrorText("이메일, 비밀번호가 일치하지 않습니다.");
       console.log("로그인에 실패하였습니다.\n", err);

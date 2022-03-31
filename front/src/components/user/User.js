@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext, useMemo } from "react";
 import UserEditForm from "./UserEditForm";
 import UserCard from "./UserCard";
 import * as Api from "../../api";
+import {UserContext} from "../../context/UserContext"
 
 function User({ portfolioOwnerId, isEditable, isFriend }) {
   // useState 훅을 통해 isEditing 상태를 생성함.
@@ -13,7 +14,6 @@ function User({ portfolioOwnerId, isEditable, isFriend }) {
     // "users/유저id" 엔드포인트로 GET 요청을 하고, user를 response의 data로 세팅함.
     Api.get("users", portfolioOwnerId).then((res) => setUser(res.data));
   }, [portfolioOwnerId]);
-
   return (
     <>
       {isEditing ? (

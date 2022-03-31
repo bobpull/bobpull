@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useState } from "react";
+import React, { useEffect, useContext, useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { Container, Row } from "react-bootstrap";
 
@@ -13,24 +13,30 @@ function FriendList() {
   // useState 훅을 통해 users 상태를 생성함.
   const [users, setUsers] = useState([]);
 
-  const { friendList } = useContext(FriendListContext);
+  const { friendList, setFriendList } = useContext(FriendListContext);
 
-  useEffect(() => {
+  useMemo(() => {
     // 만약 전역 상태의 user가 null이라면, 로그인 페이지로 이동함.
     if (!userState.user) {
       navigate("/login");
       return;
     }
     // "userlist" 엔드포인트로 GET 요청을 하고, users를 response의 data로 세팅함.
-    Api.get("userlist").then((res) => setUsers(res.data));
+    const fetchAPI = async () => {
+      const res = await Api.get("userlist")
+      setUsers(res.data)
+      const fres = await Api.get("friendlist", userState.user.id)
+      setFriendList(fres.data)
+    }
+    fetchAPI()
   }, [userState, navigate]);
 
   // friendList에서 친구의 id만 뽑아낸 배열
+  
   const friendIdList = friendList.map((f) => f.friend_id);
   // users에서 friendList의 id를 포함한 객체들 가져오기
   const friendInUsers = users.filter((user) => friendIdList.includes(user.id));
-  console.log(friendInUsers);
-
+  
   return (
     <Container fluid style={{ minHeight: `calc(100vh - 175px)` }}>
       {friendInUsers.length > 0 ? (
