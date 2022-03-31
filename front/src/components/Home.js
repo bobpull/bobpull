@@ -23,7 +23,7 @@ const Home = () => {
         <div>
           <div className={styled.subBox}>
             <p className={styled.welcome}>
-              밥풀이 <b>찰싹</b> 안 붙는 것처럼
+              밥풀이 <b>찰싹</b> 붙는 것처럼
               <br />
               원하는 곳에 <b>찰싹</b> 붙으시길!
             </p>
