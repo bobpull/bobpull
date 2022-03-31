@@ -1,4 +1,4 @@
-import { UserModel } from "../schemas/user";
+// import { UserModel } from "../schemas/user";
 import { FriendModel } from "../schemas/friend";
 
 class Friend {
