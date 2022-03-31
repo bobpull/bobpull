@@ -1,0 +1,89 @@
+.imgBox > img {
+  width: 100px;
+  height: 100px;
+}
+
+.homeContainer {
+  width: 100%;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
+.HomeTitle {
+  padding: 0.5rem 2.5rem;
+  display: inline-block;
+  border: 2px solid #333333;
+  border-radius: 25px;
+  text-transform: uppercase;
+  letter-spacing: 0.1ch;
+  font-family: "Black Han Sans", "Sans serif", "Helvetica Neue";
+  font-size: 28px;
+}
+
+
+.subBox {
+  text-align: center;
+  margin-top: 10px;
+}
+
+
+.ad {
+  font-size: 1.3rem;
+  font-family: "Black Han Sans", "Sans serif", "Helvetica Neue";
+  margin-bottom: 24px;
+}
+
+.welcome {
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+}
+
+.welcom:last-child{
+  margin-bottom: 20px;
+}
+
+.hello{
+  font-size: 28px;
+}
+
+.notFound {
+  margin-top: 30px;
+  font-size: 2rem;
+  font-family: "Black Han Sans", "Sans serif", "Helvetica Neue";
+  text-align: center;
+  color: #c90000;
+}
+
+.button {
+  border-radius: 10px;
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  background-color: black;
+  color: white;
+  cursor: pointer;
+  padding: 10px;
+  margin: 20px;
+  transition: all .3s ease;
+}
+
+.button:hover {
+  transform: scale(1.03);
+}
+
+.alignButton {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+}
+
+@media (max-width: 650px) {
+  .alignButton {
+    display: block;
+    margin: 0 auto;
+  }
+}

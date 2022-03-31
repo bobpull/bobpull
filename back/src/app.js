@@ -1,6 +1,12 @@
 import cors from "cors";
 import express from "express";
 import { userAuthRouter } from "./routers/userRouter";
+import { EducationRouter } from "./routers/educationRouter";
+import { AwardRouter } from "./routers/awardRouter";
+import { ProjectRouter } from "./routers/projectRouter";
+import { CertificateRouter } from "./routers/certificateRouter";
+import { FriendRouter } from "./routers/friendRouter";
+import { BadgeRouter } from "./routers/badgeRouter";
 import { errorMiddleware } from "./middlewares/errorMiddleware";
 
 const app = express();
@@ -14,13 +20,22 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+app.use('/profileImg', express.static('uploads/profile_img'));
+
 // 기본 페이지
 app.get("/", (req, res) => {
   res.send("안녕하세요, 레이서 프로젝트 API 입니다.");
 });
 
+
 // router, service 구현 (userAuthRouter는 맨 위에 있어야 함.)
 app.use(userAuthRouter);
+app.use(EducationRouter);
+app.use(AwardRouter);
+app.use(ProjectRouter);
+app.use(CertificateRouter);
+app.use(FriendRouter);
+app.use(BadgeRouter);
 
 // 순서 중요 (router 에서 next() 시 아래의 에러 핸들링  middleware로 전달됨)
 app.use(errorMiddleware);

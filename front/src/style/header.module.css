@@ -1,0 +1,49 @@
+
+.myMenu:after {
+  display: none !important;
+}
+
+#headerWrap  {
+  background: #FFEAA1;
+  margin-bottom: 50px;
+}
+
+#headerWrap > .nav {
+  height: 80px;
+  padding: 0 20px;
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.between {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#headerWrap > .nav > div > .between{
+  padding: 0;
+  text-decoration: none;
+  color: #000000;
+  font-family: "Do Hyeon, sans-serif";
+  font-weight: bold;
+}
+
+
+.searchBar {
+  width: 300px;
+  border-right: none;
+  border-radius: 0.25rem 0 0 0.25rem;
+}
+
+.searchButton {
+  background: none;
+  border-color: #ced4da;
+  border-left: none;
+  border-radius: 0 0.25rem 0.25rem 0;
+}
+
+/* #headerWrap > div > div.header_between__XXuI0 */
+

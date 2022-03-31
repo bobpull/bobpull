@@ -1,0 +1,60 @@
+:root {
+  --tw-ring-offset-shadow: 0 0 #0000;
+  --tw-ring-shadow: 0 0 #0000;
+  --tw-shadow: 0 4px 6px -1px rgb(0 0 0/0.1),0 2px 4px -2px rgb(0 0 0/0.1);
+  --tw-border-opacity: 1;
+  --tw-bg-opacity: 1;
+}
+
+.cardBody {
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 20px 25px -5px, rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
+}
+
+.lockBox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  background-color: rgb(31 41 55/1);
+  padding: 0.2rem;
+  border-radius: 9999px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  position: absolute;
+  bottom: 16px;
+}
+
+.cardImg {
+  width: 56px;
+  height: 56px;
+  border-color: rgb(255 255 255/var(--tw-border-opacity));
+  border-width: 4px;
+  border-radius: 9999px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
+  border: 0 solid #e5e7eb;
+  
+}
+
+.spinAni{
+  animation: spin 1000ms backwards;
+}
+
+@keyframes spin {
+  from {
+    transform:rotate(0deg);
+  }
+  to{
+    transform:rotate(360deg);
+  }
+}
+
+
+
+.colBox {
+  position: relative;
+}
+
+.opacity {
+  opacity: 0.5
+}
+

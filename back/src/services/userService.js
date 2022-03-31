@@ -1,4 +1,4 @@
-import { User } from "../db"; // from을 폴더(db) 로 설정 시, 디폴트로 index.js 로부터 import함.
+import { User, Education, Award, Project, Certificate, Friend } from "../db"; // from을 폴더(db) 로 설정 시, 디폴트로 index.js 로부터 import함.
 import bcrypt from "bcrypt";
 import { v4 as uuidv4 } from "uuid";
 import jwt from "jsonwebtoken";
@@ -22,9 +22,12 @@ class userAuthService {
 
     // db에 저장
     const createdNewUser = await User.create({ newUser });
-    createdNewUser.errorMessage = null; // 문제 없이 db 저장 완료되었으므로 에러가 없음.
-
     return createdNewUser;
+  }
+
+  static async findByEmail({ email }) {
+    const user = await User.findOne({ email });
+    return user;
   }
 
   static async getUser({ email, password }) {
@@ -38,6 +41,7 @@ class userAuthService {
 
     // 비밀번호 일치 여부 확인
     const correctPasswordHash = user.password;
+    
     const isPasswordCorrect = await bcrypt.compare(
       password,
       correctPasswordHash
@@ -56,6 +60,8 @@ class userAuthService {
     const id = user.id;
     const name = user.name;
     const description = user.description;
+    const tall = user.tall;
+    const loginedAt = user.loginedAt;
 
     const loginUser = {
       token,
@@ -64,13 +70,25 @@ class userAuthService {
       name,
       description,
       errorMessage: null,
+      tall,
+      loginedAt
     };
 
     return loginUser;
   }
 
+  static async findUserByEmail({ email }) {
+    const user = await User.findByEmail({ email });
+    return user;
+  }
+
   static async getUsers() {
     const users = await User.findAll();
+    return users;
+  }
+
+  static async searchUsers({ word }) {
+    let users = await User.findUserName({ word });
     return users;
   }
 
@@ -92,15 +110,11 @@ class userAuthService {
       user = await User.update({ user_id, fieldToUpdate, newValue });
     }
 
-    if (toUpdate.email) {
-      const fieldToUpdate = "email";
-      const newValue = toUpdate.email;
-      user = await User.update({ user_id, fieldToUpdate, newValue });
-    }
-
     if (toUpdate.password) {
       const fieldToUpdate = "password";
-      const newValue = toUpdate.password;
+      // 비밀번호 해쉬화
+      const hashedPassword = await bcrypt.hash(toUpdate.password, 10);
+      const newValue = hashedPassword;
       user = await User.update({ user_id, fieldToUpdate, newValue });
     }
 
@@ -110,9 +124,21 @@ class userAuthService {
       user = await User.update({ user_id, fieldToUpdate, newValue });
     }
 
+    if (toUpdate.loginedAt) {
+      const fieldToUpdate = "loginedAt";
+      const newValue = toUpdate.loginedAt;
+      user = await User.update({ user_id, fieldToUpdate, newValue });
+    }
+
+    if (toUpdate.tall) {
+      const fieldToUpdate = "tall";
+      const newValue = toUpdate.tall;
+      user = await User.update({ user_id, fieldToUpdate, newValue });
+    }
+    
     return user;
   }
-
+  
   static async getUserInfo({ user_id }) {
     const user = await User.findById({ user_id });
 
@@ -123,6 +149,101 @@ class userAuthService {
       return { errorMessage };
     }
 
+    return user;
+  }
+
+  static async deleteUser({ user_id }) {
+    const user = await User.findById({ user_id });
+
+    // db에서 찾지 못한 경우, 에러 메시지 반환
+    if (!user || user === null) {
+      const errorMessage =
+        "해당 유저가 존재하지 않습니다.";
+      return { errorMessage };
+    }
+    
+    await User.deleteById({ user_id });
+    await Education.deleteByUserId({ user_id });
+    await Award.deleteByUserId({ user_id });
+    await Project.deleteByUserId({ user_id });
+    await Certificate.deleteByUserId({ user_id });
+    await Friend.deleteByUserId({ user_id });
+
+    return user;
+  }
+
+  static async checkPassword({ user_id, password }) {
+    const user = await User.findById({ user_id });
+
+    const correctPasswordHash = user.password;
+    const isPasswordCorrect = await bcrypt.compare(
+      password,
+      correctPasswordHash
+    );
+    if (!isPasswordCorrect) {
+      const errorMessage =
+        "비밀번호를 다시 한 번 확인해 주세요.";
+      return { errorMessage };
+    }
+    return true;
+  }
+
+  static async setProfile({ user_id, toUpdate }) {
+    let user = await User.findById({ user_id });
+
+    if (!user) {
+      const errorMessage =
+      "해당 유저가 존재하지 않습니다.";
+      return { errorMessage };
+    }
+
+    const pullKeys = Object.keys(toUpdate);
+
+    for (let i = 0; i < pullKeys.length; i++) {
+      if (toUpdate[pullKeys[i]] !== null) {
+        const fieldToUpdate = pullKeys[i];
+        const newValue = toUpdate[pullKeys[i]];
+        user = await User.update({
+          user_id,
+          fieldToUpdate,
+          newValue,
+        });
+      }
+    }
+    return user;
+  };
+
+  static async getProfileImg({ user_id }) {
+    const user = await User.findById({ user_id });
+
+    if (!user) {
+      const errorMessage =
+        '해당 이메일은 가입 내역이 없습니다. 다시 한 번 확인해 주세요.';
+      return { errorMessage };
+    }
+
+    const profileImg = await User.findProfileById({ user_id });
+    if (!profileImg) {
+      const errorMessage =
+        '프로필 이미지가 존재하지 않습니다.';
+      return { errorMessage };
+    }
+
+    const profileImgPath = "http://localhost:5000/profileImg/";
+    const profileImgURL = profileImgPath + profileImg;
+
+    return profileImgURL;
+  }
+
+/*******
+뱃지 구입
+********/
+  static async setTall({ user_id, toUpdate }) {
+    const fieldToUpdate = "tall";
+    const newValue = toUpdate.tall;
+    
+    const user = await User.update({ user_id, fieldToUpdate, newValue });
+    
     return user;
   }
 }

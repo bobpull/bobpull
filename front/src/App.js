@@ -1,23 +1,27 @@
-import React, { useState, useEffect, useReducer, createContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import * as Api from "./api";
-import { loginReducer } from "./reducer";
+import {UserContext} from "./context/UserContext";
 
 import Header from "./components/Header";
+import Footer from "./components/Footer";
 import LoginForm from "./components/user/LoginForm";
+import FindPwForm from "./components/user/FindPwForm";
 import Network from "./components/user/Network";
 import RegisterForm from "./components/user/RegisterForm";
 import Portfolio from "./components/Portfolio";
+import MemberEdit from "./components/user/MemberInfoEdit";
+import PasswordEdit from "./components/user/EditPwForm";
+import WithdrawMember from "./components/user/WithdrawMemberForm";
+import FriendList from "./components/user/FriendList";
+import Home from "./components/Home";
 
-export const UserStateContext = createContext(null);
-export const DispatchContext = createContext(null);
+import styled from "./style/App.module.css"
 
 function App() {
   // useReducer 훅을 통해 userState 상태와 dispatch함수를 생성함.
-  const [userState, dispatch] = useReducer(loginReducer, {
-    user: null,
-  });
+  const {userState, userDispatch} = useContext(UserContext)
 
   // 아래의 fetchCurrentUser 함수가 실행된 다음에 컴포넌트가 구현되도록 함.
   // 아래 코드를 보면 isFetchCompleted 가 true여야 컴포넌트가 구현됨.
@@ -30,7 +34,7 @@ function App() {
       const currentUser = res.data;
 
       // dispatch 함수를 통해 로그인 성공 상태로 만듦.
-      dispatch({
+      userDispatch({
         type: "LOGIN_SUCCESS",
         payload: currentUser,
       });
@@ -44,30 +48,36 @@ function App() {
   };
 
   // useEffect함수를 통해 fetchCurrentUser 함수를 실행함.
+  // useEffect는 App 컴포넌트가 렌더 될 때마다 실행됨 그럴 이유가 있어? useMemo callback을 쓰는 방법을 알아보자.
   useEffect(() => {
     fetchCurrentUser();
   }, []);
 
   if (!isFetchCompleted) {
-    return "loading...";
+    return <>bobpull 굴러가요</>
   }
 
   return (
-    <DispatchContext.Provider value={dispatch}>
-      <UserStateContext.Provider value={userState}>
+    // User와 dispatch를 나눠서 관리할 필요가 있을까.
         <Router>
           <Header />
+          <div className={styled.container}>
           <Routes>
-            <Route path="/" exact element={<Portfolio />} />
+            <Route path="/" exact element={<Home />} />
             <Route path="/login" element={<LoginForm />} />
             <Route path="/register" element={<RegisterForm />} />
+            <Route path="/resetpw" element={<FindPwForm />} />
+            <Route path="/mypage" element={<Portfolio />} />
             <Route path="/users/:userId" element={<Portfolio />} />
             <Route path="/network" element={<Network />} />
-            <Route path="*" element={<Portfolio />} />
+            <Route path="/edit" element={<MemberEdit />} />
+            <Route path="/edit/password" element={<PasswordEdit />} />
+            <Route path="/edit/withdraw" element={<WithdrawMember />} />
+            <Route path="/friendlist" element={<FriendList />} />
           </Routes>
+          </div>
+          <Footer />
         </Router>
-      </UserStateContext.Provider>
-    </DispatchContext.Provider>
   );
 }
 
