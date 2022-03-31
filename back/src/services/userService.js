@@ -1,4 +1,4 @@
-import { User } from "../db"; // from을 폴더(db) 로 설정 시, 디폴트로 index.js 로부터 import함.
+import { User, Education, Award, Project, Certificate } from "../db"; // from을 폴더(db) 로 설정 시, 디폴트로 index.js 로부터 import함.
 import bcrypt from "bcrypt";
 import { v4 as uuidv4 } from "uuid";
 import jwt from "jsonwebtoken";
@@ -22,9 +22,13 @@ class userAuthService {
 
     // db에 저장
     const createdNewUser = await User.create({ newUser });
-    createdNewUser.errorMessage = null; // 문제 없이 db 저장 완료되었으므로 에러가 없음.
 
     return createdNewUser;
+  }
+
+  static async findByEmail({ email }) {
+    const user = await User.findOne({ email });
+    return user;
   }
 
   static async getUser({ email, password }) {
@@ -38,6 +42,7 @@ class userAuthService {
 
     // 비밀번호 일치 여부 확인
     const correctPasswordHash = user.password;
+    
     const isPasswordCorrect = await bcrypt.compare(
       password,
       correctPasswordHash
@@ -69,6 +74,11 @@ class userAuthService {
     return loginUser;
   }
 
+  static async findUserByEmail({ email }) {
+    const user = await User.findByEmail({ email });
+    return user;
+  }
+
   static async getUsers() {
     const users = await User.findAll();
     return users;
@@ -92,15 +102,11 @@ class userAuthService {
       user = await User.update({ user_id, fieldToUpdate, newValue });
     }
 
-    if (toUpdate.email) {
-      const fieldToUpdate = "email";
-      const newValue = toUpdate.email;
-      user = await User.update({ user_id, fieldToUpdate, newValue });
-    }
-
     if (toUpdate.password) {
       const fieldToUpdate = "password";
-      const newValue = toUpdate.password;
+      // 비밀번호 해쉬화
+      const hashedPassword = await bcrypt.hash(toUpdate.password, 10);
+      const newValue = hashedPassword;
       user = await User.update({ user_id, fieldToUpdate, newValue });
     }
 
@@ -112,7 +118,7 @@ class userAuthService {
 
     return user;
   }
-
+  
   static async getUserInfo({ user_id }) {
     const user = await User.findById({ user_id });
 
@@ -122,6 +128,25 @@ class userAuthService {
         "해당 이메일은 가입 내역이 없습니다. 다시 한 번 확인해 주세요.";
       return { errorMessage };
     }
+
+    return user;
+  }
+
+  static async deleteUser({ user_id }) {
+    const user = await User.findById({ user_id });
+
+    // db에서 찾지 못한 경우, 에러 메시지 반환
+    if (!user || user === null) {
+      const errorMessage =
+        "해당 유저가 존재하지 않습니다.";
+      return { errorMessage };
+    }
+    
+    await User.deleteById({ user_id });
+    await Education.deleteByUserId({ user_id });
+    await Award.deleteByUserId({ user_id });
+    await Project.deleteByUserId({ user_id });
+    await Certificate.deleteByUserId({ user_id });
 
     return user;
   }

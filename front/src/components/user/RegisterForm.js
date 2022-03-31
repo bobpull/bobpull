@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Container, Col, Row, Form, Button } from "react-bootstrap";
-
 import * as Api from "../../api";
 
 function RegisterForm() {
@@ -15,6 +14,11 @@ function RegisterForm() {
   const [confirmPassword, setConfirmPassword] = useState("");
   //useState로 name 상태를 생성함.
   const [name, setName] = useState("");
+  //useState로 이메일인증 상태를 생성함.
+  const [authEmail, setAuthEmail] = useState({
+    authNum: "",
+    isAuth: false
+  })
 
   //이메일이 abc@example.com 형태인지 regex를 이용해 확인함.
   const validateEmail = (email) => {
@@ -56,26 +60,65 @@ function RegisterForm() {
     }
   };
 
+  const handleAuthEmail = async () => {
+    try{
+      //await Api.post("", email)
+      setAuthEmail(true)
+    } catch(e){
+      console.log(e)
+    }
+    
+  }
+
   return (
     <Container>
       <Row className="justify-content-md-center mt-5">
         <Col lg={8}>
-          <Form onSubmit={handleSubmit}>
+          <Form
+           method="post"
+           onSubmit={handleSubmit}
+          >
             <Form.Group controlId="registerEmail">
               <Form.Label>이메일 주소</Form.Label>
-              <Form.Control
-                type="email"
-                autoComplete="off"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-              {!isEmailValid && (
+              <Row>
+                <div style={{
+                  display: "flex",
+                  justifyContent: "space-between"
+                }}>
+                  <Form.Control
+                    type="email"
+                    autoComplete="off"
+                    value={email}
+                    disabled={authEmail.isAuth}
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
+                  <Button 
+                    style={{width: "150px", marginLeft: "10px"}}
+                    size="sm" 
+                    variant="primary" 
+                    onClick={handleAuthEmail}
+                  >인증번호 전송</Button>
+                </div>
+              </Row>
+              
+              
+            </Form.Group>
+
+            {!isEmailValid && (
                 <Form.Text className="text-success">
                   이메일 형식이 올바르지 않습니다.
                 </Form.Text>
               )}
-            </Form.Group>
-
+              <Form.Group controlId="authEmail">
+                <Form.Control
+                  className="mt-3"
+                  type="text"
+                  autoComplete="off"
+                  placeholder="인증번호를 입력해주세요."
+                  disabled={!authEmail.isAuth}
+                />
+              </Form.Group>
+              
             <Form.Group controlId="registerPassword" className="mt-3">
               <Form.Label>비밀번호</Form.Label>
               <Form.Control
@@ -122,7 +165,7 @@ function RegisterForm() {
             </Form.Group>
 
             <Form.Group as={Row} className="mt-3 text-center">
-              <Col sm={{ span: 20 }}>
+              <Col >
                 <Button variant="primary" type="submit" disabled={!isFormValid}>
                   회원가입
                 </Button>
@@ -130,7 +173,7 @@ function RegisterForm() {
             </Form.Group>
 
             <Form.Group as={Row} className="mt-3 text-center">
-              <Col sm={{ span: 20 }}>
+              <Col>
                 <Button variant="light" onClick={() => navigate("/login")}>
                   로그인하기
                 </Button>
