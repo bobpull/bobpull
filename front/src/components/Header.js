@@ -1,9 +1,8 @@
 import React, { useContext, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Nav, Dropdown, Navbar } from "react-bootstrap";
-import { UserStateContext, DispatchContext } from "../App";
-import "../style/header.css";
-import "../style/display.css";
+import {UserContext} from "../context/UserContext";
+import styled from "../style/header.module.css";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { FriendListContext } from "../context/FriendListContext";
@@ -14,8 +13,7 @@ function Header() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const userState = useContext(UserStateContext);
-  const dispatch = useContext(DispatchContext);
+  const {userState, userDispatch} = useContext(UserContext)
   const { tall, setTall } = useContext(TallContext);
 
   const { setFriendList } = useContext(FriendListContext);
@@ -34,7 +32,7 @@ function Header() {
     // sessionStorage 에 저장했던 JWT 토큰을 삭제함.
     sessionStorage.removeItem("userToken");
     // dispatch 함수를 이용해 로그아웃함.
-    dispatch({ type: "LOGOUT" });
+    userDispatch({ type: "LOGOUT" });
     // 로그아웃 하면 현재 유저의 friendList를 빈 배열로 초기화
     setFriendList([]);
     // 기본 페이지로 돌아감.
@@ -66,52 +64,43 @@ function Header() {
   };
 
   return (
+    <div id={styled.headerWrap}>
     <Nav
       activeKey={location.pathname}
-      style={{
-        backgroundColor: "#FFEAA1",
-        height: "80px",
-        fontFamily: "Do Hyeon, sans-serif",
-        padding: "0 20px",
-        marginBottom: "15px",
-      }}
-      className="between"
+      className={styled.nav}
     >
-      <Navbar.Brand className="me-auto" style={{ margin: "0" }}>
+      <Navbar.Brand as="div" >
         <Nav.Link
           onClick={() => navigate("/")}
-          style={{
-            color: "#000000",
-            fontSize: "24px",
-            padding: "0",
-          }}
+          className={styled.between}
+          style={{display: "flex"}}
         >
           <img
             src={`${process.env.PUBLIC_URL}/img/pull.png`}
             style={{ width: "80px", height: "70px" }}
             alt="밥풀"
           />
-          밥풀(pull)
+          <p>밥풀(pull)</p>
         </Nav.Link>
       </Navbar.Brand>
       {isLogin && (
-        <div className="between">
-          <Nav.Item style={{ fontSize: "20px" }}>
-            <p style={{ margin: 0 }}>
+        <div className={styled.between}>
+          <Nav.Item>
+            <div className={styled.between}>
               <img
                 src={`${process.env.PUBLIC_URL}/img/tall.png`}
-                style={{ width: "23px", marginRight: "5px" }}
+                style={{ width: "23px", marginRight: "3px" }}
                 alt="톨"
               />
-              {tall} 톨
-            </p>
+              <p>{tall} 톨</p>
+            </div>
           </Nav.Item>
           <Nav.Item style={{ marginLeft: "14px" }}>
             <Dropdown>
               <Dropdown.Toggle
                 id="dropdown-autoclose-true"
                 variant="secondary"
-                className="myMenu"
+                className={styled.myMenu}
               >
                 Menu
               </Dropdown.Toggle>
@@ -146,6 +135,7 @@ function Header() {
         </div>
       )}
     </Nav>
+    </div>
   );
 }
 

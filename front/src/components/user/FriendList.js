@@ -4,12 +4,12 @@ import { Container, Row } from "react-bootstrap";
 
 import * as Api from "../../api";
 import FriendCard from "./FriendCard";
-import { UserStateContext } from "../../App";
+import {UserContext} from "../../context/UserContext"
 import { FriendListContext } from "../../context/FriendListContext";
 
 function FriendList() {
   const navigate = useNavigate();
-  const userState = useContext(UserStateContext);
+  const {userState} = useContext(UserContext);
   // useState 훅을 통해 users 상태를 생성함.
   const [users, setUsers] = useState([]);
 
@@ -32,7 +32,7 @@ function FriendList() {
   console.log(friendInUsers);
 
   return (
-    <Container fluid style={{ height: `calc(100vh - 175px)` }}>
+    <Container fluid style={{ minHeight: `calc(100vh - 175px)` }}>
       {friendInUsers.length > 0 ? (
         <Row xs="1" md="2" lg="3" className="jusify-content-center">
           {friendInUsers.map((f) => (

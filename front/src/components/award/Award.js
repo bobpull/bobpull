@@ -20,7 +20,9 @@ function Award({ portfolioOwnerId, isEditable }) {
   const [awards, setAwards] = useState([]);
 
   useEffect(() => {
-    Api.get("awardlist", portfolioOwnerId).then((res) => setAwards(res.data));
+    Api.get("awardlist", portfolioOwnerId)
+      .then((res) => setAwards(res.data))
+      .catch((err) => setAwards([]));
   }, [portfolioOwnerId]);
 
   return (
