@@ -52,7 +52,7 @@ const ProjectCard = ({ project, isEditable }) => {
               </Card.Text>
               <Card.Text className=" mb-0 text-muted">
                 <a
-                  href={project.url}
+                  href={"//" + project.url}
                   target="_blank"
                   rel="noopener noreferrer"
                   style={{ textDecoration: "none", color: "#6c757d" }}
