@@ -1,0 +1,136 @@
+import 'dotenv/config';
+
+export const badgelist = [
+  {
+    id: 0,
+    name: "pull",
+    url: process.env.BADGE_URL + "pull.png",
+    price: 10,
+  },
+  {
+    id: 1,
+    name: "bowl",
+    url: process.env.BADGE_URL + "bowl.png",
+    price: 10,
+  },
+  {
+    id: 2,
+    name: "egg",
+    url: process.env.BADGE_URL + "egg.png",
+    price: 10,
+  },
+  {
+    id: 3,
+    name: "spam",
+    url: process.env.BADGE_URL + "spam.png",
+    price: 10,
+  },
+  {
+    id: 4,
+    name: "clean-code",
+    url: process.env.BADGE_URL + "clean-code.png",
+    price: 3,
+  },
+  {
+    id: 5,
+    name: "css3",
+    url: process.env.BADGE_URL + "css3.png",
+    price: 3,
+  },
+  {
+    id: 6,
+    name: "dj",
+    url: process.env.BADGE_URL + "dj.png",
+    price: 3,
+  },
+  {
+    id: 7,
+    name: "es6",
+    url: process.env.BADGE_URL + "es6.png",
+    price: 3,
+  },
+  {
+    id: 8,
+    name: "Graph_QL",
+    url: process.env.BADGE_URL + "Graph_QL.png",
+    price: 3,
+  },
+  {
+    id: 9,
+    name: "grid",
+    url: process.env.BADGE_URL + "grid.png",
+    price: 3,
+  },
+  {
+    id: 10,
+    name: "html5",
+    url: process.env.BADGE_URL + "html5.png",
+    price: 3,
+  },
+  {
+    id: 11,
+    name: "JS",
+    url: process.env.BADGE_URL + "JS.png",
+    price: 3,
+  },
+  {
+    id: 12,
+    name: "MongoDB",
+    url: process.env.BADGE_URL + "MongoDB.png",
+    price: 3,
+  },
+  {
+    id: 13,
+    name: "Nest_JS",
+    url: process.env.BADGE_URL + "Nest_JS.png",
+    price: 3,
+  },
+  {
+    id: 14,
+    name: "nodejs",
+    url: process.env.BADGE_URL + "nodejs.png",
+    price: 3,
+  },
+  {
+    id: 15,
+    name: "Pug",
+    url: process.env.BADGE_URL + "Pug.png",
+    price: 3,
+  },
+  {
+    id: 16,
+    name: "python",
+    url: process.env.BADGE_URL + "python.png",
+    price: 3,
+  },
+  {
+    id: 17,
+    name: "clean-React_Native",
+    url: process.env.BADGE_URL + "React_Native.png",
+    price: 3,
+  },
+  {
+    id: 18,
+    name: "React",
+    url: process.env.BADGE_URL + "React.png",
+    price: 3,
+  },
+  {
+    id: 19,
+    name: "socketio",
+    url: process.env.BADGE_URL + "socketio.png",
+    price: 3,
+  },
+  {
+    id: 20,
+    name: "typescript",
+    url: process.env.BADGE_URL + "typescript.png",
+    price: 3,
+  },
+  {
+    id: 21,
+    name: "websockets",
+    url: process.env.BADGE_URL + "websockets.png",
+    price: 3,
+  },
+]

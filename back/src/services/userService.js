@@ -3,7 +3,7 @@ import bcrypt from "bcrypt";
 import { v4 as uuidv4 } from "uuid";
 import jwt from "jsonwebtoken";
 
-class userAuthService {
+class userService {
   static async addUser({ name, email, password }) {
     // 이메일 중복 확인
     const user = await User.findByEmail({ email });
@@ -60,7 +60,7 @@ class userAuthService {
     const id = user.id;
     const name = user.name;
     const description = user.description;
-    const tall = user.tall;
+    const point = user.point;
     const loginedAt = user.loginedAt;
 
     const loginUser = {
@@ -70,7 +70,7 @@ class userAuthService {
       name,
       description,
       errorMessage: null,
-      tall,
+      point,
       loginedAt
     };
 
@@ -130,9 +130,9 @@ class userAuthService {
       user = await User.update({ user_id, fieldToUpdate, newValue });
     }
 
-    if (toUpdate.tall) {
-      const fieldToUpdate = "tall";
-      const newValue = toUpdate.tall;
+    if (toUpdate.point) {
+      const fieldToUpdate = "point";
+      const newValue = toUpdate.point;
       user = await User.update({ user_id, fieldToUpdate, newValue });
     }
     
@@ -162,12 +162,12 @@ class userAuthService {
       return { errorMessage };
     }
     
-    await User.deleteById({ user_id });
     await Education.deleteByUserId({ user_id });
     await Award.deleteByUserId({ user_id });
     await Project.deleteByUserId({ user_id });
     await Certificate.deleteByUserId({ user_id });
     await Friend.deleteByUserId({ user_id });
+    await User.deleteById({ user_id });
 
     return user;
   }
@@ -238,9 +238,9 @@ class userAuthService {
 /*******
 뱃지 구입
 ********/
-  static async setTall({ user_id, toUpdate }) {
-    const fieldToUpdate = "tall";
-    const newValue = toUpdate.tall;
+  static async setPoint({ user_id, toUpdate }) {
+    const fieldToUpdate = "point";
+    const newValue = toUpdate.point;
     
     const user = await User.update({ user_id, fieldToUpdate, newValue });
     
@@ -248,4 +248,4 @@ class userAuthService {
   }
 }
 
-export { userAuthService };
+export { userService };

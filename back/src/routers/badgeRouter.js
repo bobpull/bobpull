@@ -1,13 +1,10 @@
 import { Router } from "express";
 import { login_required } from "../middlewares/login_required";
 import { BadgeService } from "../services/badgeService";
-import { userAuthService } from "../services/userService";
+import { userService } from "../services/userService";
+import { badgelist } from "../db/publicSchema/badgelist";
 
 const BadgeRouter = Router();
-
-const badgeName = ["pull", "bowl", "egg", "spam", "cleanCode", "css3", "dj", "es6", "GraphQL", "grid", "html5", "JS", "MongoDB", "NestJS", "nodejs", "Pug", "python", "ReactNative", "React", "socketio", "typescript", "websockets"];
-
-const badgeUrlList = ["pull.png", "bowl.png", "egg.png", "spam.png", "cleanCode.png", "css3.png", "dj.png", "es6.png", "GraphQL.png", "grid.png", "html5.png", "JS.png",  "MongoDB.png", "NestJS.png", "nodejs.png", "Pug.png", "python.png", "ReactNative.png", "React.png", "socketio.png", "typescript.png", "websockets.png"];
 
 /*** 뱃지 구매 시 결제 기능 구현 ***/
 BadgeRouter.post(
@@ -16,38 +13,32 @@ BadgeRouter.post(
   async function (req, res, next) {
     try {
       const user_id = req.currentUserId;
-      let id = Number(req.params.id);
-      let name = {};
-      let price = {};
-      let url = {};
-    
-      for (let i = 0; i < 22; i++) {
-        if (i === id) {
-          name = badgeName[i];
-          if (i < 4) {
-            price = 10;
-          } else {
-            price = 3;
-          }
-          url = "https://bobpullbucket.s3.ap-northeast-2.amazonaws.com/language/" + badgeUrlList[i];
-        }
-      }
+      const id = Number(req.params.id);
 
       if (id >= 22) {
         return res.status(400).send("유효하지 않은 접근입니다.");
       }
+      
+      const badge = await BadgeService.isBadge({ user_id, id });
 
-     // 유저의 아이디로 tall을 찾음
-      const user = await userAuthService.getUserInfo({ user_id });
+      if (badge) {
+        return res.status(400).send("이미 존재하는 뱃지입니다.");
+      }
+
+      const currentBadge = badgelist[id];
+      const { name, url, price } = currentBadge;
+
+     // 유저의 아이디로 point를 찾음
+      const user = await userService.getUserInfo({ user_id });
 
       if (!user) {
         throw new Error(user.errorMessage);
       }
 
-      let { tall } = user;
-
-      if (tall >= price) {
-        tall -= price;
+      let { point } = user;
+      console.log(price);
+      if (point >= currentBadge.price) {
+        point -= price;
       } else {
         return res.status(403).send("톨이 부족합니다.");
       }
@@ -57,42 +48,43 @@ BadgeRouter.post(
         id,
         user_id,
         name,
+        url,
         price,
-        url
       });
     
       if (newBadge.errorMessage) {
         throw new Error(newBadge.errorMessage);
       }
 
-      const toUpdate = { tall };
+      const toUpdate = { point };
 
-      // tall 결제
-      const updatedUser = await userAuthService.setTall({ user_id, toUpdate });
+      // point 결제
+      const updatedUser = await userService.setPoint({ user_id, toUpdate });
 
-      id = newBadge.id;
-      tall = updatedUser.tall
+      const newBagde_id = newBadge.id;
+      point = updatedUser.point;
       
-      res.status(201).json([id, tall]);
+      res.status(201).json([newBagde_id, point]);
     } catch (err) {
       next(err);
     }
   }
 );
 
-/*** 뱃지  ***/
+/*** 뱃지 상점 구입할 때 클릭할 부분 ***/
 BadgeRouter.get(
   "/badges/:id",
   login_required,
   async function (req, res, next) {
     try {
-      const id = req.params.id;
-      const currentBadge = await BadgeService.getBadge({ id });
-  
-      if (currentBadge.errorMessage) {
-        throw new Error(currentBadge.errorMessage);
+      const id = Number(req.params.id);
+      
+      if (id >= 22) {
+        return res.status(400).send("유효하지 않은 접근입니다.");
       }
-  
+      
+      const currentBadge = badgelist[id];
+
       res.status(200).send(currentBadge);
     } catch (err) {
       next(err);
@@ -100,6 +92,7 @@ BadgeRouter.get(
   }
 );
 
+/*** 가진 뱃지 리스트 보이기 ***/
 BadgeRouter.get(
   "/badgelist/:user_id",
   login_required,

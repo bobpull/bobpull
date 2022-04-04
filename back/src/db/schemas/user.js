@@ -23,7 +23,7 @@ const UserSchema = new Schema(
       required: false,
       default: "설명이 아직 없습니다. 추가해 주세요.",
     },
-    profileImg:{
+    profile_img:{
       type: String,
       required: false,
       default : "default_img/default_profile.jpg"
@@ -36,12 +36,12 @@ const UserSchema = new Schema(
     loginedAt: {
       type: String,
       required: false,
-      default: "2022-02-22"
+      default: ""
     },
-    tall: {
+    point: {
       type: Number,
       required: true,
-      default: 3,
+      default: 5,
     },
   },
   {

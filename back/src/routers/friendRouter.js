@@ -76,10 +76,10 @@ FriendRouter.delete(
   async function (req, res, next) {
     try {
       const id = req.params.id;
-      const deletedFriend = await FriendService.deleteFriend({ id });
+      const deleted_result = await FriendService.deleteFriend({ id });
   
-      if (deletedFriend.errorMessage) {
-        throw new Error(deletedFriend.errorMessage);
+      if (deleted_result.errorMessage) {
+        throw new Error(deleted_result.errorMessage);
       }
   
       res.status(204).send("삭제가 완료되었습니다.");
