@@ -18,7 +18,7 @@ BadgeRouter.post(
       if (id >= 22) {
         return res.status(400).send("유효하지 않은 접근입니다.");
       }
-
+      
       const badge = await BadgeService.isBadge({ user_id, id });
 
       if (badge) {
@@ -71,7 +71,7 @@ BadgeRouter.post(
   }
 );
 
-/*** 뱃지 마켓 ***/
+/*** 뱃지 상점 구입할 때 클릭할 부분 ***/
 BadgeRouter.get(
   "/badges/:id",
   login_required,

@@ -23,7 +23,7 @@ export const badgelist = [
     id: 3,
     name: "spam",
     url: process.env.BADGE_URL + "spam.png",
-    price: 3,
+    price: 10,
   },
   {
     id: 4,
