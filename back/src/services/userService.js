@@ -188,51 +188,50 @@ class userService {
     return true;
   }
 
-  static async setProfile({ user_id, toUpdate }) {
-    let user = await User.findById({ user_id });
+  static async setUserImg({ userId, img, filePath }){
+    const foundUserImg = await UserImg.findById({ userId });
 
-    if (!user) {
+    if(!foundUserImg){
+      await UserImg.create({ userId });
+    }
+
+    const setImgDocument = {
+      userId,
+      filePath,
+      img,
+    }
+    
+    const updatedUserImg = await UserImg.update({ userId, setImgDocument });
+    const updatedFilePath = updatedUserImg.filePath;
+    
+    if(!updatedFilePath){
       const errorMessage =
-      "해당 유저가 존재하지 않습니다.";
+        "해당 유저의 프로필 이미지가 존재하지 않습니다.";
+      return { errorMessage };
+    }
+    
+    const fileName = path.basename(updatedFilePath);
+    const successResult = {
+      userId,
+      fileName,
+      message: "success",
+    }
+
+    return successResult;
+  }
+
+  static async getUserImg({ user_id }){
+    const foundUserImg = await UserImg.findById({ userId: user_id });
+    
+    if(!foundUserImg){
+      const errorMessage = 
+       "유저를 찾을 수 없습니다.";
       return { errorMessage };
     }
 
-    const pullKeys = Object.keys(toUpdate);
-
-    for (let i = 0; i < pullKeys.length; i++) {
-      if (toUpdate[pullKeys[i]] !== null) {
-        const fieldToUpdate = pullKeys[i];
-        const newValue = toUpdate[pullKeys[i]];
-        user = await User.update({
-          user_id,
-          fieldToUpdate,
-          newValue,
-        });
-      }
-    }
-    return user;
-  };
-
-  static async getProfileImg({ user_id }) {
-    const user = await User.findById({ user_id });
-
-    if (!user) {
-      const errorMessage =
-        '해당 이메일은 가입 내역이 없습니다. 다시 한 번 확인해 주세요.';
-      return { errorMessage };
-    }
-
-    const profileImg = await User.findProfileById({ user_id });
-    if (!profileImg) {
-      const errorMessage =
-        '프로필 이미지가 존재하지 않습니다.';
-      return { errorMessage };
-    }
-
-    const profileImgPath = "http://localhost:5000/profileImg/";
-    const profileImgURL = profileImgPath + profileImg;
-
-    return profileImgURL;
+    const { img } = foundUserImg;
+    
+    return img.data;
   }
 
 /*******

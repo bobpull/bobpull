@@ -2,7 +2,7 @@ import is from "@sindresorhus/is";
 import { Router } from "express";
 import { login_required } from "../middlewares/login_required";
 import { userService } from "../services/userService";
-import { upload } from '../middlewares/multerProfileImg';
+import { upload, nameField } from '../middlewares/multerMiddleware';
 import sendMail from "../utils/send-mail";
 import generateRandomPassword from "../utils/generate-random-password";
 import fs from "fs";
@@ -317,50 +317,62 @@ userAuthRouter.delete(
 /*******
 * 프로필 이미지 변경
 ********/
-
-userAuthRouter.put(
-  '/profile/:user_id',
-  upload.single("img"),
-  async function (req, res, next){
-    try{
-      sharp(req.file.path) 
-      .resize({ width: 400 }) 
-      .withMetadata()
-      .toBuffer((err, buffer) => {
-        if (err) throw err;
-        fs.writeFile(req.file.path, buffer, (err) => {
-          if (err) throw err;
-        });
-      });
-      
-      const user_id = req.params.user_id;  
-      const profileImg = req.file.filename;
-      const profilePath = "profileImg/" + profileImg;
-      const toUpdate = {    
-        profileImg,
-        profilePath
-      };
-      const uploadedImg = await userService.setProfile({ user_id, toUpdate });
-      
-      res.status(200).json(uploadedImg);
-    } catch (err) {
-      next(err);
+userAuthRouter.post('/profileimg', login_required, upload.single(nameField), async function (req, res, next) {
+  try {
+    const filePath = req.file.path; // 파일 전체 경로
+    const imgBuffer = fs.readFileSync(filePath); //filePath에 위치한 파일을 "문자열(string)" or 버퍼(binary데이터)으로 가져온다.
+    const contentType = req.file.mimetype;
+    const img = {
+      data: imgBuffer,
+      contentType,
     }
-  }
-);
+    const userId = req.currentUserId;
 
-userAuthRouter.get(
-  '/profile/:user_id',
-  async function(req, res, next){
-    try {
-      const user_id = req.params.user_id;
-      const profileImg = await userService.getProfileImg({ user_id });
-      res.status(200).send(profileImg);
-    } catch (err) {
-      next(err);
+    const updatedResult = await userAuthService.setUserImg({ userId, img, filePath });
+
+    if (updatedResult.errorMessage) {
+      throw new Error(updatedResult.errorMessage);
     }
+
+    res.status(200).send(updatedResult);
+  } catch (error) {
+    next(error);
   }
-);
+})
+
+//로그인 유저의 프로필 사진 조회
+userAuthRouter.get('/profileimg', login_required, async function (req, res, next) {
+  try {
+    const currentUserId = req.currentUserId;
+
+    const userImg = await userAuthService.getUserImg({ user_id: currentUserId });
+
+    if (userImg.errorMessage) {
+      throw new Error(userImg.errorMessage);
+    }
+
+    res.status(200).send(userImg);
+  } catch (error) {
+    next(error);
+  }
+})
+
+//특정 유저의 프로필 사진 조회
+userAuthRouter.get('/profileimgs/:id', login_required, async function (req, res, next) {
+  try {
+    const user_id = req.params.id;
+
+    const userImg = await userAuthService.getUserImg({ user_id });
+
+    if (userImg.errorMessage) {
+      throw new Error(userImg.errorMessage);
+    }
+
+    res.status(200).send(userImg);
+  } catch (error) {
+    next(error);
+  }
+})
 
 // jwt 토큰 기능 확인용, 삭제해도 되는 라우터임.
 userAuthRouter.get("/afterlogin", login_required, function (req, res, next) {
