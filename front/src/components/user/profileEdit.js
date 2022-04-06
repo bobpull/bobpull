@@ -1,10 +1,6 @@
-import React, { useState, useRef, useContext } from "react";
+import React, { useState } from "react";
 import { Button, Form, Card, Col, Row } from "react-bootstrap";
-import axios from "axios"
 import * as Api from "../../api";
-import "../../style/display.css";
-
-
 
 function UserEditForm({ user, imageSrc, setImageSrc, setIsEditing, setUser }) {
   //useState로 name 상태를 생성함.
@@ -57,7 +53,13 @@ function UserEditForm({ user, imageSrc, setImageSrc, setIsEditing, setUser }) {
 
     const formData = new FormData();
     formData.append("myImg", fileBlob);
-    const response = await Api.imgPost("profileimg", formData);
+    const response = await fetch("http://localhost:5000/profileimg", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${sessionStorage.getItem("userToken")}`,
+      },
+      body: formData,
+    });
     const jsonResult = await response.json();
     console.log(jsonResult);
     getOneImage();

@@ -19,12 +19,14 @@ import Home from "./components/Home";
 
 export const UserStateContext = createContext(null);
 export const DispatchContext = createContext(null);
+export const UserProfileContext = createContext(null)
 
 function App() {
   // useReducer 훅을 통해 userState 상태와 dispatch함수를 생성함.
   const [userState, dispatch] = useReducer(loginReducer, {
     user: null,
   });
+  const [imageSrc, setImageSrc] = useState();
 
   // 아래의 fetchCurrentUser 함수가 실행된 다음에 컴포넌트가 구현되도록 함.
   // 아래 코드를 보면 isFetchCompleted 가 true여야 컴포넌트가 구현됨.
@@ -62,6 +64,7 @@ function App() {
   return (
     <DispatchContext.Provider value={dispatch}>
       <UserStateContext.Provider value={userState}>
+        <UserProfileContext.Provider value={{imageSrc, setImageSrc}}>
         <Router>
           <Header />
           <Routes>
@@ -80,6 +83,7 @@ function App() {
           </Routes>
           <Footer />
         </Router>
+        </UserProfileContext.Provider>
       </UserStateContext.Provider>
     </DispatchContext.Provider>
   );
