@@ -18,4 +18,4 @@ const upload = multer({
 const nameField = "myImg";
 
 export { upload, nameField };
-console.log("mirroring test")
+console.log("mirroring test 다시확인")
