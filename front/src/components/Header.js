@@ -109,7 +109,7 @@ function Header() {
                 <Dropdown.Item eventKey="1" onClick={() => navigate("/edit")}>
                   회원정보
                 </Dropdown.Item>
-                <Dropdown.Item eventKey="2" onClick={() => navigate("/AprilFoolsDay")}>
+                <Dropdown.Item eventKey="2" onClick={() => navigate("/mypage")}>
                   나의 페이지
                 </Dropdown.Item>
                 <Dropdown.Header>Social</Dropdown.Header>

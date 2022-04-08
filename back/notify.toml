@@ -1,0 +1,13 @@
+[build]
+  command = "CI= npm run build"
+  publish = "build"
+
+[context.production.environment]
+  SERVER_PORT=5000
+  MONGODB_URL="mongodb+srv://Jiwoo:bobcoding@cluster0.m8gji.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
+  JWT_SECRET_KEY="ad5kafl91ak@192vk0ckv#ao!d3o1qw%ez"
+
+  NODEMAILER_ID="bobpullbot@gmail.com"
+  NODEMAILER_PW="otshltwyxjfqkbae"
+
+  BADGE_URL = "https://bobpullbucket.s3.ap-northeast-2.amazonaws.com/language/"
