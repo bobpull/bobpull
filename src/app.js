@@ -9,6 +9,7 @@ import { FriendRouter } from "./routers/friendRouter";
 import { BadgeRouter } from "./routers/badgeRouter";
 import { errorMiddleware } from "./middlewares/errorMiddleware";
 
+
 const app = express();
 
 // CORS 에러 방지
@@ -22,12 +23,6 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use('/profileImg', express.static('uploads/profile_img'));
 
-// 기본 페이지
-app.get("/", (req, res) => {
-  res.send("안녕하세요, 레이서 프로젝트 API 입니다.");
-});
-
-
 // router, service 구현 (userAuthRouter는 맨 위에 있어야 함.)
 app.use(userAuthRouter);
 app.use(EducationRouter);
@@ -39,5 +34,11 @@ app.use(BadgeRouter);
 
 // 순서 중요 (router 에서 next() 시 아래의 에러 핸들링  middleware로 전달됨)
 app.use(errorMiddleware);
+
+import path from "path"
+app.use(express.static(path.join(__dirname, "../front", "build")))
+app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "../front", "build", "index.html"));
+});
 
 export { app };

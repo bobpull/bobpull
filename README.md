@@ -1,50 +1,73 @@
-# 레이서 포트폴리오 서비스
+# 포트폴리오 공유 서비스 백엔드 코드
 
-이 프로젝트는 자기자신의 포트폴리오를 작성하고, 또한 다른 사람의 포트폴리오를 확인할 수 있는 웹 서비스입니다. \
-웹 구현 예시: http://34.64.140.205/
+## 실행 방법
 
-> 위 IP 주소는 프로젝트 진행 기간에만 유효합니다.
+## 1. Mongodb 서버 구축 (a, b 중 선택)
 
-**5개 MVP**로 구성됩니다.
+### a. 로컬 서버
 
-> 현재는 USer MVP 코드만 있습니다.
+아래 공식 문서 참조 \
+https://docs.mongodb.com/manual/tutorial/install-mongodb-on-ubuntu/ \
+`mongosh` 커맨드로 서버가 들어가지면 성공적으로 구축된 것입니다. \
 
-- User (회원가입, 로그인 등 사용자 관련)
-- Award (포트폴리오 중 상장 이력 관련)
-- Certificate (포트폴리오 중 자격증 관련)
-- Project (포트폴리오 중 프로젝트 관련)
-- Education (포트폴리오 중 교육, 학교 관련)
+### b. Atlas 서버
 
-## 주요 사용 기술
+아래 링크 가입 -> 무료 클러스터 생성 (512MB) \
+https://www.mongodb.com/atlas \
+왼쪽 아래 SECURITY 의 Database Access -> Add New User -> name, password 설정 \
+왼쪽 아래 SECURITY 의 Network Access -> Add IP Address -> current IP 등록 \
+왼쪽 위 DEPLOYMENT Databases -> Connect -> Connect your application -> 서버 링크 복사
 
-1. 프론트엔드
+> Atlas 관련 상세 매뉴얼은 프로젝트 안내페이지의 "알면 좋을 개발 Tip"에 있습니다.
 
-- React (create-react-app으로 구현되었습니다.)
-- React Bootstrap
-- axios
+## 2. Mongodb 서버 url 환경변수에 등록
 
-2. 백엔드
-
-- Express (nodemon, babel-node로 실행됩니다.)
-- Mongodb, Mongoose
-
-## 설치 방법
-
-1. 프론트 엔드 서버 실행
+./.env 파일 수정 \
+MONGODB_URL을 위에서 만든 mongodb 서버 링크로 설정
 
 ```bash
-cd front
+MONGODB_URL="mongodb://localhost:27017/myDB"  (로컬 서버의 경우 예시)
+MONGODB_URL="mongodb+srv://<name>:<password>@cluster0.acaph.mongodb.net/myDB?retryWrites=true&w=majority" (Atlas 서버의 경우 예시)
+```
+
+> Atlas 서버의 경우 <name>, <password>를 위에서 설정했던 name, password로 바꾸어 주세요.
+
+## 3. Express 실행
+
+> yarn은 사실 npm 패키지입니다. yarn부터 설치합니다. (이미 설치 시 생략)
+
+> 이후, 아래 yarn 커맨드는, yarn install 커맨드의 단축키입니다. 즉, 라이브러리 설치 커맨드입니다.
+
+> yarn 입력 시 자동으로, package.json 바탕으로 라이브러리를 한꺼번에 설치해 줍니다.
+
+```bash
+npm install --global yarn
 yarn
 yarn start
 ```
 
-2. 백엔드 서버 실행
+<hr />
 
-```bash
-back 폴더 내부 README 참고
-```
+## 파일 구조 설명
 
----
+1. src폴더는 크게는 routers, services, db의 3개 폴더로 구분됩니다.
+**현재는 User MVP 코드만 있습니다.**
 
-본 프로젝트에서 제공하는 모든 코드 등의는 저작권법에 의해 보호받는 ㈜엘리스의 자산이며, 무단 사용 및 도용, 복제 및 배포를 금합니다.
-Copyright 2022 엘리스 Inc. All rights reserved.
+- routers:
+  - request와 response가 처리됩니다. MVP 별로 1개씩, 총 5개 파일이 있게 됩니다.
+  - 현재는 User MVP 파일만 있습니다.
+- services:
+  - 백엔드 로직 코드가 있습니다. MVP 별로 1개씩, 총 5개 파일이 있게 됩니다.
+  - 현재는 User MVP 파일만 있습니다.
+- db:
+  - Mongoose와 mongodb 서버를 연결하는 코드가 있는 index.js
+  - Mongoose 스키마가 있는 schemas 폴더,
+    - MVP 별로 5개 파일이 있어야 하며, 현재는 User MVP 파일만 있습니다.
+  - Mongoose 모델 ORM 코드가 있는 models 폴더
+    - MVP 별로 5개 파일이 있어야 하며, 현재는 User MVP 파일만 있습니다.
+
+2. 이외 폴더는 아래와 같습니다.
+
+- src/middlewares:
+  - jwt토큰을 다루는 미들웨어인 login_required.js
+  - 학습 편의를 위해 일괄 http 400 코드로 에러를 변환하는 에러핸들러인 errorMiddleware.js

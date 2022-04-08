@@ -1,15 +1,19 @@
 {
-  "name": "cafe-server",
+  "name": "portfolio-share-service",
   "version": "1.0.0",
   "description": "아래 공식 문서 참조 \\\r https://docs.mongodb.com/manual/tutorial/install-mongodb-on-ubuntu/ \\\r `mongosh` 커맨드로 서버가 들어가지면 성공적으로 구축된 것입니다. \\",
   "main": "index.js",
   "scripts": {
     "start": "nodemon index.js --exec babel-node",
-    "test": "jest --setupFiles dotenv/config"
+    "test": "jest --setupFiles dotenv/config",
+    "heroku-postbuild": "cd front && yarn install --only=dev && yarn install && yarn build"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/"
+  },
+  "engines":{
+    "node": "16.14.0"
   },
   "keywords": [],
   "author": "",
