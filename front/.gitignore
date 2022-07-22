@@ -2,3 +2,4 @@ node_modules
 back/.env
 ../.DS_Store
 yarn.lock
+notify.toml
