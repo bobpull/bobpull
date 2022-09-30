@@ -10,6 +10,9 @@ import { TallContext } from "../../context/TallContext";
 import { imgUrl } from "./BadgeList";
 
 const Skill = ({ portfolioOwnerId, isEditable }) => {
+  const imgRef = useRef();
+  const [badges, setBadges] = useState([]);
+  const { setTall } = useContext(TallContext);
 
   const handleClick = async (index) => {
     const MySwal = withReactContent(Swal);
@@ -33,9 +36,6 @@ const Skill = ({ portfolioOwnerId, isEditable }) => {
     }
   };
 
-  const imgRef = useRef();
-  const [badges, setBadges] = useState([]);
-  const { setTall } = useContext(TallContext);
   useEffect(() => {
     const fetchAPI = async () => {
       const res = await Api.get("badgelist", portfolioOwnerId);

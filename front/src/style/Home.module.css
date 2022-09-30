@@ -11,7 +11,6 @@
   align-items: center;
 }
 
-
 .HomeTitle {
   padding: 0.5rem 2.5rem;
   display: inline-block;
@@ -23,12 +22,10 @@
   font-size: 28px;
 }
 
-
 .subBox {
   text-align: center;
   margin-top: 10px;
 }
-
 
 .ad {
   font-size: 1.3rem;
@@ -41,11 +38,11 @@
   margin-bottom: 15px;
 }
 
-.welcom:last-child{
+.welcom:last-child {
   margin-bottom: 20px;
 }
 
-.hello{
+.hello {
   font-size: 28px;
 }
 
@@ -67,7 +64,7 @@
   cursor: pointer;
   padding: 10px;
   margin: 20px;
-  transition: all .3s ease;
+  transition: all 0.3s ease;
 }
 
 .button:hover {

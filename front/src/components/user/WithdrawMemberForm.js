@@ -1,7 +1,7 @@
 import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { Container, Form, Row, Button } from "react-bootstrap";
-import {UserContext} from "../../context/UserContext"
+import { UserContext } from "../../context/UserContext";
 import * as Api from "../../api";
 
 const targetSentence = "저는 밥풀(pull)에서 탈퇴하고 싶습니다.";
@@ -9,8 +9,8 @@ const targetSentence = "저는 밥풀(pull)에서 탈퇴하고 싶습니다.";
 function WithdrawMember() {
   const navigate = useNavigate();
 
-  const {userState, userDispatch} = useContext(UserContext);
-  
+  const { userState, userDispatch } = useContext(UserContext);
+
   const id = userState.user.id;
 
   const [sentence, setSentence] = useState("");

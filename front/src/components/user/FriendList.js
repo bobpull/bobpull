@@ -4,12 +4,12 @@ import { Container, Row } from "react-bootstrap";
 
 import * as Api from "../../api";
 import FriendCard from "./FriendCard";
-import {UserContext} from "../../context/UserContext"
+import { UserContext } from "../../context/UserContext";
 import { FriendListContext } from "../../context/FriendListContext";
 
 function FriendList() {
   const navigate = useNavigate();
-  const {userState} = useContext(UserContext);
+  const { userState } = useContext(UserContext);
   // useState 훅을 통해 users 상태를 생성함.
   const [users, setUsers] = useState([]);
 
@@ -23,20 +23,20 @@ function FriendList() {
     }
     // "userlist" 엔드포인트로 GET 요청을 하고, users를 response의 data로 세팅함.
     const fetchAPI = async () => {
-      const res = await Api.get("userlist")
-      setUsers(res.data)
-      const fres = await Api.get("friendlist", userState.user.id)
-      setFriendList(fres.data)
-    }
-    fetchAPI()
+      const res = await Api.get("userlist");
+      setUsers(res.data);
+      const fres = await Api.get("friendlist", userState.user.id);
+      setFriendList(fres.data);
+    };
+    fetchAPI();
   }, [userState, navigate]);
 
   // friendList에서 친구의 id만 뽑아낸 배열
-  
+
   const friendIdList = friendList.map((f) => f.friend_id);
   // users에서 friendList의 id를 포함한 객체들 가져오기
   const friendInUsers = users.filter((user) => friendIdList.includes(user.id));
-  
+
   return (
     <Container fluid style={{ minHeight: `calc(100vh - 175px)` }}>
       {friendInUsers.length > 0 ? (

@@ -7,11 +7,11 @@ import "../../style/display.css";
 
 import { ValidateEmail } from "./ValidateEmail";
 import * as Api from "../../api";
-import {UserContext} from "../../context/UserContext"
+import { UserContext } from "../../context/UserContext";
 
 function LoginForm() {
   const navigate = useNavigate();
-  const {userDispatch} = useContext(UserContext);
+  const { userDispatch } = useContext(UserContext);
 
   //useState로 email 상태를 생성함.
   const [email, setEmail] = useState("");
@@ -53,7 +53,7 @@ function LoginForm() {
       setErrorText("");
 
       navigate("/", { replace: true });
-      alert("만우절 이벤트 진행 중, 톨 드릴테니 구매할 수 있으면 해보셈")
+      alert("만우절 이벤트 진행 중, 톨 드릴테니 구매할 수 있으면 해보셈");
     } catch (err) {
       setErrorText("이메일, 비밀번호가 일치하지 않습니다.");
       console.log("로그인에 실패하였습니다.\n", err);

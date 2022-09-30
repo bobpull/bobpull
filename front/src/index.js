@@ -5,7 +5,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "react-datepicker/dist/react-datepicker.css";
 import "./style/index.css";
 
-import {UserProvider} from "./context/UserContext"
+import { UserProvider } from "./context/UserContext";
 import { ProjectProvider } from "./context/ProjectContext";
 import { FriendListProvider } from "./context/FriendListContext";
 import { TallProvider } from "./context/TallContext";

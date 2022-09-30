@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import * as Api from "./api";
-import {UserContext} from "./context/UserContext";
+import { UserContext } from "./context/UserContext";
 
 import Header from "./components/Header";
 import Footer from "./components/Footer";
@@ -17,11 +17,11 @@ import WithdrawMember from "./components/user/WithdrawMemberForm";
 import FriendList from "./components/user/FriendList";
 import Home from "./components/Home";
 
-import styled from "./style/App.module.css"
+import styled from "./style/App.module.css";
 
 function App() {
   // useReducer 훅을 통해 userState 상태와 dispatch함수를 생성함.
-  const {userState, userDispatch} = useContext(UserContext)
+  const { userState, userDispatch } = useContext(UserContext);
 
   // 아래의 fetchCurrentUser 함수가 실행된 다음에 컴포넌트가 구현되도록 함.
   // 아래 코드를 보면 isFetchCompleted 가 true여야 컴포넌트가 구현됨.
@@ -54,30 +54,30 @@ function App() {
   }, []);
 
   if (!isFetchCompleted) {
-    return <>bobpull 굴러가요</>
+    return <>bobpull 굴러가요</>;
   }
 
   return (
     // User와 dispatch를 나눠서 관리할 필요가 있을까.
-        <Router>
-          <Header />
-          <div className={styled.container}>
-          <Routes>
-            <Route path="/" exact element={<Home />} />
-            <Route path="/login" element={<LoginForm />} />
-            <Route path="/register" element={<RegisterForm />} />
-            <Route path="/resetpw" element={<FindPwForm />} />
-            <Route path="/mypage" element={<Portfolio />} />
-            <Route path="/users/:userId" element={<Portfolio />} />
-            <Route path="/network" element={<Network />} />
-            <Route path="/edit" element={<MemberEdit />} />
-            <Route path="/edit/password" element={<PasswordEdit />} />
-            <Route path="/edit/withdraw" element={<WithdrawMember />} />
-            <Route path="/friendlist" element={<FriendList />} />
-          </Routes>
-          </div>
-          <Footer />
-        </Router>
+    <Router>
+      <Header />
+      <div className={styled.container}>
+        <Routes>
+          <Route path="/" exact element={<Home />} />
+          <Route path="/login" element={<LoginForm />} />
+          <Route path="/register" element={<RegisterForm />} />
+          <Route path="/resetpw" element={<FindPwForm />} />
+          <Route path="/mypage" element={<Portfolio />} />
+          <Route path="/users/:userId" element={<Portfolio />} />
+          <Route path="/network" element={<Network />} />
+          <Route path="/edit" element={<MemberEdit />} />
+          <Route path="/edit/password" element={<PasswordEdit />} />
+          <Route path="/edit/withdraw" element={<WithdrawMember />} />
+          <Route path="/friendlist" element={<FriendList />} />
+        </Routes>
+      </div>
+      <Footer />
+    </Router>
   );
 }
 

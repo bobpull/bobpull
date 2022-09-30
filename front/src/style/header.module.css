@@ -1,10 +1,9 @@
-
 .myMenu:after {
   display: none !important;
 }
 
-#headerWrap  {
-  background: #FFEAA1;
+#headerWrap {
+  background: #ffeaa1;
   margin-bottom: 50px;
 }
 
@@ -23,14 +22,13 @@
   align-items: center;
 }
 
-#headerWrap > .nav > div > .between{
+#headerWrap > .nav > div > .between {
   padding: 0;
   text-decoration: none;
   color: #000000;
   font-family: "Do Hyeon, sans-serif";
   font-weight: bold;
 }
-
 
 .searchBar {
   width: 300px;
@@ -46,4 +44,3 @@
 }
 
 /* #headerWrap > div > div.header_between__XXuI0 */
-

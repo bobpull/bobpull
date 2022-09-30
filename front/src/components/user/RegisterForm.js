@@ -68,7 +68,6 @@ function RegisterForm() {
       });
       await Api.post("availablemail", { email });
       confirmMessageRef.current.innerText = `인증번호를 전송했습니다.`;
-      
     } catch (e) {
       console.log(e);
     }
@@ -122,7 +121,7 @@ function RegisterForm() {
                     onClick={handleAuthEmail}
                     disabled={authEmail.isAuthening}
                   >
-                   전송
+                    전송
                   </Button>
                 </div>
               </Row>

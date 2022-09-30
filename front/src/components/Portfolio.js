@@ -21,7 +21,7 @@ function Portfolio() {
   // fetchPorfolioOwner 함수가 완료된 이후에만 (isFetchCompleted가 true여야) 컴포넌트가 구현되도록 함.
   // 아래 코드를 보면, isFetchCompleted가 false이면 "loading..."만 반환되어서, 화면에 이 로딩 문구만 뜨게 됨.
   const [isFetchCompleted, setIsFetchCompleted] = useState(false);
-  const {userState} = useContext(UserContext);
+  const { userState } = useContext(UserContext);
 
   const { friendList, setFriendList } = useContext(FriendListContext);
 

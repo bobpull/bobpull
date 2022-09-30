@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Nav, Dropdown, Navbar } from "react-bootstrap";
-import {UserContext} from "../context/UserContext";
+import { UserContext } from "../context/UserContext";
 import styled from "../style/header.module.css";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
@@ -13,7 +13,7 @@ function Header() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const {userState, userDispatch} = useContext(UserContext)
+  const { userState, userDispatch } = useContext(UserContext);
   const { tall, setTall } = useContext(TallContext);
 
   const { setFriendList } = useContext(FriendListContext);
@@ -65,76 +65,76 @@ function Header() {
 
   return (
     <div id={styled.headerWrap}>
-    <Nav
-      activeKey={location.pathname}
-      className={styled.nav}
-    >
-      <Navbar.Brand as="div" >
-        <Nav.Link
-          onClick={() => navigate("/")}
-          className={styled.between}
-          style={{display: "flex"}}
-        >
-          <img
-            src={`${process.env.PUBLIC_URL}/img/pull.png`}
-            style={{ width: "80px", height: "70px" }}
-            alt="밥풀"
-          />
-          <p>밥풀(pull)</p>
-        </Nav.Link>
-      </Navbar.Brand>
-      {isLogin && (
-        <div className={styled.between}>
-          <Nav.Item>
-            <div className={styled.between}>
-              <img
-                src={`${process.env.PUBLIC_URL}/img/tall.png`}
-                style={{ width: "23px", marginRight: "3px" }}
-                alt="톨"
-              />
-              <p>{tall} 톨</p>
-            </div>
-          </Nav.Item>
-          <Nav.Item style={{ marginLeft: "14px" }}>
-            <Dropdown>
-              <Dropdown.Toggle
-                id="dropdown-autoclose-true"
-                variant="secondary"
-                className={styled.myMenu}
-              >
-                Menu
-              </Dropdown.Toggle>
-              <Dropdown.Menu>
-                <Dropdown.Header>User</Dropdown.Header>
-                <Dropdown.Item eventKey="1" onClick={() => navigate("/edit")}>
-                  회원정보
-                </Dropdown.Item>
-                <Dropdown.Item eventKey="2" onClick={() => navigate("/mypage")}>
-                  나의 페이지
-                </Dropdown.Item>
-                <Dropdown.Header>Social</Dropdown.Header>
-                <Dropdown.Item
-                  eventKey="3"
-                  onClick={() => navigate("/network")}
+      <Nav activeKey={location.pathname} className={styled.nav}>
+        <Navbar.Brand as="div">
+          <Nav.Link
+            onClick={() => navigate("/")}
+            className={styled.between}
+            style={{ display: "flex" }}
+          >
+            <img
+              src={`${process.env.PUBLIC_URL}/img/pull.png`}
+              style={{ width: "80px", height: "70px" }}
+              alt="밥풀"
+            />
+            <p>밥풀(pull)</p>
+          </Nav.Link>
+        </Navbar.Brand>
+        {isLogin && (
+          <div className={styled.between}>
+            <Nav.Item>
+              <div className={styled.between}>
+                <img
+                  src={`${process.env.PUBLIC_URL}/img/tall.png`}
+                  style={{ width: "23px", marginRight: "3px" }}
+                  alt="톨"
+                />
+                <p>{tall} 톨</p>
+              </div>
+            </Nav.Item>
+            <Nav.Item style={{ marginLeft: "14px" }}>
+              <Dropdown>
+                <Dropdown.Toggle
+                  id="dropdown-autoclose-true"
+                  variant="secondary"
+                  className={styled.myMenu}
                 >
-                  네트워크
-                </Dropdown.Item>
-                <Dropdown.Item
-                  eventKey="4"
-                  onClick={() => navigate("/friendlist")}
-                >
-                  내 친구들
-                </Dropdown.Item>
-                <Dropdown.Divider />
-                <Dropdown.Item eventKey="5" onClick={handleClick}>
-                  로그아웃
-                </Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
-          </Nav.Item>
-        </div>
-      )}
-    </Nav>
+                  Menu
+                </Dropdown.Toggle>
+                <Dropdown.Menu>
+                  <Dropdown.Header>User</Dropdown.Header>
+                  <Dropdown.Item eventKey="1" onClick={() => navigate("/edit")}>
+                    회원정보
+                  </Dropdown.Item>
+                  <Dropdown.Item
+                    eventKey="2"
+                    onClick={() => navigate("/mypage")}
+                  >
+                    나의 페이지
+                  </Dropdown.Item>
+                  <Dropdown.Header>Social</Dropdown.Header>
+                  <Dropdown.Item
+                    eventKey="3"
+                    onClick={() => navigate("/network")}
+                  >
+                    네트워크
+                  </Dropdown.Item>
+                  <Dropdown.Item
+                    eventKey="4"
+                    onClick={() => navigate("/friendlist")}
+                  >
+                    내 친구들
+                  </Dropdown.Item>
+                  <Dropdown.Divider />
+                  <Dropdown.Item eventKey="5" onClick={handleClick}>
+                    로그아웃
+                  </Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+            </Nav.Item>
+          </div>
+        )}
+      </Nav>
     </div>
   );
 }

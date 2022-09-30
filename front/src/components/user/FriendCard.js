@@ -25,15 +25,21 @@ function FriendCard({ id, name, email, description, profilePath }) {
                 }}
               >
                 <Card.Img
-                  style={{ width: "50px", height: "50px", borderRadius: "50%", marginRight: "10px" }}
+                  style={{
+                    width: "50px",
+                    height: "50px",
+                    borderRadius: "50%",
+                    marginRight: "10px",
+                  }}
                   className="mb-3"
                   src="https://bobpullbucket.s3.ap-northeast-2.amazonaws.com/language/cutePull.png"
-                  
                   alt="밥풀"
                 />
                 <div>
                   <Card.Title className="title">{name}</Card.Title>
-                  <Card.Subtitle className="text-muted text">{email}</Card.Subtitle>
+                  <Card.Subtitle className="text-muted text">
+                    {email}
+                  </Card.Subtitle>
                   <Card.Text className="mb-3 text">{description}</Card.Text>
                 </div>
               </div>

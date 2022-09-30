@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext, useMemo } from "react";
 import UserEditForm from "./UserEditForm";
 import UserCard from "./UserCard";
 import * as Api from "../../api";
-import {UserContext} from "../../context/UserContext"
+import { UserContext } from "../../context/UserContext";
 
 function User({ portfolioOwnerId, isEditable, isFriend }) {
   // useState 훅을 통해 isEditing 상태를 생성함.

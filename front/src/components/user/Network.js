@@ -1,7 +1,6 @@
 import React, { useEffect, useContext, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { Container, Row} from "react-bootstrap";
-
+import { Container, Row } from "react-bootstrap";
 
 import * as Api from "../../api";
 import UserCard from "./UserCard";
@@ -12,7 +11,7 @@ function Network() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const {userState} = useContext(UserContext);
+  const { userState } = useContext(UserContext);
   // useState 훅을 통해 users 상태를 생성함.
   const [users, setUsers] = useState([]);
   const [search, setSearch] = useState("");
@@ -33,7 +32,11 @@ function Network() {
 
   return (
     <>
-      <Container fluid style={{ width: "365px" }} className="mb-5 mt-5 serachForm">
+      <Container
+        fluid
+        style={{ width: "365px" }}
+        className="mb-5 mt-5 serachForm"
+      >
         <SearchForm search={search} setSearch={setSearch} />
       </Container>
       <Container fluid style={{ clear: "both" }}>
@@ -52,7 +55,7 @@ function Network() {
             )
           ) : (
             users.map((user) => (
-              <UserCard key={user.id} user={user} isNetwork />              
+              <UserCard key={user.id} user={user} isNetwork />
             ))
           )}
         </Row>

@@ -1,8 +1,8 @@
-import React, {createContext, useReducer} from "react"
+import React, { createContext, useReducer } from "react";
 
 const UserContext = createContext({
   user: null,
-})
+});
 
 const loginReducer = (userState, action) => {
   switch (action.type) {
@@ -21,18 +21,17 @@ const loginReducer = (userState, action) => {
     default:
       return userState;
   }
+};
 
-}
-
-const UserProvider = ({children}) => {
-  const [userState, userDispatch] = useReducer(loginReducer,{
-    user: null
-  })
+const UserProvider = ({ children }) => {
+  const [userState, userDispatch] = useReducer(loginReducer, {
+    user: null,
+  });
   const store = {
     userState,
     userDispatch,
-  }
-  return <UserContext.Provider value={store}>{children}</UserContext.Provider>
-}
+  };
+  return <UserContext.Provider value={store}>{children}</UserContext.Provider>;
+};
 
-export {UserProvider, UserContext}
+export { UserProvider, UserContext };
