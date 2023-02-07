@@ -1,13 +1,13 @@
 import { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { UserStateContext } from "../../App";
+import { UserContext } from "../../context/UserContext";
 import { Container, Form, Row, Button } from "react-bootstrap";
 import * as Api from "../../api";
 
 function PasswordEdit() {
   const navigate = useNavigate();
 
-  const userState = useContext(UserStateContext);
+  const { userState } = useContext(UserContext);
   const curUser = userState.user;
 
   const [currentPassword, setCurrentPassword] = useState("");

@@ -12,9 +12,11 @@ function Education({ portfolioOwnerId, isEditable }) {
   const [educations, setEducations] = useState([]);
 
   useEffect(() => {
-    Api.get("educationlist", portfolioOwnerId).then((res) =>
-      setEducations(res.data)
-    );
+    Api.get("educationlist", portfolioOwnerId)
+      .then((res) => setEducations(res.data))
+      .catch((err) => {
+        setEducations([]);
+      });
   }, [portfolioOwnerId]);
 
   return (

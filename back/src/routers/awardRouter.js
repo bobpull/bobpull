@@ -72,12 +72,12 @@ AwardRouter.put(
       const toUpdate = { title, description };
 
       //해당 award_id로 수상이력 정보를 db에서 찾아 업데이트함. 업데이트 요소가 없을 시 생략함
-      const updatedAward = await AwardService.setAward({ id, toUpdate });
+      const updated_result = await AwardService.setAward({ id, toUpdate });
 
-      if (updatedAward.errorMessage) {
-        throw new Error(updatedAward.errorMessage);
+      if (updated_result.errorMessage) {
+        throw new Error(updated_result.errorMessage);
       }
-      res.status(200).json(updatedAward);
+      res.status(200).json(updated_result);
     } catch (err) {
       next(err);   
     }
@@ -111,15 +111,15 @@ AwardRouter.delete(
   async function (req, res, next) {
     try {
       const id = req.params.id;
-      const deletedAward = await AwardService.deleteUserAward({ id });
+      const deleted_result = await AwardService.deleteUserAward({ id });
   
-      if (deletedAward.errorMessage) {
-        throw new Error(deletedAward.errorMessage);
+      if (deleted_result.errorMessage) {
+        throw new Error(deleted_result.errorMessage);
       }
   
       res.status(204).send();
-    } catch (error) {
-      next(error);
+    } catch (err) {
+      next(err);
     }
   }
 );

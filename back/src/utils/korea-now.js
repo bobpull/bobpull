@@ -1,5 +1,5 @@
 module.exports = () => {
-  let moment = require('moment');
+  const moment = require('moment');
   require('moment-timezone');
   moment.tz.setDefault("Asia/Seoul");
   

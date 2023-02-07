@@ -34,11 +34,15 @@ function EducationEditForm({ id, setIsEditing, _school, _major, _degree }) {
         degree,
       });
       setEducations((cur) =>
-        cur.map((education) => education.id === id ? { ...education, school, major, degree } : education)
+        cur.map((education) =>
+          education.id === id
+            ? { ...education, school, major, degree }
+            : education
+        )
       );
       setIsEditing(false);
     } catch (err) {
-      alert('동일한 학력을 중복으로 등록할 수 없습니다.');
+      alert("동일한 학력을 중복으로 등록할 수 없습니다.");
       console.error(err);
     }
   };

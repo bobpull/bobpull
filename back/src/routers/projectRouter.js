@@ -39,8 +39,8 @@ ProjectRouter.post(
     }
   
       res.status(201).json(newProject);
-    } catch (error) {
-      next(error);
+    } catch (err) {
+      next(err);
     }
   } 
 );
@@ -59,8 +59,8 @@ ProjectRouter.get(
       }
   
       res.status(200).send(currentUserProject);
-    } catch (error) {
-      next(error);
+    } catch (err) {
+      next(err);
     }
   }
 );
@@ -79,8 +79,8 @@ ProjectRouter.get(
       }
 
       res.status(200).send(currentProjectlist);
-    } catch (error) {
-      next(error);
+    } catch (err) {
+      next(err);
     }
   }
 );
@@ -102,15 +102,15 @@ ProjectRouter.put(
       const toUpdate = { title, description, url, from_date, to_date };
   
       // 해당 프로젝트 아이디로 프로젝트 정보를 db에서 찾아 업데이트함. 업데이트 요소가 없을 시 생략함
-      const updatedProject = await ProjectService.setProject({ id, toUpdate });
+      const updated_result = await ProjectService.setProject({ id, toUpdate });
   
-      if (updatedProject.errorMessage) {
-        throw new Error(updatedProject.errorMessage);
+      if (updated_result.errorMessage) {
+        throw new Error(updated_result.errorMessage);
       }
   
-      res.status(200).json(updatedProject);
-    } catch (error) {
-      next(error);
+      res.status(200).json(updated_result);
+    } catch (err) {
+      next(err);
     }
   }
 );
@@ -122,15 +122,15 @@ ProjectRouter.delete(
   async function (req, res, next) {
     try {
       const id = req.params.id;
-      const deletedProject = await ProjectService.deleteUserProject({ id });
+      const deleted_result = await ProjectService.deleteUserProject({ id });
   
-      if (deletedProject.errorMessage) {
-        throw new Error(deletedProject.errorMessage);
+      if (deleted_result.errorMessage) {
+        throw new Error(deleted_result.errorMessage);
       }
   
       res.status(204).send();
-    } catch (error) {
-      next(error);
+    } catch (err) {
+      next(err);
     }
   }
 );

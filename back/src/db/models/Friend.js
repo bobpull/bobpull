@@ -12,10 +12,10 @@ class Friend {
     return friend;
   }
 
-  static async findByFriendId({ friend_id }) {
-    const friend = await FriendModel.findOne({ friend_id });
-    return friend;
-  }
+  // static async findByFriendId({ friend_id }) {
+  //   const friend = await FriendModel.findOne({ friend_id });
+  //   return friend;
+  // }
 
   static async findByUserId({ user_id }) {
     let findFriendList = await FriendModel.find({ user_id });
@@ -30,7 +30,7 @@ class Friend {
   static async deleteByUserId({ user_id }) {
     const friend = await FriendModel.deleteMany({ user_id });
     const deleteFriend = await FriendModel.deleteMany({ friend_id: user_id });
-
+    console.log(deleteFriend);
     return friend;
   }
 

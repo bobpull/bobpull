@@ -7,11 +7,11 @@ import "../../style/display.css";
 
 import { ValidateEmail } from "./ValidateEmail";
 import * as Api from "../../api";
-import { DispatchContext } from "../../App";
+import { UserContext } from "../../context/UserContext";
 
 function LoginForm() {
   const navigate = useNavigate();
-  const dispatch = useContext(DispatchContext);
+  const { userDispatch } = useContext(UserContext);
 
   //useState로 email 상태를 생성함.
   const [email, setEmail] = useState("");
@@ -44,14 +44,16 @@ function LoginForm() {
       // sessionStorage에 "userToken"이라는 키로 JWT 토큰을 저장함.
       sessionStorage.setItem("userToken", jwtToken);
       // dispatch 함수를 이용해 로그인 성공 상태로 만듦.
-      dispatch({
+      userDispatch({
         type: "LOGIN_SUCCESS",
         payload: user,
       });
 
       // 기본 페이지로 이동함.
       setErrorText("");
+
       navigate("/", { replace: true });
+      alert("만우절 이벤트 진행 중, 톨 드릴테니 구매할 수 있으면 해보셈");
     } catch (err) {
       setErrorText("이메일, 비밀번호가 일치하지 않습니다.");
       console.log("로그인에 실패하였습니다.\n", err);
@@ -69,7 +71,6 @@ function LoginForm() {
                 style={{
                   color: "#FF0000",
                   fontWeight: "bold",
-                  marginBottom: "20px",
                 }}
               >
                 {errorText}

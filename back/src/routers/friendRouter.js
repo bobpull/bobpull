@@ -29,6 +29,26 @@ FriendRouter.post(
   }
 });
 
+/***  ***/
+// FriendRouter.get(
+//   "/friends/:id",
+//   login_required,
+//   async function (req, res, next) {
+//     try {
+//       const id = req.params.id;
+//       const friend = await FriendService.getFriend({ id });
+
+//       if (friend.errorMessage) {
+//         throw new Error(friend.errorMessage);
+//       }
+
+//       res.status(200).send(friend);
+//     } catch (err) {
+//       next(err);
+//     }
+//   }
+// );
+
 /*** 친구 리스트 ***/
 FriendRouter.get(
   "/friendlist/:user_id",
@@ -56,10 +76,10 @@ FriendRouter.delete(
   async function (req, res, next) {
     try {
       const id = req.params.id;
-      const deletedFriend = await FriendService.deleteFriend({ id });
+      const deleted_result = await FriendService.deleteFriend({ id });
   
-      if (deletedFriend.errorMessage) {
-        throw new Error(deletedFriend.errorMessage);
+      if (deleted_result.errorMessage) {
+        throw new Error(deleted_result.errorMessage);
       }
   
       res.status(204).send("삭제가 완료되었습니다.");

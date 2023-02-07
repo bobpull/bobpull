@@ -39,7 +39,7 @@ function EducationAddForm({ setIsAdding }) {
       });
       setIsAdding(false);
     } catch (err) {
-      alert('동일한 학력을 중복으로 등록할 수 없습니다.');
+      alert("동일한 학력을 중복으로 등록할 수 없습니다.");
       console.error(err);
     }
   };

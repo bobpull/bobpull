@@ -21,7 +21,7 @@ function RegisterForm() {
   const [authEmail, setAuthEmail] = useState({
     authNum: "",
     isAuthening: false,
-    isAuth: false,
+    isAuth: true,
   });
 
   //위 validateEmail 함수를 통해 이메일 형태 적합 여부를 확인함.
@@ -59,14 +59,15 @@ function RegisterForm() {
 
   const handleAuthEmail = async () => {
     try {
-      await Api.post("availablemail", { email });
-      confirmMessageRef.current.innerText = `인증번호를 전송했습니다.`;
       setAuthEmail((cur) => {
         return {
           ...cur,
+          isAuth: false,
           isAuthening: true,
         };
       });
+      await Api.post("availablemail", { email });
+      confirmMessageRef.current.innerText = `인증번호를 전송했습니다.`;
     } catch (e) {
       console.log(e);
     }
@@ -120,7 +121,7 @@ function RegisterForm() {
                     onClick={handleAuthEmail}
                     disabled={authEmail.isAuthening}
                   >
-                    인증번호 전송
+                    전송
                   </Button>
                 </div>
               </Row>
@@ -138,7 +139,7 @@ function RegisterForm() {
                   autoComplete="off"
                   placeholder="인증번호를 입력해주세요."
                   onChange={handleAuthEmailNum}
-                  disabled={authEmail.isAuth}
+                  disabled={!authEmail.isAuthening}
                 />
                 <Button
                   style={{ width: "150px", marginLeft: "10px" }}

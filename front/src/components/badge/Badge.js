@@ -10,6 +10,10 @@ import { TallContext } from "../../context/TallContext";
 import { imgUrl } from "./BadgeList";
 
 const Skill = ({ portfolioOwnerId, isEditable }) => {
+  const imgRef = useRef();
+  const [badges, setBadges] = useState([]);
+  const { setTall } = useContext(TallContext);
+
   const handleClick = async (index) => {
     const MySwal = withReactContent(Swal);
 
@@ -32,9 +36,6 @@ const Skill = ({ portfolioOwnerId, isEditable }) => {
     }
   };
 
-  const imgRef = useRef();
-  const [badges, setBadges] = useState([]);
-  const { setTall } = useContext(TallContext);
   useEffect(() => {
     const fetchAPI = async () => {
       const res = await Api.get("badgelist", portfolioOwnerId);
@@ -55,7 +56,7 @@ const Skill = ({ portfolioOwnerId, isEditable }) => {
 
   return (
     <Card className="mb-3">
-      <Card.Body>
+      <Card.Body className="cardBody">
         <Row xs="4" sm="5" md="6" lg="5" className="jusify-content-center">
           {imgUrl.map((bedge, index) => (
             <Col className="mb-3 col-center colBox">
